@@ -2,7 +2,8 @@ import user_model from "../../models/user_model.js";
 
 async function getAll() {
     try {
-        const users = await user_model.findAll({include: "products"});
+        // const users = await user_model.findAll({include: "productsBoughtByThisUser"});
+        const users = await user_model.findAll();
         console.log("Retrieved users:", users);
         return { data: users };
     } catch (error) {

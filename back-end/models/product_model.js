@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/sequelize.js";
-import shop_model from "./shop_model.js";
 
 const product_model = sequelize.define("product", {
     id_product: { 
