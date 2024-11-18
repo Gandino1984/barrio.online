@@ -28,26 +28,4 @@ const provider_model = sequelize.define("provider", {
     freezeTableName: true
 });
 
-// Shop - Provider (through Buys)
-shop_model.belongsToMany(provider_model, {
-    through: 'buys',
-    foreignKey: 'id_shop'
-});
-
-provider_model.belongsToMany(shop_model, {
-    through: 'buys',
-    foreignKey: 'id_provider'
-});
-
-// Provider - Product (through Produce)
-provider_model.belongsToMany(product_model, {
-    through: 'produce',
-    foreignKey: 'id_provider'
-});
-
-product_model.belongsToMany(provider_model, {
-    through: 'produce',
-    foreignKey: 'id_product'
-});
-
 export default provider_model

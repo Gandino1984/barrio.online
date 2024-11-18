@@ -45,16 +45,5 @@ const product_model = sequelize.define("product", {
     freezeTableName: true
 });
 
-// Shop - Product (through Sales)
-shop_model.belongsToMany(product_model, {
-    through: 'sales',
-    foreignKey: 'id_shop'
-});
-
-product_model.belongsToMany(shop_model, {
-    through: 'sales',
-    foreignKey: 'id_product'
-});
-
 
 export default product_model;
