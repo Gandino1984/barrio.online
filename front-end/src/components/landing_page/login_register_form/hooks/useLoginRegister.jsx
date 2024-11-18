@@ -1,4 +1,23 @@
-  const handlePasswordComplete = (isLoggingIn) => {
+import { useContext } from 'react';
+import AppContext from '../app_context/AppContext';
+
+export const useLoginRegister = () => {
+  const {
+    isLoggingIn,
+    setIsLoggingIn,
+    setUsername,
+    password,
+    setPassword,
+    passwordRepeat,
+    setPasswordRepeat,
+    setShowPasswordRepeat,
+    setShowPasswordLabel,
+    setKeyboardKey,
+    setShowBusinessSelector,
+    databaseResponse
+  } = useContext(AppContext);
+
+  const handlePasswordComplete = () => {
     if (!isLoggingIn) {
       setShowPasswordRepeat(true);
       setKeyboardKey((prev) => prev + 1);
@@ -7,7 +26,7 @@
     }
   };
 
-  const handleClear = (isLoggingIn) => {
+  const handleClear = () => {
     if (!isLoggingIn) {
       setPassword('');
       setPasswordRepeat('');
@@ -20,7 +39,7 @@
     }
   };
 
-  const handlePasswordChange = (isLoggingIn, newPassword) => {
+  const handlePasswordChange = (newPassword) => {
     setPassword(newPassword);
     if (isLoggingIn && newPassword.length !== 4) {
       setShowPasswordLabel(true);
@@ -31,12 +50,9 @@
     setPasswordRepeat(newPassword);
   };
 
-
-
-  const handleSubmit = (e, databaseResponse) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!isButtonDisabled()) {
-      // Verificamos la respuesta de la base de datos
       if (databaseResponse) {
         setShowBusinessSelector(true);
       }
@@ -59,8 +75,7 @@
     // perhaps by saving it to context or making an API call
   };
 
-  //to check when to enable the login/register button
-  const isButtonDisabled = (isLoggingIn) => {
+  const isButtonDisabled = () => {
     if (isLoggingIn) {
       return password.length !== 4;
     } else {
@@ -68,10 +83,9 @@
     }
   };
 
-  const handleFormSubmit = (e, databaseResponse) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     if (!isButtonDisabled()) {
-      // check DB response here
       if (databaseResponse) {
         setShowBusinessSelector(true);
       }
@@ -87,6 +101,6 @@
     handleSubmit,
     toggleForm,
     handleBusinessSelect,
-    handleBackToForm,
     handleFormSubmit
   };
+};
