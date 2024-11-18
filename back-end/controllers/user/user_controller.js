@@ -1,5 +1,4 @@
 import user_model from "../../models/user_model.js";
-import product_model from "../../models/product_model.js";  
 
 async function getAll() {
     try {

@@ -21,7 +21,6 @@ async function initialize() {
     try {
         await sequelize.authenticate();
         console.log('******* SEQUELIZE: Connection has been established successfully ********');
-        await sequelize.sync({ alter: true });
     } catch (error) {
         console.error('!!!! SEQUELIZE: Unable to connect to the database !!!!!', error);
         throw error;

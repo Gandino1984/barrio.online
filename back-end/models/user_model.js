@@ -30,6 +30,7 @@ const user_model = sequelize.define("user", {
     freezeTableName: true
 });
 
-
+user_model.belongsToMany(product_model, { through: "orders", as: "products", foreignKey: "id_user" });
+product_model.belongsToMany(user_model, { through: "orders", as: "users", foreignKey: "id_product" });
 
 export default user_model;
