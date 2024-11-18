@@ -1,60 +1,27 @@
-import React from 'react';
-import { LoginRegisterProvider } from './context/LoginRegisterProvider';
-import { useLoginRegister } from './hooks/useLoginRegister';
-import { useLoginRegisterForm } from "./hooks/loginRegisterFormFunctions";
-import { getPasswordValidationMessage } from "./hooks/validationFunctions";
+import React, { useContext } from 'react';
+import AppContext from '../../general_app_context/AppContext.js';
+import { getPasswordValidationMessage, handlePasswordComplete } from "./hooks/validationFunctions";
+
+import './hooks/loginRegisterFormFunctions.js';
+
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
 import BusinessTypeSelector from "../business_type_selector/BusinessTypeSelector.jsx";
 import styles from './LoginRegisterForm.module.css';
 
 const LoginRegisterForm = () => {
   const {
-    isLoggingIn,
-    setIsLoggingIn,
     username,
     setUsername,
     password,
-    setPassword,
-    passwordRepeat,
-    setPasswordRepeat,
-    databaseResponse,
-    userType,
-    setUserType,
-    showPasswordRepeat,
-    setShowPasswordRepeat,
-    keyboardKey,
-    setKeyboardKey,
-    showPasswordLabel,
-    setShowPasswordLabel,
-    showBusinessSelector,
-    setShowBusinessSelector
-  } = useLoginRegister();
-
-  const {
-    handlePasswordComplete,
-    handleClear,
-    handlePasswordChange,
-    handleRepeatPasswordChange,
-    isButtonDisabled,
-    handleSubmit,
-    toggleForm,
-    handleBusinessSelect,
-    handleBackToForm,
-    handleFormSubmit
-  } = useLoginRegisterForm(
+    passwordRepeat,  
     isLoggingIn,
-    setIsLoggingIn,
-    setUsername,
-    setPassword,
-    setPasswordRepeat,
-    password,
-    passwordRepeat,
-    setShowPasswordRepeat,
-    setShowPasswordLabel,
-    setKeyboardKey,
-    setShowBusinessSelector,
-    databaseResponse
-  );
+    userType,
+    setUserType,  
+    showBusinessSelector,
+    showPasswordLabel,
+    showPasswordRepeat,
+    keyboardKey,
+  } = useContext(AppContext);
 
   const handleUserTypeChange = (event) => {
     setUserType(event.target.value);
@@ -142,8 +109,8 @@ const LoginRegisterForm = () => {
             value={!isLoggingIn && showPasswordRepeat ? passwordRepeat : password}
             onChange={!isLoggingIn && showPasswordRepeat ? handleRepeatPasswordChange : handlePasswordChange}
             showMaskedPassword
-            onPasswordComplete={handlePasswordComplete}
-            onClear={handleClear}
+            onPasswordComplete={handlePasswordComplete(isLoggingIn)}
+            onClear={handleClear(isLoggingIn)}
           />
         </div>
 
@@ -164,11 +131,4 @@ const LoginRegisterForm = () => {
   );
 };
 
-// Para usar el LoginRegisterForm, necesitas envolverlo en su Provider
-export default function LoginRegisterFormWithProvider() {
-  return (
-    <LoginRegisterProvider>
-      <LoginRegisterForm />
-    </LoginRegisterProvider>
-  );
-}
+export default LoginRegisterForm;

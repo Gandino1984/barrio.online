@@ -1,19 +1,4 @@
-// loginRegisterFormFunctions.js
-export const useLoginRegisterForm = (
-  isLoggingIn,
-  setIsLoggingIn,
-  setUsername,
-  setPassword,
-  setPasswordRepeat,
-  password,
-  passwordRepeat,
-  setShowPasswordRepeat,
-  setShowPasswordLabel,
-  setKeyboardKey,
-  setShowBusinessSelector,
-  databaseResponse
-) => {
-  const handlePasswordComplete = () => {
+  const handlePasswordComplete = (isLoggingIn) => {
     if (!isLoggingIn) {
       setShowPasswordRepeat(true);
       setKeyboardKey((prev) => prev + 1);
@@ -22,7 +7,7 @@ export const useLoginRegisterForm = (
     }
   };
 
-  const handleClear = () => {
+  const handleClear = (isLoggingIn) => {
     if (!isLoggingIn) {
       setPassword('');
       setPasswordRepeat('');
@@ -106,4 +91,3 @@ export const useLoginRegisterForm = (
     handleBackToForm,
     handleFormSubmit
   };
-};
