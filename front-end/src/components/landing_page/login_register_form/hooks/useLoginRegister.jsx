@@ -92,6 +92,10 @@ export const useLoginRegister = () => {
     }
   };
 
+  const handleUserTypeChange = (e) => {
+    setUserType(e.target.value);
+  };
+
   return {
     handlePasswordComplete,
     handleClear,
@@ -101,6 +105,7 @@ export const useLoginRegister = () => {
     handleSubmit,
     toggleForm,
     handleBusinessSelect,
-    handleFormSubmit
+    handleFormSubmit,
+    handleUserTypeChange
   };
 };

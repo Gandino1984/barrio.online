@@ -33,12 +33,9 @@ const LoginRegisterForm = () => {
     isButtonDisabled,
     toggleForm,
     handleBusinessSelect,
-    handleFormSubmit
+    handleFormSubmit,
+    handleUserTypeChange
   } = useLoginRegister();
-
-  const handleUserTypeChange = (e) => {
-    setUserType(e.target.value);
-  };
 
   //on successful login or register 
   if (showBusinessSelector) {
