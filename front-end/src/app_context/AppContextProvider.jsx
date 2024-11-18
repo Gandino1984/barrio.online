@@ -2,6 +2,7 @@ import { useState } from 'react';
 import AppContext from '../app_context/AppContext.js';
 
 export const AppContextProvider = ({ children }) => {
+  // LoginRegisterForm.jsx states
   const [databaseResponse, setDatabaseResponse] = useState(true);
 
   const [isLoggingIn, setIsLoggingIn] = useState(true);
@@ -11,17 +12,13 @@ export const AppContextProvider = ({ children }) => {
   const [passwordRepeat, setPasswordRepeat] = useState('');
   const [userType, setUserType] = useState('client'); 
 
-
-  // showBusinessSelector,
-  // setShowBusinessSelector,
-  // showPasswordLabel,
-  //   setShowPasswordLabel,
-  //   showPasswordRepeat,
-  //   setShowPasswordRepeat,
-  //   onPasswordComplete,
-  //   onClear,  
-  //   keyboardKey,
-  //   setKeyboardKey,
+  const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
+  const [showPasswordLabel, setShowPasswordLabel] = useState(true);
+  const [keyboardKey, setKeyboardKey] = useState(0);
+  const [showBusinessSelector, setShowBusinessSelector] = useState(false);
+  const [onPasswordComplete, setOnPasswordComplete] = useState(null);
+  const [onClear, setOnClear] = useState(null);
+  const [businessType, setBusinessType] = useState('general');
 
   const value = {
     isLoggingIn,
@@ -35,7 +32,21 @@ export const AppContextProvider = ({ children }) => {
     databaseResponse,
     setDatabaseResponse,
     userType,
-    setUserType
+    setUserType,
+    businessType, 
+    setBusinessType,
+    showBusinessSelector, 
+    setShowBusinessSelector,
+    showPasswordRepeat, 
+    setShowPasswordRepeat,
+    showPasswordLabel, 
+    setShowPasswordLabel,
+    keyboardKey, 
+    setKeyboardKey,
+    onPasswordComplete, 
+    setOnPasswordComplete,
+    onClear, 
+    setOnClear
   };
 
   return (

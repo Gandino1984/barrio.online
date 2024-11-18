@@ -20,7 +20,7 @@
     }
   };
 
-  const handlePasswordChange = (newPassword) => {
+  const handlePasswordChange = (isLoggingIn, newPassword) => {
     setPassword(newPassword);
     if (isLoggingIn && newPassword.length !== 4) {
       setShowPasswordLabel(true);
@@ -31,15 +31,9 @@
     setPasswordRepeat(newPassword);
   };
 
-  const isButtonDisabled = () => {
-    if (isLoggingIn) {
-      return password.length !== 4;
-    } else {
-      return password.length !== 4 || passwordRepeat.length !== 4 || password !== passwordRepeat;
-    }
-  };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = (e, databaseResponse) => {
     e.preventDefault();
     if (!isButtonDisabled()) {
       // Verificamos la respuesta de la base de datos
@@ -65,14 +59,19 @@
     // perhaps by saving it to context or making an API call
   };
 
-  const handleBackToForm = () => {
-    setShowBusinessSelector(false);
+  //to check when to enable the login/register button
+  const isButtonDisabled = (isLoggingIn) => {
+    if (isLoggingIn) {
+      return password.length !== 4;
+    } else {
+      return password.length !== 4 || passwordRepeat.length !== 4 || password !== passwordRepeat;
+    }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e, databaseResponse) => {
     e.preventDefault();
     if (!isButtonDisabled()) {
-      // Verificamos la respuesta de la base de datos
+      // check DB response here
       if (databaseResponse) {
         setShowBusinessSelector(true);
       }

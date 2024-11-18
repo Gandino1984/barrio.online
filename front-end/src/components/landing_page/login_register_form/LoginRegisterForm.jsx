@@ -18,20 +18,26 @@ const LoginRegisterForm = () => {
     userType,
     setUserType,  
     showBusinessSelector,
+    setShowBusinessSelector,
     showPasswordLabel,
     showPasswordRepeat,
     keyboardKey,
+    businessType,
+    databaseResponse,
+    setDatabaseResponse
+    
   } = useContext(AppContext);
 
   const handleUserTypeChange = (event) => {
     setUserType(event.target.value);
   };
 
+  //on successful login or register 
   if (showBusinessSelector) {
     return (
       <BusinessTypeSelector
-        onSelectBusiness={handleBusinessSelect}
-        onBack={handleBackToForm}
+        onSelectBusiness={handleBusinessSelect(businessType)}
+        onBack={() => setShowBusinessSelector(false)}
       />
     );
   }
@@ -41,7 +47,7 @@ const LoginRegisterForm = () => {
       <h2 className={styles.formTitle}>
         {isLoggingIn ? 'INICIA SESIÓN' : 'CREA TU USUARIO'}
       </h2>
-      <form onSubmit={handleFormSubmit} className={styles.formContent}>
+      <form onSubmit={(e)=>handleFormSubmit(e, databaseResponse)} className={styles.formContent}>
         <div className={styles.formField}>
           <label htmlFor="username">¿Cuál es tu nombre?</label>
           <input
@@ -107,7 +113,7 @@ const LoginRegisterForm = () => {
           <NumericKeyboard
             key={keyboardKey}
             value={!isLoggingIn && showPasswordRepeat ? passwordRepeat : password}
-            onChange={!isLoggingIn && showPasswordRepeat ? handleRepeatPasswordChange : handlePasswordChange}
+            onChange={!isLoggingIn && showPasswordRepeat ? handleRepeatPasswordChange(passwordRepeat) : handlePasswordChange(isLoggingIn, password)}
             showMaskedPassword
             onPasswordComplete={handlePasswordComplete(isLoggingIn)}
             onClear={handleClear(isLoggingIn)}
