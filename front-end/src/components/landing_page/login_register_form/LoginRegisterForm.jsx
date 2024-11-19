@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
-import AppContext from '../../general_app_context/AppContext.js';
-import { getPasswordValidationMessage, handlePasswordComplete } from "./hooks/validationFunctions";
+import AppContext from '../../../app_context/AppContext.js';
+import { getPasswordValidationMessage } from "./hooks/validationFunctions";
 
-import './hooks/loginRegisterFormFunctions.js';
 import { useLoginRegister } from './hooks/useLoginRegister.jsx';
 
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";

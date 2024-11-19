@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import AppContext from '../app_context/AppContext';
+import AppContext from '../../../../app_context/AppContext.js';
 
 export const useLoginRegister = () => {
   const {
@@ -14,7 +14,7 @@ export const useLoginRegister = () => {
     setShowPasswordLabel,
     setKeyboardKey,
     setShowBusinessSelector,
-    databaseResponse
+    databaseResponse,
   } = useContext(AppContext);
 
   const handlePasswordComplete = () => {

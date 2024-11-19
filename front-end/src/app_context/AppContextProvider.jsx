@@ -2,7 +2,7 @@ import { useState } from 'react';
 import AppContext from '../app_context/AppContext.js';
 
 export const AppContextProvider = ({ children }) => {
-  // LoginRegisterForm.jsx states
+
   const [databaseResponse, setDatabaseResponse] = useState(true);
 
   const [isLoggingIn, setIsLoggingIn] = useState(true);
