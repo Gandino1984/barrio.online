@@ -11,15 +11,15 @@ export const useNumericKeyboardFunctions = () => {
     } = useContext(AppContext);
 
     const handleKeyClick = (num, e) => {
-            e.preventDefault();
-            if (displayedPassword.length < MAX_PASSWORD_LENGTH) {
-                const newValue = value + num;
-                setDisplayedPassword(newValue);
-                
-                if (newValue.length === MAX_PASSWORD_LENGTH) {
-                    setOnPasswordComplete(true);
-                }
+        e.preventDefault();
+        if (displayedPassword.length < MAX_PASSWORD_LENGTH) {
+            const newValue = value + num;
+            setDisplayedPassword(newValue);
+            
+            if (newValue.length === MAX_PASSWORD_LENGTH) {
+                setOnPasswordComplete(true);
             }
+        }
     };
 
     const handleBackspace = (e) => {
@@ -29,8 +29,6 @@ export const useNumericKeyboardFunctions = () => {
           setDisplayedPassword(newValue);
         }
       };
-      
-
       
     const handleClearPassword = (e, onClear) => {
         e.preventDefault();

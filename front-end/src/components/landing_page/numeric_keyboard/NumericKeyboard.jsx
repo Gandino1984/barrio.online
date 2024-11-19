@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
-import { useNumericKeyboardFuntions } from './hooks/numericKeyboardFunctions';
+import { useNumericKeyboardFunctions } from './hooks/numericKeyboardFunctions';
 import styles from './NumericKeyboard.module.css';
 
 const NumericKeyboard = ({ value, onChange, showMaskedPassword = false, onPasswordComplete, onClear }) => {
