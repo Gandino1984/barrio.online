@@ -10,7 +10,9 @@ export const AppContextProvider = ({ children }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
+  const [displayedPassword, setDisplayedPassword] = useState('');
   const [userType, setUserType] = useState('client'); 
+  const MAX_PASSWORD_LENGTH = 4;
 
   const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
   const [showPasswordLabel, setShowPasswordLabel] = useState(true);
@@ -19,6 +21,8 @@ export const AppContextProvider = ({ children }) => {
   const [onPasswordComplete, setOnPasswordComplete] = useState(null);
   const [onClear, setOnClear] = useState(null);
   const [businessType, setBusinessType] = useState('general');
+
+  
 
   const value = {
     isLoggingIn,
@@ -29,6 +33,7 @@ export const AppContextProvider = ({ children }) => {
     setPassword,
     passwordRepeat,
     setPasswordRepeat,
+    MAX_PASSWORD_LENGTH,
     databaseResponse,
     setDatabaseResponse,
     userType,
@@ -46,7 +51,9 @@ export const AppContextProvider = ({ children }) => {
     onPasswordComplete, 
     setOnPasswordComplete,
     onClear, 
-    setOnClear
+    setOnClear,
+    displayedPassword, 
+    setDisplayedPassword
   };
 
   return (

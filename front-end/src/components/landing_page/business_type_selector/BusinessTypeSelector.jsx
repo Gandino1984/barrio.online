@@ -1,17 +1,9 @@
-import React from 'react';
+import React,  { useContext } from 'react';
 import { ArrowLeft } from 'lucide-react';
+import AppContext from '../../../app_context/AppContext.js';
+import BusinessTypeButton from './BusinessTypeButton.jsx';
 
-const BusinessTypeButton = ({ children, onClick }) => {
-  return (
-    <button
-      onClick={onClick}
-      className="w-full mb-2 p-4 text-lg bg-white hover:bg-gray-50 border border-gray-200 rounded-lg shadow-sm transition-colors duration-200 flex items-center justify-between"
-    >
-      <span>{children}</span>
-      <span className="text-gray-400">→</span>
-    </button>
-  );
-};
+import { useBusinessTypeSelector } from './hooks/useBusinessTypeSelector.jsx';
 
 const BusinessTypeSelector = ({ onSelectBusiness, onBack }) => {
   const handleClick = (type) => {
