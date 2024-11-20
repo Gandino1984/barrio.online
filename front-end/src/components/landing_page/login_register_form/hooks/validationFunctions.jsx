@@ -31,7 +31,7 @@ export const getPasswordValidationMessage = () => {
         );
       }
     }
-    return "Repite tu contraseña";
+    return "2. Repite tu contraseña";
   }
-  return showPasswordLabel ? "Teclea tu contraseña" : "";
+  return showPasswordLabel ? "2. Teclea tu contraseña" : "";
 };

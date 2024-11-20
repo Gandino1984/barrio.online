@@ -1,25 +1,39 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import AppContext from '../../../../app_context/AppContext.js';
+import { useUsernameValidation } from './useUsernameValidation.jsx';
 
 export const useLoginRegister = () => {
     const {
-        isLoggingIn,
-        setIsLoggingIn,
-        setUsername,
-        password,
-        setPassword,
-        passwordRepeat,
-        showPasswordRepeat,
-        setPasswordRepeat,
-        setShowPasswordRepeat,
-        setShowPasswordLabel,
-        setKeyboardKey,
-        setShowBusinessSelector,
-        databaseResponse,
-        setDisplayedPassword,
-        userType,
-        setUserType
+      isLoggingIn,
+      setIsLoggingIn,
+      username,
+      setUsername,
+      password,
+      setPassword,
+      passwordRepeat,
+      showPasswordRepeat,
+      setPasswordRepeat,
+      setShowPasswordRepeat,
+      setShowPasswordLabel,
+      setKeyboardKey,
+      setShowBusinessSelector,
+      databaseResponse,
+      setDisplayedPassword,
+      userType,
+      setUserType
     } = useContext(AppContext);
+
+    const [usernameError, setUsernameError] = useState('');
+    const { validateUsername, cleanupUsername } = useUsernameValidation();
+
+    const handleUsernameChange = (e) => {
+        const rawValue = e.target.value;
+        // Clean up the username as the user types
+        const cleanedValue = cleanupUsername(rawValue);
+        setUsername(cleanedValue);
+        // Clear any previous errors
+        setUsernameError('');
+    };
 
     const handlePasswordComplete = (isLogin) => () => {
         if (!isLogin) {
@@ -80,21 +94,37 @@ export const useLoginRegister = () => {
     };
 
     const isButtonDisabled = () => {
-        if (isLoggingIn) {
-            return password.length !== 4;
-        } else {
-            return password.length !== 4 || passwordRepeat.length !== 4 || password !== passwordRepeat;
-        }
-    };
+      const { isValid } = validateUsername(username);
+      if (!isValid) return true;
+
+      if (isLoggingIn) {
+          return password.length !== 4;
+      } else {
+          return password.length !== 4 || passwordRepeat.length !== 4 || password !== passwordRepeat;
+      }
+  };
     
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        if (!isButtonDisabled()) {
-            if (databaseResponse) {
-                setShowBusinessSelector(true);
-            }
-        }
-    };
+    const handleFormSubmit = async (e) => {
+      e.preventDefault();
+      
+      // Final validation before submission
+      const { isValid, cleanedUsername, errors } = validateUsername(username);
+      
+      if (!isValid) {
+          setUsernameError(errors[0]); // Show the first error
+          return;
+      }
+
+      // Update the username one final time with the cleaned version
+      setUsername(cleanedUsername);
+
+      if (!isButtonDisabled()) {
+          // Proceed with form submission
+          if (databaseResponse) {
+              setShowBusinessSelector(true);
+          }
+      }
+  };
 
 
 
@@ -108,14 +138,16 @@ export const useLoginRegister = () => {
     };
 
     return {
-        handlePasswordComplete,
-        handleClear,
-        handlePasswordChange,
-        handleRepeatPasswordChange,
-        isButtonDisabled,
-        toggleForm,
-        handleBusinessSelect,
-        handleFormSubmit,
-        handleUserTypeChange
-    };
+      handlePasswordComplete,
+      handleClear,
+      handlePasswordChange,
+      handleRepeatPasswordChange,
+      isButtonDisabled,
+      toggleForm,
+      handleBusinessSelect,
+      handleFormSubmit,
+      handleUserTypeChange,
+      handleUsernameChange,
+      usernameError
+  };
 };
