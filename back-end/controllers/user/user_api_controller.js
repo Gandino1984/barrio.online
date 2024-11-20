@@ -11,6 +11,12 @@ async function getById(req, res) {
     res.json({error, data});
 }
 
+async function login(req, res) {
+    const { name_user, pass_user } = req.body;
+    const {error, data} = await userController.login({ name_user, pass_user });
+    res.json({error, data});
+}
+
 async function create(req, res) {
     const {name_user, pass_user, location_user, type_user } = req.body;
     const {error, data} = await userController.create({name_user, pass_user, location_user, type_user});
@@ -34,13 +40,13 @@ async function removeById(req, res) {
 }
 
 
-
 export {
     getAll,
     getById,
     create,
     update,
-    removeById
+    removeById,
+    login
 }
 
 export default {
@@ -48,5 +54,6 @@ export default {
     getById,
     create,
     update,
-    removeById
+    removeById,
+    login
 }

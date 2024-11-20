@@ -49,6 +49,43 @@ async function create(userData) {
     }
 }
 
+async function login(userData) {
+    try {
+        // Check if user exists by name
+        const existingUser = await user_model.findOne({ 
+            where: { name_user: userData.name_user } 
+        });
+
+        // If user doesn't exist, return error
+        if (!existingUser) {
+            return { 
+                error: "User does not exist", 
+                data: null 
+            };
+        }
+
+        // Check if password matches
+        if (existingUser.pass_user !== userData.pass_user) {
+            return {
+                error: "Incorrect password",
+                data: null
+            };
+        }
+
+        // If user exists and password matches, return user data
+        return { 
+            data: {
+                id_user: existingUser.id_user,
+                name_user: existingUser.name_user,
+                location_user: existingUser.location_user,
+                type_user: existingUser.type_user
+            }
+        };
+    } catch (error) {
+        return { error: error.message };
+    }
+}
+
 async function update(id, userData) {
     try {
         const { name_user, pass_user, location_user } = userData;
@@ -94,6 +131,6 @@ async function removeById(id) {
     }
 }
 
-export { getAll, getById, create, update, removeById }
+export { getAll, getById, create, update, removeById, login }
 
-export default { getAll, getById, create, update, removeById }
+export default { getAll, getById, create, update, removeById, login }
