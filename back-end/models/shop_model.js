@@ -18,7 +18,7 @@ const shop_model = sequelize.define("shop", {
         allowNull: false
     },
     type_shop: {
-        type: DataTypes.ENUM('Grocery', 'Specialty', 'Supermarket', 'Organic'), 
+        type: DataTypes.STRING(45),
         allowNull: false
     },
     id_user: { 

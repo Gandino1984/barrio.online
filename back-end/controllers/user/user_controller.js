@@ -29,16 +29,6 @@ async function getById(id) {
     }
 }
 
-// async function create(userData) {
-//     try {
-//         const user = await user_model.create(userData);
-//         // console.log("Created user:", user);
-//         return { data: user };
-//     } catch (error) {
-//         // console.error("Error in create:", error);
-//         return { error: error.message };
-//     }
-// }   
 async function create(userData) {
     try {
         // Check if user already exists by name

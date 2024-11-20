@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`shop` (
   `id_shop` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name_shop` VARCHAR(100) NOT NULL,
   `location_shop` VARCHAR(45) NOT NULL,
-  `type_shop` ENUM('Grocery', 'Specialty', 'Supermarket', 'Organic') NOT NULL,
+  `type_shop` VARCHAR(45) NOT NULL,
   `id_user` INT UNSIGNED NOT NULL,
   `calification_shop` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_shop`),

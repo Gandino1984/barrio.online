@@ -28,20 +28,40 @@ async function getById(id) {
     }
 }
 
+// async function create(shopData) {
+//     try {
+//         const shop = await shop_model.create(shopData);
+//         console.log("Created shop:", shop);
+//         return { data: shop };
+//     } catch (error) {
+//         console.error("Error in create:", error);
+//         return { error: error.message };
+//     }
+// }   
+
 async function create(shopData) {
     try {
+        // Check if user already exists by name
+        const existingShop = await shop_model.findOne({ 
+            where: { name_shop: shopData.name_shop } 
+        });
+        if (existingShop) {
+            return { 
+                error: "Shop with this name already exists", 
+                data: null 
+            };
+        }
+        // If no existing shop, proceed with creation
         const shop = await shop_model.create(shopData);
-        console.log("Created shop:", shop);
         return { data: shop };
     } catch (error) {
-        console.error("Error in create:", error);
         return { error: error.message };
     }
-}   
+}
 
 async function update(id, shopData) {
     try {
-        const { name_shop, pass_shop, location_shop } = shopData;
+        const { name_shop, location_shop, type_shop } = shopData;
         
         const shop = await shop_model.findByPk(id);
         if (!shop) {
@@ -51,8 +71,8 @@ async function update(id, shopData) {
 
         // Only update fields that were provided
         if (name_shop) shop.name_shop = name_shop;
-        if (pass_shop) shop.pass_shop = pass_shop;
         if (location_shop) shop.location_shop = location_shop;
+        if (type_shop) shop.type_shop = type_shop;
     
         await shop.save();
         console.log("Updated shop:", shop);
