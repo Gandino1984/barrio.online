@@ -12,10 +12,7 @@ async function getById(req, res) {
 }
 
 async function create(req, res) {
-    //post method
-    // const {id_user, name_user, pass_user, location_user } = req.body;
-    //get method
-    const { name_user, pass_user, location_user, type_user } = req.query;
+    const {name_user, pass_user, location_user, type_user } = req.body;
     const {error, data} = await userController.create({name_user, pass_user, location_user, type_user});
     res.json({error, data});
 }

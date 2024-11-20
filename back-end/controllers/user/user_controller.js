@@ -29,17 +29,35 @@ async function getById(id) {
     }
 }
 
+// async function create(userData) {
+//     try {
+//         const user = await user_model.create(userData);
+//         // console.log("Created user:", user);
+//         return { data: user };
+//     } catch (error) {
+//         // console.error("Error in create:", error);
+//         return { error: error.message };
+//     }
+// }   
 async function create(userData) {
     try {
+        // Check if user already exists by name
+        const existingUser = await user_model.findOne({ 
+            where: { name_user: userData.name_user } 
+        });
+        if (existingUser) {
+            return { 
+                error: "User with this name already exists", 
+                data: null 
+            };
+        }
+        // If no existing user, proceed with creation
         const user = await user_model.create(userData);
-        console.log("Created user:", user);
         return { data: user };
     } catch (error) {
-        console.error("Error in create:", error);
         return { error: error.message };
     }
-}   
-
+}
 
 async function update(id, userData) {
     try {

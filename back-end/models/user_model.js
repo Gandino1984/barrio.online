@@ -22,7 +22,7 @@ const user_model = sequelize.define("user", {
         allowNull: false
     },
     type_user: {
-        type: DataTypes.ENUM('customer', 'seller', 'admin'), 
+        type: DataTypes.STRING(45),
         allowNull: false
     }
 }, {

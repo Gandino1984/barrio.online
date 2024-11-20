@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`user` (
   `name_user` VARCHAR(100) NOT NULL,
   `pass_user` VARCHAR(255) NOT NULL,
   `location_user` VARCHAR(45) NOT NULL,
-  `type_user` ENUM('customer', 'seller', 'admin') NOT NULL,
+  `type_user` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_user`),
   UNIQUE INDEX `id_user_UNIQUE` (`id_user` ASC) VISIBLE
 ) ENGINE = InnoDB;
