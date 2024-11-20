@@ -1,27 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
-import { useNumericKeyboardFunctions } from './hooks/numericKeyboardFunctions';
+import { useNumericKeyboardFunctions } from './hooks/useNumericKeyboardFunctions.jsx';
+import { Delete, Trash2, RotateCcw } from 'lucide-react';
 import styles from './NumericKeyboard.module.css';
 
-const NumericKeyboard = ({ value, onChange, showMaskedPassword = false, onPasswordComplete, onClear }) => {
-
+const NumericKeyboard = ({ 
+  value, 
+  onChange, 
+  showMaskedPassword = true, 
+  onPasswordComplete, 
+  onClear 
+}) => {
   const {
-      MAX_PASSWORD_LENGTH,
-      onPasswordComplete, 
-      setOnPasswordComplete,
-      displayedPassword, 
-      setDisplayedPassword        
+    MAX_PASSWORD_LENGTH,
+    displayedPassword,
+    setDisplayedPassword,
+    isLoggingIn,
+    password,
+    passwordRepeat,
+    showPasswordRepeat
   } = useContext(AppContext);
+
+  const showRetryIcon = !isLoggingIn && 
+    showPasswordRepeat && 
+    passwordRepeat.length === MAX_PASSWORD_LENGTH && 
+    password !== passwordRepeat;
 
   const {
     handleKeyClick,
     handleBackspace,
-  } = useNumericKeyboardFunctions();
+    handleClearPassword
+  } = useNumericKeyboardFunctions(value, onChange, onPasswordComplete, onClear);
 
   useEffect(() => {
-     setDisplayedPassword('*'.repeat(displayedPassword.length));
-  }, [displayedPassword]);
+    const maskedPassword = showMaskedPassword 
+      ? '*'.repeat(displayedPassword.length) 
+      : displayedPassword;
+    setDisplayedPassword(maskedPassword);
+  }, [displayedPassword, showMaskedPassword]);
 
   return (
     <div className={styles.numericKeyboardInput}>
@@ -29,32 +46,34 @@ const NumericKeyboard = ({ value, onChange, showMaskedPassword = false, onPasswo
         {displayedPassword}
       </div>
       <div className={styles.keyboard}>
-        <div className={styles.row}>
-          <button className={styles.key} onClick={(e) => handleKeyClick('1', e)}>1</button>
-          <button className={styles.key} onClick={(e) => handleKeyClick('2', e)}>2</button>
-          <button className={styles.key} onClick={(e) => handleKeyClick('3', e)}>3</button>
-        </div>
-        <div className={styles.row}>
-          <button className={styles.key} onClick={(e) => handleKeyClick('4', e)}>4</button>
-          <button className={styles.key} onClick={(e) => handleKeyClick('5', e)}>5</button>
-          <button className={styles.key} onClick={(e) => handleKeyClick('6', e)}>6</button>
-        </div>
-        <div className={styles.row}>
-          <button className={styles.key} onClick={(e) => handleKeyClick('7', e)}>7</button>
-          <button className={styles.key} onClick={(e) => handleKeyClick('8', e)}>8</button>
-          <button className={styles.key} onClick={(e) => handleKeyClick('9', e)}>9</button>
-        </div>
-        <div className={styles.row}>
-          <button className={styles.key} onClick={(e)=>handleBackspace(e)}>
-            <svg viewBox="0 0 24 24" width="24" height="24">
-              <path fill="currentColor" d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z" />
-            </svg>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
+          <button 
+            key={num} 
+            className={styles.key} 
+            onClick={(e) => handleKeyClick(num.toString(), e)}
+          >
+            {num}
           </button>
-          <button className={`${styles.key} ${styles.zero}`} onClick={(e) => handleKeyClick('0', e)}>0</button>
-          <button className={`${styles.key} ${styles.clear}`} onClick={(e) => handleClearPassword(e, onClear)}>
-            <svg viewBox="0 0 24 24" width="24" height="24">
-              <path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-            </svg>
+        ))}
+        <div className={styles.row}>
+          <button className={styles.key} onClick={handleBackspace}>
+            <Delete size={24} />
+          </button>
+          <button 
+            className={`${styles.key} ${styles.zero}`} 
+            onClick={(e) => handleKeyClick('0', e)}
+          >
+            0
+          </button>
+          <button 
+            className={`${styles.key} ${styles.clear}`} 
+            onClick={handleClearPassword}
+          >
+            {showRetryIcon ? (
+              <RotateCcw size={24} />
+            ) : (
+              <Trash2 size={24} />
+            )}
           </button>
         </div>
       </div>

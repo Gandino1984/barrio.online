@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
-import { getPasswordValidationMessage } from "./hooks/validationFunctions";
-
+import { getPasswordValidationMessage } from "./hooks/validationFunctions.jsx";
 import { useLoginRegister } from './hooks/useLoginRegister.jsx';
-
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
 import BusinessTypeSelector from "../business_type_selector/BusinessTypeSelector.jsx";
 import styles from './LoginRegisterForm.module.css';
@@ -36,7 +34,6 @@ const LoginRegisterForm = () => {
     handleUserTypeChange
   } = useLoginRegister();
 
-  //on successful login or register 
   if (showBusinessSelector) {
     return (
       <BusinessTypeSelector
@@ -51,7 +48,7 @@ const LoginRegisterForm = () => {
       <h2 className={styles.formTitle}>
         {isLoggingIn ? 'INICIA SESIÓN' : 'CREA TU USUARIO'}
       </h2>
-      <form onSubmit={(e)=>handleFormSubmit(e)} className={styles.formContent}>
+      <form onSubmit={handleFormSubmit} className={styles.formContent}>
         <div className={styles.formField}>
           <label htmlFor="username">¿Cuál es tu nombre?</label>
           <input
@@ -74,7 +71,7 @@ const LoginRegisterForm = () => {
                   name="userType"
                   value="client"
                   checked={userType === 'client'}
-                  onChange={(e)=>handleUserTypeChange(e)}
+                  onChange={handleUserTypeChange}
                 />
                 <label htmlFor="client">Cliente</label>
               </div>
@@ -85,7 +82,7 @@ const LoginRegisterForm = () => {
                   name="userType"
                   value="seller"
                   checked={userType === 'seller'}
-                  onChange={(e)=>handleUserTypeChange(e)}
+                  onChange={handleUserTypeChange}
                 />
                 <label htmlFor="seller">Vendedor</label>
               </div>
@@ -96,7 +93,7 @@ const LoginRegisterForm = () => {
                   name="userType"
                   value="provider"
                   checked={userType === 'provider'}
-                  onChange={(e)=>handleUserTypeChange(e)}
+                  onChange={handleUserTypeChange}
                 />
                 <label htmlFor="provider">Proveedor</label>
               </div>
@@ -117,8 +114,9 @@ const LoginRegisterForm = () => {
           <NumericKeyboard
             key={keyboardKey}
             value={!isLoggingIn && showPasswordRepeat ? passwordRepeat : password}
-            onChange={!isLoggingIn && showPasswordRepeat ? handleRepeatPasswordChange(passwordRepeat) : handlePasswordChange(isLoggingIn, password)}
-            showMaskedPassword
+            onChange={!isLoggingIn && showPasswordRepeat 
+              ? handleRepeatPasswordChange 
+              : (newPassword) => handlePasswordChange(isLoggingIn, newPassword)}
             onPasswordComplete={handlePasswordComplete(isLoggingIn)}
             onClear={handleClear(isLoggingIn)}
           />
@@ -127,8 +125,8 @@ const LoginRegisterForm = () => {
         <div className={styles.formActions}>
           <button
             type="submit"
-            className={`${styles.submitButton} ${isButtonDisabled ? styles.inactive : styles.active}`}
-            disabled={isButtonDisabled}
+            className={`${styles.submitButton} ${isButtonDisabled() ? styles.inactive : styles.active}`}
+            disabled={isButtonDisabled()}
           >
             {isLoggingIn ? 'Entrar' : 'Crear cuenta'}
           </button>

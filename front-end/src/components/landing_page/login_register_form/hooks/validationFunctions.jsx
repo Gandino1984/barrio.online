@@ -1,7 +1,18 @@
 import { Check, X } from 'lucide-react';
 import styles from "../LoginRegisterForm.module.css";
+import React, { useContext } from 'react';
+import AppContext from '../../../../app_context/AppContext.js';
 
-export const getPasswordValidationMessage = (isLoggingIn, showPasswordRepeat, passwordRepeat, password, showPasswordLabel) => {
+export const getPasswordValidationMessage = () => {
+  
+  const {
+    isLoggingIn,
+    password,
+    passwordRepeat,
+    showPasswordRepeat, 
+    showPasswordLabel, 
+  } = useContext(AppContext);
+  
   if (!isLoggingIn && showPasswordRepeat) {
     if (passwordRepeat.length === 4) {
       if (password === passwordRepeat) {
