@@ -18,25 +18,24 @@ export const useUsernameValidation = () => {
   };
 
   const cleanupUsername = (username) => {
-      if (!username) return '';
-      // First trim spaces from both ends
-      let cleanedUsername = username.trim();
-      // Replace multiple consecutive spaces with a single space
-      cleanedUsername = cleanedUsername.replace(/\s+/g, ' ');
-      // Remove special characters, keeping only letters, numbers, spaces and Spanish characters
-      // This includes: standard letters, numbers, spaces, á é í ó ú ü ñ (both lowercase and uppercase)
-      cleanedUsername = cleanedUsername.replace(/[^a-zA-Z0-9\sáéíóúüñÁÉÍÓÚÜÑ]/g, '');
-      return cleanedUsername;
+    if (!username) return '';
+    // Trim spaces from both ends
+    let cleanedUsername = username.trim();
+    // Remove special characters, keeping: letters, numbers, spaces, and Spanish characters
+    cleanedUsername = cleanedUsername.replace(/[^a-zA-Z0-9\sáéíóúüñÁÉÍÓÚÜÑ]/g, '');
+    // Reduce multiple consecutive spaces to a single space
+    cleanedUsername = cleanedUsername.replace(/\s+/g, ' ');
+    return cleanedUsername;
   };
 
   const validateUsername = (username) => {
-      const cleanedUsername = cleanupUsername(username);
-      return {
-          isValid: cleanedUsername.length >= 2 && cleanedUsername.length <= 100, // TODO: are these reasonable length limits??
-          cleanedUsername,
-          errors: getValidationErrors(cleanedUsername)
-      };
-  };
+    const cleanedUsername = cleanupUsername(username);
+    return {
+        isValid: cleanedUsername.length >= 2 && cleanedUsername.length <= 100,
+        cleanedUsername,
+        errors: getValidationErrors(cleanedUsername)
+    };
+};
 
 
   return {

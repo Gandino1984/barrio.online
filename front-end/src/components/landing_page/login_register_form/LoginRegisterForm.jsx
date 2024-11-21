@@ -5,6 +5,7 @@ import { useLoginRegister } from './hooks/useLoginRegister.jsx';
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
 import BusinessTypeSelector from "../business_type_selector/BusinessTypeSelector.jsx";
 import styles from './LoginRegisterForm.module.css';
+import { X } from 'lucide-react';
 
 const LoginRegisterForm = () => {
   const {
@@ -60,9 +61,6 @@ const LoginRegisterForm = () => {
                 className={usernameError ? styles.inputError : ''}
                 required
               />
-              {usernameError && (
-                <span className={styles.errorMessage}>{usernameError}</span>
-              )}
             </div>
 
             {!isLoggingIn && (

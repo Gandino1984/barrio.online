@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import AppContext from '../../../../app_context/AppContext.js';
 import { useUsernameValidation } from './useUsernameValidation.jsx';
-import axios from '../utils/axiosConfig';
+import axiosInstance from '../../../../../utils/axiosConfig.js';
 
 export const useLoginRegister = () => {
     const {
@@ -18,7 +18,6 @@ export const useLoginRegister = () => {
       setShowPasswordLabel,
       setKeyboardKey,
       setShowBusinessSelector,
-      databaseResponse,
       setDisplayedPassword,
       userType,
       setUserType,
@@ -32,10 +31,8 @@ export const useLoginRegister = () => {
 
     const handleUsernameChange = (e) => {
         const rawValue = e.target.value;
-        // Clean up the username as the user types
         const cleanedValue = cleanupUsername(rawValue);
         setUsername(cleanedValue);
-        // Clear any previous errors
         setUsernameError('');
     };
 
@@ -52,7 +49,6 @@ export const useLoginRegister = () => {
     const handleClear = (isLogin) => () => {
         if (!isLogin) {
             if (showPasswordRepeat) {
-              // If we're in the repeat password screen, reset everything
                 setPassword('');
                 setPasswordRepeat('');
                 setDisplayedPassword('');
@@ -60,22 +56,25 @@ export const useLoginRegister = () => {
                 setShowPasswordLabel(true);
                 setKeyboardKey((prev) => prev + 1);
             } else {
-              // If we're in the first password screen, just clear that password
                 setPassword('');
                 setDisplayedPassword('');
             }
-          } else {
-              setPassword('');
-              setDisplayedPassword('');
-              setShowPasswordLabel(true);
-          }
+        } else {
+            setPassword('');
+            setDisplayedPassword('');
+            setShowPasswordLabel(true);
+        }
     };
 
     const handlePasswordChange = (isLogin, newPassword) => {
         if (!isLogin && showPasswordRepeat) {
             setPasswordRepeat(newPassword);
+            // Update displayed password to show masks
+            setDisplayedPassword('*'.repeat(newPassword.length));
         } else {
             setPassword(newPassword);
+            // Update displayed password to show masks
+            setDisplayedPassword('*'.repeat(newPassword.length));
         }   
         if (isLogin && newPassword.length !== 4) {
             setShowPasswordLabel(true);
@@ -84,6 +83,8 @@ export const useLoginRegister = () => {
 
     const handleRepeatPasswordChange = (newPassword) => {
         setPasswordRepeat(newPassword);
+        // Update displayed password to show masks
+        setDisplayedPassword('*'.repeat(newPassword.length));
     };
 
     const toggleForm = () => {
@@ -98,130 +99,108 @@ export const useLoginRegister = () => {
     };
 
     const isButtonDisabled = () => {
-      const { isValid } = validateUsername(username);
-      if (!isValid) return true;
+        const { isValid } = validateUsername(username);
+        if (!isValid) return true;
 
-      if (isLoggingIn) {
-          return password.length !== 4;
-      } else {
-          return password.length !== 4 || passwordRepeat.length !== 4 || password !== passwordRepeat;
-      }
-  };
-    
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    // Final validation before submission
-    const { isValid, cleanedUsername, errors } = validateUsername(username);
-    if (!isValid) {
-        setUsernameError(errors[0]); // Show the first error
-        return;
-    }
-    // Update the username one final time with the cleaned version
-    setUsername(cleanedUsername);
-    if (!isButtonDisabled()) {
-        // *********** Login scenario
         if (isLoggingIn) {
-            // First, check if there's an existing user in localStorage
-            if (currentUser && currentUser.username.toLowerCase() === cleanedUsername.toLowerCase()) {
-                if (currentUser.password === password) {
-                    // Local storage login successful
-                    setShowBusinessSelector(true);
-                    return;
-                } else {
-                    // Password mismatch in local storage
-                    // Proceed to database check
-                    try {
-                        const response = await axios.post('login/check', {
-                            name_user: cleanedUsername,
-                            pass_user: password
-                        });
-                        if (response.data.error) {
-                            setUsernameError(response.data.error);
-                            return;
-                        }
-                        // Successful database login
-                        const userData = {
-                            username: response.data.data.name_user,
-                            password: password,
-                            userType: response.data.data.type_user,
-                            id: response.data.data.id_user
-                        };
-                        // Update local storage and context
-                        login(userData);
+            return password.length !== 4;
+        } else {
+            return password.length !== 4 || passwordRepeat.length !== 4 || password !== passwordRepeat;
+        }
+    };
+    
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        const { isValid, cleanedUsername, errors } = validateUsername(username);
+        
+        if (!isValid) {
+            setUsernameError(errors[0]);
+            return;
+        }
+
+        setUsername(cleanedUsername);
+        
+        if (!isButtonDisabled()) {
+            // Login scenario
+            if (isLoggingIn) {
+                // console.log('Attempting login with:', {
+                //     username: cleanedUsername,
+                //     password: password // This will be the actual password, not the masked version
+                // });
+
+                if (currentUser && currentUser.username.toLowerCase() === cleanedUsername.toLowerCase()) {
+                    if (currentUser.password === password) {
                         setShowBusinessSelector(true);
-                    } catch (error) {
-                        setUsernameError('Error de inicio de sesión');
-                        console.error('Login error:', error);
+                        return;
                     }
                 }
-            } 
-            // No user in local storage, check database
-            else {
+
                 try {
-                    const response = await axios.post('login/check', {
+                    const response = await axiosInstance.post('/login/check', {
                         name_user: cleanedUsername,
-                        pass_user: password
+                        pass_user: password // Send actual password, not masked version
                     });
+
+                    // console.log('Login response:', response.data);
+
                     if (response.data.error) {
                         setUsernameError(response.data.error);
                         return;
                     }
-                    // Successful database login
+
                     const userData = {
                         username: response.data.data.name_user,
-                        password: password,
+                        password: password, // Store actual password
                         userType: response.data.data.type_user,
                         id: response.data.data.id_user
                     };
-                    // Update local storage and context
+
                     login(userData);
                     setShowBusinessSelector(true);
                 } catch (error) {
-                    setUsernameError('Error de inicio de sesión');
                     console.error('Login error:', error);
+                    setUsernameError('Error de inicio de sesión');
                 }
-            }
-        } 
-        // ********** Registration scenario
-        else {
-            // Check if a user already exists in local storage
-            if (currentUser) {
-                setUsernameError('Ya existe un usuario registrado. Cierre sesión primero.');
-                return;
-            }
-            try {
-                const response = await axios.post('/register/new', {
-                    name_user: cleanedUsername,
-                    pass_user: password,
-                    type_user: userType,
-                    location_user: '' // You might want to add location logic later
-                });
-                if (response.data.error) {
-                    setUsernameError(response.data.error);
+            } 
+            // Registration scenario
+            else {
+                if (currentUser) {
+                    setUsernameError('Ya existe un usuario registrado. Cierre sesión primero.');
                     return;
                 }
-                // Successful registration
-                const userData = {
-                    username: cleanedUsername,
-                    password: password,
-                    userType: userType,
-                    id: response.data.data.id_user
-                };
-                // Update local storage and context
-                login(userData);
-                setShowBusinessSelector(true);
-            } catch (error) {
-                setUsernameError('Error en el registro');
-                console.error('Registration error:', error);
+
+                try {
+                    const response = await axiosInstance.post('/register/new', {
+                        name_user: cleanedUsername,
+                        pass_user: password, // Send actual password, not masked version
+                        type_user: userType,
+                        location_user: ''
+                    });
+
+                    if (response.data.error) {
+                        setUsernameError(response.data.error);
+                        return;
+                    }
+
+                    const userData = {
+                        username: cleanedUsername,
+                        password: password, // Store actual password
+                        userType: userType,
+                        id: response.data.data.id_user
+                    };
+
+                    login(userData);
+                    setShowBusinessSelector(true);
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    setUsernameError('Error en el registro');
+                }
             }
         }
-    }
-};
-
+    };
 
     const handleBusinessSelect = (businessType) => {
         console.log('Selected business:', businessType);
-      // Additional business selection logic
     };
 
     const handleUserTypeChange = (e) => {
@@ -229,16 +208,16 @@ export const useLoginRegister = () => {
     };
 
     return {
-      handlePasswordComplete,
-      handleClear,
-      handlePasswordChange,
-      handleRepeatPasswordChange,
-      isButtonDisabled,
-      toggleForm,
-      handleBusinessSelect,
-      handleFormSubmit,
-      handleUserTypeChange,
-      handleUsernameChange,
-      usernameError
-  };
+        handlePasswordComplete,
+        handleClear,
+        handlePasswordChange,
+        handleRepeatPasswordChange,
+        isButtonDisabled,
+        toggleForm,
+        handleBusinessSelect,
+        handleFormSubmit,
+        handleUserTypeChange,
+        handleUsernameChange,
+        usernameError
+    };
 };
