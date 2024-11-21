@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
-import { getPasswordValidationMessage } from "./hooks/validationFunctions.jsx";
 import { useLoginRegister } from './hooks/useLoginRegister.jsx';
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
 import BusinessTypeSelector from "../business_type_selector/BusinessTypeSelector.jsx";
@@ -104,15 +103,6 @@ const LoginRegisterForm = () => {
             )}
 
             <div className={styles.formField}>
-              <label htmlFor="password" className={styles.passwordLabel}>
-                {getPasswordValidationMessage(
-                  isLoggingIn,
-                  showPasswordRepeat,
-                  passwordRepeat,
-                  password,
-                  showPasswordLabel
-                )}
-              </label>
               <NumericKeyboard
                 key={keyboardKey}
                 value={!isLoggingIn && showPasswordRepeat ? passwordRepeat : password}

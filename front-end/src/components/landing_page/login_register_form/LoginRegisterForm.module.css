@@ -13,6 +13,13 @@
   gap: 1rem;
 }
 
+.formActions{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* gap: 1rem; */
+}
+
 .formField{
   display: flex;
   align-items: center;

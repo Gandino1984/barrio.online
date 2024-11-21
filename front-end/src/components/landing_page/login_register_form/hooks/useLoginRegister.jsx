@@ -123,18 +123,12 @@ export const useLoginRegister = () => {
         if (!isButtonDisabled()) {
             // Login scenario
             if (isLoggingIn) {
-                // console.log('Attempting login with:', {
-                //     username: cleanedUsername,
-                //     password: password // This will be the actual password, not the masked version
-                // });
-
                 if (currentUser && currentUser.username.toLowerCase() === cleanedUsername.toLowerCase()) {
                     if (currentUser.password === password) {
                         setShowBusinessSelector(true);
                         return;
                     }
                 }
-
                 try {
                     const response = await axiosInstance.post('/login/check', {
                         name_user: cleanedUsername,
@@ -168,32 +162,40 @@ export const useLoginRegister = () => {
                     setUsernameError('Ya existe un usuario registrado. Cierre sesión primero.');
                     return;
                 }
-
                 try {
-                    const response = await axiosInstance.post('/register/new', {
+                    // Make sure all required fields are present
+                    const registrationData = {
                         name_user: cleanedUsername,
-                        pass_user: password, // Send actual password, not masked version
+                        pass_user: password,
                         type_user: userType,
-                        location_user: ''
-                    });
-
+                        location_user: '' // You might want to add this as a field in your form
+                    };
+                    console.log('Sending registration data:', registrationData);
+                    const response = await axiosInstance.post('/register/new', registrationData);
+                    console.log('Registration response:', response.data);
                     if (response.data.error) {
                         setUsernameError(response.data.error);
                         return;
                     }
-
+                    // Make sure the response contains the expected data
+                    if (!response.data.data || !response.data.data.id_user) {
+                        throw new Error('Invalid response from server');
+                    }
                     const userData = {
                         username: cleanedUsername,
-                        password: password, // Store actual password
+                        password: password,
                         userType: userType,
                         id: response.data.data.id_user
                     };
-
+                    // Log the user in automatically after successful registration
                     login(userData);
                     setShowBusinessSelector(true);
                 } catch (error) {
                     console.error('Registration error:', error);
-                    setUsernameError('Error en el registro');
+                    setUsernameError(
+                        error.response?.data?.error || 
+                        'Error en el registro. Por favor intente nuevamente.'
+                    );
                 }
             }
         }
