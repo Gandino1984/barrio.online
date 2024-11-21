@@ -16,12 +16,10 @@ async function getById(id) {
     try {
         const user = await user_model.findByPk(id);
         console.log("Retrieved user:", user);
-        
         if (!user) {
             console.log("user not found with id:", id);
             return { error: "user not found" };
         }
-        
         return { data: user };
     } catch (error) {
         console.error("Error in getById:", error);
@@ -55,7 +53,6 @@ async function login(userData) {
         const existingUser = await user_model.findOne({ 
             where: { name_user: userData.name_user } 
         });
-
         // If user doesn't exist, return error
         if (!existingUser) {
             return { 
@@ -63,7 +60,6 @@ async function login(userData) {
                 data: null 
             };
         }
-
         // Check if password matches
         if (existingUser.pass_user !== userData.pass_user) {
             return {
@@ -71,7 +67,6 @@ async function login(userData) {
                 data: null
             };
         }
-
         // If user exists and password matches, return user data
         return { 
             data: {
@@ -86,16 +81,36 @@ async function login(userData) {
     }
 }
 
+
+async function register(userData) {
+    try {
+        // Check if user already exists by name
+        const existingUser = await user_model.findOne({ 
+            where: { name_user: userData.name_user } 
+        });
+        if (existingUser) {
+            return { 
+                error: "User with this name already exists", 
+                data: null 
+            };
+        }
+        // If no existing user, proceed with creation
+        const user = await user_model.create(userData);
+        return { data: user };
+    } catch (error) {
+        return { error: error.message };
+    }
+}
+
+
 async function update(id, userData) {
     try {
         const { name_user, pass_user, location_user } = userData;
-        
         const user = await user_model.findByPk(id);
         if (!user) {
             console.log("user not found with id:", id);
             return { error: "user not found" };
         }
-
         // Only update fields that were provided
         if (name_user) user.name_user = name_user;
         if (pass_user) user.pass_user = pass_user;
@@ -131,6 +146,6 @@ async function removeById(id) {
     }
 }
 
-export { getAll, getById, create, update, removeById, login }
+export { getAll, getById, create, update, removeById, login, register }
 
-export default { getAll, getById, create, update, removeById, login }
+export default { getAll, getById, create, update, removeById, login, register }

@@ -23,6 +23,12 @@ async function create(req, res) {
     res.json({error, data});
 }
 
+async function register(req, res) {
+    const {name_user, pass_user, location_user, type_user } = req.body;
+    const {error, data} = await userController.create({name_user, pass_user, location_user, type_user});
+    res.json({error, data});
+}
+
 async function update(req, res) {
      //post method
     // const {id_user, name_user, pass_user, location_user } = req.body;
@@ -46,7 +52,8 @@ export {
     create,
     update,
     removeById,
-    login
+    login,
+    register
 }
 
 export default {
@@ -55,5 +62,6 @@ export default {
     create,
     update,
     removeById,
-    login
+    login,
+    register
 }

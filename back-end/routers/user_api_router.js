@@ -6,11 +6,11 @@ const router = Router();
 
 router.get("/", userApiController.getAll);
 
-// router.get("/create", userApiController.create);
 router.post("/create", userApiController.create);
 
-//route to check on login if there is a user with that name
 router.post("/check", userApiController.login);
+
+router.post("/new", userApiController.register);
 
 router.get("/:id", userApiController.getById);
 // router.put("/", userApiController.update);
