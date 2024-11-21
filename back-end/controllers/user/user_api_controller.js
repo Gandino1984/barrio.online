@@ -40,7 +40,7 @@ async function update(req, res) {
 }
 
 async function removeById(req, res) {
-    const id = req.params.id;
+    const id = req.body.id;
     const {error, data} = await userController.removeById(id);
     res.json({error, data});
 }

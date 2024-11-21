@@ -47,39 +47,49 @@ async function create(userData) {
     }
 }
 
+// back-end/controllers/user/user_controller.js
 async function login(userData) {
     try {
-        // Check if user exists by name
-        const existingUser = await user_model.findOne({ 
-            where: { name_user: userData.name_user } 
-        });
-        // If user doesn't exist, return error
-        if (!existingUser) {
-            return { 
-                error: "User does not exist", 
-                data: null 
-            };
-        }
-        // Check if password matches
-        if (existingUser.pass_user !== userData.pass_user) {
-            return {
-                error: "Incorrect password",
-                data: null
-            };
-        }
-        // If user exists and password matches, return user data
+      // Check if user exists by name
+      const existingUser = await user_model.findOne({ 
+        where: { name_user: userData.name_user } 
+      });
+      console.log('Existing user:', existingUser); // Add this line
+      console.log('User data:', userData); // Add this line
+  
+      // If user doesn't exist, return error
+      if (!existingUser) {
         return { 
-            data: {
-                id_user: existingUser.id_user,
-                name_user: existingUser.name_user,
-                location_user: existingUser.location_user,
-                type_user: existingUser.type_user
-            }
+          error: "User does not exist", 
+          data: null 
         };
+      }
+  
+      console.log('Existing user password:', existingUser.pass_user); // Add this line
+      console.log('User data password:', userData.pass_user); // Add this line
+  
+      // Check if password matches
+      if (existingUser.pass_user !== userData.pass_user) {
+        console.log('Passwords do not match'); // Add this line
+        return {
+          error: "Incorrect password",
+          data: null
+        };
+      }
+  
+      // If user exists and password matches, return user data
+      return { 
+        data: {
+          id_user: existingUser.id_user,
+          name_user: existingUser.name_user,
+          location_user: existingUser.location_user,
+          type_user: existingUser.type_user
+        }
+      };
     } catch (error) {
-        return { error: error.message };
+      return { error: error.message };
     }
-}
+  }
 
 
 async function register(userData) {
@@ -133,11 +143,9 @@ async function removeById(id) {
             console.log("user not found with id:", id);
             return { error: "user not found" };
         }
-
         await user_model.destroy({
             where: { id_user: id }
-        });
-        
+        });       
         console.log("Deleted user with id:", id);
         return { data: { message: "user successfully deleted", id } };
     } catch (error) {

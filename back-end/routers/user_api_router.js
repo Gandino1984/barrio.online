@@ -16,6 +16,6 @@ router.get("/:id", userApiController.getById);
 // router.put("/", userApiController.update);
 router.get("/:id/update", userApiController.update);
 // router.delete("/:id", userApiController.removeById);
-router.get("/:id/remove", userApiController.removeById);
+router.post("/remove", userApiController.removeById);
 
 export default router;

@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`orders` (
   CONSTRAINT `fk_orders_user`
     FOREIGN KEY (`id_user`)
     REFERENCES `DB_gestionPedidosOnline_2024`.`user` (`id_user`)
-    ON DELETE NO ACTION
+    ON DELETE  CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_orders_product`
     FOREIGN KEY (`id_product`)
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`sales` (
   CONSTRAINT `fk_sales_user`
     FOREIGN KEY (`id_user`)
     REFERENCES `DB_gestionPedidosOnline_2024`.`user` (`id_user`)
-    ON DELETE NO ACTION
+    ON DELETE  CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_sales_product`
     FOREIGN KEY (`id_product`)
