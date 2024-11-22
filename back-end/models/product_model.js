@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/sequelize.js";
-import shop_model from "./shop_model.js";
 
 const product_model = sequelize.define("product", {
     id_product: { 
@@ -43,17 +42,6 @@ const product_model = sequelize.define("product", {
 }, {
     timestamps: false,
     freezeTableName: true
-});
-
-// Shop - Product (through Sales)
-shop_model.belongsToMany(product_model, {
-    through: 'sales',
-    foreignKey: 'id_shop'
-});
-
-product_model.belongsToMany(shop_model, {
-    through: 'sales',
-    foreignKey: 'id_product'
 });
 
 

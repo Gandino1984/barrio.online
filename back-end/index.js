@@ -1,5 +1,6 @@
 import express from 'express'; 
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 import sequelize from './config/sequelize.js';
 import router from './routers/main_router.js';
@@ -7,6 +8,12 @@ import router from './routers/main_router.js';
 dotenv.config();
 
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:5173', // allow requests from this origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // allow these methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // allow these headers
+}));
 
 //middlewares
 app.use(express.static("public"));//permite servir archivos estaticos

@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`user` (
   `name_user` VARCHAR(100) NOT NULL,
   `pass_user` VARCHAR(255) NOT NULL,
   `location_user` VARCHAR(45) NOT NULL,
-  `type_user` ENUM('customer', 'seller', 'admin') NOT NULL,
+  `type_user` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_user`),
   UNIQUE INDEX `id_user_UNIQUE` (`id_user` ASC) VISIBLE
 ) ENGINE = InnoDB;
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`shop` (
   `id_shop` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name_shop` VARCHAR(100) NOT NULL,
   `location_shop` VARCHAR(45) NOT NULL,
-  `type_shop` ENUM('Grocery', 'Specialty', 'Supermarket', 'Organic') NOT NULL,
+  `type_shop` VARCHAR(45) NOT NULL,
   `id_user` INT UNSIGNED NOT NULL,
   `calification_shop` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_shop`),
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`orders` (
   CONSTRAINT `fk_orders_user`
     FOREIGN KEY (`id_user`)
     REFERENCES `DB_gestionPedidosOnline_2024`.`user` (`id_user`)
-    ON DELETE NO ACTION
+    ON DELETE  CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_orders_product`
     FOREIGN KEY (`id_product`)
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`sales` (
   CONSTRAINT `fk_sales_user`
     FOREIGN KEY (`id_user`)
     REFERENCES `DB_gestionPedidosOnline_2024`.`user` (`id_user`)
-    ON DELETE NO ACTION
+    ON DELETE  CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_sales_product`
     FOREIGN KEY (`id_product`)

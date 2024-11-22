@@ -1,7 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/sequelize.js";
 import product_model from "./product_model.js";
-import orders_model from "./orders_model.js";
 
 const user_model = sequelize.define("user", {
     id_user: {
@@ -23,7 +22,7 @@ const user_model = sequelize.define("user", {
         allowNull: false
     },
     type_user: {
-        type: DataTypes.ENUM('customer', 'seller', 'admin'), 
+        type: DataTypes.STRING(45),
         allowNull: false
     }
 }, {
@@ -31,23 +30,7 @@ const user_model = sequelize.define("user", {
     freezeTableName: true
 });
 
-user_model.belongsToMany(product_model, {
-    through: orders_model,
-    foreignKey: 'id_user'
-});
-
-product_model.belongsToMany(user_model, {
-    through: orders_model,
-    foreignKey: 'id_product'
-});
-
-// User - Shop
-user_model.hasMany(shop_model, {
-    foreignKey: 'id_user'
-});
-
-shop_model.belongsTo(user_model, {
-    foreignKey: 'id_user'
-});
+user_model.belongsToMany(product_model, { through: "orders", as: "productsBoughtByThisUser", foreignKey: "id_user" });
+product_model.belongsToMany(user_model, { through: "orders", as: "usersThatBoughtThisProduct", foreignKey: "id_product" });
 
 export default user_model;

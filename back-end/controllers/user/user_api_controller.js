@@ -11,12 +11,21 @@ async function getById(req, res) {
     res.json({error, data});
 }
 
+async function login(req, res) {
+    const { name_user, pass_user } = req.body;
+    const {error, data} = await userController.login({ name_user, pass_user });
+    res.json({error, data});
+}
+
 async function create(req, res) {
-    //post method
-    // const {id_user, name_user, pass_user, location_user } = req.body;
-    //get method
-    const { name_user, pass_user, location_user, type_user } = req.query;
+    const {name_user, pass_user, location_user, type_user } = req.body;
     const {error, data} = await userController.create({name_user, pass_user, location_user, type_user});
+    res.json({error, data});
+}
+
+async function register(req, res) {
+    const {name_user, pass_user, location_user, type_user } = req.body;
+    const {error, data} = await userController.register({name_user, pass_user, location_user, type_user});
     res.json({error, data});
 }
 
@@ -31,11 +40,10 @@ async function update(req, res) {
 }
 
 async function removeById(req, res) {
-    const id = req.params.id;
+    const id = req.body.id;
     const {error, data} = await userController.removeById(id);
     res.json({error, data});
 }
-
 
 
 export {
@@ -43,7 +51,9 @@ export {
     getById,
     create,
     update,
-    removeById
+    removeById,
+    login,
+    register
 }
 
 export default {
@@ -51,5 +61,7 @@ export default {
     getById,
     create,
     update,
-    removeById
+    removeById,
+    login,
+    register
 }
