@@ -25,7 +25,7 @@ async function create(req, res) {
 
 async function register(req, res) {
     const {name_user, pass_user, location_user, type_user } = req.body;
-    const {error, data} = await userController.create({name_user, pass_user, location_user, type_user});
+    const {error, data} = await userController.register({name_user, pass_user, location_user, type_user});
     res.json({error, data});
 }
 

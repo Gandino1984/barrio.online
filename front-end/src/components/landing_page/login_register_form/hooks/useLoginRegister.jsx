@@ -181,34 +181,44 @@ export const useLoginRegister = () => {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+        console.log("Form submission started"); // Debug log 1
+        console.log('Axios instance config:', axiosInstance.defaults);
         
         try {
             // Username validation
             const { isValid, cleanedUsername, errors } = validateUsername(username);
+            console.log("Username validation:", { isValid, cleanedUsername, errors }); // Debug log 2
+            
             if (!isValid) {
                 setUsernameError(errors[0]);
                 return;
             }
-
+    
             // Form validation
             const formValidation = validateForm(cleanedUsername);
+            console.log("Form validation:", formValidation); // Debug log 3
+            
             if (!formValidation.isValid) {
                 setUsernameError(formValidation.error);
                 return;
             }
-
+    
             // Check if user is already logged in for registration
             if (!isLoggingIn && currentUser) {
                 setUsernameError('Ya existe un usuario registrado. Cierre sesión primero.');
                 return;
             }
-
+    
+            console.log("This is the condition that's preventing the else block to be executed"); 
+            
             if (isLoggingIn) {
                 // Login flow
+
                 const response = await axiosInstance.post('/user/login', {
                     name_user: cleanedUsername,
                     pass_user: password
                 });
+                console.log("Login response:", response); // Debug log 6
                 await handleLoginResponse(response);
             } else {
                 // Registration flow
@@ -219,8 +229,23 @@ export const useLoginRegister = () => {
                     location_user: 'default'
                 };
 
-                const response = await axiosInstance.post('/user/register', registrationData);
+                console.log("Sending registration request:", {
+                    url: '/user/register',
+                    method: 'POST',
+                    data: registrationData
+                });
+                console.log('Before try block');
+                try {
+                    const response = await axiosInstance.post('/user/register', registrationData);
+                    console.log('Registration response:', response.data);
+                    // ...
+                  } catch (error) {
+                    console.error('Error in handleRegistration:', error);
+                    // ...
+                  }
+                console.log("Registration response:", response);
                 await handleRegistrationResponse(response);
+                toggleForm();
             }
         } catch (error) {
             console.error(`${isLoggingIn ? 'Login' : 'Registration'} error:`, error);
@@ -263,8 +288,16 @@ export const useLoginRegister = () => {
 
     const isButtonDisabled = () => {
         const { isValid } = validateUsername(username);
+        console.log("Button disable check:", { 
+            usernameValid: isValid,
+            passwordLength: password.length,
+            passwordRepeatLength: passwordRepeat?.length,
+            passwordsMatch: password === passwordRepeat,
+            userType
+        });
+        
         if (!isValid) return true;
-
+    
         if (isLoggingIn) {
             return password.length !== 4;
         } else {

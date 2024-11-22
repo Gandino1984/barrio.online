@@ -7,9 +7,9 @@ import providerApiRouter from "./provider_api_router.js";
 
 const router = Router();
 
-router.use("/register", userApiRouter);
+// router.use("/register", userApiRouter);
 
-router.use("/login", userApiRouter);
+// router.use("/login", userApiRouter);
 
 router.use("/user", userApiRouter);
 
