@@ -16,7 +16,11 @@ USE `DB_gestionPedidosOnline_2024`;
 -- -----------------------------------------------------
 -- Table `DB_gestionPedidosOnline_2024`.`ip`
 -- -----------------------------------------------------
-
+CREATE TABLE ip (
+    ip_address VARCHAR(45) PRIMARY KEY,
+    registration_count INT DEFAULT 0,
+    last_attempt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 -- -----------------------------------------------------
 -- Table `DB_gestionPedidosOnline_2024`.`user`

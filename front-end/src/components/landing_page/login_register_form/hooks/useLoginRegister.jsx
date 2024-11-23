@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import AppContext from '../../../../app_context/AppContext.js';
 import { useUsernameValidation } from './useUsernameValidation.jsx';
+import { useIPValidation } from './useIpValidation.jsx';
 import axiosInstance from '../../../../../utils/axiosConfig.js';
 
 export const useLoginRegister = () => {
@@ -27,7 +28,9 @@ export const useLoginRegister = () => {
     } = useContext(AppContext);
 
     const [usernameError, setUsernameError] = useState('');
+
     const { validateUsername, cleanupUsername } = useUsernameValidation();
+    const { ipError, validateIPRegistration } = useIPValidation();
 
     const handleUsernameChange = (e) => {
         const rawValue = e.target.value;
@@ -211,6 +214,13 @@ export const useLoginRegister = () => {
         e.preventDefault();
         console.log("Form submission started with mode:", isLoggingIn ? 'login' : 'registration');
         try {
+            // Only check IP limits for registration, not login
+            if (!isLoggingIn) {
+                const canRegister = await validateIPRegistration();
+                if (!canRegister) {
+                    return;
+                }
+            }
             // Username validation
             const { isValid, cleanedUsername, errors } = validateUsername(username);
             console.log("Username validation results:", { isValid, cleanedUsername, errors });
@@ -313,6 +323,7 @@ export const useLoginRegister = () => {
         handleFormSubmit,
         handleUserTypeChange,
         handleUsernameChange,
-        usernameError
+        usernameError,
+        ipError
     };
 };

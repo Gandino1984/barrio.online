@@ -7,6 +7,7 @@ const router = Router();
 router.get("/", userApiController.getAll);
 router.get("/:id", userApiController.getById);
 router.get("/:id/update", userApiController.update);
+router.get("/:id/update", userApiController.update);
 
 // POST routes
 router.post("/login", userApiController.login);
