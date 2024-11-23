@@ -182,40 +182,17 @@ export const useLoginRegister = () => {
     };
   
     const handleRegistration = async (cleanedUsername, password, userType) => {
-        console.log('=== Registration Process Started ===');
-        console.log('Input validation:', {
-          username: cleanedUsername,
-          passwordLength: password.length,
-          userType: userType
-        });
         const registrationData = {
-          name_user: cleanedUsername,
-          pass_user: password,
-          type_user: userType,
-          location_user: 'bilbao'
+            name_user: cleanedUsername,
+            pass_user: password,
+            type_user: userType,
+            location_user: 'bilbao'
         };
-        console.log('Registration payload:', registrationData);
-        try {
-          console.log('Sending registration request to:', '/user/register');
-          const response = await axiosInstance.post('/user/register', registrationData);
-          console.log('Registration response:', response.data);
-          if (!response.data) {
-            throw new Error('Empty response received');
-          }
-          if (response.data.error) {
-            throw new Error(response.data.error);
-          }   
-          await handleRegistrationResponse(response);
-          console.log('=== Registration Process Completed ===');
-          return response;
-        } catch (error) {
-            console.error('Registration error details:', {
-            message: error.message,
-            response: error.response?.data,
-            status: error.response?.status
-          });
-          throw error; // Re-throw to be handled by the form submit handler
-        }
+        console.log('Sending registration request with data:', registrationData);
+        const response = await axiosInstance.post('/user/register', registrationData);
+        console.log('Registration response:', response); 
+        await handleRegistrationResponse(response);
+        toggleForm();
     };
 
     //function to clear the current user session
@@ -234,64 +211,54 @@ export const useLoginRegister = () => {
         e.preventDefault();
         console.log("Form submission started with mode:", isLoggingIn ? 'login' : 'registration');
         try {
-          // Username validation
-          const { isValid, cleanedUsername, errors } = validateUsername(username);
-          console.log("Username validation results:", { isValid, cleanedUsername, errors });
-          if (!isValid) {
-            setUsernameError(errors[0]);
-            return;
-          }
-          // Form validation
-          const formValidation = validateForm(cleanedUsername);
-          console.log("Form validation results:", formValidation);
-          if (!formValidation.isValid) {
-            setUsernameError(formValidation.error);
-            return;
-          }
-          // Modified check - only block if we're actually logged in AND trying to access protected resources
-          if (!isLoggingIn && currentUser?.id) {
-            console.log("Active session detected:", currentUser);
-            setUsernameError('Ya existe un usuario registrado. Cierre sesión primero.');
-            return;
-          }
-          console.log('Proceeding with authentication. Current state:', {
-            isLoggingIn,
-            currentUser,
-            cleanedUsername,
-            userType
-          });
-          if (isLoggingIn) {
-            await handleLogin(cleanedUsername, password);
-          }else{
-            const registrationData = {
-              name_user: cleanedUsername,
-              pass_user: password,
-              type_user: userType,
-              location_user: 'bilbao'
-            };
-            console.log('Sending registration request with data:', registrationData);
-            const response = await axiosInstance.post('/user/register', registrationData);
-            console.log('Registration response:', response); 
-            await handleRegistrationResponse(response);
-            toggleForm();
-          }
+            // Username validation
+            const { isValid, cleanedUsername, errors } = validateUsername(username);
+            console.log("Username validation results:", { isValid, cleanedUsername, errors });
+            if (!isValid) {
+                setUsernameError(errors[0]);
+                return;
+            }
+            // Form validation
+            const formValidation = validateForm(cleanedUsername);
+            console.log("Form validation results:", formValidation);
+            if (!formValidation.isValid) {
+                setUsernameError(formValidation.error);
+                return;
+            }
+            // Modified check - only block if we're actually logged in AND trying to access protected resources
+            if (!isLoggingIn && currentUser?.id) {
+                console.log("Active session detected:", currentUser);
+                setUsernameError('Ya existe un usuario registrado. Cierre sesión primero.');
+                return;
+            }
+            console.log('Proceeding with authentication. Current state:', {
+                isLoggingIn,
+                currentUser,
+                cleanedUsername,
+                userType
+            });
+            if (isLoggingIn) {
+                await handleLogin(cleanedUsername, password);
+            } else {
+                await handleRegistration(cleanedUsername, password, userType);
+            }
         } catch (error) {
-          console.error(`Process failed:`, {
-            mode: isLoggingIn ? 'login' : 'registration',
-            error: error.message,
-            response: error.response?.data,
-            status: error.response?.status
-          });
-          const errorMessage = error.response?.data?.error || error.message || `Error en el ${isLoggingIn ? 'inicio de sesión' : 'registro'}. Por favor intente nuevamente.`;
-          setUsernameError(errorMessage);  
-          // Reset password fields on error
-          setPassword('');
-          setPasswordRepeat('');
-          setDisplayedPassword('');
-          setShowPasswordLabel(true);
-          setKeyboardKey((prev) => prev + 1);
+            console.error(`Process failed:`, {
+                mode: isLoggingIn ? 'login' : 'registration',
+                error: error.message,
+                response: error.response?.data,
+                status: error.response?.status
+            });
+            const errorMessage = error.response?.data?.error || error.message || `Error en el ${isLoggingIn ? 'inicio de sesión' : 'registro'}. Por favor intente nuevamente.`;
+            setUsernameError(errorMessage);  
+            // Reset password fields on error
+            setPassword('');
+            setPasswordRepeat('');
+            setDisplayedPassword('');
+            setShowPasswordLabel(true);
+            setKeyboardKey((prev) => prev + 1);
         }
-      };
+    };
     
     const handleBusinessSelect = async (businessType) => {
         try {
