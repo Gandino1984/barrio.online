@@ -1,7 +1,7 @@
 import { Router } from "express";
 import userApiController from "../controllers/user/user_api_controller.js";
+import IpRegistry from '../../back-end/models/ip_registry_model.js'; 
 import dotenv from 'dotenv';
-import pool from '../../db/db.js';
 
 dotenv.config();
 
@@ -23,36 +23,46 @@ router.post("/remove", userApiController.removeById);
 router.get('/ip/check', async (req, res) => {
     const ip = req.ip || req.connection.remoteAddress;
     try {
-        // Get current IP registration info
-        const [rows] = await pool.query(
-            'SELECT registration_count, last_attempt FROM ip_registry WHERE ip_address = ?', 
-            [ip]
-        );
-        
-        if (rows.length > 0) {
-            const { registration_count, last_attempt } = rows[0];
-            const hoursSinceLastAttempt = (Date.now() - new Date(last_attempt).getTime()) / (1000 * 60 * 60);
-            
+        const [ipRecord, created] = await IpRegistry.findOrCreate({
+            where: { ip_address: ip },
+            defaults: {
+                registration_count: 0,
+                last_attempt: new Date()
+            }
+        });
+        if (!created) {
+            const hoursSinceLastAttempt = (Date.now() - new Date(ipRecord.last_attempt).getTime()) / (1000 * 60 * 60); 
             // Reset counter if RESET_HOURS have passed
             if (hoursSinceLastAttempt >= RESET_HOURS) {
-                await pool.query(
-                    'UPDATE ip_registry SET registration_count = 0, last_attempt = CURRENT_TIMESTAMP WHERE ip_address = ?', 
-                    [ip]
-                );
+                await ipRecord.update({
+                    registration_count: 0,
+                    last_attempt: new Date()
+                });
                 return res.json({ canRegister: true, hoursUntilReset: 0 });
             }
-            
             // Check if limit exceeded
-            if (registration_count >= MAX_REGISTRATIONS) {
+            if (ipRecord.registration_count >= MAX_REGISTRATIONS) {
                 const hoursUntilReset = RESET_HOURS - hoursSinceLastAttempt;
                 return res.json({ canRegister: false, hoursUntilReset });
             }
         }
-        
         res.json({ canRegister: true, hoursUntilReset: 0 });
     } catch (error) {
-        console.error('IP check error:', error);
-        res.status(500).json({ error: 'Error al verificar límites de registro' });
+        console.error('IP check error:', {
+            message: error.message,
+            stack: error.stack
+        });
+        if (error.name === 'SequelizeConnectionError') {
+            res.status(500).json({ 
+                error: 'Database connection failed',
+                details: 'Unable to connect to the database'
+            });
+        } else {
+            res.status(500).json({ 
+                error: 'Error checking registration limits',
+                details: error.message
+            });
+        }
     }
 });
 
@@ -61,41 +71,30 @@ router.post('/register', async (req, res) => {
     console.log('Register endpoint hit');  
     const ip = req.ip || req.connection.remoteAddress;
     try {
-        // First check if registration is allowed
-        const [rows] = await pool.query(
-            'SELECT registration_count, last_attempt FROM ip_registry WHERE ip_address = ?', 
-            [ip]
-        );
-        
-        const now = new Date();
-        let canRegister = true;
-        
-        if (rows.length > 0) {
-            const { registration_count, last_attempt } = rows[0];
-            const hoursSinceLastAttempt = (now.getTime() - new Date(last_attempt).getTime()) / (1000 * 60 * 60);
-            
-            if (hoursSinceLastAttempt < RESET_HOURS && registration_count >= MAX_REGISTRATIONS) {
-                canRegister = false;
+        const [ipRecord, created] = await IpRegistry.findOrCreate({
+            where: { ip_address: ip },
+            defaults: {
+                registration_count: 0,
+                last_attempt: new Date()
             }
-        }
+        });
+
+        const hoursSinceLastAttempt = created ? 0 : 
+            (Date.now() - new Date(ipRecord.last_attempt).getTime()) / (1000 * 60 * 60);
         
-        if (!canRegister) {
+        if (!created && hoursSinceLastAttempt < RESET_HOURS && ipRecord.registration_count >= MAX_REGISTRATIONS) {
             return res.status(429).json({ 
                 error: 'Has excedido el límite de registros permitidos. Por favor, intenta más tarde.' 
             });
         }
 
-        // Update IP registration count
-        await pool.query(
-            `INSERT INTO ip_registry (ip_address, registration_count, last_attempt) 
-             VALUES (?, 1, CURRENT_TIMESTAMP) 
-             ON DUPLICATE KEY UPDATE 
-             registration_count = IF(TIMESTAMPDIFF(HOUR, last_attempt, CURRENT_TIMESTAMP) >= ?, 1, registration_count + 1),
-             last_attempt = CURRENT_TIMESTAMP`, 
-            [ip, RESET_HOURS]
-        );
+        // Update registration count
+        await ipRecord.update({
+            registration_count: hoursSinceLastAttempt >= RESET_HOURS ? 1 : ipRecord.registration_count + 1,
+            last_attempt: new Date()
+        });
 
-        // Now proceed with the actual registration
+        // Proceed with registration
         await userApiController.register(req, res);
         
     } catch (error) {
@@ -103,5 +102,7 @@ router.post('/register', async (req, res) => {
         res.status(500).json({ error: 'Error en el registro' });
     }
 });
+
+
 
 export default router;

@@ -10,7 +10,11 @@
         },
         {
             "path": "uribarri.online/db/scripts/",
-            "color": "foldercustomization.AnsiColor57"
+            "color": "foldercustomization.AnsiColor91"
+        },
+        {
+            "path": "uribarri.online/back-end/config/",
+            "color": "foldercustomization.AnsiColor32"
         }
     ]
 }
