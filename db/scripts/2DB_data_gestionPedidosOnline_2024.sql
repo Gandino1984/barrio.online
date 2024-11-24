@@ -6,7 +6,7 @@ INSERT INTO `user` (`name_user`, `pass_user`, `location_user`, `type_user`) VALU
 ('Jane Smith', SHA2('pass456', 256), 'Los Angeles', 'seller'),
 ('Admin User', SHA2('admin789', 256), 'Chicago', 'admin'),
 ('Mary Johnson', SHA2('pass321', 256), 'Houston', 'seller'),
-('Bob Wilson', SHA2('pass654', 256), 'Miami', 'customer');
+('BobWilson', '1234', 'Miami', 'customer');
 
 -- Insert products since they're referenced by orders, sales, and produce
 INSERT INTO `product` (`name_product`, `price_product`, `discount_product`, `season_product`, `calification_product`) VALUES

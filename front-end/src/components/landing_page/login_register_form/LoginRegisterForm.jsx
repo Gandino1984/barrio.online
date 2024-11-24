@@ -31,7 +31,8 @@ const LoginRegisterForm = () => {
     handleFormSubmit,
     handleUserTypeChange,
     handleUsernameChange,
-    usernameError
+    usernameError,
+    ipError
   } = useLoginRegister();
 
   if (showBusinessSelector) {
@@ -49,6 +50,18 @@ const LoginRegisterForm = () => {
           <h2 className={styles.formTitle}>
             {isLoggingIn ? 'INICIA SESIÓN' : 'CREA TU USUARIO'}
           </h2>
+          {/* Display IP error if present */}
+          {ipError && (
+            <div className={styles.errorMessage}>
+              {ipError}
+            </div>
+          )}
+          {/* Display username error if present */}
+          {usernameError && (
+            <div className={styles.errorMessage}>
+              {usernameError}
+            </div>
+          )}
           <form onSubmit={handleFormSubmit} className={styles.formContent}>
             <div className={styles.formField}>
               <label htmlFor="username">1. Escribe tu nombre de usuario</label>

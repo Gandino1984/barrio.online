@@ -1,0 +1,20 @@
+{
+    "folder-customization.folders": [
+        {
+            "path": "uribarri.online/back-end/",
+            "color": "foldercustomization.AnsiColor33"
+        },
+        {
+            "path": "uribarri.online/front-end/",
+            "color": "foldercustomization.AnsiColor199"
+        },
+        {
+            "path": "uribarri.online/db/scripts/",
+            "color": "foldercustomization.AnsiColor91"
+        },
+        {
+            "path": "uribarri.online/back-end/config/",
+            "color": "foldercustomization.AnsiColor32"
+        }
+    ]
+}
