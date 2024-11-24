@@ -31,7 +31,8 @@ const LoginRegisterForm = () => {
     handleFormSubmit,
     handleUserTypeChange,
     handleUsernameChange,
-    usernameError
+    usernameError,
+    ipError
   } = useLoginRegister();
 
   if (showBusinessSelector) {

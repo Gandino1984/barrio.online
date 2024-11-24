@@ -7,7 +7,7 @@ export const useIPValidation = () => {
   const validateIPRegistration = async () => {
     try {
       // Get client IP and check registration limit
-      const response = await axiosInstance.get('/ip/check');
+      const response = await axiosInstance.get('/user/ip/check');
       
       if (!response.data.canRegister) {
         const hoursLeft = Math.ceil(response.data.hoursUntilReset);
