@@ -26,3 +26,6 @@ app.use("/", router);
 app.listen(3000, () => {
   console.log(`SERVER RUNNING ON PORT = ${process.env.APP_PORT}`)
 })
+
+
+ 
