@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import AppContext from '../../../../app_context/AppContext.js';
 
 export const useUsernameValidation = () => {
-  const { setUsername } = useContext(AppContext);
+  // const { setUsername } = useContext(AppContext);
   const getValidationErrors = (username) => {
     const errors = [];
     if (username.length < 3) {  // Changed from 2 to 3

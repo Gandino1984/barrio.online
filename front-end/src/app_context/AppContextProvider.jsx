@@ -41,6 +41,7 @@ export const AppContextProvider = ({ children }) => {
       user: userData,
       timestamp: new Date().getTime()
     };
+    console.log('User data for local storage:', userDataToStore);
     // Update localStorage
     localStorage.setItem('currentUser', JSON.stringify(userDataToStore)); //is this needed?
     // Update context state

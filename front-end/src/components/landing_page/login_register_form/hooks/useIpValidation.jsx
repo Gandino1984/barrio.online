@@ -11,7 +11,7 @@ export const useIPValidation = () => {
       
       if (!response.data.canRegister) {
         const hoursLeft = Math.ceil(response.data.hoursUntilReset);
-        setIpError(`Demasiados registros desde esta IP. Por favor, intente nuevamente en ${hoursLeft} horas.`);
+        setIpError(`Demasiados registros desde esta IP. Intente nuevamente en ${hoursLeft} horas.`);
         return false;
       }
       
@@ -19,8 +19,8 @@ export const useIPValidation = () => {
       return true;
       
     } catch (error) {
-      console.error('IP validation error:', error);
-      setIpError('Error al verificar límites de registro. Por favor, intente nuevamente.');
+      console.error('Error de validación de IP:', error);
+      setIpError('Error al verificar límites de registro.');
       return false;
     }
   };

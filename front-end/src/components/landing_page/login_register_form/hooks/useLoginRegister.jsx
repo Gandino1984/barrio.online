@@ -238,7 +238,7 @@ export const useLoginRegister = () => {
             // Modified check - only block if we're actually logged in AND trying to access protected resources
             if (!isLoggingIn && currentUser?.id) {
                 console.log("Active session detected:", currentUser);
-                setUsernameError('Ya existe un usuario registrado. Cierre sesión primero.');
+                setUsernameError('Ya existe un usuario registrado con ese nombre.');
                 return;
             }
             console.log('Proceeding with authentication. Current state:', {
@@ -259,7 +259,7 @@ export const useLoginRegister = () => {
                 response: error.response?.data,
                 status: error.response?.status
             });
-            const errorMessage = error.response?.data?.error || error.message || `Error en el ${isLoggingIn ? 'inicio de sesión' : 'registro'}. Por favor intente nuevamente.`;
+            const errorMessage = error.response?.data?.error || error.message || `Error en el ${isLoggingIn ? 'inicio de sesión' : 'registro'}`;
             setUsernameError(errorMessage);  
             // Reset password fields on error
             setPassword('');
