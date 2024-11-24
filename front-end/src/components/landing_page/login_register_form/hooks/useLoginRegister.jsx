@@ -4,7 +4,12 @@ import { useUsernameValidation } from './useUsernameValidation.jsx';
 import { useIPValidation } from './useIpValidation.jsx';
 import axiosInstance from '../../../../../utils/axiosConfig.js';
 
+/**
+ * Custom hook for handling login and registration functionality
+ * @returns {Object} Object containing methods and state for login/register operations
+ */
 export const useLoginRegister = () => {
+    // Context and state management
     const {
         isLoggingIn,
         setIsLoggingIn,
@@ -29,9 +34,14 @@ export const useLoginRegister = () => {
 
     const [usernameError, setUsernameError] = useState('');
 
+    // Custom hooks for validation
     const { validateUsername, cleanupUsername } = useUsernameValidation();
     const { ipError, validateIPRegistration } = useIPValidation();
 
+    /**
+     * Handles username input changes with cleanup
+     * @param {Event} e - The input change event
+     */
     const handleUsernameChange = (e) => {
         const rawValue = e.target.value;
         const cleanedValue = cleanupUsername(rawValue);
@@ -39,6 +49,11 @@ export const useLoginRegister = () => {
         setUsernameError('');
     };
 
+    /**
+     * Handles completion of password entry
+     * @param {boolean} isLogin - Whether in login mode
+     * @returns {Function} Callback function for password completion
+     */
     const handlePasswordComplete = (isLogin) => () => {
         if (!isLogin) {
             setDisplayedPassword('');
@@ -49,6 +64,11 @@ export const useLoginRegister = () => {
         }
     };
 
+    /**
+     * Handles clearing of password fields
+     * @param {boolean} isLogin - Whether in login mode
+     * @returns {Function} Callback function for clearing fields
+     */
     const handleClear = (isLogin) => () => {
         if (!isLogin) {
             if (showPasswordRepeat) {
@@ -69,6 +89,11 @@ export const useLoginRegister = () => {
         }
     };
 
+    /**
+     * Handles password input changes
+     * @param {boolean} isLogin - Whether in login mode
+     * @param {string} newPassword - New password value
+     */
     const handlePasswordChange = (isLogin, newPassword) => {
         if (!isLogin && showPasswordRepeat) {
             setPasswordRepeat(newPassword);
@@ -82,11 +107,18 @@ export const useLoginRegister = () => {
         }
     };
 
+    /**
+     * Handles repeated password input changes
+     * @param {string} newPassword - New password value
+     */
     const handleRepeatPasswordChange = (newPassword) => {
         setPasswordRepeat(newPassword);
         setDisplayedPassword('*'.repeat(newPassword.length));
     };
 
+    /**
+     * Resets all form fields to their initial state
+     */
     const resetForm = () => {
         setUsername('');
         setPassword('');
@@ -96,17 +128,23 @@ export const useLoginRegister = () => {
         setShowPasswordLabel(true);
         setKeyboardKey((prev) => prev + 1);
         setUsernameError('');
-        // Also clear the user type when resetting
         setUserType('');
     };
 
+    /**
+     * Toggles between login and registration forms
+     */
     const toggleForm = () => {
-        // Clear any existing user session when switching forms
         clearUserSession();
         setIsLoggingIn((prevState) => !prevState);
         resetForm();
     };
 
+    /**
+     * Processes login response and updates user state
+     * @param {Object} response - Server response
+     * @throws {Error} If response is invalid
+     */
     const handleLoginResponse = async (response) => {
         if (!response.data) {
             throw new Error('No se recibió respuesta del servidor');
@@ -118,7 +156,8 @@ export const useLoginRegister = () => {
         if (!userData || !userData.id_user || !userData.name_user || !userData.type_user) {
             throw new Error('Datos de usuario incompletos o inválidos');
         }
-        // Standardize user data structure
+        
+        // Normalize user data structure
         const normalizedUserData = {
             username: userData.name_user,
             password: password,
@@ -129,6 +168,11 @@ export const useLoginRegister = () => {
         setShowBusinessSelector(true);
     };
 
+    /**
+     * Processes registration response and updates user state
+     * @param {Object} response - Server response
+     * @throws {Error} If response is invalid
+     */
     const handleRegistrationResponse = async (response) => {
         if (!response.data) {
             throw new Error('No se recibió respuesta del servidor');
@@ -140,7 +184,7 @@ export const useLoginRegister = () => {
         if (!userData || !userData.id_user) {
             throw new Error('Error en el registro: datos de usuario incompletos');
         }
-        // Standardize user data structure
+        
         const normalizedUserData = {
             username: userData.name_user,
             password: password,
@@ -152,8 +196,12 @@ export const useLoginRegister = () => {
         setShowBusinessSelector(true);
     };
 
+    /**
+     * Validates form inputs
+     * @param {string} cleanedUsername - Sanitized username
+     * @returns {Object} Validation result and error message if any
+     */
     const validateForm = (cleanedUsername) => {
-        // Basic input validation
         if (!cleanedUsername || cleanedUsername.trim() === '') {
             return { isValid: false, error: 'El nombre de usuario es requerido' };
         }
@@ -176,14 +224,25 @@ export const useLoginRegister = () => {
         return { isValid: true, error: null };
     };
 
+    /**
+     * Handles login API request
+     * @param {string} cleanedUsername - Sanitized username
+     * @param {string} password - User password
+     */
     const handleLogin = async (cleanedUsername, password) => {
         const response = await axiosInstance.post('/user/login', {
-        name_user: cleanedUsername,
-        pass_user: password
+            name_user: cleanedUsername,
+            pass_user: password
         });
         await handleLoginResponse(response);
     };
   
+    /**
+     * Handles registration API request
+     * @param {string} cleanedUsername - Sanitized username
+     * @param {string} password - User password
+     * @param {string} userType - Type of user account
+     */
     const handleRegistration = async (cleanedUsername, password, userType) => {
         const registrationData = {
             name_user: cleanedUsername,
@@ -191,14 +250,14 @@ export const useLoginRegister = () => {
             type_user: userType,
             location_user: 'bilbao'
         };
-        console.log('Sending registration request with data:', registrationData);
         const response = await axiosInstance.post('/user/register', registrationData);
-        console.log('Registration response:', response); 
         await handleRegistrationResponse(response);
         toggleForm();
     };
 
-    //function to clear the current user session
+    /**
+     * Clears current user session and resets form
+     */
     const clearUserSession = () => {
         logout();
         setUsername('');
@@ -210,57 +269,50 @@ export const useLoginRegister = () => {
         setShowBusinessSelector(false);
     };
       
+    /**
+     * Handles form submission for both login and registration
+     * @param {Event} e - Form submission event
+     */
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form submission started with mode:", isLoggingIn ? 'login' : 'registration');
         try {
-            // Only check IP limits for registration, not login
+            // IP validation for registration only
             if (!isLoggingIn) {
                 const canRegister = await validateIPRegistration();
-                if (!canRegister) {
-                    return;
-                }
+                if (!canRegister) return;
             }
+
             // Username validation
             const { isValid, cleanedUsername, errors } = validateUsername(username);
-            console.log("Username validation results:", { isValid, cleanedUsername, errors });
             if (!isValid) {
                 setUsernameError(errors[0]);
                 return;
             }
+
             // Form validation
             const formValidation = validateForm(cleanedUsername);
-            console.log("Form validation results:", formValidation);
             if (!formValidation.isValid) {
                 setUsernameError(formValidation.error);
                 return;
             }
-            // Modified check - only block if we're actually logged in AND trying to access protected resources
+
+            // Check for existing session
             if (!isLoggingIn && currentUser?.id) {
-                console.log("Active session detected:", currentUser);
-                setUsernameError('Ya existe un usuario registrado. Cierre sesión primero.');
+                setUsernameError('Ya existe un usuario registrado con ese nombre.');
                 return;
             }
-            console.log('Proceeding with authentication. Current state:', {
-                isLoggingIn,
-                currentUser,
-                cleanedUsername,
-                userType
-            });
+
+            // Handle login or registration
             if (isLoggingIn) {
                 await handleLogin(cleanedUsername, password);
             } else {
                 await handleRegistration(cleanedUsername, password, userType);
             }
         } catch (error) {
-            console.error(`Process failed:`, {
-                mode: isLoggingIn ? 'login' : 'registration',
-                error: error.message,
-                response: error.response?.data,
-                status: error.response?.status
-            });
-            const errorMessage = error.response?.data?.error || error.message || `Error en el ${isLoggingIn ? 'inicio de sesión' : 'registro'}. Por favor intente nuevamente.`;
+            const errorMessage = error.response?.data?.error || error.message || 
+                               `Error en el ${isLoggingIn ? 'inicio de sesión' : 'registro'}`;
             setUsernameError(errorMessage);  
+            
             // Reset password fields on error
             setPassword('');
             setPasswordRepeat('');
@@ -270,35 +322,37 @@ export const useLoginRegister = () => {
         }
     };
     
+    /**
+     * Handles business type selection
+     * @param {string} businessType - Selected business type
+     */
     const handleBusinessSelect = async (businessType) => {
         try {
-            // Implement business type selection logic here
-            console.log('Selected business:', businessType);
-            // You might want to save this to the user's profile
+            // TODO: Implement business type selection logic
             // await axiosInstance.post('/user/update-business', { 
             //     userId: currentUser.id, 
             //     businessType 
             // });
         } catch (error) {
-            console.error('Error setting business type:', error);
             setUsernameError('Error al seleccionar el tipo de negocio');
         }
     };
 
+    /**
+     * Handles user type selection changes
+     * @param {Event} e - Change event from user type selector
+     */
     const handleUserTypeChange = (e) => {
         setUserType(e.target.value);
         setUsernameError('');
     };
 
+    /**
+     * Determines if the submit button should be disabled
+     * @returns {boolean} True if the button should be disabled
+     */
     const isButtonDisabled = () => {
         const { isValid } = validateUsername(username);
-        console.log("Button disable check:", { 
-            usernameValid: isValid,
-            passwordLength: password.length,
-            passwordRepeatLength: passwordRepeat?.length,
-            passwordsMatch: password === passwordRepeat,
-            userType
-        });
         
         if (!isValid) return true;
     
