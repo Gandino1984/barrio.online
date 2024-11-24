@@ -8,30 +8,30 @@ const validateUserData = (userData) => {
     const requiredFields = ['name_user', 'pass_user'];
     requiredFields.forEach(field => {
         if (!userData[field]) {
-            errors.push(`Missing required field: ${field}`);
+            errors.push(`Falta el campo: ${field}`);
         }
     });
 
     // Username validation
     if (userData.name_user) {
         if (userData.name_user.length < 3) {
-            errors.push('Username must be at least 3 characters long');
+            errors.push('El nombre debe tener al menos 3 caracteres');
         }
         if (userData.name_user.length > 50) {
-            errors.push('Username must be less than 50 characters');
+            errors.push('El nombre no puede exceder 50 characters');
         }
         if (!/^[a-zA-Z0-9_]+$/.test(userData.name_user)) {
-            errors.push('Username can only contain letters, numbers, and underscores');
+            errors.push('El nombre solo puede contener letras, números y guiones bajos');
         }
     }
 
     // Password validation
     if (userData.pass_user) {
         if (userData.pass_user.length !== 4) {
-            errors.push('Password must be exactly 4 digits');
+            errors.push('La contraseña debe tener 4 digitos');º
         }
         if (!/^\d+$/.test(userData.pass_user)) {
-            errors.push('Password must contain only digits');
+            errors.push('La contraseña solo puede contener numeros');
         }
     }
 
@@ -39,13 +39,13 @@ const validateUserData = (userData) => {
     if (userData.type_user) {
         const validTypes = ['client', 'seller', 'provider'];
         if (!validTypes.includes(userData.type_user)) {
-            errors.push('Invalid user type. Must be client, seller, or provider');
+            errors.push('Tipo de usuario no valido');
         }
     }
 
     // Location validation if provided
     if (userData.location_user && typeof userData.location_user !== 'string') {
-        errors.push('Location must be a string');
+        errors.push('la ubicacion debe ser una cadena de texto');
     }
 
     return {
@@ -60,14 +60,14 @@ async function getAll() {
         console.log("Retrieved users:", users);
         
         if (!users || users.length === 0) {
-            return { data: [], message: "No users found" };
+            return { data: [], message: "Ningún usuario encontrado" };
         }
         
         return { data: users };
     } catch (error) {
         console.error("Error in getAll:", error);
         return { 
-            error: "Error retrieving users",
+            error: "Error obteniendo los usuarios",
             details: error.message 
         };
     }
@@ -76,7 +76,7 @@ async function getAll() {
 async function getById(id) {
     try {
         if (!id) {
-            return { error: "User ID is required" };
+            return { error: "ID de usuario requerido" };
         }
 
         const user = await user_model.findByPk(id);
@@ -84,7 +84,7 @@ async function getById(id) {
         
         if (!user) {
             return { 
-                error: "User not found",
+                error: "Usuario no encontrado",
                 details: `No user found with ID: ${id}` 
             };
         }
@@ -93,7 +93,7 @@ async function getById(id) {
     } catch (error) {
         console.error("Error in getById:", error);
         return { 
-            error: "Error retrieving user",
+            error: "Error al obtener el usuario",
             details: error.message 
         };
     }
@@ -105,7 +105,7 @@ async function create(userData) {
         const validation = validateUserData(userData);
         if (!validation.isValid) {
             return { 
-                error: "Validation failed",
+                error: "Validación fallida",
                 details: validation.errors 
             };
         }
@@ -117,7 +117,7 @@ async function create(userData) {
         
         if (existingUser) {
             return { 
-                error: "User already exists",
+                error: "El usuario ya existe",
                 details: "A user with this username already exists" 
             };
         }
@@ -128,12 +128,12 @@ async function create(userData) {
         
         return { 
             data: user,
-            message: "User created successfully" 
+            message: "Usuario creado" 
         };
     } catch (error) {
         console.error("Error in create:", error);
         return { 
-            error: "Error creating user",
+            error: "Error al crear el usuario",
             details: error.message 
         };
     }
@@ -144,7 +144,7 @@ async function login(userData) {
         // Validate login data
         if (!userData.name_user || !userData.pass_user) {
             return { 
-                error: "Missing credentials",
+                error: "Información de usuario incompleta",
                 details: "Both username and password are required" 
             };
         }
@@ -152,7 +152,7 @@ async function login(userData) {
         // Password validation
         if (userData.pass_user.length !== 4 || !/^\d+$/.test(userData.pass_user)) {
             return { 
-                error: "Invalid password format",
+                error: "Contraseña inválida",
                 details: "Password must be exactly 4 digits" 
             };
         }
@@ -164,7 +164,7 @@ async function login(userData) {
 
         if (!user) {
             return { 
-                error: "Authentication failed",
+                error: "El usuario no existe",
                 details: "User not found" 
             };
         }
@@ -172,7 +172,7 @@ async function login(userData) {
         // Verify password
         if (user.pass_user !== userData.pass_user) {
             return { 
-                error: "Authentication failed",
+                error: "Contraseña incorrecta",
                 details: "Incorrect password" 
             };
         }
@@ -192,7 +192,7 @@ async function login(userData) {
     } catch (error) {
         console.error("Error in login:", error);
         return { 
-            error: "Login error",
+            error: "Error al iniciar sesión",
             details: error.message 
         };
     }
@@ -220,7 +220,7 @@ async function register(userData) {
         
         if (existingUser) {
             return { 
-                error: "Registration failed",
+                error: "El usuario ya existe",
                 details: "Username already exists" 
             };
         }
@@ -241,12 +241,12 @@ async function register(userData) {
 
         return { 
             data: userResponse,
-            message: "Registration successful" 
+            message: "Registro exitoso" 
         };
     } catch (error) {
         console.error("Error in register:", error);
         return { 
-            error: "Registration error",
+            error: "Error de registro",
             details: error.message 
         };
     }
@@ -261,7 +261,7 @@ async function update(id, userData) {
         // Validate update data
         if (Object.keys(userData).length === 0) {
             return { 
-                error: "No update data provided",
+                error: "No hay campos para actualizar",
                 details: "At least one field must be provided for update" 
             };
         }
@@ -270,7 +270,7 @@ async function update(id, userData) {
         const user = await user_model.findByPk(id);
         if (!user) {
             return { 
-                error: "Update failed",
+                error: "El usuario no existe",
                 details: "User not found" 
             };
         }
@@ -285,7 +285,7 @@ async function update(id, userData) {
         const validation = validateUserData(fieldsToUpdate);
         if (!validation.isValid) {
             return { 
-                error: "Validation failed",
+                error: "La validación fallo",
                 details: validation.errors 
             };
         }
@@ -302,7 +302,7 @@ async function update(id, userData) {
     } catch (error) {
         console.error("Error in update:", error);
         return { 
-            error: "Update error",
+            error: "Error de actualización",
             details: error.message 
         };
     }
@@ -311,13 +311,13 @@ async function update(id, userData) {
 async function removeById(id) {
     try {
         if (!id) {
-            return { error: "User ID is required" };
+            return { error: "El ID de usuario es requerido" };
         }
 
         const user = await user_model.findByPk(id);
         if (!user) {
             return { 
-                error: "Deletion failed",
+                error: "Borrado fallido",
                 details: "User not found" 
             };
         }
@@ -329,12 +329,12 @@ async function removeById(id) {
         console.log("Deleted user with id:", id);
         return { 
             data: { id },
-            message: "User successfully deleted" 
+            message: "El usuario se ha borrado correctamente" 
         };
     } catch (error) {
         console.error("Error in removeById:", error);
         return { 
-            error: "Deletion error",
+            error: "Error de borrado",
             details: error.message 
         };
     }
