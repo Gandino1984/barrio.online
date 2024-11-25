@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import AppContext from '../../app_context/AppContext.js';
 import BusinessTypeButton from './BusinessTypeButton.jsx';
-import FruteriaShops from '../client_management/fruteria_shops/FruteriaShops.jsx'; 
+import ShopsByType from './shops_by_type/ShopsByType.jsx'; 
 
 const ClientManagement = ({ onBack }) => {
   const [selectedBusinessType, setSelectedBusinessType] = useState(null);
@@ -19,7 +19,7 @@ const ClientManagement = ({ onBack }) => {
 
   // If a business type is selected, render the corresponding shops component
   if (selectedBusinessType === 'Fruteria') {
-    return <FruteriaShops onBack={() => setSelectedBusinessType(null)} />;
+    return <ShopsByType onBack={() => setSelectedBusinessType(null)} />;
   }
 
   return (
