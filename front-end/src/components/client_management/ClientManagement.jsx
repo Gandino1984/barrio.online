@@ -2,10 +2,11 @@ import React,  { useContext } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import AppContext from '../../app_context/AppContext.js';
 import BusinessTypeButton from './BusinessTypeButton.jsx';
+import styles from './ClientManagement.module.css';
 
-import { useBusinessTypeSelector } from './hooks/useBusinessTypeSelector.jsx';
+import { useClientManagement } from './hooks/useClientManagement.jsx';
 
-const BusinessTypeSelector = ({ onSelectBusiness, onBack }) => {
+const ClientManagement = ({ onSelectBusiness, onBack }) => {
   const handleClick = (type) => {
     if (onSelectBusiness) {
       onSelectBusiness(type);
@@ -48,4 +49,4 @@ const BusinessTypeSelector = ({ onSelectBusiness, onBack }) => {
   );
 };
 
-export default BusinessTypeSelector;
+export default ClientManagement;

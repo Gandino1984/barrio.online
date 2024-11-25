@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 
-export const useBusinessTypeSelector = () => {
+export const useClientManagement = () => {
   const {
     isLoggingIn,
     setIsLoggingIn,
