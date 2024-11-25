@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import { useLoginRegister } from './hooks/useLoginRegister.jsx';
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
-import BusinessTypeSelector from "../business_type_selector/BusinessTypeSelector.jsx";
+import BusinessTypeSelector from "../../business_type_selector/BusinessTypeSelector.jsx";
 import styles from './LoginRegisterForm.module.css';
 import { X } from 'lucide-react';
 
