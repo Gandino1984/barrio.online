@@ -18,11 +18,15 @@
         },
         {
             "path": "uribarri.online/front-end/src/components/landing_page/",
-            "color": "foldercustomization.AnsiColor168"
+            "color": "foldercustomization.AnsiColor13"
         },
         {
             "path": "uribarri.online/front-end/src/components/user_type_selector/",
-            "color": "foldercustomization.AnsiColor199"
+            "color": "foldercustomization.AnsiColor204"
+        },
+        {
+            "path": "uribarri.online/front-end/src/components/business_type_selector/",
+            "color": "foldercustomization.AnsiColor211"
         }
     ]
 }
