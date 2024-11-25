@@ -7,7 +7,6 @@ Este es un sistema open-source para la gestión de pedidos y reservas online. Di
 Este proyecto proporciona una plataforma completa para manejar los pedidos y/o reservas en línea que reciben los negocios locales en el distrito de Uribarri (Distrito 02) de Bilbao. Cuenta con componentes divididos de frontend, backend y DB, diseñados para agilizar las operaciones entre clientes, tiendas y proveedores de servicios o productos.
 
 ## Stack Tecnológico
-
 ### Backend
 - Node.js con Express.js
 - Base de datos MySQL
