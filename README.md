@@ -1,90 +1,90 @@
 # uribarri.online
 
-An online management system for orders and reservations designed for local businesses in District 02 of Bilbao.
+Un sistema de gestión en línea para pedidos y reservas diseñado para negocios locales en el Distrito 02 de Bilbao.
 
-## Description
+## Descripción
 
-This project provides a comprehensive platform for managing online orders and reservations for local businesses in the Uribarri district (District 02) of Bilbao. It features a full-stack implementation with separate frontend and backend components, designed to streamline business operations for local shops and service providers.
+Este proyecto proporciona una plataforma completa para gestionar pedidos y reservas en línea para negocios locales en el distrito de Uribarri (Distrito 02) de Bilbao. Cuenta con una implementación full-stack con componentes de frontend y backend, diseñados para agilizar las operaciones comerciales de tiendas locales y proveedores de servicios.
 
-## Tech Stack
+## Pila Tecnológica
 
 ### Backend
-- Node.js with Express.js
-- MySQL Database
-- Sequelize ORM
-- CORS for cross-origin resource sharing
-- dotenv for environment variable management
+- Node.js con Express.js
+- Base de datos MySQL
+- ORM Sequelize
+- CORS para compartir recursos entre orígenes
+- dotenv para gestión de variables de entorno
 
 ### Frontend
 - React 18
-- Vite as build tool
-- Axios for API requests
-- Lucide React for icons
+- Vite como herramienta de construcción
+- Axios para solicitudes API
+- Lucide React para iconos
 
-## Database Structure
+## Estructura de la Base de Datos
 
-The system uses a MySQL database with the following main entities:
-- Users
-- Products
-- Shops
-- Providers
-- Orders
-- Sales
-- Purchases (Buys)
-- Production tracking
+El sistema utiliza una base de datos MySQL con las siguientes entidades principales:
+- Usuarios
+- Productos
+- Tiendas
+- Proveedores
+- Pedidos
+- Ventas
+- Compras
+- Seguimiento de producción
 
-## Features
+## Características
 
-- User authentication and authorization
-- Product management
-- Shop profiles and management
-- Provider relationship management
-- Order processing
-- Sales tracking
-- Seasonal product handling
-- Rating system for products and shops
-- Location-based services
+- Autenticación y autorización de usuarios
+- Gestión de productos
+- Perfiles y gestión de tiendas
+- Gestión de relaciones con proveedores
+- Procesamiento de pedidos
+- Seguimiento de ventas
+- Manejo de productos estacionales
+- Sistema de calificación para productos y tiendas
+- Servicios basados en ubicación
 
-## Prerequisites
+## Requisitos Previos
 
-- Node.js (Latest LTS version recommended)
-- MySQL Server
-- npm or yarn package manager
+- Node.js (versión LTS más reciente recomendada)
+- Servidor MySQL
+- Gestor de paquetes npm o yarn
 
-## Installation
+## Instalación
 
-1. Clone the repository:
+1. Clonar el repositorio:
 ```bash
 git clone https://github.com/Gandino1984/uribarri.online.git
 cd uribarri.online
 ```
 
-2. Install backend dependencies:
+2. Instalar dependencias del backend:
 ```bash
 npm install
 ```
 
-3. Install frontend dependencies:
+3. Instalar dependencias del frontend:
 ```bash
 cd front-end
 npm install
 ```
 
-4. Configure environment variables:
-Create a `.env` file in the root directory and add necessary configurations:
+4. Configurar variables de entorno:
+Crear un archivo `.env` en el directorio raíz y añadir configuraciones necesarias:
 ```env
-DB_HOST=your_database_host
-DB_USER=your_database_user
-DB_PASSWORD=your_database_password
+DB_HOST=host_de_base_de_datos
+DB_USER=usuario_de_base_de_datos
+DB_PASSWORD=contraseña_de_base_de_datos
 DB_NAME=DB_gestionPedidosOnline_2024
 ```
 
-5. Initialize the database:
-Execute the SQL script located at `1DB_schema_gestionPedidosOnline_2024.sql`
+5. Inicializar la base de datos:
+Ejecutar el script SQL ubicado en `1DB_schema_gestionPedidosOnline_2024.sql`
 
-## Running the Application
+## Ejecutando la Aplicación
 
-### Development Mode
+### Modo Desarrollo
 
 Backend:
 ```bash
@@ -97,7 +97,7 @@ cd front-end
 npm run dev
 ```
 
-### Production Mode
+### Modo Producción
 
 Backend:
 ```bash
@@ -111,31 +111,31 @@ npm run build
 npm run preview
 ```
 
-## API Routes
+## Rutas API
 
-The application provides the following main API endpoints:
+La aplicación proporciona los siguientes endpoints API principales:
 
-- `/user` - User management endpoints
-- `/product` - Product management endpoints
-- `/shop` - Shop management endpoints
-- `/provider` - Provider management endpoints
+- `/user` - Endpoints de gestión de usuarios
+- `/product` - Endpoints de gestión de productos
+- `/shop` - Endpoints de gestión de tiendas
+- `/provider` - Endpoints de gestión de proveedores
 
-## Contributing
+## Contribución
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Bifurcar el repositorio
+2. Crear rama de características (`git checkout -b feature/AmazingFeature`)
+3. Confirmar cambios (`git commit -m 'Añadir AmazingFeature'`)
+4. Subir a la rama (`git push origin feature/AmazingFeature`)
+5. Abrir un Pull Request
 
-## Author
+## Autor
 
 German Andino
 
-## License
+## Licencia
 
-This project is licensed under the ISC License.
+Este proyecto está licenciado bajo la Licencia ISC.
 
-## Support
+## Soporte
 
-For support, please open an issue at: https://github.com/Gandino1984/uribarri.online/issues
+Para soporte, por favor abrir un issue en: https://github.com/Gandino1984/uribarri.online/issues
