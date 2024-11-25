@@ -27,6 +27,10 @@
         {
             "path": "uribarri.online/front-end/src/components/business_type_selector/",
             "color": "foldercustomization.AnsiColor211"
+        },
+        {
+            "path": "uribarri.online/front-end/src/components/client_management/hooks/",
+            "color": "foldercustomization.AnsiColor199"
         }
     ]
 }

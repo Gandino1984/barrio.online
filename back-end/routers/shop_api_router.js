@@ -13,4 +13,7 @@ router.get("/:id/update", shopApiController.update);
 // router.delete("/:id", shopApiController.removeById);
 router.get("/:id/remove", shopApiController.removeById);
 
+router.post("/type", shopApiController.getByType);
+
+
 export default router;
