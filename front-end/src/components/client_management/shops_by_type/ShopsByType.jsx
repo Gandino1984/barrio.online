@@ -24,7 +24,6 @@ const ShopsByType = ({ onBack }) => {
         if (response.data.error) {
           throw new Error(response.data.error);
         }
-        
         setShops(response.data.data || []);
         setLoading(false);
       } catch (err) {

@@ -12,16 +12,14 @@ const ClientManagement = ({ onBack }) => {
   const handleBusinessTypeSelect = (type) => {
     // Set the business type in context
     setBusinessType(type);
-    
     // Set the selected business type to trigger rendering of specific shops
     setSelectedBusinessType(type);
   };
-
+  
   // If a business type is selected, render the corresponding shops component
   if (selectedBusinessType === 'Fruteria') {
     return <ShopsByType onBack={() => setSelectedBusinessType(null)} />;
   }
-
   return (
     <div className="w-full max-w-md mx-auto p-6 space-y-4">
       <div className="flex items-center mb-6">

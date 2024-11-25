@@ -5,7 +5,6 @@ export const useClientManagement = () => {
   const {
     businessType,
     setBusinessType
-    
   } = useContext(AppContext);
   
   const handleClick = (type) => {
