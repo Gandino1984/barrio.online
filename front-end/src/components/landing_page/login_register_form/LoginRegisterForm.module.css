@@ -5,7 +5,6 @@
   justify-content: center;
 }
 .formContainer{
-  /* border: 2px solid yellow; */
   display: flex;
   justify-content: center;  
   align-items: center;
@@ -34,7 +33,6 @@
 }
 
 .validationMessage {
-    /* border: 2px solid red; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -100,12 +98,3 @@
     cursor: pointer;
     font-size: 1rem;
   }
-
-  /* .input {
-    width: 100%;
-    padding-right: 2.5rem; 
-  }
-  
-  .inputError {
-    border-color: #ef4444; 
-  } */

@@ -3,7 +3,6 @@ import user_model from "../../models/user_model.js";
 // Validation utilities
 const validateUserData = (userData) => {
     const errors = [];
-    
     // Required fields check
     const requiredFields = ['name_user', 'pass_user'];
     requiredFields.forEach(field => {
@@ -11,7 +10,6 @@ const validateUserData = (userData) => {
             errors.push(`Falta el campo: ${field}`);
         }
     });
-
     // Username validation
     if (userData.name_user) {
         if (userData.name_user.length < 3) {
@@ -24,7 +22,6 @@ const validateUserData = (userData) => {
             errors.push('El nombre solo puede contener letras, números y guiones bajos');
         }
     }
-
     // Password validation
     if (userData.pass_user) {
         if (userData.pass_user.length !== 4) {
@@ -34,7 +31,6 @@ const validateUserData = (userData) => {
             errors.push('La contraseña solo puede contener numeros');
         }
     }
-
     // User type validation for registration
     if (userData.type_user) {
         const validTypes = ['client', 'seller', 'provider'];
@@ -42,12 +38,10 @@ const validateUserData = (userData) => {
             errors.push('Tipo de usuario no valido');
         }
     }
-
     // Location validation if provided
     if (userData.location_user && typeof userData.location_user !== 'string') {
         errors.push('la ubicacion debe ser una cadena de texto');
     }
-
     return {
         isValid: errors.length === 0,
         errors

@@ -11,6 +11,12 @@ async function getById(req, res) {
     res.json({error, data});
 }
 
+async function getByType(req, res) {
+    const type = req.body.type_shop;
+    const {error, data} = await shopController.getByType(type);
+    res.json({error, data});
+}
+
 async function create(req, res) {
     //post method
     // const {id_client, name_client, pass_client, location_client } = req.body;
@@ -41,7 +47,8 @@ export {
     getById,
     create,
     update,
-    removeById
+    removeById,
+    getByType
 }
 
 export default {
@@ -49,5 +56,7 @@ export default {
     getById,
     create,
     update,
-    removeById
+    removeById,
+    getByType
+    
 }

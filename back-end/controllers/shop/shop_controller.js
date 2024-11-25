@@ -28,16 +28,6 @@ async function getById(id) {
     }
 }
 
-// async function create(shopData) {
-//     try {
-//         const shop = await shop_model.create(shopData);
-//         console.log("Created shop:", shop);
-//         return { data: shop };
-//     } catch (error) {
-//         console.error("Error in create:", error);
-//         return { error: error.message };
-//     }
-// }   
 
 async function create(shopData) {
     try {
@@ -62,18 +52,15 @@ async function create(shopData) {
 async function update(id, shopData) {
     try {
         const { name_shop, location_shop, type_shop } = shopData;
-        
         const shop = await shop_model.findByPk(id);
         if (!shop) {
             console.log("shop not found with id:", id);
             return { error: "shop not found" };
         }
-
         // Only update fields that were provided
         if (name_shop) shop.name_shop = name_shop;
         if (location_shop) shop.location_shop = location_shop;
         if (type_shop) shop.type_shop = type_shop;
-    
         await shop.save();
         console.log("Updated shop:", shop);
         return { data: shop };
@@ -90,11 +77,9 @@ async function removeById(id) {
             console.log("shop not found with id:", id);
             return { error: "shop not found" };
         }
-
         await shop_model.destroy({
             where: { id_shop: id }
         });
-        
         console.log("Deleted shop with id:", id);
         return { data: { message: "shop successfully deleted", id } };
     } catch (error) {
@@ -103,6 +88,24 @@ async function removeById(id) {
     }
 }
 
-export { getAll, getById, create, update, removeById }
+async function getByType(shopType) {
+    try {
+        const shops = await shop_model.findAll({ 
+            where: { type_shop: shopType } 
+        });
+        if (shops.length === 0) {
+            console.log(`No shops found with type: ${shopType}`);
+            return { error: "No shops found with this type" };
+        }
+        
+        console.log(`Retrieved shops with type ${shopType}:`, shops);
+        return { data: shops };
+    } catch (error) {
+        console.error("Error en getByType:", error);
+        return { error: error.message };
+    }
+}
 
-export default { getAll, getById, create, update, removeById }
+export { getAll, getById, create, update, removeById, getByType }
+
+export default { getAll, getById, create, update, removeById, getByType }

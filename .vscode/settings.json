@@ -15,6 +15,22 @@
         {
             "path": "uribarri.online/back-end/config/",
             "color": "foldercustomization.AnsiColor32"
+        },
+        {
+            "path": "uribarri.online/front-end/src/components/landing_page/",
+            "color": "foldercustomization.AnsiColor13"
+        },
+        {
+            "path": "uribarri.online/front-end/src/components/user_type_selector/",
+            "color": "foldercustomization.AnsiColor204"
+        },
+        {
+            "path": "uribarri.online/front-end/src/components/business_type_selector/",
+            "color": "foldercustomization.AnsiColor211"
+        },
+        {
+            "path": "uribarri.online/front-end/src/components/client_management/hooks/",
+            "color": "foldercustomization.AnsiColor199"
         }
     ]
 }

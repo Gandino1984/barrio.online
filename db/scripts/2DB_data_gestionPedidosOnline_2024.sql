@@ -26,10 +26,10 @@ INSERT INTO `provider` (`name_provider`, `location_provider`, `pass_provider`) V
 
 -- Insert shops since they're referenced by sales and buys
 INSERT INTO `shop` (`name_shop`, `location_shop`, `type_shop`, `id_user`, `calification_shop`) VALUES
-('Fresh Market', 'Boston', 'Grocery', 2, 4),
+('Fresh Market', 'Boston', 'Fruteria', 2, 4),
 ('Organic Paradise', 'Seattle', 'Organic', 4, 5),
 ('Super Foods', 'Denver', 'Supermarket', 2, 3),
-('Green Grocers', 'Portland', 'Specialty', 4, 4),
+('Green Grocers', 'Portland', 'Fruteria', 4, 4),
 ('Mega Mart', 'Phoenix', 'Supermarket', 2, 4);
 
 -- Insert orders

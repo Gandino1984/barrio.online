@@ -1,16 +1,17 @@
 import React,  { useContext } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import AppContext from '../../../app_context/AppContext.js';
+import AppContext from '../../app_context/AppContext.js';
 import BusinessTypeButton from './BusinessTypeButton.jsx';
+import styles from './ClientManagement.module.css';
+import { useClientManagement } from './hooks/useClientManagement.jsx';
 
-import { useBusinessTypeSelector } from './hooks/useBusinessTypeSelector.jsx';
+const ClientManagement = ({ onBack }) => {
 
-const BusinessTypeSelector = ({ onSelectBusiness, onBack }) => {
-  const handleClick = (type) => {
-    if (onSelectBusiness) {
-      onSelectBusiness(type);
-    }
-  };
+   
+  const {
+    businessType, 
+    setBusinessType
+  } = useContext(AppContext);
 
   return (
     <div className="w-full max-w-md mx-auto p-6 space-y-4">
@@ -27,19 +28,19 @@ const BusinessTypeSelector = ({ onSelectBusiness, onBack }) => {
       </div>
       
       <div className="space-y-3">
-        <BusinessTypeButton onClick={() => handleClick("General")}>
+        <BusinessTypeButton onClick={() => setBusinessType("General")}>
           General
         </BusinessTypeButton>
-        <BusinessTypeButton onClick={() => handleClick("Carnicería")}>
+        <BusinessTypeButton onClick={() => setBusinessType("Carniceria")}>
           Carnicería
         </BusinessTypeButton>
-        <BusinessTypeButton onClick={() => handleClick("Frutería")}>
+        <BusinessTypeButton onClick={() => setBusinessType("Fruteria")}>
           Frutería / Verdulería
         </BusinessTypeButton>
-        <BusinessTypeButton onClick={() => handleClick("Pescadería")}>
+        <BusinessTypeButton onClick={() => setBusinessType("Pescaderia")}>
           Pescadería
         </BusinessTypeButton>
-        <BusinessTypeButton onClick={() => handleClick("Restaurante")}>
+        <BusinessTypeButton onClick={() => setBusinessType("Restaurante")}>
           Restaurante / Bar
         </BusinessTypeButton>
       </div>
@@ -48,4 +49,4 @@ const BusinessTypeSelector = ({ onSelectBusiness, onBack }) => {
   );
 };
 
-export default BusinessTypeSelector;
+export default ClientManagement;
