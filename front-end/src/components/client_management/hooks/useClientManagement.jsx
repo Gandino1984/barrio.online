@@ -7,13 +7,15 @@ export const useClientManagement = () => {
     setIsLoggingIn,
     
   } = useContext(AppContext);
-
-//   const handleExample = () => {
-//   };
-
   
+  const handleClick = (type) => {
+    if (onSelectBusiness) {
+      onSelectBusiness(type);
+    }
+  };
+
 
   return {
-    // handleexample,
+    handleClick
   };
 };

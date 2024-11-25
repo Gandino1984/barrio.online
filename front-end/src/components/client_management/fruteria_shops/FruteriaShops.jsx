@@ -9,8 +9,8 @@ const FruteriaShops = ({ onBack }) => {
   useEffect(() => {
     const fetchFruteriaShops = async () => {
       try {
-        const response = await axiosInstance.get('/shop/type', {
-          params: { type_shop: 'Fruteria' }
+        const response = await axiosInstance.post('/shop/type', {
+          type_shop: 'Fruteria'
         });
         if (response.data.error) {
           throw new Error(response.data.error);
