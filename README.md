@@ -1,13 +1,12 @@
 # uribarri.online
 
-Un sistema de gestión en línea para pedidos y reservas diseñado para negocios locales en el Distrito 02 de Bilbao.
+Este es un sistema open-source para la gestión de pedidos y reservas online. Diseñado para negocios locales en el Distrito 02 de Bilbao.
 
 ## Descripción
 
-Este proyecto proporciona una plataforma completa para gestionar pedidos y reservas en línea para negocios locales en el distrito de Uribarri (Distrito 02) de Bilbao. Cuenta con una implementación full-stack con componentes de frontend y backend, diseñados para agilizar las operaciones comerciales de tiendas locales y proveedores de servicios.
+Este proyecto proporciona una plataforma completa para manejar los pedidos y/o reservas en línea que reciben los negocios locales en el distrito de Uribarri (Distrito 02) de Bilbao. Cuenta con componentes divididos de frontend, backend y DB, diseñados para agilizar las operaciones entre clientes, tiendas y proveedores de servicios o productos.
 
-## Pila Tecnológica
-
+## Stack Tecnológico
 ### Backend
 - Node.js con Express.js
 - Base de datos MySQL
@@ -16,7 +15,7 @@ Este proyecto proporciona una plataforma completa para gestionar pedidos y reser
 - dotenv para gestión de variables de entorno
 
 ### Frontend
-- React 18
+- React 
 - Vite como herramienta de construcción
 - Axios para solicitudes API
 - Lucide React para iconos
@@ -31,7 +30,7 @@ El sistema utiliza una base de datos MySQL con las siguientes entidades principa
 - Pedidos
 - Ventas
 - Compras
-- Seguimiento de producción
+- registro de IP
 
 ## Características
 
