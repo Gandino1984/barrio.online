@@ -76,6 +76,9 @@ export const AppContextProvider = ({ children }) => {
   const [onPasswordComplete, setOnPasswordComplete] = useState(null);
   const [onClear, setOnClear] = useState(null);
   const [businessType, setBusinessType] = useState('general');
+  const [shops, setShops] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   
 
@@ -95,23 +98,20 @@ export const AppContextProvider = ({ children }) => {
     setUserType,
     businessType, 
     setBusinessType,
-    showBusinessSelector, 
-    setShowBusinessSelector,
-    showPasswordRepeat, 
-    setShowPasswordRepeat,
-    showPasswordLabel, 
-    setShowPasswordLabel,
-    keyboardKey, 
-    setKeyboardKey,
-    onPasswordComplete, 
-    setOnPasswordComplete,
+    showBusinessSelector, setShowBusinessSelector,
+    showPasswordRepeat, setShowPasswordRepeat,
+    showPasswordLabel, setShowPasswordLabel,
+    keyboardKey, setKeyboardKey,
+    onPasswordComplete, setOnPasswordComplete,
     onClear, 
     setOnClear,
-    displayedPassword, 
-    setDisplayedPassword,
+    displayedPassword, setDisplayedPassword,
     currentUser,
     login,
-    logout
+    logout,
+    shops, setShops,
+    loading, setLoading,
+    error, setError
   };
 
   return (

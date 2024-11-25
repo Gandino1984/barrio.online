@@ -90,9 +90,14 @@ async function removeById(id) {
 
 async function getByType(shopType) {
     try {
+        console.log(`Attempting to find shops with type: ${shopType}`);
+        
         const shops = await shop_model.findAll({ 
-            where: { type_shop: shopType } 
-        });
+            where: { type_shop: shopType }
+        }); 
+        
+        console.log(`Database Query - Shops found:`, shops);
+        
         if (shops.length === 0) {
             console.log(`No shops found with type: ${shopType}`);
             return { error: "No shops found with this type" };
@@ -101,7 +106,7 @@ async function getByType(shopType) {
         console.log(`Retrieved shops with type ${shopType}:`, shops);
         return { data: shops };
     } catch (error) {
-        console.error("Error en getByType:", error);
+        console.error("Detailed error in getByType:", error);
         return { error: error.message };
     }
 }

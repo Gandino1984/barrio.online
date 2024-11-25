@@ -12,24 +12,33 @@ async function getById(req, res) {
 }
 
 async function getByType(req, res) {
-    const type = req.body.type_shop;
-    const {error, data} = await shopController.getByType(type);
+    console.log('Full Request Object:', req);
+    console.log('Request Headers:', req.headers);
+    console.log('Request Body:', req.body);
+    console.log('Request Query:', req.query);
+    // Add explicit destructuring and logging
+    const { type_shop } = req.body;
+    console.log('Destructured type_shop:', type_shop);
+    if (!type_shop) {
+        return res.status(400).json({ 
+            error: 'type_shop parameter is missing', 
+            requestBody: req.body 
+        });
+    }
+    const {error, data} = await shopController.getByType(type_shop);
+    console.log('Shop Type Response - Error:', error);
+    console.log('Shop Type Response - Data:', data);
+    
     res.json({error, data});
 }
 
 async function create(req, res) {
-    //post method
-    // const {id_client, name_client, pass_client, location_client } = req.body;
-    //get method
     const { name_shop, pass_shop, location_shop } = req.query;
     const {error, data} = await shopController.create({name_shop, pass_shop, location_shop});
     res.json({error, data});
 }
 
 async function update(req, res) {
-     //post method
-    // const {id_client, name_client, pass_client, location_client } = req.body;
-    //get method
     const id = req.params.id;
     const {id_shop, name_shop, pass_shop, location_shop } = req.query;
     const {error, data} = await shopController.update(id, {id_shop, name_shop, pass_shop, location_shop});

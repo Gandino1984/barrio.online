@@ -3,15 +3,13 @@ import AppContext from '../../../app_context/AppContext.js';
 
 export const useClientManagement = () => {
   const {
-    isLoggingIn,
-    setIsLoggingIn,
+    businessType,
+    setBusinessType
     
   } = useContext(AppContext);
   
   const handleClick = (type) => {
-    if (onSelectBusiness) {
-      onSelectBusiness(type);
-    }
+    setBusinessType(type);
   };
 
 
