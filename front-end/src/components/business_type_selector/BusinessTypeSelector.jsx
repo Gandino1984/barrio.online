@@ -1,6 +1,6 @@
 import React,  { useContext } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import AppContext from '../../../app_context/AppContext.js';
+import AppContext from '../../app_context/AppContext.js';
 import BusinessTypeButton from './BusinessTypeButton.jsx';
 
 import { useBusinessTypeSelector } from './hooks/useBusinessTypeSelector.jsx';

@@ -15,6 +15,14 @@
         {
             "path": "uribarri.online/back-end/config/",
             "color": "foldercustomization.AnsiColor32"
+        },
+        {
+            "path": "uribarri.online/front-end/src/components/landing_page/",
+            "color": "foldercustomization.AnsiColor168"
+        },
+        {
+            "path": "uribarri.online/front-end/src/components/user_type_selector/",
+            "color": "foldercustomization.AnsiColor199"
         }
     ]
 }
