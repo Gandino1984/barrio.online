@@ -1,1 +1,141 @@
 # uribarri.online
+
+Un sistema de gestión en línea para pedidos y reservas diseñado para negocios locales en el Distrito 02 de Bilbao.
+
+## Descripción
+
+Este proyecto proporciona una plataforma completa para gestionar pedidos y reservas en línea para negocios locales en el distrito de Uribarri (Distrito 02) de Bilbao. Cuenta con una implementación full-stack con componentes de frontend y backend, diseñados para agilizar las operaciones comerciales de tiendas locales y proveedores de servicios.
+
+## Pila Tecnológica
+
+### Backend
+- Node.js con Express.js
+- Base de datos MySQL
+- ORM Sequelize
+- CORS para compartir recursos entre orígenes
+- dotenv para gestión de variables de entorno
+
+### Frontend
+- React 18
+- Vite como herramienta de construcción
+- Axios para solicitudes API
+- Lucide React para iconos
+
+## Estructura de la Base de Datos
+
+El sistema utiliza una base de datos MySQL con las siguientes entidades principales:
+- Usuarios
+- Productos
+- Tiendas
+- Proveedores
+- Pedidos
+- Ventas
+- Compras
+- Seguimiento de producción
+
+## Características
+
+- Autenticación y autorización de usuarios
+- Gestión de productos
+- Perfiles y gestión de tiendas
+- Gestión de relaciones con proveedores
+- Procesamiento de pedidos
+- Seguimiento de ventas
+- Manejo de productos estacionales
+- Sistema de calificación para productos y tiendas
+- Servicios basados en ubicación
+
+## Requisitos Previos
+
+- Node.js (versión LTS más reciente recomendada)
+- Servidor MySQL
+- Gestor de paquetes npm o yarn
+
+## Instalación
+
+1. Clonar el repositorio:
+```bash
+git clone https://github.com/Gandino1984/uribarri.online.git
+cd uribarri.online
+```
+
+2. Instalar dependencias del backend:
+```bash
+npm install
+```
+
+3. Instalar dependencias del frontend:
+```bash
+cd front-end
+npm install
+```
+
+4. Configurar variables de entorno:
+Crear un archivo `.env` en el directorio raíz y añadir configuraciones necesarias:
+```env
+DB_HOST=host_de_base_de_datos
+DB_USER=usuario_de_base_de_datos
+DB_PASSWORD=contraseña_de_base_de_datos
+DB_NAME=DB_gestionPedidosOnline_2024
+```
+
+5. Inicializar la base de datos:
+Ejecutar el script SQL ubicado en `1DB_schema_gestionPedidosOnline_2024.sql`
+
+## Ejecutando la Aplicación
+
+### Modo Desarrollo
+
+Backend:
+```bash
+npm run dev
+```
+
+Frontend:
+```bash
+cd front-end
+npm run dev
+```
+
+### Modo Producción
+
+Backend:
+```bash
+npm start
+```
+
+Frontend:
+```bash
+cd front-end
+npm run build
+npm run preview
+```
+
+## Rutas API
+
+La aplicación proporciona los siguientes endpoints API principales:
+
+- `/user` - Endpoints de gestión de usuarios
+- `/product` - Endpoints de gestión de productos
+- `/shop` - Endpoints de gestión de tiendas
+- `/provider` - Endpoints de gestión de proveedores
+
+## Contribución
+
+1. Bifurcar el repositorio
+2. Crear rama de características (`git checkout -b feature/AmazingFeature`)
+3. Confirmar cambios (`git commit -m 'Añadir AmazingFeature'`)
+4. Subir a la rama (`git push origin feature/AmazingFeature`)
+5. Abrir un Pull Request
+
+## Autor
+
+German Andino
+
+## Licencia
+
+Este proyecto está licenciado bajo la Licencia ISC.
+
+## Soporte
+
+Para soporte, por favor abrir un issue en: https://github.com/Gandino1984/uribarri.online/issues
