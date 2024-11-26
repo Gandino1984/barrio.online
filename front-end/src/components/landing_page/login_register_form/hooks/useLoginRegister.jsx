@@ -158,6 +158,9 @@ export const useLoginRegister = () => {
         if (!userData || !userData.id_user || !userData.name_user || !userData.type_user) {
             throw new Error('Datos de usuario incompletos o inválidos');
         }
+
+         // Ensure user type is set in context
+        setUserType(userData.type_user);
         
         // Normalize user data structure using the server-provided user type
         const normalizedUserData = {
@@ -168,10 +171,10 @@ export const useLoginRegister = () => {
         };
         login(normalizedUserData);
         
-        // Rest of the existing code remains the same
+        // Special handling for seller type
         if (userData.type_user === 'seller') {
-            // For sellers, check if they have any shops
             try {
+                // Fetch shops for the seller
                 const shopsResponse = await axiosInstance.post('/shop/type', {
                     type_shop: 'General'
                 });
@@ -182,19 +185,19 @@ export const useLoginRegister = () => {
                 
                 // If no shops exist, open the shop creation form
                 if (userShops.length === 0) {
-                    setShowBusinessSelector(false);
                     setIsAddingShop(true);
+                    setShowBusinessSelector(false);
                 } else {
-                    // If shops exist, you might want to show the shop management view
+                    // If shops exist, set the shops in context
+                    setShops(userShops);
                     setShowBusinessSelector(false);
                     setIsAddingShop(false);
-                    setShops(userShops);
                 }
             } catch (error) {
                 // If there's an error fetching shops, default to shop creation
-                setShowBusinessSelector(false);
-                setIsAddingShop(true);
                 console.error('Error fetching shops:', error);
+                setIsAddingShop(true);
+                setShowBusinessSelector(false);
             }
         } else {
             // For other user types (client, provider), show business selector
@@ -269,12 +272,28 @@ export const useLoginRegister = () => {
             userType: userType,  // Log the current userType from context
             passwordLength: password.length
         });
-    
-        const response = await axiosInstance.post('/user/login', {
-            name_user: cleanedUsername,
-            pass_user: password
-        });
-        await handleLoginResponse(response);
+        try {
+            // First, fetch user details to get the user type
+            const userDetailsResponse = await axiosInstance.post('/user/details', {
+                name_user: cleanedUsername
+            });
+            // Extract user type from the response
+            const userType = userDetailsResponse.data.data?.type_user;
+            if (!userType) {
+                throw new Error('No se pudo obtener el tipo de usuario');
+            }
+            // Set the user type in context before login
+            setUserType(userType);
+            // Proceed with login
+            const response = await axiosInstance.post('/user/login', {
+                name_user: cleanedUsername,
+                pass_user: password
+            });
+            await handleLoginResponse(response);
+        } catch (error) {
+            console.error('Login error:', error);
+            throw error; // Re-throw to be caught in handleFormSubmit
+        }
     };
   
     /**

@@ -1,26 +1,26 @@
 USE `DB_gestionPedidosOnline_2024`;
 
 INSERT INTO `user` (`name_user`, `pass_user`, `location_user`, `type_user`) VALUES
-('Admin', '0000', 'Uribarri', 'client'),
-('  ', '1845', 'Uribarri', 'client'),
+('Admin', '0000', 'Uribarri', 'user'),
+('  ', '1845', 'Uribarri', 'user'),
 ('MikelLandaburu', '0000', 'Matiko', 'seller'),
 ('AitorUrizar', '9012', 'Ciudad Jardin', 'provider'),
-('GaixkaArtetxe', '4567', 'Arabella', 'client'),
+('GaixkaArtetxe', '4567', 'Arabella', 'user'),
 ('MirenAguirre', '7890', 'Uribarri', 'seller'),
 ('JonSalaverria', '2345', 'Matiko', 'provider'),
-('AmaliaArregi', '6789', 'Ciudad Jardin', 'client'),
+('AmaliaArregi', '6789', 'Ciudad Jardin', 'user'),
 ('AsierEtxebarria', '3456', 'Arabella', 'seller'),
 ('BlancaGomez', '8901', 'Uribarri', 'provider'),
-('MikelZubiaurre', '5678', 'Matiko', 'client'),
+('MikelZubiaurre', '5678', 'Matiko', 'user'),
 ('IdoiaElorriaga', '2109', 'Ciudad Jardin', 'seller'),
 ('EnekoBeitia', '7654', 'Arabella', 'provider'),
-('MariaIbarretxe', '3210', 'Uribarri', 'client'),
+('MariaIbarretxe', '3210', 'Uribarri', 'user'),
 ('JuleneOlazabal', '9876', 'Matiko', 'seller'),
 ('XabierLaskibar', '4321', 'Ciudad Jardin', 'provider'),
-('AneInza', '6543', 'Arabella', 'client'),
+('AneInza', '6543', 'Arabella', 'user'),
 ('IkerAgirre', '2198', 'Uribarri', 'seller'),
 ('LarraitzUranga', '7532', 'Matiko', 'provider'),
-('MartaEtxeberria', '4567', 'Ciudad Jardin', 'client'),
+('MartaEtxeberria', '4567', 'Ciudad Jardin', 'user'),
 ('PaulaAranguren', '8901', 'Arabella', 'seller');
 
 -- Insert products since they're referenced by orders, sales, and produce

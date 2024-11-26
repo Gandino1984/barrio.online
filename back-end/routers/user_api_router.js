@@ -93,4 +93,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
+router.post("/details", userApiController.getByUserName);
+
+
 export default router;

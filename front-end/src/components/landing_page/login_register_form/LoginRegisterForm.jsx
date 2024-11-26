@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import { useLoginRegister } from './hooks/useLoginRegister.jsx';
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
-import ClientManagement from "../../user_management/UserManagement.jsx";
+import UserManagement from "../../user_management/UserManagement.jsx";
 import styles from './LoginRegisterForm.module.css';
 
 const LoginRegisterForm = () => {
@@ -25,7 +25,7 @@ const LoginRegisterForm = () => {
 
   if (showBusinessSelector) {
     return (
-      <ClientManagement
+      <UserManagement
         onSelectBusiness={handleBusinessSelect}
         onBack={() => setShowBusinessSelector(false)}
       />
@@ -68,13 +68,13 @@ const LoginRegisterForm = () => {
                               <div className={styles.radioOption}>
                                 <input
                                   type="radio"
-                                  id="client"
+                                  id="user"
                                   name="userType"
-                                  value="client"
-                                  checked={userType === 'client'}
+                                  value="user"
+                                  checked={userType === 'user'}
                                   onChange={handleUserTypeChange}
                                 />
-                                <label htmlFor="client">Cliente</label>
+                                <label htmlFor="user">Usuari@</label>
                               </div>
                               <div className={styles.radioOption}>
                                 <input

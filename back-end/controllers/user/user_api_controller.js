@@ -11,6 +11,12 @@ async function getById(req, res) {
     res.json({error, data});
 }
 
+async function getByUserName(req, res) {
+    const {name_user} = req.body;
+    const {error, data} = await userController.getById(name_user);
+    res.json({error, data});
+}
+
 async function login(req, res) {
     const { name_user, pass_user, type_user } = req.body;
     const {error, data} = await userController.login({ name_user, pass_user, type_user});
@@ -53,7 +59,8 @@ export {
     update,
     removeById,
     login,
-    register
+    register,
+    getByUserName
 }
 
 export default {
@@ -63,5 +70,6 @@ export default {
     update,
     removeById,
     login,
-    register
+    register,
+    getByUserName
 }
