@@ -29,7 +29,9 @@ export const useLoginRegister = () => {
         setUserType,
         currentUser, 
         login,
-        logout
+        logout,
+        isAddingShop, setIsAddingShop,
+        shops, setShops
     } = useContext(AppContext);
 
     const [usernameError, setUsernameError] = useState('');
@@ -157,15 +159,47 @@ export const useLoginRegister = () => {
             throw new Error('Datos de usuario incompletos o inválidos');
         }
         
-        // Normalize user data structure
+        // Normalize user data structure using the server-provided user type
         const normalizedUserData = {
             username: userData.name_user,
             password: password,
-            userType: userData.type_user,
+            userType: userData.type_user, // Use the server-provided user type instead of the client-side state
             id: userData.id_user
         };
         login(normalizedUserData);
-        setShowBusinessSelector(true);
+        
+        // Rest of the existing code remains the same
+        if (userData.type_user === 'seller') {
+            // For sellers, check if they have any shops
+            try {
+                const shopsResponse = await axiosInstance.post('/shop/type', {
+                    type_shop: 'General'
+                });
+                
+                const userShops = shopsResponse.data.data 
+                    ? shopsResponse.data.data.filter(shop => shop.id_user === userData.id_user)
+                    : [];
+                
+                // If no shops exist, open the shop creation form
+                if (userShops.length === 0) {
+                    setShowBusinessSelector(false);
+                    setIsAddingShop(true);
+                } else {
+                    // If shops exist, you might want to show the shop management view
+                    setShowBusinessSelector(false);
+                    setIsAddingShop(false);
+                    setShops(userShops);
+                }
+            } catch (error) {
+                // If there's an error fetching shops, default to shop creation
+                setShowBusinessSelector(false);
+                setIsAddingShop(true);
+                console.error('Error fetching shops:', error);
+            }
+        } else {
+            // For other user types (client, provider), show business selector
+            setShowBusinessSelector(true);
+        }
     };
 
     /**
@@ -230,6 +264,12 @@ export const useLoginRegister = () => {
      * @param {string} password - User password
      */
     const handleLogin = async (cleanedUsername, password) => {
+        console.log('Login attempt details:', {
+            username: cleanedUsername,
+            userType: userType,  // Log the current userType from context
+            passwordLength: password.length
+        });
+    
         const response = await axiosInstance.post('/user/login', {
             name_user: cleanedUsername,
             pass_user: password
@@ -276,10 +316,19 @@ export const useLoginRegister = () => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
+            console.log('Form submitted', { 
+                username, 
+                isLoggingIn, 
+                password, 
+                userType 
+            });
             // IP validation for registration only
             if (!isLoggingIn) {
                 const canRegister = await validateIPRegistration();
-                if (!canRegister) return;
+                if (!canRegister) {
+                    console.log('IP validation failed');
+                    return;
+                }
             }
 
             // Username validation
@@ -292,23 +341,31 @@ export const useLoginRegister = () => {
             // Form validation
             const formValidation = validateForm(cleanedUsername);
             if (!formValidation.isValid) {
+                console.log('Form validation failed', formValidation.error);
                 setUsernameError(formValidation.error);
                 return;
             }
 
             // Check for existing session
             if (!isLoggingIn && currentUser?.id) {
+                console.log('Existing user session');
                 setUsernameError('Ya existe un usuario registrado con ese nombre.');
                 return;
             }
 
             // Handle login or registration
             if (isLoggingIn) {
+                console.log('Attempting login', { 
+                    username, 
+                    userType  // Log the current user type
+                });
                 await handleLogin(cleanedUsername, password);
             } else {
+                console.log('Attempting registration');
                 await handleRegistration(cleanedUsername, password, userType);
             }
         } catch (error) {
+            console.error('Login/Register Error', error);
             const errorMessage = error.response?.data?.error || error.message || 
                                `Error en el ${isLoggingIn ? 'inicio de sesión' : 'registro'}`;
             setUsernameError(errorMessage);  

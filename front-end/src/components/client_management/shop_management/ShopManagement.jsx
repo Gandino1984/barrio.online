@@ -7,22 +7,19 @@ import axiosInstance from '../../../utils/axiosConfig.js';
 const ShopManagement = ({ onBack }) => {
   const { 
     currentUser, 
-    shops, 
-    setShops, 
-    loading, 
-    setLoading, 
-    error, 
-    setError,
-    selectedShop,
-    setSelectedShop
+    shops, setShops, 
+    loading, setLoading, 
+    error, setError,
+    selectedShop, setSelectedShop,
+    isAddingShop, setIsAddingShop
   } = useContext(AppContext);
 
-  const [isAddingShop, setIsAddingShop] = useState(false);
+
   const [newShop, setNewShop] = useState({
     name_shop: '',
     location_shop: '',
     type_shop: '',
-    id_user: null
+    id_user: currentUser?.id || null
   });
 
   useEffect(() => {
@@ -31,9 +28,16 @@ const ShopManagement = ({ onBack }) => {
 
       try {
         setLoading(true);
-        // Modify this endpoint to match your backend
-        const response = await axiosInstance.post(`/shop`);
-        setShops(response.data.data || []);
+        const response = await axiosInstance.post('/shop/type', {
+          type_shop: 'General'  // Default type, or you could dynamically set this
+        });
+        
+        // Filter shops by current user's ID
+        const userShops = response.data.data 
+          ? response.data.data.filter(shop => shop.id_user === currentUser.id)
+          : [];
+        
+        setShops(userShops);
         setLoading(false);
       } catch (err) {
         setError(err.response?.data?.error || 'Error fetching shops');
@@ -48,15 +52,15 @@ const ShopManagement = ({ onBack }) => {
     e.preventDefault();
     try {
       const shopData = {
-        ...newShop,
+        name_shop: newShop.name_shop,
+        location_shop: newShop.location_shop,
+        type_shop: newShop.type_shop,
         id_user: currentUser.id,
-        calification_shop: 0  // Default value from model
+        calification_shop: 0  // Default value
       };
 
-      // Note: Backend seems to use GET for creation
-      const response = await axiosInstance.post('/shop/create', { 
-        params: shopData 
-      });
+      // Use create endpoint with correct payload
+      const response = await axiosInstance.post('/shop/create', shopData);
       
       if (response.data.error) {
         throw new Error(response.data.error);
@@ -70,34 +74,28 @@ const ShopManagement = ({ onBack }) => {
         name_shop: '',
         location_shop: '',
         type_shop: '',
-        id_user: null
+        id_user: currentUser.id
       });
       setIsAddingShop(false);
     } catch (err) {
       setError(err.message || 'Error adding shop');
+      console.error('Shop creation error:', err);
     }
   };
 
   const handleDeleteShop = async (shopId) => {
     try {
-      // Note: Backend uses GET for removal
+      // Use correct endpoint for shop removal
       const response = await axiosInstance.post(`/shop/${shopId}/remove`);
       
       if (response.data.error) {
         throw new Error(response.data.error);
       }
 
-    //   const response = await axiosInstance.post('/shop/type', {
-    //     type_shop: businessType
-    //   }, {
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     }
-    //   });
-
       setShops(prevShops => prevShops.filter(shop => shop.id_shop !== shopId));
     } catch (err) {
       setError(err.message || 'Error deleting shop');
+      console.error('Shop deletion error:', err);
     }
   };
 

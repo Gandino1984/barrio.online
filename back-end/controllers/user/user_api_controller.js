@@ -12,8 +12,8 @@ async function getById(req, res) {
 }
 
 async function login(req, res) {
-    const { name_user, pass_user } = req.body;
-    const {error, data} = await userController.login({ name_user, pass_user });
+    const { name_user, pass_user, type_user } = req.body;
+    const {error, data} = await userController.login({ name_user, pass_user, type_user});
     res.json({error, data});
 }
 

@@ -3,7 +3,7 @@ USE `DB_gestionPedidosOnline_2024`;
 INSERT INTO `user` (`name_user`, `pass_user`, `location_user`, `type_user`) VALUES
 ('Admin', '0000', 'Uribarri', 'client'),
 ('SabinoPizarro', '1845', 'Uribarri', 'client'),
-('MikelLandaburu', '2367', 'Matiko', 'seller'),
+('MikelLandaburu', '0000', 'Matiko', 'seller'),
 ('AitorUrizar', '9012', 'Ciudad Jardin', 'provider'),
 ('GaixkaArtetxe', '4567', 'Arabella', 'client'),
 ('MirenAguirre', '7890', 'Uribarri', 'seller'),
@@ -44,7 +44,7 @@ INSERT INTO `shop` (`name_shop`, `location_shop`, `type_shop`, `id_user`, `calif
 ('Carnes del Barrio', 'Matiko', 'Carniceria', 4, 5),
 ('Mar y Tierra', 'Ciudad Jardin', 'Pescaderia', 2, 3),
 ('El Rincón Verde', 'Arabella', 'Fruteria', 4, 4),
-('Bistro Sabores', 'Uribarri', 'Restaurante', 2, 5),
+('Bistro Sabores', 'Uribarri', 'Restaurante', 3, 5),
 ('Txoko Goxoa', 'Matiko', 'Bar', 4, 4),
 ('Pescados Frescos', 'Ciudad Jardin', 'Pescaderia', 2, 4),
 ('Cortes Selectos', 'Arabella', 'Carniceria', 4, 5),
@@ -59,7 +59,7 @@ INSERT INTO `shop` (`name_shop`, `location_shop`, `type_shop`, `id_user`, `calif
 ('Frutería Lore', 'Uribarri', 'Fruteria', 2, 5),
 ('Merkatu Txiki', 'Matiko', 'General', 4, 4),
 ('Restaurante Sabor', 'Ciudad Jardin', 'Restaurante', 2, 4),
-('Carnes Premium', 'Arabella', 'Carniceria', 4, 5);
+('Carnes Premium', 'Arabella', 'Carniceria', 3, 5);
 
 -- Insert orders
 INSERT INTO `orders` (`id_user`, `id_product`, `delivery_date`, `finished`) VALUES

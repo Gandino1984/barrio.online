@@ -67,7 +67,7 @@ export const AppContextProvider = ({ children }) => {
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
   const [displayedPassword, setDisplayedPassword] = useState('');
-  const [userType, setUserType] = useState('client'); 
+  const [userType, setUserType] = useState(''); 
   const MAX_PASSWORD_LENGTH = 4;
   const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
   const [showPasswordLabel, setShowPasswordLabel] = useState(true);
@@ -80,6 +80,7 @@ export const AppContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedShop, setSelectedShop] = useState(null);
+  const [isAddingShop, setIsAddingShop] = useState(false);
 
   
 
@@ -113,7 +114,8 @@ export const AppContextProvider = ({ children }) => {
     shops, setShops,
     loading, setLoading,
     error, setError,
-    selectedShop, setSelectedShop
+    selectedShop, setSelectedShop,
+    isAddingShop, setIsAddingShop
   };
 
   return (
