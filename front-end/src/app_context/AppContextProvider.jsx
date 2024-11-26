@@ -79,6 +79,7 @@ export const AppContextProvider = ({ children }) => {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedShop, setSelectedShop] = useState(null);
 
   
 
@@ -111,7 +112,8 @@ export const AppContextProvider = ({ children }) => {
     logout,
     shops, setShops,
     loading, setLoading,
-    error, setError
+    error, setError,
+    selectedShop, setSelectedShop
   };
 
   return (

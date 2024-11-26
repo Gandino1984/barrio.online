@@ -4,34 +4,22 @@ import { useLoginRegister } from './hooks/useLoginRegister.jsx';
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
 import ClientManagement from "../../client_management/ClientManagement.jsx";
 import styles from './LoginRegisterForm.module.css';
-import { X } from 'lucide-react';
 
 const LoginRegisterForm = () => {
   const {
-    username,
-    isLoggingIn,
-    userType,
-    showBusinessSelector,
-    setShowBusinessSelector,
-    password,
-    passwordRepeat,
-    showPasswordLabel,
-    showPasswordRepeat,
-    keyboardKey,
+    username, isLoggingIn, userType,
+    showBusinessSelector,setShowBusinessSelector,
+    password, passwordRepeat, showPasswordRepeat,
+    keyboardKey
   } = useContext(AppContext);
 
   const {
     handlePasswordComplete,
-    handleClear,
-    handlePasswordChange,
-    handleRepeatPasswordChange,
-    isButtonDisabled,
-    toggleForm,
-    handleBusinessSelect,
-    handleFormSubmit,
-    handleUserTypeChange,
-    handleUsernameChange,
-    usernameError,
+    handleClear, handlePasswordChange,
+    handleRepeatPasswordChange, isButtonDisabled,
+    toggleForm, handleBusinessSelect,
+    handleFormSubmit, handleUserTypeChange,
+    handleUsernameChange, usernameError,
     ipError
   } = useLoginRegister();
 
@@ -74,7 +62,6 @@ const LoginRegisterForm = () => {
                 required
               />
             </div>
-
             {!isLoggingIn && (
               <div className={`${styles.formField} ${styles.radioGroup}`}>
                 <div className={styles.radioOptions}>
@@ -114,7 +101,6 @@ const LoginRegisterForm = () => {
                 </div>
               </div>
             )}
-
             <div className={styles.formField}>
               <NumericKeyboard
                 key={keyboardKey}
@@ -126,7 +112,6 @@ const LoginRegisterForm = () => {
                 onClear={handleClear(isLoggingIn)}
               />
             </div>
-
             <div className={styles.formActions}>
               <button
                 type="submit"
