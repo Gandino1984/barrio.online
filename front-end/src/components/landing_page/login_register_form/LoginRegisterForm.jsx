@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import { useLoginRegister } from './hooks/useLoginRegister.jsx';
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
-import ClientManagement from "../../client_management/ClientManagement.jsx";
+import ClientManagement from "../../user_management/UserManagement.jsx";
 import styles from './LoginRegisterForm.module.css';
 
 const LoginRegisterForm = () => {

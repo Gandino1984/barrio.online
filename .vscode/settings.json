@@ -18,7 +18,7 @@
         },
         {
             "path": "uribarri.online/front-end/src/components/landing_page/",
-            "color": "foldercustomization.AnsiColor13"
+            "color": "foldercustomization.AnsiColor202"
         },
         {
             "path": "uribarri.online/front-end/src/components/user_type_selector/",
@@ -30,15 +30,19 @@
         },
         {
             "path": "uribarri.online/front-end/src/components/client_management/hooks/",
-            "color": "foldercustomization.AnsiColor13"
+            "color": "foldercustomization.AnsiColor14"
         },
         {
             "path": "uribarri.online/front-end/src/components/",
-            "color": "foldercustomization.AnsiColor199"
+            "color": "foldercustomization.AnsiColor198"
         },
         {
             "path": "uribarri.online/front-end/src/components/client_management/",
-            "color": "foldercustomization.AnsiColor198"
+            "color": "foldercustomization.AnsiColor14"
+        },
+        {
+            "path": "uribarri.online/front-end/src/components/user_management/",
+            "color": "foldercustomization.AnsiColor14"
         }
     ]
 }
