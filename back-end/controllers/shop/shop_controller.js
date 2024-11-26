@@ -28,7 +28,6 @@ async function getById(id) {
     }
 }
 
-
 async function create(shopData) {
     try {
         // Check if user already exists by name
@@ -37,7 +36,7 @@ async function create(shopData) {
         });
         if (existingShop) {
             return { 
-                error: "Shop with this name already exists", 
+                error: "Ya existe una tienda con ese nombre", 
                 data: null 
             };
         }
@@ -91,18 +90,14 @@ async function removeById(id) {
 async function getByType(shopType) {
     try {
         console.log(`Attempting to find shops with type: ${shopType}`);
-        
         const shops = await shop_model.findAll({ 
             where: { type_shop: shopType }
         }); 
-        
         console.log(`Database Query - Shops found:`, shops);
-        
         if (shops.length === 0) {
             console.log(`No shops found with type: ${shopType}`);
             return { error: "No shops found with this type" };
         }
-        
         console.log(`Retrieved shops with type ${shopType}:`, shops);
         return { data: shops };
     } catch (error) {

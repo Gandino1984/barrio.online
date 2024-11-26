@@ -33,7 +33,7 @@ async function getByType(req, res) {
 }
 
 async function create(req, res) {
-    const { name_shop, pass_shop, location_shop } = req.query;
+    const { name_shop, pass_shop, location_shop } = req.body;
     const {error, data} = await shopController.create({name_shop, pass_shop, location_shop});
     res.json({error, data});
 }
