@@ -3,7 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 import AppContext from '../../app_context/AppContext.js';
 import BusinessTypeButton from './BusinessTypeButton.jsx';
 import ShopsByType from '../shop_management/shops_by_type/ShopsByType.jsx'; 
-import styles from './ClientManagement.module.css';
+import styles from './UserManagement.module.css';
 
 const ClientManagement = ({ onBack }) => {
   const [selectedBusinessType, setSelectedBusinessType] = useState(null);
