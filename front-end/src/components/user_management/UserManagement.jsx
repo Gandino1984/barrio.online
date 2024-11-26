@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import AppContext from '../../app_context/AppContext.js';
 import BusinessTypeButton from './BusinessTypeButton.jsx';
-import ShopsByType from './shops_by_type/ShopsByType.jsx'; 
+import ShopsByType from '../shop_management/shops_by_type/ShopsByType.jsx'; 
 import styles from './ClientManagement.module.css';
 
 const ClientManagement = ({ onBack }) => {
