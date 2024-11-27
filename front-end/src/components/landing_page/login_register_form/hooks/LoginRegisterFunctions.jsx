@@ -19,7 +19,7 @@ export const LoginRegisterFunctions = () => {
         setPassword,
         passwordRepeat,
         showPasswordRepeat,
-        setPasswordRepeat,
+        setPasswordRepeat, git push --set-upstream origin loginRegisterUserTypeCheck
         setShowPasswordRepeat,
         setShowPasswordLabel,
         setKeyboardKey,
