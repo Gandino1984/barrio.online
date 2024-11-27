@@ -39,6 +39,20 @@ const shop_model = sequelize.define("shop", {
     freezeTableName: true
 });
 
+// Add the belongsTo relation to the user model
+shop_model.belongsTo(user_model, {
+    foreignKey: 'id_user',
+    as: 'owner', // This allows you to use include: ['owner'] when querying
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION'
+});
 
+// Optionally, add a reverse relation on the user model
+user_model.hasMany(shop_model, {
+    foreignKey: 'id_user',
+    as: 'shops', // This allows you to use include: ['shops'] when querying
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION'
+});
 
 export default shop_model;

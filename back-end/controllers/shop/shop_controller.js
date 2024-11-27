@@ -106,9 +106,29 @@ async function getByType(shopType) {
     }
 }
 
-async function getByUser(){
-   
-};
+async function getByUser(id_user) {
+    try {
+        console.log(`Attempting to find shops for user ID: ${id_user}`);
+        
+        const shops = await shop_model.findAll({ 
+            where: { id_user: id_user },
+            // Optionally, you can include the related user details
+            // include: [{ model: user_model, as: 'owner' }]
+        }); 
+        
+        console.log(`Retrieved shops for user ${id_user}:`, shops);
+        
+        if (shops.length === 0) {
+            console.log(`No shops found for user ID: ${id_user}`);
+            return { error: "No shops found for this user" };
+        }
+        
+        return { data: shops };
+    } catch (error) {
+        console.error("Detailed error in getByUser:", error);
+        return { error: error.message };
+    }
+}
 
 export { getAll, getById, create, update, removeById, getByType, getByUser }
 
