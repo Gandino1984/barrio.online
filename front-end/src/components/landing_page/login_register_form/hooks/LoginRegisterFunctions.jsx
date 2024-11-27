@@ -267,32 +267,37 @@ export const LoginRegisterFunctions = () => {
      * @param {string} password - User password
      */
     const handleLogin = async (cleanedUsername, password) => {
-        console.log('Login attempt details:', {
-            username: cleanedUsername,
-            userType: userType,  // Log the current userType from context
-            passwordLength: password.length
-        });
         try {
-            // First, fetch user details to get the user type
+            // Fetch user details first
             const userDetailsResponse = await axiosInstance.post('/user/details', {
                 name_user: cleanedUsername
             });
-            // Extract user type from the response
-            const userType = userDetailsResponse.data.data?.type_user;
+    
+            // Enhanced type extraction and validation
+            const userType = userDetailsResponse.data?.data?.type_user;
+            
             if (!userType) {
+                console.error('User type not found for username:', cleanedUsername);
                 throw new Error('No se pudo obtener el tipo de usuario');
             }
-            // Set the user type in context before login
+    
+            // Explicitly set user type in context before login
             setUserType(userType);
-            // Proceed with login
-            const response = await axiosInstance.post('/user/login', {
+    
+            // Proceed with login using the obtained user type
+            const loginResponse = await axiosInstance.post('/user/login', {
                 name_user: cleanedUsername,
-                pass_user: password
+                pass_user: password,
+                type_user: userType  // Optional: pass user type to login endpoint
             });
-            await handleLoginResponse(response);
+    
+            await handleLoginResponse(loginResponse);
         } catch (error) {
-            console.error('Login error:', error);
-            throw error; // Re-throw to be caught in handleFormSubmit
+            console.error('Login error details:', {
+                message: error.message,
+                response: error.response?.data
+            });
+            throw error;
         }
     };
   

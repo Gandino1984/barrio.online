@@ -11,9 +11,11 @@ async function getById(req, res) {
     res.json({error, data});
 }
 
+
 async function getByUserName(req, res) {
-    const {name_user} = req.body;
-    const {error, data} = await userController.getById(name_user);
+    const name = req.body.name_user;
+    console.log("user_api_controller - getByUserName - name = ", name);
+    const {error, data} = await userController.getByUserName(name);
     res.json({error, data});
 }
 

@@ -1,4 +1,5 @@
 import user_model from "../../models/user_model.js";
+import { Op } from "sequelize";
 
 // Validation utilities
 const validateUserData = (userData) => {
@@ -91,9 +92,12 @@ async function getById(id) {
 }
 
 async function getByUserName(userName) {
+    console.log("user_controller - getByUserName - userName = ", userName);
+    
      const user = await user_model.findOne({ 
-         where: { name_user: userName.name_user } 
+         where: { name_user: userName } 
     });
+    
     if (user) {
         return { 
             data: user
