@@ -15,5 +15,7 @@ router.get("/:id/remove", shopApiController.removeById);
 
 router.post("/type", shopApiController.getByType);
 router.post("/create", shopApiController.create);
+// Add this new route
+router.post("/user", shopApiController.getByUser);
 
 export default router;

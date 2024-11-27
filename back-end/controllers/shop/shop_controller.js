@@ -106,6 +106,10 @@ async function getByType(shopType) {
     }
 }
 
-export { getAll, getById, create, update, removeById, getByType }
+async function getByUser(){
+   
+};
 
-export default { getAll, getById, create, update, removeById, getByType }
+export { getAll, getById, create, update, removeById, getByType, getByUser }
+
+export default { getAll, getById, create, update, removeById, getByType, getByUser }

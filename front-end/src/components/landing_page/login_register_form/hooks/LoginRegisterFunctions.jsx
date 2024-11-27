@@ -175,32 +175,29 @@ export const LoginRegisterFunctions = () => {
         // Special handling for seller type
         if (userData.type_user === 'seller') {
             try {
-                // Fetch shops for the seller
-                const shopsResponse = await axiosInstance.post('/shop/type', {
-                    type_shop: 'General'
+                // Fetch shops specifically for the logged-in seller
+                const shopsResponse = await axiosInstance.post('/shop/user', {
+                    id_user: userData.id_user
                 });
                 
-                const userShops = shopsResponse.data.data 
-                    ? shopsResponse.data.data.filter(shop => shop.id_user === userData.id_user)
-                    : [];
+                const userShops = shopsResponse.data.data || [];
                 
                 // If no shops exist, open the shop creation form
                 if (userShops.length === 0) {
                     setIsAddingShop(true);
                     setShowBusinessSelector(false);
                 } else {
-                    // If shops exist, set the shops in context
+                    // Set the shops owned by this specific seller
                     setShops(userShops);
-                    setShowBusinessSelector(false);
+                    setShowBusinessSelector(true);
                     setIsAddingShop(false);
                 }
             } catch (error) {
-                // If there's an error fetching shops, default to shop creation
-                console.error('Error fetching shops:', error);
+                console.error('Error fetching seller shops:', error);
                 setIsAddingShop(true);
                 setShowBusinessSelector(false);
             }
-        } else {
+        }else {
             // For other user types (client, provider), show business selector
             setShowBusinessSelector(true);
         }
@@ -208,7 +205,7 @@ export const LoginRegisterFunctions = () => {
 
     /**
      * Processes registration response and updates user state
-     * @param {Object} response - Server response
+     * @param {Object} response - Server response, comes from handleRegistration
      * @throws {Error} If response is invalid
      */
     const handleRegistrationResponse = async (response) => {
@@ -231,7 +228,7 @@ export const LoginRegisterFunctions = () => {
         };
 
         login(normalizedUserData);
-        setShowBusinessSelector(true);
+        setShowBusinessSelector(true); //??
     };
 
     /**

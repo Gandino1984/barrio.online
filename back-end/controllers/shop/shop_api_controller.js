@@ -51,13 +51,36 @@ async function removeById(req, res) {
     res.json({error, data});
 }
 
+// This has to be by name_user instead of id_user?????
+const getByUser = async (req, res) => {
+    try {
+        const { id_user } = req.body;
+        // console.log this     
+        if (!id_user) {
+            return res.status(400).json({
+                error: 'User ID is required',
+                success: false
+            });
+        }
+        const {error, data} = await shopController.getByUser(id_user);
+        res.json({error, data});
+    } catch (error) {
+        console.error('Error fetching user shops:', error);
+        return res.status(500).json({
+            error: 'Internal server error',
+            success: false
+        });
+    }
+};
+
 export {
     getAll,
     getById,
     create,
     update,
     removeById,
-    getByType
+    getByType,
+    getByUser
 }
 
 export default {
@@ -66,6 +89,7 @@ export default {
     create,
     update,
     removeById,
-    getByType
+    getByType,
+    getByUser
     
 }

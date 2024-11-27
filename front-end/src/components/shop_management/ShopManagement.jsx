@@ -14,7 +14,6 @@ const ShopManagement = ({ onBack }) => {
     isAddingShop, setIsAddingShop
   } = useContext(AppContext);
 
-
   const [newShop, setNewShop] = useState({
     name_shop: '',
     location_shop: '',
