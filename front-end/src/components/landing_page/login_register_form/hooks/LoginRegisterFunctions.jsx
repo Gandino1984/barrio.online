@@ -166,7 +166,7 @@ export const LoginRegisterFunctions = () => {
         const normalizedUserData = {
             username: userData.name_user,
             password: password,
-            userType: userData.type_user, // Use the server-provided user type instead of the client-side state
+            userType: userData.type_user, 
             id: userData.id_user
         };
         login(normalizedUserData);
@@ -274,21 +274,21 @@ export const LoginRegisterFunctions = () => {
             });
     
             // Enhanced type extraction and validation
-            const userType = userDetailsResponse.data?.data?.type_user;
-            
-            if (!userType) {
+            const type = userDetailsResponse.data.data.type_user;
+
+            console.log('User type retrieved from DB = ', type);
+
+            if (!type) {
                 console.error('User type not found for username:', cleanedUsername);
                 throw new Error('No se pudo obtener el tipo de usuario');
             }
-    
             // Explicitly set user type in context before login
-            setUserType(userType);
-    
+            setUserType(type);
             // Proceed with login using the obtained user type
             const loginResponse = await axiosInstance.post('/user/login', {
                 name_user: cleanedUsername,
                 pass_user: password,
-                type_user: userType  // Optional: pass user type to login endpoint
+                type_user: type  // Optional: pass user type to login endpoint
             });
     
             await handleLoginResponse(loginResponse);
