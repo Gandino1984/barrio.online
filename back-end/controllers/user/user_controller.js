@@ -34,7 +34,7 @@ const validateUserData = (userData) => {
     }
     // User type validation for registration
     if (userData.type_user) {
-        const validTypes = ['client', 'seller', 'provider'];
+        const validTypes = ['user', 'seller', 'provider', 'admin'];
         if (!validTypes.includes(userData.type_user)) {
             errors.push('Tipo de usuario no valido');
         }
@@ -204,10 +204,11 @@ async function register(userData) {
         // Validate registration data
         const validation = validateUserData({
             ...userData,
-            type_user: userData.type_user || 'cliente' // Default to client if not specified
+            type_user: userData.type_user || 'user' // Default to user if not specified
         });
 
         if (!validation.isValid) {
+            console.error('Validation errors: ', validation.errors);
             return { 
                 error: "Validación fallida",
                 details: validation.errors 

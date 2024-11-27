@@ -83,7 +83,7 @@ const LoginRegisterForm = () => {
                                   checked={userType === 'user'}
                                   onChange={handleUserTypeChange}
                                 />
-                                <label htmlFor="user">Usuari@</label>
+                                <label htmlFor="user">Usuario</label>
                               </div>
                               <div className={styles.radioOption}>
                                 <input
