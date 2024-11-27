@@ -19,7 +19,8 @@ export const LoginRegisterFunctions = () => {
         setPassword,
         passwordRepeat,
         showPasswordRepeat,
-        setPasswordRepeat, git push --set-upstream origin loginRegisterUserTypeCheck
+        setPasswordRepeat,
+        loginRegisterUserTypeCheck,
         setShowPasswordRepeat,
         setShowPasswordLabel,
         setKeyboardKey,
@@ -267,39 +268,44 @@ export const LoginRegisterFunctions = () => {
      * @param {string} password - User password
      */
     const handleLogin = async (cleanedUsername, password) => {
-        try {
-            // Fetch user details first
-            const userDetailsResponse = await axiosInstance.post('/user/details', {
-                name_user: cleanedUsername
-            });
-    
-            // Enhanced type extraction and validation
-            const type = userDetailsResponse.data.data.type_user;
+    try {
+        // Fetch user details first
+        const userDetailsResponse = await axiosInstance.post('/user/details', {
+            name_user: cleanedUsername
+        });
 
-            console.log('User type retrieved from DB = ', type);
+        // Enhanced type extraction and validation
+        const type = userDetailsResponse.data.data.type_user;
 
-            if (!type) {
-                console.error('User type not found for username:', cleanedUsername);
-                throw new Error('No se pudo obtener el tipo de usuario');
-            }
-            // Explicitly set user type in context before login
-            setUserType(type);
-            // Proceed with login using the obtained user type
-            const loginResponse = await axiosInstance.post('/user/login', {
-                name_user: cleanedUsername,
-                pass_user: password,
-                type_user: type  // Optional: pass user type to login endpoint
-            });
-    
-            await handleLoginResponse(loginResponse);
-        } catch (error) {
-            console.error('Login error details:', {
-                message: error.message,
-                response: error.response?.data
-            });
-            throw error;
+        console.log('User type retrieved from DB = ', type);
+
+        if (!type) {
+            console.error('User type not found for username:', cleanedUsername);
+            throw new Error('No se pudo obtener el tipo de usuario');
         }
-    };
+        // Explicitly set user type in context before login
+        setUserType(type);
+        // Proceed with login using the obtained user type
+        const loginResponse = await axiosInstance.post('/user/login', {
+            name_user: cleanedUsername,
+            pass_user: password,
+            type_user: type  // Optional: pass user type to login endpoint
+        });
+
+        await handleLoginResponse(loginResponse);
+
+        // Check if user type is 'seller' and show ShopManagement component
+        if (type === 'seller') {
+            setShowBusinessSelector(true);
+        }
+    } catch (error) {
+        console.error('Login error details:', {
+            message: error.message,
+            response: error.response?.data
+        });
+        throw error;
+    }
+};
   
     /**
      * Handles registration API request

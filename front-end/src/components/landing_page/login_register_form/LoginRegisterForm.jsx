@@ -4,6 +4,7 @@ import { LoginRegisterFunctions } from './hooks/LoginRegisterFunctions.jsx';
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
 import UserManagement from "../../user_management/UserManagement.jsx";
 import styles from './LoginRegisterForm.module.css';
+import ShopManagement from "../../shop_management/ShopManagement.jsx";
 
 const LoginRegisterForm = () => {
   const {
@@ -24,13 +25,21 @@ const LoginRegisterForm = () => {
   } = LoginRegisterFunctions();
 
   if (showBusinessSelector) {
-    return (
-      <UserManagement
-        onSelectBusiness={handleBusinessSelect}
-        onBack={() => setShowBusinessSelector(false)}
-      />
-    );
-  }
+    if (userType === 'seller') {
+        return (
+          <ShopManagement
+            // Your props here
+          />
+        );
+    } else {
+        return (
+          <UserManagement
+            onSelectBusiness={handleBusinessSelect}
+            onBack={() => setShowBusinessSelector(false)}
+          />
+        );
+    }
+}
 
   return (
     <div className={styles.container}>
