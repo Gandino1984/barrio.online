@@ -18,7 +18,7 @@
         },
         {
             "path": "uribarri.online/front-end/src/components/landing_page/",
-            "color": "foldercustomization.AnsiColor202"
+            "color": "foldercustomization.AnsiColor14"
         },
         {
             "path": "uribarri.online/front-end/src/components/user_type_selector/",
@@ -46,7 +46,7 @@
         },
         {
             "path": "uribarri.online/front-end/src/components/shop_management/",
-            "color": "foldercustomization.AnsiColor216"
+            "color": "foldercustomization.AnsiColor14"
         }
     ]
 }

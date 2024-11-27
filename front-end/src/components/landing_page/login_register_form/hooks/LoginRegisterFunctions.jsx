@@ -8,7 +8,7 @@ import axiosInstance from '../../../../../utils/axiosConfig.js';
  * Custom hook for handling login and registration functionality
  * @returns {Object} Object containing methods and state for login/register operations
  */
-export const useLoginRegister = () => {
+export const LoginRegisterFunctions = () => {
     // Context and state management
     const {
         isLoggingIn,

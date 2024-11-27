@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
-import { useLoginRegister } from './hooks/useLoginRegister.jsx';
+import { LoginRegisterFunctions } from './hooks/LoginRegisterFunctions.jsx';
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
 import UserManagement from "../../user_management/UserManagement.jsx";
 import styles from './LoginRegisterForm.module.css';
@@ -21,7 +21,7 @@ const LoginRegisterForm = () => {
     handleFormSubmit, handleUserTypeChange,
     handleUsernameChange, usernameError,
     ipError
-  } = useLoginRegister();
+  } = LoginRegisterFunctions();
 
   if (showBusinessSelector) {
     return (
