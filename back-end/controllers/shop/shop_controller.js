@@ -12,20 +12,37 @@ async function getAll() {
     }
 }
 
-async function getById(id) {
+async function removeById(id, userId) {
     try {
-        const shop = await shop_model.findByPk(id);
-        console.log("Retrieved shop:", shop);
-        
+        // Find the shop and verify it belongs to the user
+        const shop = await shop_model.findOne({
+            where: { 
+                id_shop: id, 
+                id_user: userId 
+            }
+        });
         if (!shop) {
-            console.log("shop not found with id:", id);
-            return { error: "shop not found" };
+            return { 
+                error: "Shop not found or you are not authorized to delete this shop", 
+                status: 404 
+            };
         }
-        
-        return { data: shop };
+        // Delete the shop
+        await shop_model.destroy({
+            where: { id_shop: id }
+        });
+        return { 
+            data: { 
+                message: "Shop successfully deleted", 
+                id: id 
+            } 
+        };
     } catch (error) {
-        console.error("Error in getById:", error);
-        return { error: error.message };
+        console.error("Error in removeById:", error);
+        return { 
+            error: "An error occurred while deleting the shop", 
+            status: 500 
+        };
     }
 }
 
@@ -70,23 +87,6 @@ async function update(id, shopData) {
     }
 }
 
-async function removeById(id) {
-    try {
-        const shop = await shop_model.findByPk(id);
-        if (!shop) {
-            console.log("shop not found with id:", id);
-            return { error: "shop not found" };
-        }
-        await shop_model.destroy({
-            where: { id_shop: id }
-        });
-        console.log("Deleted shop with id:", id);
-        return { data: { message: "shop successfully deleted", id } };
-    } catch (error) {
-        console.error("Error in removeById:", error);
-        return { error: error.message };
-    }
-}
 
 async function getByType(shopType) {
     try {
@@ -127,6 +127,6 @@ async function getByUserId(id) {
     }
 }
 
-export { getAll, getById, create, update, removeById, getByType, getByUserId }
+export { getAll, create, update, removeById, getByType, getByUserId }
 
-export default { getAll, getById, create, update, removeById, getByType, getByUserId }
+export default { getAll, create, update, removeById, getByType, getByUserId }

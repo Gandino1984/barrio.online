@@ -13,13 +13,14 @@ const ShopsList = ({ onBack, onAddShop, onSelectShop }) => {
   } = useContext(AppContext);
 
   const handleDeleteShop = async (shopId) => {
+    console.log("handleDeleteShop - shopId:", shopId);
     try {
-      const response = await axiosInstance.post(`/shop/${shopId}/remove`);
+      const response = await axiosInstance.post('/shop/remove', { id_shop: shopId });
       
       if (response.data.error) {
         throw new Error(response.data.error);
       }
-
+  
       setShops(prevShops => prevShops.filter(shop => shop.id_shop !== shopId));
     } catch (err) {
       setError(err.message || 'Error eliminando tienda');

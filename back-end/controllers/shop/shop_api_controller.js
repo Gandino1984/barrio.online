@@ -46,13 +46,28 @@ async function update(req, res) {
 }
 
 async function removeById(req, res) {
-    const id = req.params.id;
-    const {error, data} = await shopController.removeById(id);
-    res.json({error, data});
+    const { id_shop } = req.body;
+    const userId = req.user.id; // Assuming you have middleware to attach user info
+    if (!id_shop) {
+        return res.status(400).json({ 
+            error: 'Shop ID is required', 
+            success: false 
+        });
+    }
+    const {error, data, status} = await shopController.removeById(id_shop, userId);
+    if (error) {
+        return res.status(status || 400).json({ 
+            error, 
+            success: false 
+        });
+    }
+    res.json({ 
+        data, 
+        success: true 
+    });
 }
 
 const getByUserId = async (req, res) => {
-    console.log('!!! getByUserId function called');
     try {
         const { id_user } = req.body;
         console.log('Received user ID:', id_user);  // Added logging
@@ -79,7 +94,6 @@ const getByUserId = async (req, res) => {
         });
     }
 };
-
 export {
     getAll,
     getById,
