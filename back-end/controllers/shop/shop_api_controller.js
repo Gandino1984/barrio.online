@@ -51,20 +51,18 @@ async function removeById(req, res) {
     res.json({error, data});
 }
 
-const getByUser = async (req, res) => {
+const getByUserId = async (req, res) => {
+    console.log('!!! getByUserId function called');
     try {
         const { id_user } = req.body;
         console.log('Received user ID:', id_user);  // Added logging
-        
         if (!id_user) {
             return res.status(400).json({
                 error: 'User ID is required',
                 success: false
             });
         }
-        
-        const {error, data} = await shopController.getByUser(id_user);
-        
+        const {error, data} = await shopController.getByUserId(id_user);
         // Add handling for when an error is returned from the controller
         if (error) {
             return res.status(404).json({
@@ -72,7 +70,6 @@ const getByUser = async (req, res) => {
                 success: false
             });
         }
-        
         res.json({error, data, success: true});
     } catch (error) {
         console.error('Error fetching user shops:', error);
@@ -90,7 +87,7 @@ export {
     update,
     removeById,
     getByType,
-    getByUser
+    getByUserId
 }
 
 export default {
@@ -100,6 +97,6 @@ export default {
     update,
     removeById,
     getByType,
-    getByUser
+    getByUserId
     
 }

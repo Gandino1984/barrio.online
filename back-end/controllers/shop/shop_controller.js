@@ -1,4 +1,5 @@
 import shop_model from "../../models/shop_model.js";
+import user_model from "../../models/user_model.js";
 
 async function getAll() {
     try {
@@ -106,23 +107,19 @@ async function getByType(shopType) {
     }
 }
 
-async function getByUser(id_user) {
+async function getByUserId(id) {
     try {
-        console.log(`Attempting to find shops for user ID: ${id_user}`);
-        
+        console.log(`Attempting to find shops for user ID: ${id}`);
         const shops = await shop_model.findAll({ 
-            where: { id_user: id_user },
-            // Optionally, you can include the related user details
-            // include: [{ model: user_model, as: 'owner' }]
+            where: { id_user: id },
+            // include the related user details
+            include: [{ model: user_model, as: 'owner' }]
         }); 
-        
-        console.log(`Retrieved shops for user ${id_user}:`, shops);
-        
+        console.log(`Retrieved shops for user ${id}:`, shops);
         if (shops.length === 0) {
-            console.log(`No shops found for user ID: ${id_user}`);
+            console.log(`No shops found for user ID: ${id}`);
             return { error: "No shops found for this user" };
         }
-        
         return { data: shops };
     } catch (error) {
         console.error("Detailed error in getByUser:", error);
@@ -130,6 +127,6 @@ async function getByUser(id_user) {
     }
 }
 
-export { getAll, getById, create, update, removeById, getByType, getByUser }
+export { getAll, getById, create, update, removeById, getByType, getByUserId }
 
-export default { getAll, getById, create, update, removeById, getByType, getByUser }
+export default { getAll, getById, create, update, removeById, getByType, getByUserId }
