@@ -14,6 +14,8 @@ router.post("/by-user-id", (req, res) => {
     shopApiController.getByUserId(req, res);
   });
 
-router.post("/remove-by-id", shopApiController.removeById);
+router.post("/removeById", (req, res) => {
+    shopApiController.removeById(req, res);
+  });
 
 export default router;

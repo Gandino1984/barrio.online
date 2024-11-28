@@ -46,26 +46,36 @@ async function update(req, res) {
 }
 
 async function removeById(req, res) {
-    const { id_shop } = req.body;
-    const userId = req.user.id; // Assuming you have middleware to attach user info
-    if (!id_shop) {
+    console.log('!!!!! Received request:', req);
+    try {
+      const { id_shop } = req.body;
+    //   const userId = req.user.id; // Assuming you have middleware to attach user info
+      if (!id_shop) {
         return res.status(400).json({ 
-            error: 'Shop ID is required', 
-            success: false 
+          error: 'Shop ID is required', 
+          success: false 
         });
-    }
-    const {error, data, status} = await shopController.removeById(id_shop, userId);
-    if (error) {
+      }
+      const {error, data, status} = await shopController.removeById(id_shop);
+      if (error) {
+        console.error("Error deleting shop:", error);
         return res.status(status || 400).json({ 
-            error, 
-            success: false 
+          error, 
+          success: false 
         });
-    }
-    res.json({ 
+      }
+      res.json({ 
         data, 
         success: true 
-    });
-}
+      });
+    } catch (error) {
+      console.error("Error in removeById API route:", error);
+      return res.status(500).json({ 
+        error: "An error occurred while deleting the shop", 
+        success: false 
+      });
+    }
+  }
 
 const getByUserId = async (req, res) => {
     try {

@@ -15,7 +15,7 @@ const ShopsList = ({ onBack, onAddShop, onSelectShop }) => {
   const handleDeleteShop = async (shopId) => {
     console.log("handleDeleteShop - shopId:", shopId);
     try {
-      const response = await axiosInstance.post('/shop/remove', { id_shop: shopId });
+      const response = await axiosInstance.post('/shop/removeById', { id_shop: shopId });
       
       if (response.data.error) {
         throw new Error(response.data.error);

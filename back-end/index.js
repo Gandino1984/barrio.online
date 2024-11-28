@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import sequelize from './config/sequelize.js';
+import setupAssociations from './models/associations.js';  // Import the new associations file
 import router from './routers/main_router.js';
 
 dotenv.config();
@@ -10,31 +11,45 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:5173', // allow requests from this origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // allow these methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // allow these headers
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-//middlewares
-app.use(express.static("public"));//permite servir archivos estaticos
-app.use(express.json()); //permite leer el body de la peticion POST/PUT tipo JSON
-app.use(express.urlencoded({ extended: true })); //permite leer el body de la peticion POST/PUT tipo URL Encoded
+// Middlewares
+app.use(express.static("public"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use("/", router);
+// Database Initialization
+async function initializeDatabase() {
+  try {
+    // Setup model associations
+    setupAssociations();
 
-app.use((req, res, next) => {
-  console.log('Incoming Request:');
-  console.log('Method:', req.method);
-  console.log('Path:', req.path);
-  console.log('Headers:', req.headers);
-  console.log('Body:', req.body);
-  next();
+    // Synchronize models with database
+    await sequelize.sync({ alter: true });
+    console.log('Database models synchronized successfully');
+  } catch (error) {
+    console.error('Failed to initialize database:', error);
+    process.exit(1);
+  }
+}
+
+// Initialize database before starting the server
+initializeDatabase().then(() => {
+  app.use("/", router);
+
+  app.use((req, res, next) => {
+    console.log('Incoming Request:');
+    console.log('Method:', req.method);
+    console.log('Path:', req.path);
+    console.log('Headers:', req.headers);
+    console.log('Body:', req.body);
+    next();
+  });
+
+  app.listen(3000, () => {
+    console.log(`SERVER RUNNING ON PORT = ${process.env.APP_PORT}`)
+  });
 });
-
-
-app.listen(3000, () => {
-  console.log(`SERVER RUNNING ON PORT = ${process.env.APP_PORT}`)
-})
-
-
- 

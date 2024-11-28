@@ -12,40 +12,6 @@ async function getAll() {
     }
 }
 
-async function removeById(id, userId) {
-    try {
-        // Find the shop and verify it belongs to the user
-        const shop = await shop_model.findOne({
-            where: { 
-                id_shop: id, 
-                id_user: userId 
-            }
-        });
-        if (!shop) {
-            return { 
-                error: "Shop not found or you are not authorized to delete this shop", 
-                status: 404 
-            };
-        }
-        // Delete the shop
-        await shop_model.destroy({
-            where: { id_shop: id }
-        });
-        return { 
-            data: { 
-                message: "Shop successfully deleted", 
-                id: id 
-            } 
-        };
-    } catch (error) {
-        console.error("Error in removeById:", error);
-        return { 
-            error: "An error occurred while deleting the shop", 
-            status: 500 
-        };
-    }
-}
-
 async function create(shopData) {
     try {
         // Check if user already exists by name
@@ -113,7 +79,7 @@ async function getByUserId(id) {
         const shops = await shop_model.findAll({ 
             where: { id_user: id },
             // include the related user details
-            include: [{ model: user_model, as: 'owner' }]
+            include: [{ model: user_model, as: 'shopbelongstouser' }]
         }); 
         console.log(`Retrieved shops for user ${id}:`, shops);
         if (shops.length === 0) {
@@ -126,6 +92,24 @@ async function getByUserId(id) {
         return { error: error.message };
     }
 }
+
+async function removeById(id) {
+    try {
+      // Find the shop and verify it exists
+      const shop = await shop_model.findOne({
+        where: { id_shop: id }
+      });
+      if (!shop) {
+        return { error: "Shop not found", status: 404 };
+      }
+      // Delete the shop with cascade
+      await shop.destroy({ cascade: true });
+      return { data: { message: "Shop successfully deleted", id: id } };
+    } catch (error) {
+      console.error("Error in removeById:", error);
+      return { error: "An error occurred while deleting the shop", status: 500 };
+    }
+  }
 
 export { getAll, create, update, removeById, getByType, getByUserId }
 
