@@ -31,32 +31,34 @@ const ShopsList = ({ onBack, onAddShop, onSelectShop }) => {
   return (
     <div className="container mx-auto p-4">
       <div className="flex items-center mb-6">
-        <button 
-          onClick={onBack}
-          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-        >
-          <ArrowLeft size={24} />
-        </button>
-        <h2 className="text-2xl font-bold text-center flex-1 pr-10">
-          Mis Negocios
-        </h2>
-        <button 
-          onClick={onAddShop}
-          className="p-2 bg-green-500 text-white rounded hover:bg-green-600"
-        >
-          + Agregar
-        </button>
+          <button 
+            onClick={onBack}
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          >
+            <ArrowLeft size={24} />
+          </button>
+          <div>
+              <h2 className="text-2xl font-bold text-center flex-1 pr-10">
+                  Mis Negocios
+              </h2>
+              <button 
+                  onClick={onAddShop}
+                  className="p-2 bg-green-500 text-white rounded hover:bg-green-600"
+              >
+                + Agregar
+              </button>
+          </div>
       </div>
 
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          {error}
+            {error}
         </div>
       )}
 
       {shops.length === 0 ? (
         <div className="text-center text-gray-500 mt-10">
-          No tienes negocios registrados. ¡Agrega uno para comenzar!
+            No tienes negocios registrados. ¡Agrega uno para comenzar!
         </div>
       ) : (
         <div className="space-y-4">
@@ -67,23 +69,23 @@ const ShopsList = ({ onBack, onAddShop, onSelectShop }) => {
               onClick={() => onSelectShop(shop)}
             >
               <div>
-                <h3 className="text-lg font-semibold">{shop.name_shop}</h3>
-                <p className="text-gray-600">{shop.location_shop}</p>
-                <p className="text-sm text-gray-500">{shop.type_shop}</p>
-                <p className="text-xs text-gray-400">
-                  Calificación: {shop.calification_shop}/5
-                </p>
+                  <h3 className="text-lg font-semibold">{shop.name_shop}</h3>
+                  <p className="text-gray-600">{shop.location_shop}</p>
+                  <p className="text-sm text-gray-500">{shop.type_shop}</p>
+                  <p className="text-xs text-gray-400">
+                    Calificación: {shop.calification_shop}/5
+                  </p>
               </div>
               <div className="flex space-x-2">
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteShop(shop.id_shop);
-                  }}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  Eliminar
-                </button>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteShop(shop.id_shop);
+                    }}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    Eliminar
+                  </button>
               </div>
             </div>
           ))}
