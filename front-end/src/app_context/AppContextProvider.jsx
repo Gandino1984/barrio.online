@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import AppContext from '../app_context/AppContext.js';
 
-
-
 export const AppContextProvider = ({ children }) => {
 
   // Function to check and clear expired user data
