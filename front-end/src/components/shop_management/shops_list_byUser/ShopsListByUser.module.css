@@ -1,5 +1,9 @@
 .container{
-    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100vw;
 }
 
 .header{
@@ -15,7 +19,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
+    /* width: 100%; */
     gap: 1rem;
     margin-bottom: 1rem;
 }
@@ -24,7 +28,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
+    /* width: 100%; */
     gap: 1rem;
     margin-bottom: 1rem;
 }

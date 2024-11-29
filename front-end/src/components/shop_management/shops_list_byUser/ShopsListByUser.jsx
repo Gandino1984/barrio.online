@@ -2,16 +2,22 @@ import React, { useContext } from 'react';
 import { ArrowLeft, ShoppingCart } from 'lucide-react';
 import AppContext from '../../../app_context/AppContext.js';
 import axiosInstance from '../../../../utils/axiosConfig.js';
-import styles from './ShopsList.module.css';
+import styles from './ShopsListByUser.module.css';
 
-const ShopsList = ({ onBack, onAddShop, onSelectShop }) => {
+const ShopsListByUser = ({ onBack }) => {
   const { 
     currentUser, 
     shops, 
     setShops, 
     error, 
-    setError 
+    setError,
+    isAddingShop, setIsAddingShop,
+    selectedShop, setSelectedShop,
   } = useContext(AppContext);
+
+  const handleSelectShop = (shop) => {
+    setSelectedShop(shop);
+  };
 
   const handleDeleteShop = async (shopId) => {
     console.log("handleDeleteShop - shopId:", shopId);
@@ -43,7 +49,7 @@ const ShopsList = ({ onBack, onAddShop, onSelectShop }) => {
                       Mis Negocios
                   </h2>
                   <button 
-                      onClick={onAddShop}
+                      onClick={() => setIsAddingShop(true)}
                       className="p-2 bg-green-500 text-white rounded hover:bg-green-600"
                   >
                       + Agregar
@@ -67,7 +73,7 @@ const ShopsList = ({ onBack, onAddShop, onSelectShop }) => {
                 <div 
                   key={shop.id_shop} 
                   className={styles.shop}
-                  onClick={() => onSelectShop(shop)}
+                  onClick={() => handleSelectShop(shop)}
                 >
                   <div className={styles.shopInfo}>
                       <h3 className="text-lg font-semibold">{shop.name_shop}</h3>
@@ -96,4 +102,4 @@ const ShopsList = ({ onBack, onAddShop, onSelectShop }) => {
   );
 };
 
-export default ShopsList;
+export default ShopsListByUser;

@@ -39,10 +39,7 @@ const ShopsByType = ({ onBack }) => {
   }, [businessType]);
 
   const handleShopSelect = (shop) => {
-    // Set the selected shop in context
     setSelectedShop(shop);
-    // You might want to navigate to the shop management/order component here
-    // This could be done by setting another state or using a navigation method
   };
 
   if (loading) return <div>Cargando {businessType} shops...</div>;
@@ -64,24 +61,24 @@ const ShopsByType = ({ onBack }) => {
         {shops.length === 0 ? (
             <p>No hay {businessType} shops disponibles.</p>
         ) : (
-          <div className={styles.registersContainer}>
+          <div className={styles.list}>
               {shops.map(shop => (
                 <div 
                   key={shop.id_shop} 
-                  className={`${styles.register} flex justify-between items-center`}
+                  className={styles.shop}
                 >
-                  <div>
+                <div className={styles.shopInfo}>
                     <h3 className={styles.registerName}>{shop.name_shop}</h3>
                     <p className={styles.registerLocation}>Ubicación: {shop.location_shop}</p>
                     <p className={styles.registerCalification}>Calificación: {shop.calification_shop || 'No disponible'}/5</p>
-                  </div>
-                  <button 
-                    onClick={() => handleShopSelect(shop)}
-                    className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200 flex items-center justify-center"
-                  >
-                    <ShoppingCart size={24} />
-                  </button>
                 </div>
+                <button 
+                  onClick={() => handleShopSelect(shop)}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200 flex items-center justify-center"
+                >
+                    <ShoppingCart size={24} />
+                </button>
+              </div>
               ))}
           </div>
         )}

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import AppContext from '../../app_context/AppContext.js';
 import axiosInstance from '../../../utils/axiosConfig.js';
-import ShopsList from './shops_list_byUser/ShopsList.jsx';
+import ShopsListByUser from './shops_list_byUser/ShopsListByUser.jsx';
 import ShopCreationForm from './shop_creation_form/ShopCreationForm.jsx';
 
 const ShopManagement = ({ onBack }) => {
@@ -47,9 +47,7 @@ const ShopManagement = ({ onBack }) => {
     setIsAddingShop(false);
   };
 
-  const handleSelectShop = (shop) => {
-    setSelectedShop(shop);
-  };
+ 
 
   if (loading) return <div>Cargando...</div>;
 
@@ -64,10 +62,8 @@ const ShopManagement = ({ onBack }) => {
   } else {
     // User has shops, show ShopsList
     return (
-      <ShopsList
+      <ShopsListByUser
         onBack={onBack}   
-        onAddShop={() => setIsAddingShop(true)}
-        onSelectShop={handleSelectShop}
       />
     );
   }
