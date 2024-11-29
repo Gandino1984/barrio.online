@@ -1,12 +1,27 @@
 USE `DB_gestionPedidosOnline_2024`;
 
--- Insert users first since they're referenced by shops and orders
 INSERT INTO `user` (`name_user`, `pass_user`, `location_user`, `type_user`) VALUES
-('John Doe', SHA2('pass123', 256), 'New York', 'customer'),
-('Jane Smith', SHA2('pass456', 256), 'Los Angeles', 'seller'),
-('Admin User', SHA2('admin789', 256), 'Chicago', 'admin'),
-('Mary Johnson', SHA2('pass321', 256), 'Houston', 'seller'),
-('BobWilson', '1234', 'Miami', 'customer');
+('Admin', '0000', 'Uribarri', 'user'),
+('Admin2', '0000', 'Uribarri', 'seller'),
+('MikelLandaburu', '0000', 'Matiko', 'seller'),
+('AitorUrizar', '9012', 'Ciudad Jardin', 'provider'),
+('GaixkaArtetxe', '4567', 'Arabella', 'user'),
+('MirenAguirre', '7890', 'Uribarri', 'seller'),
+('JonSalaverria', '2345', 'Matiko', 'provider'),
+('AmaliaArregi', '6789', 'Ciudad Jardin', 'user'),
+('AsierEtxebarria', '3456', 'Arabella', 'seller'),
+('BlancaGomez', '8901', 'Uribarri', 'provider'),
+('MikelZubiaurre', '5678', 'Matiko', 'user'),
+('IdoiaElorriaga', '2109', 'Ciudad Jardin', 'seller'),
+('EnekoBeitia', '7654', 'Arabella', 'provider'),
+('MariaIbarretxe', '3210', 'Uribarri', 'user'),
+('JuleneOlazabal', '9876', 'Matiko', 'seller'),
+('XabierLaskibar', '4321', 'Ciudad Jardin', 'provider'),
+('AneInza', '6543', 'Arabella', 'user'),
+('IkerAgirre', '2198', 'Uribarri', 'seller'),
+('LarraitzUranga', '7532', 'Matiko', 'provider'),
+('MartaEtxeberria', '4567', 'Ciudad Jardin', 'user'),
+('PaulaAranguren', '8901', 'Arabella', 'seller');
 
 -- Insert products since they're referenced by orders, sales, and produce
 INSERT INTO `product` (`name_product`, `price_product`, `discount_product`, `season_product`, `calification_product`) VALUES
@@ -24,13 +39,27 @@ INSERT INTO `provider` (`name_provider`, `location_provider`, `pass_provider`) V
 ('Fashion Wholesale', 'New York', SHA2('prov321', 256)),
 ('Organic Foods Ltd', 'Vermont', SHA2('prov654', 256));
 
--- Insert shops since they're referenced by sales and buys
 INSERT INTO `shop` (`name_shop`, `location_shop`, `type_shop`, `id_user`, `calification_shop`) VALUES
-('Fresh Market', 'Boston', 'Fruteria', 2, 4),
-('Organic Paradise', 'Seattle', 'Organic', 4, 5),
-('Super Foods', 'Denver', 'Supermarket', 2, 3),
-('Green Grocers', 'Portland', 'Fruteria', 4, 4),
-('Mega Mart', 'Phoenix', 'Supermarket', 2, 4);
+('Frutas Uribarri', 'Uribarri', 'Fruteria', 2, 4),
+('Carnes del Barrio', 'Matiko', 'Carniceria', 4, 5),
+('Mar y Tierra', 'Ciudad Jardin', 'Pescaderia', 2, 3),
+('El Rincón Verde', 'Arabella', 'Fruteria', 4, 4),
+('Bistro Sabores', 'Uribarri', 'Restaurante', 3, 5),
+('Txoko Goxoa', 'Matiko', 'Bar', 4, 4),
+('Pescados Frescos', 'Ciudad Jardin', 'Pescaderia', 2, 4),
+('Cortes Selectos', 'Arabella', 'Carniceria', 4, 5),
+('Peluquería Estilo', 'Uribarri', 'Peluquería', 2, 3),
+('Ultramarinos Euskal', 'Matiko', 'General', 4, 4),
+('Frutas y Verduras Miren', 'Ciudad Jardin', 'Fruteria', 2, 5),
+('Carnicería Tradicional', 'Arabella', 'Carniceria', 4, 3),
+('Taberna Vasca', 'Uribarri', 'Bar', 2, 4),
+('Pescadería Kantauri', 'Matiko', 'Pescaderia', 4, 5),
+('Gastrobar Uribarri', 'Ciudad Jardin', 'Restaurante', 2, 4),
+('Peluquería Txikia', 'Arabella', 'Peluquería', 4, 3),
+('Frutería Lore', 'Uribarri', 'Fruteria', 2, 5),
+('Merkatu Txiki', 'Matiko', 'General', 4, 4),
+('Restaurante Sabor', 'Ciudad Jardin', 'Restaurante', 2, 4),
+('Carnes Premium', 'Arabella', 'Carniceria', 3, 5);
 
 -- Insert orders
 INSERT INTO `orders` (`id_user`, `id_product`, `delivery_date`, `finished`) VALUES

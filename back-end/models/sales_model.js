@@ -1,28 +1,30 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/sequelize.js";
+import shop_model from "./shop_model.js";
+import user_model from "./user_model.js";
 import product_model from "./product_model.js";
 
-const user_model = sequelize.define("user", {
-    id_user: {
+const sales_model = sequelize.define("sales", {
+    id_sales: {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
     },
-    name_user: {
-        type: DataTypes.STRING(100),
+    id_shop: {
+        type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },
-    pass_user: {
-        type: DataTypes.STRING(255), 
+    id_user: {
+        type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },
-    location_user: {
-        type: DataTypes.STRING(45),
+    id_product: {
+        type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },
-    type_user: {
-        type: DataTypes.STRING(45),
+    sale_date: {
+        type: DataTypes.DATE,
         allowNull: false
     }
 }, {
@@ -30,4 +32,5 @@ const user_model = sequelize.define("user", {
     freezeTableName: true
 });
 
-export default user_model;
+
+export default sales_model;

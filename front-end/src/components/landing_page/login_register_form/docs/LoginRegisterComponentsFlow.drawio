@@ -1,0 +1,85 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0" version="24.9.1">
+  <diagram name="Página-1" id="968aDRjxyoNcXSpwupiT">
+    <mxGraphModel dx="3307" dy="1237" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-1" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Landing Page&lt;/h1&gt;&lt;div&gt;COMP: LoginRegisterForm.jsx&lt;/div&gt;&lt;div&gt;DESC: User login and register initial scenario.&lt;/div&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-670" y="50" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Ap5e93-O6XBDQx3dvN8y-2" target="Ap5e93-O6XBDQx3dvN8y-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Ap5e93-O6XBDQx3dvN8y-2" target="Ap5e93-O6XBDQx3dvN8y-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-2" value="LoginRegisterForm" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-70" y="68" width="130" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-3" value="&lt;div&gt;IMPORTS&lt;/div&gt;&lt;div&gt;&lt;div style=&quot;color: #f8f8f2;background-color: #272822;font-family: &#39;Droid Sans Mono&#39;, &#39;monospace&#39;, monospace;font-weight: normal;font-size: 14px;line-height: 19px;white-space: pre;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;AppContext&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;div style=&quot;color: #f8f8f2;background-color: #272822;font-family: &#39;Droid Sans Mono&#39;, &#39;monospace&#39;, monospace;font-weight: normal;font-size: 14px;line-height: 19px;white-space: pre;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #a6e22e;&quot;&gt;LoginRegisterFunctions&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt; &lt;/div&gt;" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="170" y="85.5" width="185" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Ap5e93-O6XBDQx3dvN8y-6" target="Ap5e93-O6XBDQx3dvN8y-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Ap5e93-O6XBDQx3dvN8y-6" target="Ap5e93-O6XBDQx3dvN8y-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-6" value="&lt;div style=&quot;color: #f8f8f2;background-color: #272822;font-family: &#39;Droid Sans Mono&#39;, &#39;monospace&#39;, monospace;font-weight: normal;font-size: 14px;line-height: 19px;white-space: pre;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;showBusinessSelector&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-72.5" y="288" width="135" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-22" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Ap5e93-O6XBDQx3dvN8y-8" target="Ap5e93-O6XBDQx3dvN8y-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-8" value="&lt;div style=&quot;color: #f8f8f2;background-color: #272822;font-family: &#39;Droid Sans Mono&#39;, &#39;monospace&#39;, monospace;font-weight: normal;font-size: 14px;line-height: 19px;white-space: pre;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;return&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt; (&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;    &lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;div&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #a6e22e;&quot;&gt;className&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;={&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;styles.container&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;}&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;          &amp;lt;&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;div&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #a6e22e;&quot;&gt;className&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;={&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;styles.formContainer&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;}&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;              &amp;lt;&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;h2&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #a6e22e;&quot;&gt;className&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;={&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;styles.formTitle&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;}&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;                  &lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;{&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;isLoggingIn&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;?&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #e6db74;&quot;&gt;&#39;INICIA SESIÓN&#39;&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;:&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #e6db74;&quot;&gt;&#39;CREA TU USUARIO&#39;&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;}&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;              &amp;lt;/&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;h2&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;&amp;gt;...&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="430" y="406.75" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-10" value="false" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="100" y="298" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Ap5e93-O6XBDQx3dvN8y-11" target="Ap5e93-O6XBDQx3dvN8y-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-11" value="&lt;div style=&quot;color: #f8f8f2;background-color: #272822;font-family: &#39;Droid Sans Mono&#39;, &#39;monospace&#39;, monospace;font-weight: normal;font-size: 14px;line-height: 19px;white-space: pre;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;return&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt; (&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;      &lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&quot;color: #66d9ef;font-style: italic;&quot;&gt;UserManagement&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;        &lt;/span&gt;&lt;span style=&quot;color: #a6e22e;&quot;&gt;onSelectBusiness&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;={&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;handleBusinessSelect&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;}&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;        &lt;/span&gt;&lt;span style=&quot;color: #a6e22e;&quot;&gt;onBack&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;={&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;() &lt;/span&gt;&lt;span style=&quot;color: #66d9ef;font-style: italic;&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #a6e22e;&quot;&gt;setShowBusinessSelector&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #ae81ff;&quot;&gt;false&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;)&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;}&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;      &lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-580" y="398" width="410" height="77.5" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-13" value="true" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-250" y="298" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-16" value="&lt;div style=&quot;color: #f8f8f2;background-color: #272822;font-family: &#39;Droid Sans Mono&#39;, &#39;monospace&#39;, monospace;font-weight: normal;font-size: 14px;line-height: 19px;white-space: pre;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;handleBusinessSelect&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;i&gt;from LoginRegisterFunctions&lt;/i&gt;&lt;/font&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-435" y="538" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Ap5e93-O6XBDQx3dvN8y-21" target="Ap5e93-O6XBDQx3dvN8y-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-21" value="&lt;div style=&quot;color: #f8f8f2;background-color: #272822;font-family: &#39;Droid Sans Mono&#39;, &#39;monospace&#39;, monospace;font-weight: normal;font-size: 14px;line-height: 19px;white-space: pre;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;form&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #a6e22e;&quot;&gt;onSubmit&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;={&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;handleFormSubmit&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;}&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;i&gt;from LoginRegisterFunctions&lt;/i&gt;&lt;/font&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="430" y="546.75" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-27" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Ap5e93-O6XBDQx3dvN8y-23" target="Ap5e93-O6XBDQx3dvN8y-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-23" value="&lt;div style=&quot;color: #f8f8f2;background-color: #272822;font-family: &#39;Droid Sans Mono&#39;, &#39;monospace&#39;, monospace;font-weight: normal;font-size: 14px;line-height: 19px;white-space: pre;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #a6e22e;&quot;&gt;onChange&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;={&lt;/span&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;handleUsernameChange&lt;/span&gt;&lt;span style=&quot;color: #f92672;&quot;&gt;}&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;i&gt;from LoginRegisterFunctions&lt;/i&gt;&lt;/font&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="430" y="686.75" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-26" value="&lt;div style=&quot;color: #f8f8f2;background-color: #272822;font-family: &#39;Droid Sans Mono&#39;, &#39;monospace&#39;, monospace;font-weight: normal;font-size: 14px;line-height: 19px;white-space: pre;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #f8f8f2;&quot;&gt;handleUserTypeChange&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;&lt;i&gt;from LoginRegisterFunctions&lt;/i&gt;&lt;/font&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="430" y="826.75" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-28" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;form inputs&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="110" y="680" width="80" height="51.75" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-29" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_2;align=left;labelPosition=right;pointerEvents=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="220" y="526.75" width="140" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-32" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Ap5e93-O6XBDQx3dvN8y-30" target="Ap5e93-O6XBDQx3dvN8y-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-30" value="LoginRegisterForm" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-60" y="970" width="130" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="Ap5e93-O6XBDQx3dvN8y-31" value="" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="-55" y="1215" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

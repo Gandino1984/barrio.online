@@ -1,4 +1,5 @@
 import user_model from "../../models/user_model.js";
+import { Op } from "sequelize";
 
 // Validation utilities
 const validateUserData = (userData) => {
@@ -33,7 +34,7 @@ const validateUserData = (userData) => {
     }
     // User type validation for registration
     if (userData.type_user) {
-        const validTypes = ['client', 'seller', 'provider'];
+        const validTypes = ['user', 'seller', 'provider', 'admin'];
         if (!validTypes.includes(userData.type_user)) {
             errors.push('Tipo de usuario no valido');
         }
@@ -72,17 +73,14 @@ async function getById(id) {
         if (!id) {
             return { error: "ID de usuario requerido" };
         }
-
         const user = await user_model.findByPk(id);
         console.log("Retrieved user:", user);
-        
         if (!user) {
             return { 
                 error: "Usuario no encontrado",
                 details: `No user found with ID: ${id}` 
             };
-        }
-        
+        }   
         return { data: user };
     } catch (error) {
         console.error("Error in getById:", error);
@@ -92,6 +90,25 @@ async function getById(id) {
         };
     }
 }
+
+async function getByUserName(userName) {
+    console.log("user_controller - getByUserName - userName = ", userName);
+    
+     const user = await user_model.findOne({ 
+         where: { name_user: userName } 
+    });
+    
+    if (user) {
+        return { 
+            data: user
+        };
+    }else{
+        return { 
+            error: "El usuario no existe"
+        };
+    }
+}
+
 
 async function create(userData) {
     try {
@@ -103,23 +120,19 @@ async function create(userData) {
                 details: validation.errors 
             };
         }
-
         // Check if user already exists
         const existingUser = await user_model.findOne({ 
             where: { name_user: userData.name_user } 
         });
-        
         if (existingUser) {
             return { 
                 error: "El usuario ya existe",
                 details: "A user with this username already exists" 
             };
         }
-
         // Create new user
         const user = await user_model.create(userData);
         console.log("Created user:", user);
-        
         return { 
             data: user,
             message: "Usuario creado" 
@@ -142,7 +155,6 @@ async function login(userData) {
                 details: "Both username and password are required" 
             };
         }
-
         // Password validation
         if (userData.pass_user.length !== 4 || !/^\d+$/.test(userData.pass_user)) {
             return { 
@@ -150,19 +162,16 @@ async function login(userData) {
                 details: "Password must be exactly 4 digits" 
             };
         }
-
         // Find user
         const user = await user_model.findOne({ 
             where: { name_user: userData.name_user } 
         });
-
         if (!user) {
             return { 
                 error: "El usuario no existe",
                 details: "User not found" 
             };
         }
-
         // Verify password
         if (user.pass_user !== userData.pass_user) {
             return { 
@@ -170,7 +179,6 @@ async function login(userData) {
                 details: "Incorrect password" 
             };
         }
-
         // Return user data without sensitive information
         const userResponse = {
             id_user: user.id_user,
@@ -178,7 +186,6 @@ async function login(userData) {
             type_user: user.type_user,
             location_user: user.location_user
         };
-
         return { 
             data: userResponse,
             message: "Login successful" 
@@ -197,10 +204,11 @@ async function register(userData) {
         // Validate registration data
         const validation = validateUserData({
             ...userData,
-            type_user: userData.type_user || 'cliente' // Default to client if not specified
+            type_user: userData.type_user || 'user' // Default to user if not specified
         });
 
         if (!validation.isValid) {
+            console.error('Validation errors: ', validation.errors);
             return { 
                 error: "Validación fallida",
                 details: validation.errors 
@@ -341,7 +349,8 @@ export {
     update, 
     removeById, 
     login, 
-    register 
+    register,
+    getByUserName 
 };
 
 export default { 
@@ -351,5 +360,6 @@ export default {
     update, 
     removeById, 
     login, 
-    register 
+    register,
+    getByUserName 
 };

@@ -1,6 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/sequelize.js";
-import user_model from "./user_model.js";
+import user_model from "../models/user_model.js";
+import buys_model from "../models/buys_model.js";
+
 
 const shop_model = sequelize.define("shop", {
     id_shop: {
@@ -38,7 +40,6 @@ const shop_model = sequelize.define("shop", {
     timestamps: false,
     freezeTableName: true
 });
-
 
 
 export default shop_model;

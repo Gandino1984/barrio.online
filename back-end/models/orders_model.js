@@ -1,33 +1,35 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/sequelize.js";
+import user_model from "./user_model.js";
 import product_model from "./product_model.js";
 
-const user_model = sequelize.define("user", {
-    id_user: {
+const orders_model = sequelize.define("orders", {
+    id_order: {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
     },
-    name_user: {
-        type: DataTypes.STRING(100),
+    id_user: {
+        type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },
-    pass_user: {
-        type: DataTypes.STRING(255), 
+    id_product: {
+        type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },
-    location_user: {
-        type: DataTypes.STRING(45),
+    delivery_date: {
+        type: DataTypes.DATE,
         allowNull: false
     },
-    type_user: {
-        type: DataTypes.STRING(45),
-        allowNull: false
+    finished: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
 }, {
     timestamps: false,
     freezeTableName: true
 });
 
-export default user_model;
+export default orders_model;
