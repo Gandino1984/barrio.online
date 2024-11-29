@@ -21,6 +21,10 @@ const ShopManagement = ({ onBack }) => {
     setShowBusinessSelector(false);
   };
 
+  const handleSelectShop = (shop) => {
+    setSelectedShop(shop);
+  };
+  
   useEffect(() => {
     const fetchUserShops = async () => {
       if (!currentUser) return;
@@ -60,14 +64,23 @@ const ShopManagement = ({ onBack }) => {
       />
     );
   } else {
-    // User has shops, show ShopsList
-    return (
-      <ShopsListByUser
-        onBack={onBack}   
-      />
-    );
+    if (showShopCreationForm) {
+      return (
+        <ShopCreationForm 
+          onShopCreated={handleShopCreated}
+          onCancel={() => setShowShopCreationForm(false)} 
+        />
+      );
+    } else {
+      return (
+        <ShopsListByUser
+          onBack={onBack}   
+          onAddShop={() => setIsAddingShop(true)}
+          onSelectShop={handleSelectShop}
+        />
+      );
+    }
   }
-
 };
 
 export default ShopManagement;

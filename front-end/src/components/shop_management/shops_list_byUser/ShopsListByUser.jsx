@@ -13,6 +13,7 @@ const ShopsListByUser = ({ onBack }) => {
     setError,
     isAddingShop, setIsAddingShop,
     selectedShop, setSelectedShop,
+    showShopCreationForm, setShowShopCreationForm
   } = useContext(AppContext);
 
   const handleSelectShop = (shop) => {
@@ -35,6 +36,10 @@ const ShopsListByUser = ({ onBack }) => {
     }
   };
 
+  const handleAddShop = () => {
+    setShowShopCreationForm(true);
+  };
+
   return (
     <div className={styles.container}>
           <div className="flex items-center mb-6">
@@ -49,7 +54,7 @@ const ShopsListByUser = ({ onBack }) => {
                       Mis Negocios
                   </h2>
                   <button 
-                      onClick={() => setIsAddingShop(true)}
+                      onClick={handleAddShop}
                       className="p-2 bg-green-500 text-white rounded hover:bg-green-600"
                   >
                       + Agregar
