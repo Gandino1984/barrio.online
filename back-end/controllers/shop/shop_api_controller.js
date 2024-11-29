@@ -12,23 +12,22 @@ async function getById(req, res) {
 }
 
 async function getByType(req, res) {
-    console.log('Full Request Object:', req);
+    console.log('!!! shop_api_controller - getByType - req = ', req);
     console.log('Request Headers:', req.headers);
     console.log('Request Body:', req.body);
     console.log('Request Query:', req.query);
     // Add explicit destructuring and logging
     const { type_shop } = req.body;
-    console.log('Destructured type_shop:', type_shop);
+    console.log('!!! Destructured type_shop:', type_shop);
     if (!type_shop) {
         return res.status(400).json({ 
-            error: 'type_shop parameter is missing', 
+            error: 'El parámetro type_shop es obligatorio', 
             requestBody: req.body 
         });
     }
     const {error, data} = await shopController.getByType(type_shop);
-    console.log('Shop Type Response - Error:', error);
-    console.log('Shop Type Response - Data:', data);
-    
+    console.log('!!! Shop Type Response - Error:', error);
+    console.log('!!! Shop Type Response - Data:', data);
     res.json({error, data});
 }
 

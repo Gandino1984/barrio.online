@@ -6,7 +6,8 @@ const router = Router();
 
 router.get("/", shopApiController.getAll);
 
-router.post("/type", shopApiController.getByType);
+router.post("/type", (req, res) => {
+  shopApiController.getByType(req, res)});
 
 router.post("/create", shopApiController.create);
 

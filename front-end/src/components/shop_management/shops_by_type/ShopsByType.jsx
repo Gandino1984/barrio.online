@@ -10,7 +10,7 @@ const ShopsByType = ({ onBack }) => {
     shops, setShops,
     loading, setLoading,
     error, setError,
-    setSelectedShop // Assuming you'll add this to your context
+    setSelectedShop 
   } = useContext(AppContext);
 
   useEffect(() => {
