@@ -41,10 +41,9 @@ const ShopsByType = ({ onBack }) => {
   const handleShopSelect = (shop) => {
     setSelectedShop(shop);
   };
-
   if (loading) return <div>Cargando {businessType} shops...</div>;
   if (error) return <div>{error}</div>;
-  
+
   return (
     <div className={styles.container}>
         <div className={styles.header}>
@@ -66,19 +65,15 @@ const ShopsByType = ({ onBack }) => {
                 <div 
                   key={shop.id_shop} 
                   className={styles.shop}
-                >
-                <div className={styles.shopInfo}>
-                    <h3 className={styles.registerName}>{shop.name_shop}</h3>
-                    <p className={styles.registerLocation}>Ubicación: {shop.location_shop}</p>
-                    <p className={styles.registerCalification}>Calificación: {shop.calification_shop || 'No disponible'}/5</p>
-                </div>
-                <button 
                   onClick={() => handleShopSelect(shop)}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200 flex items-center justify-center"
                 >
-                    <ShoppingCart size={24} />
-                </button>
-              </div>
+                    <div className={styles.shopInfo}>
+                        <h3 className={styles.registerName}>{shop.name_shop}</h3>
+                        <p className={styles.registerLocation}>Ubicación: {shop.location_shop}</p>
+                        <p className={styles.registerCalification}>Calificación: {shop.calification_shop || 'No disponible'}/5</p>
+                    </div>
+                
+                </div>
               ))}
           </div>
         )}

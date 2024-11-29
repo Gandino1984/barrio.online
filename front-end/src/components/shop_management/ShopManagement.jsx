@@ -24,7 +24,7 @@ const ShopManagement = ({ onBack }) => {
   const handleSelectShop = (shop) => {
     setSelectedShop(shop);
   };
-  
+
   useEffect(() => {
     const fetchUserShops = async () => {
       if (!currentUser) return;
@@ -51,10 +51,7 @@ const ShopManagement = ({ onBack }) => {
     setIsAddingShop(false);
   };
 
- 
-
   if (loading) return <div>Cargando...</div>;
-
   if (shops.length === 0) {
     // User has no shops, show ShopCreationForm
     return (
