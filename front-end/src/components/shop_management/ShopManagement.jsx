@@ -7,28 +7,28 @@ import ShopCreationForm from './shop_creation_form/ShopCreationForm.jsx';
 const ShopManagement = ({ onBack }) => {
   const { 
     currentUser, 
-    shops, 
-    setShops, 
-    loading, 
-    setLoading, 
-    error, 
-    setError,
-    selectedShop, 
-    setSelectedShop
+    shops, setShops, 
+    loading, setLoading, 
+    error, setError,
+    selectedShop, setSelectedShop,
+    showShopCreationForm, setShowShopCreationForm,
+    ShowBusinessSelector, setShowBusinessSelector,
+    isAddingShop, setIsAddingShop
   } = useContext(AppContext);
 
-  const [isAddingShop, setIsAddingShop] = useState(false);
+
+  const handleCancel = () => {
+    setShowBusinessSelector(false);
+  };
 
   useEffect(() => {
     const fetchUserShops = async () => {
       if (!currentUser) return;
-
       try {
         setLoading(true);
         const response = await axiosInstance.post('/shop/by-user-id', {
           id_user: currentUser.id
         });
-
         const userShops = response.data.data?.filter(shop => 
           shop.id_user === currentUser.id
         ) || [];
@@ -40,7 +40,6 @@ const ShopManagement = ({ onBack }) => {
         setLoading(false);
       }
     };
-
     fetchUserShops();
   }, [currentUser]);
 
@@ -50,22 +49,36 @@ const ShopManagement = ({ onBack }) => {
 
   const handleSelectShop = (shop) => {
     setSelectedShop(shop);
-    // Additional navigation or management logic can be added here
   };
 
   if (loading) return <div>Cargando...</div>;
 
-  return isAddingShop ? (
-    <ShopCreationForm 
-      onShopCreated={handleShopCreated}
-      onCancel={() => setIsAddingShop(false)} 
-    />
-  ) : (
-    <ShopsList
-      onBack={onBack}
-      onAddShop={() => setIsAddingShop(true)}
-      onSelectShop={handleSelectShop}
-    />
+  return (
+    <>
+      {loading ? (
+        <div>Cargando...</div>
+      ) : (
+        isAddingShop ? (
+          <ShopCreationForm 
+            onShopCreated={handleShopCreated}
+            onCancel={handleCancel} 
+          />
+        ) : (
+          shops.length === 0 ? (
+            <ShopCreationForm 
+                onShopCreated={handleShopCreated}
+                onCancel={handleCancel}       
+            />
+          ) : (
+            <ShopsList
+                onBack={onBack}   
+                onAddShop={() => setIsAddingShop(true)}
+                onSelectShop={handleSelectShop}
+            />
+          )
+        )
+      )}
+    </>
   );
 };
 

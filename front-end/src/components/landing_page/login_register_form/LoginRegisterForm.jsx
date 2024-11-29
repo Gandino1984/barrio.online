@@ -28,7 +28,7 @@ const LoginRegisterForm = () => {
     if (userType === 'seller') {
         return (
           <ShopManagement
-            // Your props here
+          onBack={() => setShowBusinessSelector(false)}
           />
         );
     } else {

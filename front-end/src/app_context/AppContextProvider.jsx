@@ -43,9 +43,11 @@ export const AppContextProvider = ({ children }) => {
     };
     console.log('User data for local storage:', userDataToStore);
     // Update localStorage
-    localStorage.setItem('currentUser', JSON.stringify(userDataToStore)); //is this needed?
+    localStorage.setItem('currentUser', JSON.stringify(userDataToStore)); 
     // Update context state
     setCurrentUser(userData);
+    // Reset shops state
+    setShops([]);
   };
 
   // Custom logout function
@@ -82,6 +84,7 @@ export const AppContextProvider = ({ children }) => {
   const [selectedShop, setSelectedShop] = useState(null);
   const [isAddingShop, setIsAddingShop] = useState(false);
   const [selectedBusinessType, setSelectedBusinessType] = useState(null);
+  const [showShopCreationForm, setShowShopCreationForm] = useState(false);
 
   
 
@@ -117,7 +120,8 @@ export const AppContextProvider = ({ children }) => {
     error, setError,
     selectedShop, setSelectedShop,
     isAddingShop, setIsAddingShop,
-    selectedBusinessType, setSelectedBusinessType
+    selectedBusinessType, setSelectedBusinessType,
+    showShopCreationForm, setShowShopCreationForm
   };
 
   return (
