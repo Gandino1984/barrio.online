@@ -7,7 +7,6 @@ import user_model from "../../models/user_model.js";
  * @async
  * @returns {Object} An object containing the retrieved shops or an error message.
  */
-
 async function getAll() {
     try {
         const shops = await shop_model.findAll();
@@ -150,7 +149,7 @@ async function removeById(id) {
       if (!shop) {
         return { error: "Shop not found", status: 404 };
       }
-      // Delete the shop with cascade
+      // Delete the shop with cascade (do I need this with cascade??????)
       await shop.destroy({ cascade: true });
       return { data: { message: "Shop successfully deleted", id: id } };
     } catch (error) {
