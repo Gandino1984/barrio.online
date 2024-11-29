@@ -1,0 +1,30 @@
+.container{
+    width: 100%;
+}
+
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.shop{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.shopInfo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
