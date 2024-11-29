@@ -53,33 +53,25 @@ const ShopManagement = ({ onBack }) => {
 
   if (loading) return <div>Cargando...</div>;
 
-  return (
-    <>
-      {loading ? (
-        <div>Cargando...</div>
-      ) : (
-        isAddingShop ? (
-          <ShopCreationForm 
-            onShopCreated={handleShopCreated}
-            onCancel={handleCancel} 
-          />
-        ) : (
-          shops.length === 0 ? (
-            <ShopCreationForm 
-                onShopCreated={handleShopCreated}
-                onCancel={handleCancel}       
-            />
-          ) : (
-            <ShopsList
-                onBack={onBack}   
-                onAddShop={() => setIsAddingShop(true)}
-                onSelectShop={handleSelectShop}
-            />
-          )
-        )
-      )}
-    </>
-  );
+  if (shops.length === 0) {
+    // User has no shops, show ShopCreationForm
+    return (
+      <ShopCreationForm 
+        onShopCreated={handleShopCreated}
+        onCancel={handleCancel} 
+      />
+    );
+  } else {
+    // User has shops, show ShopsList
+    return (
+      <ShopsList
+        onBack={onBack}   
+        onAddShop={() => setIsAddingShop(true)}
+        onSelectShop={handleSelectShop}
+      />
+    );
+  }
+
 };
 
 export default ShopManagement;
