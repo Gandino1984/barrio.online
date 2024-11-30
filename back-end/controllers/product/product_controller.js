@@ -28,6 +28,8 @@ async function getById(id) {
     }
 }
 
+
+
 async function create(productData) {
     try {
         const product = await product_model.create(productData);
@@ -47,14 +49,12 @@ async function update(id, productData) {
             console.log("product not found with id:", id);
             return { error: "product not found" };
         }
-
         // Only update fields that were provided
         if (name_product) product.name_product = name_product;
         if (price_product) product.price_product = price_product;
         if (discount_product) product.discount_product = discount_product;
         if (season_product) product.season_product = season_product;
         if (calification_product) product.calification_product = season_product;
-        
         await product.save();
         console.log("Updated product:", product);
         return { data: product };
@@ -71,11 +71,9 @@ async function removeById(id) {
             console.log("product not found with id:", id);
             return { error: "product not found" };
         }
-
         await product_model.destroy({
             where: { id_product: id }
         });
-        
         console.log("Deleted product with id:", id);
         return { data: { message: "product successfully deleted", id } };
     } catch (error) {
@@ -84,6 +82,19 @@ async function removeById(id) {
     }
 }
 
-export { getAll, getById, create, update, removeById }
+async function getByShopId(idShop) {
+    try {
+        const products = await product_model.findAll({
+            where: { id_shop: idShop }
+        });
+        console.log("Retrieved products for shop:", idShop, products);
+        return { data: products };
+    } catch (error) {
+        console.error("Error in getByShopId:", error);
+        return { error: error.message };
+    }
+}
 
-export default { getAll, getById, create, update, removeById }
+export { getAll, getById, create, update, removeById, getByShopId }
+
+export default { getAll, getById, create, update, removeById, getByShopId }

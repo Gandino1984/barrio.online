@@ -12,18 +12,12 @@ async function getById(req, res) {
 }
 
 async function create(req, res) {
-    //post method
-    // const {id_product, name_product, price_product, discount_product, season_product } = req.body;
-    //get method
     const {name_product, price_product, discount_product, season_product } = req.query;
     const {error, data} = await productController.create({name_product, pass_product, location_product});
     res.json({error, data});
 }
 
 async function update(req, res) {
-     //post method
-    // const {id_product, name_product, price_product, discount_product, season_product } = req.body;
-    //get method
     const id = req.params.id;
     const {id_product, name_product, price_product, discount_product, season_product } = req.query;
     const {error, data} = await productController.update(id, {id_product, name_product, price_product, discount_product, season_product});
@@ -36,14 +30,19 @@ async function removeById(req, res) {
     res.json({error, data});
 }
 
-
+async function getByShopId(req, res) {
+    const { id_shop } = req.body;
+    const {error, data} = await productController.getByShopId(id_shop);
+    res.json({error, data});
+}
 
 export {
     getAll,
     getById,
     create,
     update,
-    removeById
+    removeById,
+    getByShopId
 }
 
 export default {
@@ -51,5 +50,6 @@ export default {
     getById,
     create,
     update,
-    removeById
+    removeById,
+    getByShopId
 }

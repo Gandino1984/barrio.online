@@ -38,7 +38,11 @@ const product_model = sequelize.define("product", {
             min: 0,
             max: 5
         }
-    }
+    },
+    id_shop: { 
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: false,
+    },
 }, {
     timestamps: false,
     freezeTableName: true
