@@ -1,21 +1,31 @@
 import React, { useEffect, useContext } from 'react';
-import { ArrowLeft, ShoppingCart } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import axiosInstance from '../../../../utils/axiosConfig.js';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopsByType.module.css';
+import ProductsList from '../../product_management/ProductsList.jsx'; 
 
 const ShopsByType = ({ onBack }) => {
+  console.log('!!! ShopsByType component rendered');
+
   const { 
     businessType, 
     shops, setShops,
     loading, setLoading,
     error, setError,
-    setSelectedShop 
+    selectedShop, setSelectedShop,
+    products, setProducts  
   } = useContext(AppContext);
 
+  console.log("!!! selectedShop value on ShopsByType render= ", selectedShop);
+
+
   useEffect(() => {
+    setSelectedShop(null);
     const fetchShops = async () => {
+      console.log('Fetching shops for business type:', businessType);
       try {
+        setLoading(true);
         const response = await axiosInstance.post('/shop/type', {
           type_shop: businessType
         }, {
@@ -31,6 +41,7 @@ const ShopsByType = ({ onBack }) => {
       } catch (err) {
         console.error('FULL ERROR:', err);
         setError(err.message || `Error al cargar ${businessType} shops`);
+      }finally {
         setLoading(false);
       }
     };
@@ -60,7 +71,8 @@ const ShopsByType = ({ onBack }) => {
         {shops.length === 0 ? (
             <p>No hay {businessType} shops disponibles.</p>
         ) : (
-          <div className={styles.list}>
+          <div>
+            <div className={styles.list}>
               {shops.map(shop => (
                 <div 
                   key={shop.id_shop} 
@@ -75,6 +87,8 @@ const ShopsByType = ({ onBack }) => {
                 
                 </div>
               ))}
+            </div>
+            {selectedShop && <ProductsList />} 
           </div>
         )}
     </div>
