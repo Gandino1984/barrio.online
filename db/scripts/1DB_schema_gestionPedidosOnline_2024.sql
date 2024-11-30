@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`product` (
   `discount_product` INT NULL DEFAULT 0,
   `season_product` ENUM('Spring', 'Summer', 'Fall', 'Winter', 'All Year') NOT NULL,
   `calification_product` INT NOT NULL DEFAULT 0,
+  `id_shop` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_product`),
   UNIQUE INDEX `id_product_UNIQUE` (`id_product` ASC) VISIBLE,
   CONSTRAINT `chk_product_calification` CHECK (`calification_product` BETWEEN 0 AND 5),

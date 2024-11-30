@@ -24,12 +24,12 @@ INSERT INTO `user` (`name_user`, `pass_user`, `location_user`, `type_user`) VALU
 ('PaulaAranguren', '8901', 'Arabella', 'seller');
 
 -- Insert products since they're referenced by orders, sales, and produce
-INSERT INTO `product` (`name_product`, `price_product`, `discount_product`, `season_product`, `calification_product`) VALUES
-('Organic Apples', 2.99, 0, 'Fall', 4),
-('Fresh Bread', 3.50, 10, 'All Year', 5),
-('Summer Shorts', 29.99, 20, 'Summer', 3),
-('Winter Jacket', 89.99, 0, 'Winter', 5),
-('Spring Seeds', 4.99, 15, 'Spring', 4);
+INSERT INTO `product` (`name_product`, `price_product`, `discount_product`, `season_product`, `calification_product`, `id_shop`) VALUES
+('Organic Apples', 2.99, 0, 'Fall', 4, 1),
+('Fresh Bread', 3.50, 10, 'All Year', 5, 2),
+('Summer Shorts', 29.99, 20, 'Summer', 3, 3),
+('Winter Jacket', 89.99, 0, 'Winter', 5, 3),
+('Spring Seeds', 4.99, 15, 'Spring', 4, 1);
 
 -- Insert providers since they're referenced by buys and produce
 INSERT INTO `provider` (`name_provider`, `location_provider`, `pass_provider`) VALUES

@@ -1,21 +1,31 @@
 import React, { useEffect, useContext } from 'react';
-import { ArrowLeft, ShoppingCart } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import axiosInstance from '../../../../utils/axiosConfig.js';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopsByType.module.css';
+import ProductsList from '../../product_management/ProductsList.jsx'; 
 
 const ShopsByType = ({ onBack }) => {
+  console.log('!!! ShopsByType component rendered');
+
   const { 
     businessType, 
     shops, setShops,
     loading, setLoading,
     error, setError,
-    setSelectedShop 
+    selectedShop, setSelectedShop,
+    products, setProducts  
   } = useContext(AppContext);
 
+  console.log("!!! selectedShop value on ShopsByType render= ", selectedShop);
+
+
   useEffect(() => {
+    setSelectedShop(null);
     const fetchShops = async () => {
+      console.log('Fetching shops for business type:', businessType);
       try {
+        setLoading(true);
         const response = await axiosInstance.post('/shop/type', {
           type_shop: businessType
         }, {
@@ -31,6 +41,7 @@ const ShopsByType = ({ onBack }) => {
       } catch (err) {
         console.error('FULL ERROR:', err);
         setError(err.message || `Error al cargar ${businessType} shops`);
+      }finally {
         setLoading(false);
       }
     };
@@ -39,15 +50,11 @@ const ShopsByType = ({ onBack }) => {
   }, [businessType]);
 
   const handleShopSelect = (shop) => {
-    // Set the selected shop in context
     setSelectedShop(shop);
-    // You might want to navigate to the shop management/order component here
-    // This could be done by setting another state or using a navigation method
   };
-
   if (loading) return <div>Cargando {businessType} shops...</div>;
   if (error) return <div>{error}</div>;
-  
+
   return (
     <div className={styles.container}>
         <div className={styles.header}>
@@ -64,25 +71,24 @@ const ShopsByType = ({ onBack }) => {
         {shops.length === 0 ? (
             <p>No hay {businessType} shops disponibles.</p>
         ) : (
-          <div className={styles.registersContainer}>
+          <div>
+            <div className={styles.list}>
               {shops.map(shop => (
                 <div 
                   key={shop.id_shop} 
-                  className={`${styles.register} flex justify-between items-center`}
+                  className={styles.shop}
+                  onClick={() => handleShopSelect(shop)}
                 >
-                  <div>
-                    <h3 className={styles.registerName}>{shop.name_shop}</h3>
-                    <p className={styles.registerLocation}>Ubicación: {shop.location_shop}</p>
-                    <p className={styles.registerCalification}>Calificación: {shop.calification_shop || 'No disponible'}/5</p>
-                  </div>
-                  <button 
-                    onClick={() => handleShopSelect(shop)}
-                    className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200 flex items-center justify-center"
-                  >
-                    <ShoppingCart size={24} />
-                  </button>
+                    <div className={styles.shopInfo}>
+                        <h3 className={styles.registerName}>{shop.name_shop}</h3>
+                        <p className={styles.registerLocation}>Ubicación: {shop.location_shop}</p>
+                        <p className={styles.registerCalification}>Calificación: {shop.calification_shop || 'No disponible'}/5</p>
+                    </div>
+                
                 </div>
               ))}
+            </div>
+            {selectedShop && <ProductsList />} 
           </div>
         )}
     </div>

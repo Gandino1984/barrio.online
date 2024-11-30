@@ -85,43 +85,34 @@ export const AppContextProvider = ({ children }) => {
   const [isAddingShop, setIsAddingShop] = useState(false);
   const [selectedBusinessType, setSelectedBusinessType] = useState(null);
   const [showShopCreationForm, setShowShopCreationForm] = useState(false);
-
+  const [products, setProducts] = useState([]);
   
-
   const value = {
-    isLoggingIn,
-    setIsLoggingIn,
-    username,
-    setUsername,
-    password,
-    setPassword,
-    passwordRepeat,
-    setPasswordRepeat,
+    isLoggingIn, setIsLoggingIn,
+    username, setUsername,
+    password, setPassword,
+    passwordRepeat, setPasswordRepeat,
     MAX_PASSWORD_LENGTH,
-    databaseResponse,
-    setDatabaseResponse,
-    userType,
-    setUserType,
-    businessType, 
-    setBusinessType,
+    databaseResponse, setDatabaseResponse,
+    userType, setUserType,
+    businessType, setBusinessType,
     showBusinessSelector, setShowBusinessSelector,
     showPasswordRepeat, setShowPasswordRepeat,
     showPasswordLabel, setShowPasswordLabel,
     keyboardKey, setKeyboardKey,
     onPasswordComplete, setOnPasswordComplete,
-    onClear, 
-    setOnClear,
+    onClear, setOnClear,
     displayedPassword, setDisplayedPassword,
     currentUser,
-    login,
-    logout,
+    login, logout,
     shops, setShops,
     loading, setLoading,
     error, setError,
     selectedShop, setSelectedShop,
     isAddingShop, setIsAddingShop,
     selectedBusinessType, setSelectedBusinessType,
-    showShopCreationForm, setShowShopCreationForm
+    showShopCreationForm, setShowShopCreationForm,
+    products, setProducts,
   };
 
   return (

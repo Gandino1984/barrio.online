@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import AppContext from '../../app_context/AppContext.js';
 import axiosInstance from '../../../utils/axiosConfig.js';
-import ShopsList from './shops_list_byUser/ShopsList.jsx';
+import ShopsListByUser from './shops_list_byUser/ShopsListByUser.jsx';
 import ShopCreationForm from './shop_creation_form/ShopCreationForm.jsx';
 
 const ShopManagement = ({ onBack }) => {
@@ -19,6 +19,10 @@ const ShopManagement = ({ onBack }) => {
 
   const handleCancel = () => {
     setShowBusinessSelector(false);
+  };
+
+  const handleSelectShop = (shop) => {
+    setSelectedShop(shop);
   };
 
   useEffect(() => {
@@ -47,12 +51,7 @@ const ShopManagement = ({ onBack }) => {
     setIsAddingShop(false);
   };
 
-  const handleSelectShop = (shop) => {
-    setSelectedShop(shop);
-  };
-
   if (loading) return <div>Cargando...</div>;
-
   if (shops.length === 0) {
     // User has no shops, show ShopCreationForm
     return (
@@ -62,16 +61,23 @@ const ShopManagement = ({ onBack }) => {
       />
     );
   } else {
-    // User has shops, show ShopsList
-    return (
-      <ShopsList
-        onBack={onBack}   
-        onAddShop={() => setIsAddingShop(true)}
-        onSelectShop={handleSelectShop}
-      />
-    );
+    if (showShopCreationForm) {
+      return (
+        <ShopCreationForm 
+          onShopCreated={handleShopCreated}
+          onCancel={() => setShowShopCreationForm(false)} 
+        />
+      );
+    } else {
+      return (
+        <ShopsListByUser
+          onBack={onBack}   
+          onAddShop={() => setIsAddingShop(true)}
+          onSelectShop={handleSelectShop}
+        />
+      );
+    }
   }
-
 };
 
 export default ShopManagement;
