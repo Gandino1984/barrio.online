@@ -33,6 +33,15 @@ const ProductsList = () => {
 
   return (
     <div className={styles.container}>
+      {selectedShop && (
+        <div className={styles.shopInfo}>
+          <h2 className="text-2xl font-bold text-center flex-1 pr-10">
+            {selectedShop.name_shop}
+          </h2>
+          <p>Ubicación: {selectedShop.location_shop}</p>
+          <p>Calificación: {selectedShop.calification_shop || 'No disponible'}/5</p>
+        </div>
+      )}
       <h2 className="text-2xl font-bold text-center flex-1 pr-10">
         Productos de la tienda
       </h2>

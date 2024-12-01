@@ -57,21 +57,22 @@ const ShopsByType = ({ onBack }) => {
 
   return (
     <div className={styles.container}>
-        <div className={styles.header}>
-            <button 
-              onClick={onBack}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
-            >
-                <ArrowLeft size={16} />
-            </button>
-            <h2 className="text-2xl font-bold text-center flex-1 pr-10">
-                {businessType} Shops
-            </h2>
-        </div>
-        {shops.length === 0 ? (
+      <div className={styles.header}>
+        <button 
+          onClick={onBack}
+          className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+        >
+          <ArrowLeft size={16} />
+        </button>
+   
+      </div>
+      {selectedShop ? (
+        <ProductsList />
+      ) : (
+        <div>
+          {shops.length === 0 ? (
             <p>No hay {businessType} shops disponibles.</p>
-        ) : (
-          <div>
+          ) : (
             <div className={styles.list}>
               {shops.map(shop => (
                 <div 
@@ -79,18 +80,17 @@ const ShopsByType = ({ onBack }) => {
                   className={styles.shop}
                   onClick={() => handleShopSelect(shop)}
                 >
-                    <div className={styles.shopInfo}>
-                        <h3 className={styles.registerName}>{shop.name_shop}</h3>
-                        <p className={styles.registerLocation}>Ubicación: {shop.location_shop}</p>
-                        <p className={styles.registerCalification}>Calificación: {shop.calification_shop || 'No disponible'}/5</p>
-                    </div>
-                
+                  <div className={styles.shopInfo}>
+                    <h3 className={styles.registerName}>{shop.name_shop}</h3>
+                    <p className={styles.registerLocation}>Ubicación: {shop.location_shop}</p>
+                    <p className={styles.registerCalification}>Calificación: {shop.calification_shop || 'No disponible'}/5</p>
+                  </div>
                 </div>
               ))}
             </div>
-            {selectedShop && <ProductsList />} 
-          </div>
-        )}
+          )}
+        </div>
+      )}
     </div>
   );
 };
