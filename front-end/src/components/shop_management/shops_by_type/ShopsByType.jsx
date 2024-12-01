@@ -6,19 +6,13 @@ import styles from './ShopsByType.module.css';
 import ProductsList from '../../product_management/ProductsList.jsx'; 
 
 const ShopsByType = ({ onBack }) => {
-  console.log('!!! ShopsByType component rendered');
-
   const { 
     businessType, 
     shops, setShops,
     loading, setLoading,
     error, setError,
     selectedShop, setSelectedShop,
-    products, setProducts  
   } = useContext(AppContext);
-
-  console.log("!!! selectedShop value on ShopsByType render= ", selectedShop);
-
 
   useEffect(() => {
     setSelectedShop(null);

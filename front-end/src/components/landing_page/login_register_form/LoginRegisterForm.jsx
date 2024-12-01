@@ -1,3 +1,12 @@
+/**
+ * LoginRegisterForm component
+ * 
+ * This component handles the login and registration form for the application.
+ * It uses the AppContext to access and update the application state.
+ * 
+ * @returns {JSX.Element} The JSX element representing the login/registration form.
+ */
+
 import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import { LoginRegisterFunctions } from './hooks/LoginRegisterFunctions.jsx';
@@ -24,6 +33,7 @@ const LoginRegisterForm = () => {
     ipError
   } = LoginRegisterFunctions();
 
+  // If the business selector is shown, render the ShopManagement or UserManagement component
   if (showBusinessSelector) {
     if (userType === 'seller') {
         return (
@@ -40,25 +50,13 @@ const LoginRegisterForm = () => {
         );
     }
 }
-
+  // Render the login/registration form
   return (
     <div className={styles.container}>
           <div className={styles.formContainer}>
               <h2 className={styles.formTitle}>
                   {isLoggingIn ? 'INICIA SESIÓN' : 'CREA TU USUARIO'}
               </h2>
-              {/* Display IP error if present */}
-              {/* {ipError && (
-                  <div className={styles.errorMessage}>
-                    {ipError}
-                  </div>
-              )} */}
-              {/* Display username error if present */}
-              {/* {usernameError && (
-                  <div className={styles.errorMessage}>
-                    {usernameError}
-                  </div>
-              )} */}
               <form onSubmit={handleFormSubmit} className={styles.formContent}>
                   <div className={styles.formField}>
                       <label htmlFor="username">1. Escribe tu nombre de usuario</label>
@@ -72,40 +70,41 @@ const LoginRegisterForm = () => {
                       />
                   </div>
                   {!isLoggingIn && (
+                      // Render the user type radio buttons for registration
                       <div className={`${styles.formField} ${styles.radioGroup}`}>
                           <div className={styles.radioOptions}>
                               <div className={styles.radioOption}>
-                                <input
-                                  type="radio"
-                                  id="user"
-                                  name="userType"
-                                  value="user"
-                                  checked={userType === 'user'}
-                                  onChange={handleUserTypeChange}
-                                />
-                                <label htmlFor="user">Usuario</label>
+                                  <input
+                                    type="radio"
+                                    id="user"
+                                    name="userType"
+                                    value="user"
+                                    checked={userType === 'user'}
+                                    onChange={handleUserTypeChange}
+                                  />
+                                  <label htmlFor="user">Usuario</label>
                               </div>
                               <div className={styles.radioOption}>
-                                <input
-                                  type="radio"
-                                  id="seller"
-                                  name="userType"
-                                  value="seller"
-                                  checked={userType === 'seller'}
-                                  onChange={handleUserTypeChange}
-                                />
-                                <label htmlFor="seller">Vendedor</label>
+                                  <input
+                                    type="radio"
+                                    id="seller"
+                                    name="userType"
+                                    value="seller"
+                                    checked={userType === 'seller'}
+                                    onChange={handleUserTypeChange}
+                                  />
+                                  <label htmlFor="seller">Vendedor</label>
                               </div>
                               <div className={styles.radioOption}>
-                                <input
-                                  type="radio"
-                                  id="provider"
-                                  name="userType"
-                                  value="provider"
-                                  checked={userType === 'provider'}
-                                  onChange={handleUserTypeChange}
-                                />
-                                <label htmlFor="provider">Proveedor</label>
+                                  <input
+                                    type="radio"
+                                    id="provider"
+                                    name="userType"
+                                    value="provider"
+                                    checked={userType === 'provider'}
+                                    onChange={handleUserTypeChange}
+                                  />
+                                  <label htmlFor="provider">Proveedor</label>
                               </div>
                           </div>
                       </div>
@@ -122,6 +121,7 @@ const LoginRegisterForm = () => {
                       />
                   </div>
                   <div className={styles.formActions}>
+                      {/* Render the submit button */}
                       <button
                         type="submit"
                         className={`${styles.submitButton} ${isButtonDisabled() ? styles.inactive : styles.active}`}
