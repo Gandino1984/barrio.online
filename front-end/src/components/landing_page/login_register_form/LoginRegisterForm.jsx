@@ -17,7 +17,8 @@ import ShopManagement from "../../shop_management/ShopManagement.jsx";
 
 const LoginRegisterForm = () => {
   const {
-    username, isLoggingIn, userType,
+    username,setUsername, 
+    isLoggingIn, userType,
     showBusinessSelector,setShowBusinessSelector,
     password, passwordRepeat, showPasswordRepeat,
     keyboardKey
@@ -66,6 +67,9 @@ const LoginRegisterForm = () => {
                         value={username}
                         onChange={handleUsernameChange}
                         className={usernameError ? styles.inputError : ''}
+                        onKeyUp={(e) => {setUsername(e.target.value)
+                                      console.log('Username input:', e.target.value);
+                        }}
                         required
                       />
                   </div>

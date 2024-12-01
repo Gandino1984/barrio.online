@@ -38,10 +38,10 @@ export const LoginRegisterFunctions = () => {
      */
     const handleUsernameChange = (e) => {
         const rawValue = e.target.value;
-        const cleanedValue = cleanupUsername(rawValue);
-        setUsername(cleanedValue);
+        console.log('Username input:', rawValue);
+        setUsername(rawValue);
         setUsernameError('');
-    };
+      };
 
     /**
      * Handles completion of password entry
