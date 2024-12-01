@@ -20,11 +20,15 @@ export const useUsernameValidation = () => {
     return errors;
 };
 
-  const cleanupUsername = (username) => {
-    if (!username) return '';
-    // Only allow letters, numbers, and underscores
-    let cleanedUsername = username.replace(/[^a-zA-Z0-9_]/g, '');
-    return cleanedUsername;
+const cleanupUsername = (username) => {
+  if (!username) return '';
+  // Only allow letters, numbers, underscores, and spaces
+  let cleanedUsername = username.replace(/[^a-zA-Z0-9_ ]/g, '');
+  // Trim spaces from start and end
+  cleanedUsername = cleanedUsername.trim();
+  // Replace multiple spaces with a single space
+  cleanedUsername = cleanedUsername.replace(/\s+/g, ' ');
+  return cleanedUsername;
 };
 
   const validateUsername = (username) => {

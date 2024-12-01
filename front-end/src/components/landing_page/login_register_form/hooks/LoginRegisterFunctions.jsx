@@ -9,33 +9,24 @@ import axiosInstance from '../../../../../utils/axiosConfig.js';
  * @returns {Object} Object containing methods and state for login/register operations
  */
 export const LoginRegisterFunctions = () => {
-    // Context and state management
     const {
-        isLoggingIn,
-        setIsLoggingIn,
-        username,
-        setUsername,
-        password,
-        setPassword,
-        passwordRepeat,
-        showPasswordRepeat,
+        isLoggingIn, setIsLoggingIn,
+        username, setUsername,
+        password, setPassword,
+        passwordRepeat, showPasswordRepeat,
         setPasswordRepeat,
-        loginRegisterUserTypeCheck,
         setShowPasswordRepeat,
         setShowPasswordLabel,
         setKeyboardKey,
         setShowBusinessSelector,
         setDisplayedPassword,
-        userType,
-        setUserType,
+        userType, setUserType,
         currentUser, 
-        login,
-        logout,
-        isAddingShop, setIsAddingShop,
-        shops, setShops
+        login, logout,
+        setIsAddingShop,
+        setShops,
+        usernameError, setUsernameError,
     } = useContext(AppContext);
-
-    const [usernameError, setUsernameError] = useState('');
 
     // Custom hooks for validation
     const { validateUsername, cleanupUsername } = useUsernameValidation();
@@ -47,10 +38,10 @@ export const LoginRegisterFunctions = () => {
      */
     const handleUsernameChange = (e) => {
         const rawValue = e.target.value;
-        const cleanedValue = cleanupUsername(rawValue);
-        setUsername(cleanedValue);
+        console.log('Username input:', rawValue);
+        setUsername(rawValue);
         setUsernameError('');
-    };
+      };
 
     /**
      * Handles completion of password entry
@@ -171,7 +162,6 @@ export const LoginRegisterFunctions = () => {
             id: userData.id_user
         };
         login(normalizedUserData);
-        
         // Special handling for seller type
         if (userData.type_user === 'seller') {
             try {
