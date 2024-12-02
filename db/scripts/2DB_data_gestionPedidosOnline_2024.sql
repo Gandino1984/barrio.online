@@ -24,12 +24,13 @@ INSERT INTO `user` (`name_user`, `pass_user`, `location_user`, `type_user`) VALU
 ('PaulaAranguren', '8901', 'Arabella', 'seller');
 
 -- Insert products since they're referenced by orders, sales, and produce
-INSERT INTO `product` (`name_product`, `price_product`, `discount_product`, `season_product`, `calification_product`, `id_shop`) VALUES
-('Organic Apples', 2.99, 0, 'Fall', 4, 1),
-('Fresh Bread', 3.50, 10, 'All Year', 5, 2),
-('Summer Shorts', 29.99, 20, 'Summer', 3, 3),
-('Winter Jacket', 89.99, 0, 'Winter', 5, 3),
-('Spring Seeds', 4.99, 15, 'Spring', 4, 1);
+-- Insert products since they're referenced by orders, sales, and produce
+INSERT INTO `product` (`name_product`, `price_product`, `discount_product`, `season_product`, `calification_product`, `id_shop`, `type_product`, `stock_product`, `info_product`) VALUES
+('Organic Apples', 2.99, 0, 'Fall', 4, 1, 'Apple', 100, 'Organic apples are fresh and delicious'),
+('Fresh Bread', 3.50, 10, 'All Year', 5, 2, 'Bread', 50, 'Freshly baked bread is perfect for breakfast'),
+('Summer Shorts', 29.99, 20, 'Summer', 3, 3, 'Shorts', 100, 'Lightweight and comfortable summer shorts'),
+('Winter Jacket', 89.99, 0, 'Winter', 5, 3, 'Jacket', 50, 'Warm and stylish winter jacket'),
+('Spring Seeds', 4.99, 15, 'Spring', 4, 1, 'Seeds', 100, 'Healthy and nutritious spring seeds');
 
 -- Insert providers since they're referenced by buys and produce
 INSERT INTO `provider` (`name_provider`, `location_provider`, `pass_provider`) VALUES

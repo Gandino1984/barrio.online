@@ -27,7 +27,7 @@ const product_model = sequelize.define("product", {
         }
     },
     season_product: {
-        type: DataTypes.ENUM('Spring', 'Summer', 'Fall', 'Winter', 'All Year'), // Changed to ENUM
+        type: DataTypes.STRING,
         allowNull: false
     },
     calification_product: { 
@@ -39,6 +39,19 @@ const product_model = sequelize.define("product", {
             max: 5
         }
     },
+    type_product: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    stock_product: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+    },
+    info_product: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    },
     id_shop: { 
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
@@ -47,6 +60,5 @@ const product_model = sequelize.define("product", {
     timestamps: false,
     freezeTableName: true
 });
-
 
 export default product_model;
