@@ -63,6 +63,25 @@ export const AppContextProvider = ({ children }) => {
     checkAndClearUserData();
   }, []);
 
+  const [filterOptions, setFilterOptions] = useState({
+    temporada: {
+      label: 'Temporada',
+      options: ['Primavera', 'Verano', 'Otoño', 'Invierno', 'Todo el año'],
+    },
+    tipo: {
+      label: 'Tipo',
+      options: [],
+    },
+    oferta: {
+      label: 'Oferta',
+      options: ['Sí'], 
+    },
+    calificacion: {
+      label: 'Calificación',
+      options: ['1', '2', '3', '4', '5'], 
+    },
+  });
+
   const [databaseResponse, setDatabaseResponse] = useState(true);
   const [isLoggingIn, setIsLoggingIn] = useState(true);
   const [username, setUsername] = useState('');
@@ -89,6 +108,14 @@ export const AppContextProvider = ({ children }) => {
 
   const [usernameError, setUsernameError] = useState('');
   const [ipError, setIpError] = useState('');
+  const [filters, setFilters] = useState({
+    temporada: null,
+    tipo: null,
+    oferta: null,
+    calificacion: null,
+  });
+
+  const [filteredProducts, setFilteredProducts] = useState([]);
   
   const value = {
     isLoggingIn, setIsLoggingIn,
@@ -118,6 +145,9 @@ export const AppContextProvider = ({ children }) => {
     usernameError, setUsernameError,
     ipError, setIpError,
     error, setError,
+    filterOptions, setFilterOptions,
+    filters, setFilters,
+    filteredProducts, setFilteredProducts
   };
 
   return (

@@ -24,7 +24,6 @@ INSERT INTO `user` (`name_user`, `pass_user`, `location_user`, `type_user`) VALU
 ('PaulaAranguren', '8901', 'Arabella', 'seller');
 
 -- Insert products since they're referenced by orders, sales, and produce
--- Insert products since they're referenced by orders, sales, and produce
 INSERT INTO `product` (`name_product`, `price_product`, `discount_product`, `season_product`, `calification_product`, `id_shop`, `type_product`, `stock_product`, `info_product`) VALUES
 ('Organic Apples', 2.99, 0, 'Fall', 4, 1, 'Apple', 100, 'Organic apples are fresh and delicious'),
 ('Fresh Bread', 3.50, 10, 'All Year', 5, 2, 'Bread', 50, 'Freshly baked bread is perfect for breakfast'),

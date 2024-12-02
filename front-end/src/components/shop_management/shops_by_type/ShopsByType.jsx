@@ -15,6 +15,7 @@ const ShopsByType = ({ onBack }) => {
   } = useContext(AppContext);
 
   useEffect(() => {
+    console.log('Business type:', businessType);
     setSelectedShop(null);
     const fetchShops = async () => {
       console.log('Fetching shops for business type:', businessType);
