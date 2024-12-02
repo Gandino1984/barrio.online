@@ -1,8 +1,8 @@
 USE `DB_gestionPedidosOnline_2024`;
 
 INSERT INTO `user` (`name_user`, `pass_user`, `location_user`, `type_user`) VALUES
-('Admin', '0000', 'Uribarri', 'user'),
-('Admin2', '0000', 'Uribarri', 'seller'),
+('german andino', '0000', 'Uribarri', 'user'),
+('german andino 2', '0000', 'Uribarri', 'seller'),
 ('MikelLandaburu', '0000', 'Matiko', 'seller'),
 ('AitorUrizar', '9012', 'Ciudad Jardin', 'provider'),
 ('GaixkaArtetxe', '4567', 'Arabella', 'user'),

@@ -86,6 +86,9 @@ export const AppContextProvider = ({ children }) => {
   const [selectedBusinessType, setSelectedBusinessType] = useState(null);
   const [showShopCreationForm, setShowShopCreationForm] = useState(false);
   const [products, setProducts] = useState([]);
+
+  const [usernameError, setUsernameError] = useState('');
+  const [ipError, setIpError] = useState('');
   
   const value = {
     isLoggingIn, setIsLoggingIn,
@@ -107,12 +110,14 @@ export const AppContextProvider = ({ children }) => {
     login, logout,
     shops, setShops,
     loading, setLoading,
-    error, setError,
     selectedShop, setSelectedShop,
     isAddingShop, setIsAddingShop,
     selectedBusinessType, setSelectedBusinessType,
     showShopCreationForm, setShowShopCreationForm,
     products, setProducts,
+    usernameError, setUsernameError,
+    ipError, setIpError,
+    error, setError,
   };
 
   return (

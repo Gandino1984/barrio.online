@@ -1,5 +1,7 @@
 import { useState} from 'react';
 import axiosInstance from '../../../../../utils/axiosConfig.js';
+import { useContext } from 'react';
+import AppContext from '../../../../app_context/AppContext.js';
 
 /**
  * Custom hook to handle IP validation for registration.
@@ -7,8 +9,9 @@ import axiosInstance from '../../../../../utils/axiosConfig.js';
  * @returns {object} An object containing the IP error state and a function to validate IP registration.
  */
 export const useIPValidation = () => {
-  // Initialize state to store IP error message
-  const [ipError, setIpError] = useState('');
+  const {
+    ipError, setIpError
+  } = useContext(AppContext);
 
   /**
    * Validate IP registration by checking if the client's IP has exceeded the registration limit.
@@ -35,7 +38,7 @@ export const useIPValidation = () => {
       return true;
     } catch (error) {
       // If an error occurs during the validation process, set a generic error message
-      setIpError('Error al verificar límites de registro.');
+      setIpError('Error en el proceso de validación de registro.');
       return false;
     }
   };
