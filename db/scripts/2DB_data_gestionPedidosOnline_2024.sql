@@ -31,6 +31,8 @@ INSERT INTO `product` (`name_product`, `price_product`, `discount_product`, `sea
 ('Winter Jacket', 89.99, 0, 'Winter', 5, 3, 'Jacket', 50, 'Warm and stylish winter jacket'),
 ('Spring Seeds', 4.99, 15, 'Spring', 4, 1, 'Seeds', 100, 'Healthy and nutritious spring seeds');
 
+
+
 -- Insert providers since they're referenced by buys and produce
 INSERT INTO `provider` (`name_provider`, `location_provider`, `pass_provider`) VALUES
 ('Fresh Farms Inc', 'California', SHA2('prov123', 256)),
