@@ -49,8 +49,10 @@ const ProductsList = () => {
         {products.map((product) => (
           <div key={product.id_product} className={styles.product}>
             <h3 className={styles.productName}>{product.name_product}</h3>
-            <p className={styles.productDescription}>{product.description}</p>
+            <p className={styles.productDescription}>{product.info_product}</p>
             <p className={styles.productPrice}>Precio: {product.price_product}</p>
+            <p className={styles.productType}>Tipo: {product.type_product}</p>
+            <p className={styles.productStock}>Stock: {product.stock_product}</p>
           </div>
         ))}
       </div>
