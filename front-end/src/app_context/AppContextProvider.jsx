@@ -116,6 +116,8 @@ export const AppContextProvider = ({ children }) => {
   });
 
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [shopTypes, setShopTypes] = useState([]);
+
   
   const value = {
     isLoggingIn, setIsLoggingIn,
@@ -147,7 +149,8 @@ export const AppContextProvider = ({ children }) => {
     error, setError,
     filterOptions, setFilterOptions,
     filters, setFilters,
-    filteredProducts, setFilteredProducts
+    filteredProducts, setFilteredProducts,
+    shopTypes, setShopTypes
   };
 
   return (

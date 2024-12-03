@@ -5,6 +5,8 @@ import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopsByType.module.css';
 import ProductsList from '../../product_management/ProductsList.jsx'; 
 
+
+
 const ShopsByType = ({ onBack }) => {
   const { 
     businessType, 
