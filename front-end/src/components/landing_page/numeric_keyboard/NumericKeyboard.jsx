@@ -26,10 +26,7 @@ const NumericKeyboard = ({
 
   const maskedValue = showMaskedPassword ? '*'.repeat(value.length) : value;
 
-  const showRetryIcon = !isLoggingIn && 
-    showPasswordRepeat && 
-    passwordRepeat.length === MAX_PASSWORD_LENGTH && 
-    password !== passwordRepeat;
+  const showRetryIcon = (!isLoggingIn && showPasswordRepeat) && (passwordRepeat.length === MAX_PASSWORD_LENGTH) && (password !== passwordRepeat);
 
   const {
     handleKeyClick,
@@ -43,12 +40,12 @@ const NumericKeyboard = ({
 
   return (
       <div className={styles.container}>
-          <div className={styles.numericKeyboardInput}>
-              <div className={`${styles.passwordDisplay} ${error ? 'text-red-500' : ''}`}>
-                  {displayedPassword}
-              </div>
-              <div className={styles.keyboard}>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
+          <div className={`${styles.passwordDisplay} ${error ? 'text-red-500' : ''}`}>
+              {displayedPassword}
+          </div>
+          <div className={styles.keyboard}>
+              <div className={styles.row}>
+                  {[1, 2, 3].map(num => (
                       <button 
                         key={num} 
                         className={styles.key} 
@@ -57,6 +54,37 @@ const NumericKeyboard = ({
                           {num}
                       </button>
                   ))}
+              </div>
+              <div className={styles.row}>
+                  {[4, 5, 6].map(num => (
+                      <button 
+                        key={num} 
+                        className={styles.key} 
+                        onClick={(e) => handleKeyClick(num.toString(), e)}
+                      >
+                          {num}
+                      </button>
+                  ))}
+              </div>
+              <div className={styles.row}>
+                  {[7, 8, 9].map(num => (
+                      <button 
+                        key={num} 
+                        className={styles.key} 
+                        onClick={(e) => handleKeyClick(num.toString(), e)}
+                      >
+                          {num}
+                      </button>
+                  ))}
+              </div>
+              <div className={styles.row}>
+                  {/* <button 
+                    className={styles.key} 
+                    onClick={(e) => handleKeyClick('00', e)}
+                  >
+                      00
+                  </button>
+               */}
                   <div className={styles.row}>
                       <button className={styles.key} onClick={handleBackspace}>
                           <Delete size={16} />

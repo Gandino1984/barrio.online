@@ -3,6 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 .numericKeyboardInput{
     /* border: 2px solid red; */
@@ -22,5 +23,13 @@
 
 .key{
     user-select: none;
-    margin: .1rem;
+    margin: .2rem;
+    background-color: rgb(234, 234, 234);
+}
+
+.row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
