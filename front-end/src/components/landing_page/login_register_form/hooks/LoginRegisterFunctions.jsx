@@ -421,24 +421,28 @@ export const LoginRegisterFunctions = () => {
         setUsernameError('');
     };
 
-    /**
-     * Determines if the submit button should be disabled
-     * @returns {boolean} True if the button should be disabled
-     */
-    const isButtonDisabled = () => {
-        const { isValid } = validateUsername(username);
-        
-        if (!isValid) return true;
-    
-        if (isLoggingIn) {
-            return password.length !== 4;
-        } else {
-            return password.length !== 4 || 
-                   passwordRepeat.length !== 4 || 
-                   password !== passwordRepeat || 
-                   !userType;
-        }
-    };
+/**
+ * Determines whether the submit button should be disabled based on form input validity.
+ * 
+ * @returns {boolean} True if the button should be disabled, false otherwise.
+ */
+const isButtonDisabled = () => {
+    // Check if the username is valid
+    const { isValid } = validateUsername(username);
+    // If the username is not valid, disable the button
+    if (!isValid) return true;
+    // Check password fields based on whether we're logging in or registering
+    if (isLoggingIn) {
+      // For login, only require a 4-digit password
+      return password.length !== 4;
+    } else {
+      // For registration, require a 4-digit password, matching password repeat, and a selected user type
+      return password.length !== 4 || 
+             passwordRepeat.length !== 4 || 
+             password !== passwordRepeat || 
+             !userType;
+    }
+  };
 
     return {
         handlePasswordComplete,

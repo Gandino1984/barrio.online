@@ -122,7 +122,6 @@ const LoginRegisterForm = () => {
                       />
                   </div>
                   <div className={styles.formActions}>
-                      {/* Render the submit button */}
                       <button
                         type="submit"
                         className={`${styles.submitButton} ${isButtonDisabled() ? styles.inactive : styles.active}`}

@@ -78,34 +78,25 @@ const NumericKeyboard = ({
                   ))}
               </div>
               <div className={styles.row}>
-                  {/* <button 
-                    className={styles.key} 
-                    onClick={(e) => handleKeyClick('00', e)}
-                  >
-                      00
+                  <button className={styles.key} onClick={handleBackspace}>
+                      <Delete size={16} />
                   </button>
-               */}
-                  <div className={styles.row}>
-                      <button className={styles.key} onClick={handleBackspace}>
-                          <Delete size={16} />
-                      </button>
-                      <button 
-                        className={`${styles.key} ${styles.zero}`} 
-                        onClick={(e) => handleKeyClick('0', e)}
-                      >
-                          0
-                      </button>
-                      <button 
-                        className={`${styles.key} ${styles.clear}`} 
-                        onClick={handleClearPassword}
-                      >
-                          {showRetryIcon ? (
-                            <RotateCcw size={16} />
-                          ) : (
-                            <Trash2 size={16} />
-                          )}
-                      </button>
-                  </div>
+                  <button 
+                    className={`${styles.key} ${styles.zero}`} 
+                    onClick={(e) => handleKeyClick('0', e)}
+                  >
+                      0
+                  </button>
+                  <button 
+                    className={`${styles.key} ${styles.clear}`} 
+                    onClick={handleClearPassword}
+                  >
+                      {showRetryIcon ? (
+                        <RotateCcw size={16} />
+                      ) : (
+                        <Trash2 size={16} />
+                      )}
+                  </button>
               </div>
           </div>
     </div>
