@@ -150,10 +150,8 @@ export const LoginRegisterFunctions = () => {
         if (!userData || !userData.id_user || !userData.name_user || !userData.type_user) {
             throw new Error('Datos de usuario incompletos o inválidos');
         }
-
          // Ensure user type is set in context
         setUserType(userData.type_user);
-        
         // Normalize user data structure using the server-provided user type
         const normalizedUserData = {
             username: userData.name_user,
@@ -209,14 +207,12 @@ export const LoginRegisterFunctions = () => {
         if (!userData || !userData.id_user) {
             throw new Error('Error en el registro: datos de usuario incompletos');
         }
-        
         const normalizedUserData = {
             username: userData.name_user,
             password: password,
             userType: userType,
             id: userData.id_user
         };
-
         login(normalizedUserData);
         setShowBusinessSelector(true); //??
     };
@@ -237,11 +233,9 @@ export const LoginRegisterFunctions = () => {
             if (!passwordRepeat || passwordRepeat.length !== 4) {
                 return { isValid: false, error: 'La confirmación de contraseña debe tener 4 dígitos' };
             }
-
             if (password !== passwordRepeat) {
                 return { isValid: false, error: 'Las contraseñas no coinciden' };
             }
-
             if (!userType) {
                 return { isValid: false, error: 'Debe seleccionar un tipo de usuario' };
             }
@@ -260,7 +254,6 @@ export const LoginRegisterFunctions = () => {
         const userDetailsResponse = await axiosInstance.post('/user/details', {
             name_user: cleanedUsername
         });
-
         // Enhanced type extraction and validation
         const type = userDetailsResponse.data.data.type_user;
 
@@ -278,9 +271,7 @@ export const LoginRegisterFunctions = () => {
             pass_user: password,
             type_user: type  // Optional: pass user type to login endpoint
         });
-
         await handleLoginResponse(loginResponse);
-
         // Check if user type is 'seller' and show ShopManagement component
         if (type === 'seller') {
             setShowBusinessSelector(true);
@@ -421,28 +412,28 @@ export const LoginRegisterFunctions = () => {
         setUsernameError('');
     };
 
-/**
- * Determines whether the submit button should be disabled based on form input validity.
- * 
- * @returns {boolean} True if the button should be disabled, false otherwise.
- */
-const isButtonDisabled = () => {
-    // Check if the username is valid
-    const { isValid } = validateUsername(username);
-    // If the username is not valid, disable the button
-    if (!isValid) return true;
-    // Check password fields based on whether we're logging in or registering
-    if (isLoggingIn) {
-      // For login, only require a 4-digit password
-      return password.length !== 4;
-    } else {
-      // For registration, require a 4-digit password, matching password repeat, and a selected user type
-      return password.length !== 4 || 
-             passwordRepeat.length !== 4 || 
-             password !== passwordRepeat || 
-             !userType;
-    }
-  };
+    /**
+     * Determines whether the submit button should be disabled based on form input validity.
+     * 
+     * @returns {boolean} True if the button should be disabled, false otherwise.
+     */
+    const isButtonDisabled = () => {
+        // Check if the username is valid
+        const { isValid } = validateUsername(username);
+        // If the username is not valid, disable the button
+        if (!isValid) return true;
+        // Check password fields based on whether we're logging in or registering
+        if (isLoggingIn) {
+        // For login, only require a 4-digit password
+        return password.length !== 4;
+        } else {
+        // For registration, require a 4-digit password, matching password repeat, and a selected user type
+        return password.length !== 4 || 
+                passwordRepeat.length !== 4 || 
+                password !== passwordRepeat || 
+                !userType;
+        }
+    };
 
     return {
         handlePasswordComplete,
