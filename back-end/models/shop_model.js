@@ -1,7 +1,5 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/sequelize.js";
-import user_model from "../models/user_model.js";
-import buys_model from "../models/buys_model.js";
 
 
 const shop_model = sequelize.define("shop", {
@@ -21,7 +19,13 @@ const shop_model = sequelize.define("shop", {
     },
     type_shop: {
         type: DataTypes.STRING(45),
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isIn: {
+                args: [['general', 'fruteria', 'panaderia', 'pescaderia', 'carniceria', 'peluqueria', 'bar', 'restaurante', 'ferreteria', 'drogueria', 'farmacia', 'parafarmacia', 'inmobiliaria', 'especial' ]], 
+                msg: 'Tipo de tienda inválido'
+            }
+        }
     },
     id_user: { 
         type: DataTypes.INTEGER.UNSIGNED,

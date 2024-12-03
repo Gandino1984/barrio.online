@@ -5,7 +5,10 @@ const IpRegistry = sequelize.define('ip_registry', {
     ip_address: {
         type: DataTypes.STRING,
         primaryKey: true,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isIP: true
+        }
     },
     registration_count: {
         type: DataTypes.INTEGER,

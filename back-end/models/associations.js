@@ -10,103 +10,73 @@ import produce_model from './produce_model.js';
 function setupAssociations() {
     // User Model Associations
     user_model.hasMany(shop_model, {
-        foreignKey: 'id_user',
-        as: 'userhasmanyshops',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+        as: 'userhasmanyshops'
     });
 
     user_model.hasMany(sales_model, {
-        foreignKey: 'id_user',
-        as: 'userhasmanysales',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+        as: 'userhasmanysales'
     });
 
     user_model.belongsToMany(product_model, { 
         through: orders_model, 
-        foreignKey: 'id_user',
         as: 'productsBoughtByThisUser' 
     });
 
     // Shop Model Associations
     shop_model.belongsTo(user_model, {
-        foreignKey: 'id_user',
-        as: 'shopbelongstouser',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+        as: 'shopbelongstouser'
     });
 
     shop_model.hasMany(sales_model, {
-        foreignKey: 'id_shop',
-        as: 'shophasmanysales',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+        as: 'shophasmanysales'
     });
 
     shop_model.hasMany(buys_model, {
-        foreignKey: 'id_shop',
-        as: 'shophasmanybuys',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+        as: 'shophasmanybuys'
     });
 
     // Product Model Associations
     product_model.belongsToMany(user_model, { 
         through: orders_model, 
-        foreignKey: 'id_product',
         as: 'usersThatBoughtThisProduct' 
     });
 
     product_model.hasMany(sales_model, {
-        foreignKey: 'id_product',
-        as: 'producthasmanysales',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+        as: 'producthasmanysales'
     });
 
     // Sales Model Associations
     sales_model.belongsTo(shop_model, { 
-        foreignKey: 'id_shop', 
         as: 'salesbelongstoshop' 
     });
 
     sales_model.belongsTo(user_model, { 
-        foreignKey: 'id_user', 
         as: 'salesbelongstouser' 
     });
 
     sales_model.belongsTo(product_model, { 
-        foreignKey: 'id_product', 
         as: 'salesbelongstoproduct' 
     });
 
     // Provider and Produce Associations
     provider_model.hasMany(produce_model, {
-        foreignKey: 'id_provider',
-        as: 'providerhasmanyproducts',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+        as: 'providerhasmanyproducts'
     });
 
     produce_model.belongsTo(provider_model, {
-        foreignKey: 'id_provider',
         as: 'producebelongstoprovider'
     });
 
     produce_model.belongsTo(product_model, {
-        foreignKey: 'id_product',
         as: 'producebelongstoproduct'
     });
 
     // Buys Model Associations
     buys_model.belongsTo(shop_model, { 
-        foreignKey: 'id_shop', 
         as: 'buysbelongstoshop' 
     });
 
     buys_model.belongsTo(provider_model, { 
-        foreignKey: 'id_provider', 
         as: 'buysbelongstoprovider' 
       });
 }
