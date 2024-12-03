@@ -38,7 +38,7 @@ export const LoginRegisterFunctions = () => {
      */
     const handleUsernameChange = (e) => {
         const rawValue = e.target.value;
-        console.log('Username input:', rawValue);
+        console.log('!!! LOGIN: Username rawValue= ', rawValue);
         setUsername(rawValue);
         setUsernameError('');
       };

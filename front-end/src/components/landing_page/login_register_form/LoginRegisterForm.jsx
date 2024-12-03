@@ -67,9 +67,6 @@ const LoginRegisterForm = () => {
                         value={username}
                         onChange={handleUsernameChange}
                         className={usernameError ? styles.inputError : ''}
-                        onKeyUp={(e) => {setUsername(e.target.value)
-                                      console.log('Username input:', e.target.value);
-                        }}
                         required
                       />
                   </div>
