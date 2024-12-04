@@ -3,15 +3,13 @@ import AppContext from '../../../app_context/AppContext.js';
 
 /**
  * UserManagementFunctions component.
- * 
  * Provides functions for managing user-related business type selections.
- * 
+
  * @return {Object} An object containing two functions: handleClick and handleBusinessTypeSelect.
  */
 export const UserManagementFunctions = () => {
   /**
    * Destructure setSelectedBusinessType and setBusinessType from AppContext.
-   * 
    * These functions are used to update the business type in the application context.
    */
   const {
@@ -42,15 +40,7 @@ export const UserManagementFunctions = () => {
 
 
   return {
-    /**
-     * handleClick function.
-     * Sets the business type in the application context.
-     */
     handleClick,
-    /**
-     * handleBusinessTypeSelect function.
-     * Sets the business type in the application context and triggers rendering of specific shops.
-     */
     handleBusinessTypeSelect
   };
 };
