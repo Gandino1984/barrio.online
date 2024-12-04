@@ -18,10 +18,12 @@ import ShopManagement from "../../shop_management/ShopManagement.jsx";
 const LoginRegisterForm = () => {
   const {
     username,setUsername, 
-    isLoggingIn, userType,
+    isLoggingIn, 
+    userType, setUserType,
     showBusinessSelector,setShowBusinessSelector,
     password, passwordRepeat, showPasswordRepeat,
-    keyboardKey
+    keyboardKey, 
+    usernameError,passwordError,
   } = useContext(AppContext);
 
   const {
@@ -30,7 +32,7 @@ const LoginRegisterForm = () => {
     handleRepeatPasswordChange, isButtonDisabled,
     toggleForm, handleBusinessSelect,
     handleFormSubmit, handleUserTypeChange,
-    handleUsernameChange, usernameError,
+    handleUsernameChange, 
     ipError
   } = LoginRegisterFunctions();
 
@@ -50,7 +52,7 @@ const LoginRegisterForm = () => {
           />
         );
     }
-}
+  }
   // Render the login/registration form
   return (
     <div className={styles.container}>
@@ -62,51 +64,29 @@ const LoginRegisterForm = () => {
                   <div className={styles.formField}>
                       <label htmlFor="username">1. Escribe tu nombre de usuario</label>
                       <input
-                        id="username"
-                        type="text"
-                        value={username}
-                        onChange={handleUsernameChange}
-                        className={usernameError ? styles.inputError : ''}
-                        required
+                          id="username"
+                          type="text"
+                          value={username}
+                          onChange={handleUsernameChange}
+                          className={usernameError ? styles.inputError : ''}
+                          required
                       />
+                    {usernameError && <div style={{ color: 'red' }}>{usernameError}</div>}
+                    {/* {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>} */}
                   </div>
-                  {!isLoggingIn && (
+                    {!isLoggingIn && (
                       // Render the user type radio buttons for registration
                       <div className={`${styles.formField} ${styles.radioGroup}`}>
                           <div className={styles.radioOptions}>
-                              <div className={styles.radioOption}>
-                                  <input
-                                    type="radio"
-                                    id="user"
-                                    name="userType"
-                                    value="user"
-                                    checked={userType === 'user'}
-                                    onChange={handleUserTypeChange}
-                                  />
-                                  <label htmlFor="user">Usuario</label>
-                              </div>
-                              <div className={styles.radioOption}>
-                                  <input
-                                    type="radio"
-                                    id="seller"
-                                    name="userType"
-                                    value="seller"
-                                    checked={userType === 'seller'}
-                                    onChange={handleUserTypeChange}
-                                  />
-                                  <label htmlFor="seller">Vendedor</label>
-                              </div>
-                              <div className={styles.radioOption}>
-                                  <input
-                                    type="radio"
-                                    id="provider"
-                                    name="userType"
-                                    value="provider"
-                                    checked={userType === 'provider'}
-                                    onChange={handleUserTypeChange}
-                                  />
-                                  <label htmlFor="provider">Proveedor</label>
-                              </div>
+                          <select value={userType} 
+                          onChange={handleUserTypeChange}
+                          required
+                          >
+                              <option value="">Tipo de usuario</option>
+                              <option value="user">Cliente</option>
+                              <option value="seller">Vendedor</option>
+                              <option value="provider">Productor</option>
+                          </select>
                           </div>
                       </div>
                   )}

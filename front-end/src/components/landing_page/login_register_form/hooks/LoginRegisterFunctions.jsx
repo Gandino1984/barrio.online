@@ -26,6 +26,7 @@ export const LoginRegisterFunctions = () => {
         setIsAddingShop,
         setShops,
         usernameError, setUsernameError,
+        passwordError, setPasswordError
     } = useContext(AppContext);
 
     // Custom hooks for validation
@@ -249,41 +250,45 @@ export const LoginRegisterFunctions = () => {
      * @param {string} password - User password
      */
     const handleLogin = async (cleanedUsername, password) => {
-    try {
-        // Fetch user details first
-        const userDetailsResponse = await axiosInstance.post('/user/details', {
+        try {
+          // Fetch user details first
+          const userDetailsResponse = await axiosInstance.post('/user/details', {
             name_user: cleanedUsername
-        });
-        // Enhanced type extraction and validation
-        const type = userDetailsResponse.data.data.type_user;
-
-        console.log('User type retrieved from DB = ', type);
-
-        if (!type) {
+          });
+          // Enhanced type extraction and validation
+          const type = userDetailsResponse.data.data.type_user;
+          console.log('User type retrieved from DB = ', type);
+          if (!userDetailsResponse.data.data) {
+            setUsernameError('Sorry, we couldn\'t find a user with that username');
+            return;
+          }
+          if (!type) {
+            setUsernameError('Sorry, we couldn\'t find a user with that username');
             console.error('User type not found for username:', cleanedUsername);
-            throw new Error('No se pudo obtener el tipo de usuario');
-        }
-        // Explicitly set user type in context before login
-        setUserType(type);
-        // Proceed with login using the obtained user type
-        const loginResponse = await axiosInstance.post('/user/login', {
+            return;
+          }
+          // Explicitly set user type in context before login
+          setUserType(type);
+          // Proceed with login using the obtained user type
+          const loginResponse = await axiosInstance.post('/user/login', {
             name_user: cleanedUsername,
             pass_user: password,
-            type_user: type  // Optional: pass user type to login endpoint
-        });
-        await handleLoginResponse(loginResponse);
-        // Check if user type is 'seller' and show ShopManagement component
-        if (type === 'seller') {
+            type_user: type
+          });
+          await handleLoginResponse(loginResponse);
+          // Check if user type is 'seller' and show ShopManagement component
+          if (type === 'seller') {
             setShowBusinessSelector(true);
+          }
+        } catch (error) {
+          const errorMessage = error.response?.data?.error || error.message;
+          if (errorMessage.includes('username')) {
+            setUsernameError('Sorry, we couldn\'t find a user with that username');
+          } else {
+            setUsernameError('Nombre de usuario o contraseña incorrectos');
+          }
         }
-    } catch (error) {
-        console.error('Login error details:', {
-            message: error.message,
-            response: error.response?.data
-        });
-        throw error;
-    }
-};
+      };
   
     /**
      * Handles registration API request
@@ -324,68 +329,61 @@ export const LoginRegisterFunctions = () => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log('Form submitted', { 
-                username, 
-                isLoggingIn, 
-                password, 
-                userType 
+          // IP validation for registration only
+          if (!isLoggingIn) {
+            const canRegister = await validateIPRegistration();
+            if (!canRegister) {
+              console.log('IP validation failed');
+              return;
+            }
+          }
+      
+          // Username validation
+          const { isValid, cleanedUsername, errors } = validateUsername(username);
+          if (!isValid) {
+            setError(errors[0]);
+            return;
+          }
+      
+          // Form validation
+          if (isButtonDisabled()) {
+            return;
+          }
+      
+          // Check for existing session
+          if (!isLoggingIn && currentUser?.id) {
+            console.log('Existing user session');
+            setUsernameError('Ya existe un usuario registrado con ese nombre.');
+            return;
+          }
+      
+          // Handle login or registration
+          if (isLoggingIn) {
+            console.log('Attempting login', { 
+              username, 
+              userType  // Log the current user type
             });
-            // IP validation for registration only
-            if (!isLoggingIn) {
-                const canRegister = await validateIPRegistration();
-                if (!canRegister) {
-                    console.log('IP validation failed');
-                    return;
-                }
-            }
-
-            // Username validation
-            const { isValid, cleanedUsername, errors } = validateUsername(username);
-            if (!isValid) {
-                setUsernameError(errors[0]);
-                return;
-            }
-
-            // Form validation
-            const formValidation = validateForm(cleanedUsername);
-            if (!formValidation.isValid) {
-                console.log('Form validation failed', formValidation.error);
-                setUsernameError(formValidation.error);
-                return;
-            }
-
-            // Check for existing session
-            if (!isLoggingIn && currentUser?.id) {
-                console.log('Existing user session');
-                setUsernameError('Ya existe un usuario registrado con ese nombre.');
-                return;
-            }
-
-            // Handle login or registration
-            if (isLoggingIn) {
-                console.log('Attempting login', { 
-                    username, 
-                    userType  // Log the current user type
-                });
-                await handleLogin(cleanedUsername, password);
-            } else {
-                console.log('Attempting registration');
-                await handleRegistration(cleanedUsername, password, userType);
-            }
+            await handleLogin(cleanedUsername, password);
+          } else {
+            console.log('Attempting registration');
+            await handleRegistration(cleanedUsername, password, userType);
+          }
         } catch (error) {
-            console.error('Login/Register Error', error);
-            const errorMessage = error.response?.data?.error || error.message || 
-                               `Error en el ${isLoggingIn ? 'inicio de sesión' : 'registro'}`;
-            setUsernameError(errorMessage);  
-            
-            // Reset password fields on error
-            setPassword('');
-            setPasswordRepeat('');
-            setDisplayedPassword('');
-            setShowPasswordLabel(true);
-            setKeyboardKey((prev) => prev + 1);
+          const errorMessage = error.response?.data?.error || error.message;
+          if (errorMessage.includes('username')) {
+            setUsernameError(errorMessage);
+          } else {
+            setPasswordError(errorMessage);
+          } 
+          
+          // Reset password fields on error
+          setPassword('');
+          setPasswordRepeat('');
+          setDisplayedPassword('');
+          setShowPasswordLabel(true);
+          setKeyboardKey((prev) => prev + 1);
         }
-    };
+      };
     
     /**
      * Handles business type selection
@@ -431,7 +429,7 @@ export const LoginRegisterFunctions = () => {
         return password.length !== 4 || 
                 passwordRepeat.length !== 4 || 
                 password !== passwordRepeat || 
-                !userType;
+                !userType === '';
         }
     };
 
@@ -447,6 +445,7 @@ export const LoginRegisterFunctions = () => {
         handleUserTypeChange,
         handleUsernameChange,
         usernameError,
+        passwordError,
         ipError
     };
 };

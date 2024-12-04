@@ -99,14 +99,13 @@ export const AppContextProvider = ({ children }) => {
   const [businessType, setBusinessType] = useState('general');
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+
   const [selectedShop, setSelectedShop] = useState(null);
   const [isAddingShop, setIsAddingShop] = useState(false);
   const [selectedBusinessType, setSelectedBusinessType] = useState(null);
   const [showShopCreationForm, setShowShopCreationForm] = useState(false);
   const [products, setProducts] = useState([]);
 
-  const [usernameError, setUsernameError] = useState('');
   const [ipError, setIpError] = useState('');
   const [filters, setFilters] = useState({
     temporada: null,
@@ -117,7 +116,9 @@ export const AppContextProvider = ({ children }) => {
 
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [shopTypes, setShopTypes] = useState([]);
-
+  const [error, setError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   
   const value = {
     isLoggingIn, setIsLoggingIn,
@@ -150,7 +151,8 @@ export const AppContextProvider = ({ children }) => {
     filterOptions, setFilterOptions,
     filters, setFilters,
     filteredProducts, setFilteredProducts,
-    shopTypes, setShopTypes
+    shopTypes, setShopTypes,
+    passwordError, setPasswordError
   };
 
   return (
