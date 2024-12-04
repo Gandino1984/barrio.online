@@ -32,12 +32,10 @@ export const UserManagementFunctions = () => {
    * @param {string} type - The business type to be set.
    */
   const handleBusinessTypeSelect = (type) => {
-    // Set the business type in context
     setBusinessType(type);
     // Set the selected business type to trigger rendering of specific shops
     setSelectedBusinessType(type);
   };
-
 
   return {
     handleClick,
