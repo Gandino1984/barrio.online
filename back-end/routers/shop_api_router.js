@@ -6,8 +6,11 @@ const router = Router();
 
 router.get("/", shopApiController.getAll);
 
+// endpoint to get all shops by type
 router.post("/type", (req, res) => {
   shopApiController.getByType(req, res)});
+
+//enpoint to get all types of shops
 
 router.post("/create", shopApiController.create);
 

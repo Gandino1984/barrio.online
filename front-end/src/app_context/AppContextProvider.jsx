@@ -70,11 +70,11 @@ export const AppContextProvider = ({ children }) => {
     },
     tipo: {
       label: 'Tipo',
-      options: [],
+      options: ['Todos'],
     },
     oferta: {
       label: 'Oferta',
-      options: ['Sí'], 
+      options: ['Sí, No'], 
     },
     calificacion: {
       label: 'Calificación',

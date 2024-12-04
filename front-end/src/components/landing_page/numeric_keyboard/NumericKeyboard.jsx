@@ -20,7 +20,9 @@ const NumericKeyboard = ({
     isLoggingIn,
     password,
     passwordRepeat,
-    showPasswordRepeat
+    showPasswordRepeat,
+    setUsernameError,
+    setPasswordError
   } = useContext(AppContext);
 
   const maskedValue = showMaskedPassword ? '*'.repeat(value.length) : value;
@@ -41,7 +43,9 @@ const NumericKeyboard = ({
   const handleBackspaceClick = (e) => {
     handleBackspace(e);
     if (error) {
-      handleClear(isLoggingIn); // This should reset the error state
+      // Reset both username and password errors when backspace is clicked
+      setUsernameError('');
+      setPasswordError('');
     }
   };
 

@@ -1,19 +1,24 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import AppContext from '../../app_context/AppContext.js';
 import BusinessTypeButton from './BusinessTypeButton.jsx';
 import ShopsByType from '../shop_management/shops_by_type/ShopsByType.jsx'; 
 import styles from './UserManagement.module.css';
 import { UserManagementFunctions } from './hooks/UserManagementFunctions.jsx';
+import axiosInstance from '../../../../front-end/utils/axiosConfig.js';
 
 const UserManagement = ({ onBack }) => {
   
   const { 
     selectedBusinessType,
-    setSelectedBusinessType
+    setSelectedBusinessType,
+    setSelectedShop,
+    businessType,
+    setLoading
    } = useContext(AppContext);
 
   const { handleBusinessTypeSelect } = UserManagementFunctions();
+
 
   // If a business type is selected, render the ShopsByType component for that type
   if (selectedBusinessType) {

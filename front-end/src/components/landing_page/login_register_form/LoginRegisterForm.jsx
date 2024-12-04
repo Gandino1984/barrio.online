@@ -32,7 +32,6 @@ const LoginRegisterForm = () => {
     handleClear, handlePasswordChange,
     handleRepeatPasswordChange, isButtonDisabled,
     toggleForm, 
-    // handleBusinessSelect,
     handleFormSubmit, handleUserTypeChange,
     handleUsernameChange, 
   } = LoginRegisterFunctions();
@@ -71,9 +70,9 @@ const LoginRegisterForm = () => {
                           className={usernameError ? styles.inputError : ''}
                           required
                       />
-                    {usernameError && <div style={{ color: 'red' }}>{usernameError}</div>}
-                    {ipError && <div style={{ color: 'red' }}>{ipError}</div>}
-                    {/* {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>} */}
+                    {usernameError && <div className={styles.errorText}>{usernameError}</div>}
+                    {ipError && <div className={styles.errorText}>{ipError}</div>}
+                    {passwordError && <div className={styles.errorText}>{passwordError}</div>}
                   </div>
                     {!isLoggingIn && (
                       // Render the user type radio buttons for registration
@@ -99,7 +98,7 @@ const LoginRegisterForm = () => {
                           ? handleRepeatPasswordChange 
                           : (newPassword) => handlePasswordChange(isLoggingIn, newPassword)}
                         onPasswordComplete={handlePasswordComplete(isLoggingIn)}
-                     
+                        error={!!usernameError || !!passwordError}
                       />
                   </div>
                   <div className={styles.formActions}>
