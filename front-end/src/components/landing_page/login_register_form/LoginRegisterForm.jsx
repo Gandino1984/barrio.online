@@ -24,24 +24,17 @@ const LoginRegisterForm = () => {
     password, passwordRepeat, showPasswordRepeat,
     keyboardKey, 
     usernameError,passwordError,
-<<<<<<< HEAD
-=======
     ipError
->>>>>>> bd6f9b3 (fix)
   } = useContext(AppContext);
 
   const {
     handlePasswordComplete,
     handleClear, handlePasswordChange,
     handleRepeatPasswordChange, isButtonDisabled,
-    toggleForm, handleBusinessSelect,
+    toggleForm, 
+    // handleBusinessSelect,
     handleFormSubmit, handleUserTypeChange,
     handleUsernameChange, 
-<<<<<<< HEAD
-    ipError
-=======
-    
->>>>>>> bd6f9b3 (fix)
   } = LoginRegisterFunctions();
 
   // If the business selector is shown, render the ShopManagement or UserManagement component
@@ -55,7 +48,6 @@ const LoginRegisterForm = () => {
     } else {
         return (
           <UserManagement
-            onSelectBusiness={handleBusinessSelect}
             onBack={() => setShowBusinessSelector(false)}
           />
         );
@@ -80,10 +72,7 @@ const LoginRegisterForm = () => {
                           required
                       />
                     {usernameError && <div style={{ color: 'red' }}>{usernameError}</div>}
-<<<<<<< HEAD
-=======
                     {ipError && <div style={{ color: 'red' }}>{ipError}</div>}
->>>>>>> bd6f9b3 (fix)
                     {/* {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>} */}
                   </div>
                     {!isLoggingIn && (

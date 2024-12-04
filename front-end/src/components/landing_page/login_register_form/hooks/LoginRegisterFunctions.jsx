@@ -195,31 +195,31 @@ export const LoginRegisterFunctions = () => {
         setShowBusinessSelector(true); //??
     };
 
-    /**
-     * Validates form inputs
-     * @param {string} cleanedUsername - Sanitized username
-     * @returns {Object} Validation result and error message if any
-     */
-    const validateForm = (cleanedUsername) => {
-        if (!cleanedUsername || cleanedUsername.trim() === '') {
-            return { isValid: false, error: 'El nombre de usuario es requerido' };
-        }
-        if (!password || password.length !== 4) {
-            return { isValid: false, error: 'La contraseña debe tener 4 dígitos' };
-        }
-        if (!isLoggingIn) {
-            if (!passwordRepeat || passwordRepeat.length !== 4) {
-                return { isValid: false, error: 'La confirmación de contraseña debe tener 4 dígitos' };
-            }
-            if (password !== passwordRepeat) {
-                return { isValid: false, error: 'Las contraseñas no coinciden' };
-            }
-            if (!userType) {
-                return { isValid: false, error: 'Debe seleccionar un tipo de usuario' };
-            }
-        }
-        return { isValid: true, error: null };
-    };
+    // /**
+    //  * Validates form inputs
+    //  * @param {string} cleanedUsername - Sanitized username
+    //  * @returns {Object} Validation result and error message if any
+    //  */
+    // const validateForm = (cleanedUsername) => {
+    //     if (!cleanedUsername || cleanedUsername.trim() === '') {
+    //         return { isValid: false, error: 'El nombre de usuario es requerido' };
+    //     }
+    //     if (!password || password.length !== 4) {
+    //         return { isValid: false, error: 'La contraseña debe tener 4 dígitos' };
+    //     }
+    //     if (!isLoggingIn) {
+    //         if (!passwordRepeat || passwordRepeat.length !== 4) {
+    //             return { isValid: false, error: 'La confirmación de contraseña debe tener 4 dígitos' };
+    //         }
+    //         if (password !== passwordRepeat) {
+    //             return { isValid: false, error: 'Las contraseñas no coinciden' };
+    //         }
+    //         if (!userType) {
+    //             return { isValid: false, error: 'Debe seleccionar un tipo de usuario' };
+    //         }
+    //     }
+    //     return { isValid: true, error: null };
+    // };
 
     /**
      * Handles login API request
@@ -361,22 +361,6 @@ export const LoginRegisterFunctions = () => {
           setKeyboardKey((prev) => prev + 1);
         }
       };
-    
-    /**
-     * Handles business type selection
-     * @param {string} businessType - Selected business type
-     */
-    const handleBusinessSelect = async (businessType) => {
-        try {
-            // TODO: Implement business type selection logic
-            // await axiosInstance.post('/user/update-business', { 
-            //     userId: currentUser.id, 
-            //     businessType 
-            // });
-        } catch (error) {
-            setUsernameError('Error al seleccionar el tipo de negocio');
-        }
-    };
 
     /**
      * Handles user type selection changes
@@ -416,10 +400,10 @@ export const LoginRegisterFunctions = () => {
         handleRepeatPasswordChange,
         isButtonDisabled,
         toggleForm,
-        handleBusinessSelect,
         handleFormSubmit,
         handleUserTypeChange,
         handleUsernameChange,
+        // validateForm,
         usernameError,
         passwordError,
         ipError
