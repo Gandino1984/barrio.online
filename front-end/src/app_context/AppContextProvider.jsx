@@ -107,6 +107,7 @@ export const AppContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
 
   const [ipError, setIpError] = useState('');
+  
   const [filters, setFilters] = useState({
     temporada: null,
     tipo: null,
