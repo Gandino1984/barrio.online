@@ -99,7 +99,6 @@ export const AppContextProvider = ({ children }) => {
   const [businessType, setBusinessType] = useState('general');
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [selectedShop, setSelectedShop] = useState(null);
   const [isAddingShop, setIsAddingShop] = useState(false);
   const [selectedBusinessType, setSelectedBusinessType] = useState(null);

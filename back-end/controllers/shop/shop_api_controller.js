@@ -31,6 +31,11 @@ async function getByType(req, res) {
     res.json({error, data});
 }
 
+async function getTypesOfShops(req, res) {
+  const {error, data} = await shopController.getTypesOfShops();
+  res.json({error, data});
+}
+
 async function create(req, res) {
     const { name_shop, location_shop, type_shop, id_user, calification_shop } = req.body;
     const {error, data} = await shopController.create({name_shop, location_shop, type_shop, id_user, calification_shop});
@@ -110,7 +115,8 @@ export {
     update,
     removeById,
     getByType,
-    getByUserId
+    getByUserId,
+    getTypesOfShops
 }
 
 export default {
@@ -120,6 +126,6 @@ export default {
     update,
     removeById,
     getByType,
-    getByUserId
-    
+    getByUserId,
+    getTypesOfShops 
 }

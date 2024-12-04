@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import axiosInstance from '../../../../utils/axiosConfig.js';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopsByType.module.css';
 import ProductsList from '../../product_management/ProductsList.jsx'; 
@@ -10,9 +9,9 @@ import { ShopsByTypeFunctions } from './hooks/ShopsByTypeFunctions.jsx';
 const ShopsByType = ({ onBack }) => {
   const { 
     businessType, 
-    shops, setShops,
-    loading, setLoading,
-    error, setError,
+    shops,
+    loading,
+    error,
     selectedShop, setSelectedShop,
   } = useContext(AppContext);
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import AppContext from '../../app_context/AppContext.js';
 import BusinessTypeButton from './BusinessTypeButton.jsx';
@@ -12,10 +12,8 @@ const UserManagement = ({ onBack }) => {
   const { 
     selectedBusinessType, setSelectedBusinessType,
    } = useContext(AppContext);
-
-  const { handleBusinessTypeSelect } = UserManagementFunctions();
-
-
+  const { handleBusinessTypeSelect, 
+    fetchShopTypes } = UserManagementFunctions();
   // If a business type is selected, render the ShopsByType component for that type
   if (selectedBusinessType) {
     return <ShopsByType onBack={() => setSelectedBusinessType(null)} />;

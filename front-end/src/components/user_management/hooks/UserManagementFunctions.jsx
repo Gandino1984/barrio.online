@@ -14,8 +14,22 @@ export const UserManagementFunctions = () => {
    */
   const {
     setSelectedBusinessType,
-    setBusinessType
+    setBusinessType,
+    shopTypes, setShopTypes
   } = useContext(AppContext);
+
+  /**
+   * fetchShopTypes function.
+   * Fetches the types of shops from the database and updates the shopTypes state.
+   */
+  const fetchShopTypes = async () => {
+    try {
+      const response = await axiosInstance.get('/types-of-shops');
+      setShopTypes(response.data);
+    } catch (error) {
+      console.error('Error fetching shop types:', error);
+    }
+  };
   
   /**
    * handleClick function.
@@ -39,6 +53,7 @@ export const UserManagementFunctions = () => {
 
   return {
     handleClick,
-    handleBusinessTypeSelect
+    handleBusinessTypeSelect,
+    fetchShopTypes
   };
 };
