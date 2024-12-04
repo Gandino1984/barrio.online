@@ -10,11 +10,7 @@ import axiosInstance from '../../../../front-end/utils/axiosConfig.js';
 const UserManagement = ({ onBack }) => {
   
   const { 
-    selectedBusinessType,
-    setSelectedBusinessType,
-    setSelectedShop,
-    businessType,
-    setLoading
+    selectedBusinessType, setSelectedBusinessType,
    } = useContext(AppContext);
 
   const { handleBusinessTypeSelect } = UserManagementFunctions();
@@ -38,7 +34,6 @@ const UserManagement = ({ onBack }) => {
                 Selecciona el tipo de negocio
             </h2>
         </div>
-        
         <div className="space-y-3">
             <BusinessTypeButton onClick={() => handleBusinessTypeSelect("General")}>
                 General

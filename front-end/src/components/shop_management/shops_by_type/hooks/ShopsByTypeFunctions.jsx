@@ -6,10 +6,9 @@ export const ShopsByTypeFunctions = () => {
 
   const {
     businessType, 
-    shops, setShops,
-    loading, setLoading,
-    error, setError,
-    selectedShop, setSelectedShop,
+    setShops,
+    setLoading,
+    setError,
   } = useContext(AppContext);
   
   const fetchShopsByType = async () => {
