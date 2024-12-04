@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
+import axiosInstance from '../../../../utils/axiosConfig.js';
 
 /**
  * UserManagementFunctions component.
@@ -24,10 +25,11 @@ export const UserManagementFunctions = () => {
    */
   const fetchShopTypes = async () => {
     try {
-      const response = await axiosInstance.get('/types-of-shops');
-      setShopTypes(response.data);
+      const response = await axiosInstance.get('/shop/types-of-shops');
+      setShopTypes(response.data.data || []); // Adjust based on your actual response structure
     } catch (error) {
       console.error('Error fetching shop types:', error);
+      setShopTypes([]); 
     }
   };
   

@@ -1,20 +1,28 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import AppContext from '../../app_context/AppContext.js';
 import BusinessTypeButton from './BusinessTypeButton.jsx';
 import ShopsByType from '../shop_management/shops_by_type/ShopsByType.jsx'; 
 import styles from './UserManagement.module.css';
 import { UserManagementFunctions } from './hooks/UserManagementFunctions.jsx';
-import axiosInstance from '../../../../front-end/utils/axiosConfig.js';
+
 
 const UserManagement = ({ onBack }) => {
   
   const { 
-    selectedBusinessType, setSelectedBusinessType,
+    selectedBusinessType, setSelectedBusinessType, shopTypes 
    } = useContext(AppContext);
+
   const { handleBusinessTypeSelect, 
     fetchShopTypes } = UserManagementFunctions();
-  // If a business type is selected, render the ShopsByType component for that type
+
+    // Fetch shop types when component mounts
+  useEffect(() => {
+    fetchShopTypes();
+  }, []);
+
+  // If a business type is selected, render the ShopsByType 
+  //component for that type
   if (selectedBusinessType) {
     return <ShopsByType onBack={() => setSelectedBusinessType(null)} />;
   }
@@ -33,21 +41,14 @@ const UserManagement = ({ onBack }) => {
             </h2>
         </div>
         <div className="space-y-3">
-            <BusinessTypeButton onClick={() => handleBusinessTypeSelect("General")}>
-                General
-            </BusinessTypeButton>
-            <BusinessTypeButton onClick={() => handleBusinessTypeSelect("Carniceria")}>
-                Carnicería
-            </BusinessTypeButton>
-            <BusinessTypeButton onClick={() => handleBusinessTypeSelect("Fruteria")}>
-                Frutería / Verdulería
-            </BusinessTypeButton>
-            <BusinessTypeButton onClick={() => handleBusinessTypeSelect("Pescaderia")}>
-                Pescadería
-            </BusinessTypeButton>
-            <BusinessTypeButton onClick={() => handleBusinessTypeSelect("Restaurante")}>
-                Restaurante / Bar
-            </BusinessTypeButton>
+            {shopTypes.map((shopType) => (
+                <BusinessTypeButton 
+                    key={shopType} 
+                    onClick={() => handleBusinessTypeSelect(shopType)}
+                >
+                    {shopType}
+                </BusinessTypeButton>
+            ))}
         </div>
     </div>
   );

@@ -11,8 +11,7 @@ router.post("/type", (req, res) => {
   shopApiController.getByType(req, res)});
 
 //enpoint to get all types of shops
-router.post("/types-of-shops", (req, res) => {
-  shopApiController.getTypesOfShops(req, res)});
+router.get('/types-of-shops', shopApiController.getTypesOfShops);
 
 router.post("/create", shopApiController.create);
 
