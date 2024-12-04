@@ -77,7 +77,7 @@ const LoginRegisterForm = () => {
                   </div>
                     {!isLoggingIn && (
                       // Render the user type radio buttons for registration
-                      <div className={`${styles.formField} ${styles.radioGroup}`}>
+                      <div className={styles.formField }>
                           <div className={styles.radioOptions}>
                           <select value={userType} 
                           onChange={handleUserTypeChange}
