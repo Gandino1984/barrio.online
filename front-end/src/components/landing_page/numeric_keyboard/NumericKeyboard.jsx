@@ -10,7 +10,6 @@ const NumericKeyboard = ({
   onChange, 
   showMaskedPassword = true, 
   onPasswordComplete, 
-  onClear,
   error = false 
 }) => {
 
@@ -31,12 +30,20 @@ const NumericKeyboard = ({
   const {
     handleKeyClick,
     handleBackspace,
-    handleClearPassword
-  } = useNumericKeyboardFunctions(value, onChange, onPasswordComplete, onClear);
+    handleClearPassword,
+    handleClear
+  } = useNumericKeyboardFunctions(value, onChange, onPasswordComplete);
 
   useEffect(() => {
     setDisplayedPassword(maskedValue);
   }, [value, showMaskedPassword]);
+
+  const handleBackspaceClick = (e) => {
+    handleBackspace(e);
+    if (error) {
+      handleClear(isLoggingIn); // This should reset the error state
+    }
+  };
 
   return (
       <div className={styles.container}>
@@ -78,9 +85,7 @@ const NumericKeyboard = ({
                   ))}
               </div>
               <div className={styles.row}>
-                  <button className={styles.key} onClick={handleBackspace}>
-                      <Delete size={16} />
-                  </button>
+                 
                   <button 
                     className={`${styles.key} ${styles.zero}`} 
                     onClick={(e) => handleKeyClick('0', e)}
@@ -89,12 +94,12 @@ const NumericKeyboard = ({
                   </button>
                   <button 
                     className={`${styles.key} ${styles.clear}`} 
-                    onClick={handleClearPassword}
+                    onClick={(e) => handleBackspaceClick(e)}
                   >
                       {showRetryIcon ? (
                         <RotateCcw size={16} />
                       ) : (
-                        <Trash2 size={16} />
+                        <Delete size={16} />
                       )}
                   </button>
               </div>

@@ -9,6 +9,7 @@ import AppContext from '../../../../app_context/AppContext.js';
  * @returns {object} An object containing the IP error state and a function to validate IP registration.
  */
 export const useIPValidation = () => {
+
   const {
     ipError, setIpError
   } = useContext(AppContext);
@@ -45,8 +46,6 @@ export const useIPValidation = () => {
 
   // Return the IP error state and the validateIPRegistration function
   return {
-    ipError,
-    setIpError,
     validateIPRegistration
   };
 };

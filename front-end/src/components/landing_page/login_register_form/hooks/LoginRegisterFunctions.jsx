@@ -59,30 +59,7 @@ export const LoginRegisterFunctions = () => {
         }
     };
 
-    /**
-     * Handles clearing of password fields
-     * @param {boolean} isLogin - Whether in login mode
-     * @returns {Function} Callback function for clearing fields
-     */
-    const handleClear = (isLogin) => () => {
-        if (!isLogin) {
-            if (showPasswordRepeat) {
-                setPassword('');
-                setPasswordRepeat('');
-                setDisplayedPassword('');
-                setShowPasswordRepeat(false);
-                setShowPasswordLabel(true);
-                setKeyboardKey((prev) => prev + 1);
-            } else {
-                setPassword('');
-                setDisplayedPassword('');
-            }
-        } else {
-            setPassword('');
-            setDisplayedPassword('');
-            setShowPasswordLabel(true);
-        }
-    };
+
 
     /**
      * Handles password input changes
@@ -435,7 +412,6 @@ export const LoginRegisterFunctions = () => {
 
     return {
         handlePasswordComplete,
-        handleClear,
         handlePasswordChange,
         handleRepeatPasswordChange,
         isButtonDisabled,

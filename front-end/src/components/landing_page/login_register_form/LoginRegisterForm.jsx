@@ -24,6 +24,10 @@ const LoginRegisterForm = () => {
     password, passwordRepeat, showPasswordRepeat,
     keyboardKey, 
     usernameError,passwordError,
+<<<<<<< HEAD
+=======
+    ipError
+>>>>>>> bd6f9b3 (fix)
   } = useContext(AppContext);
 
   const {
@@ -33,7 +37,11 @@ const LoginRegisterForm = () => {
     toggleForm, handleBusinessSelect,
     handleFormSubmit, handleUserTypeChange,
     handleUsernameChange, 
+<<<<<<< HEAD
     ipError
+=======
+    
+>>>>>>> bd6f9b3 (fix)
   } = LoginRegisterFunctions();
 
   // If the business selector is shown, render the ShopManagement or UserManagement component
@@ -72,6 +80,10 @@ const LoginRegisterForm = () => {
                           required
                       />
                     {usernameError && <div style={{ color: 'red' }}>{usernameError}</div>}
+<<<<<<< HEAD
+=======
+                    {ipError && <div style={{ color: 'red' }}>{ipError}</div>}
+>>>>>>> bd6f9b3 (fix)
                     {/* {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>} */}
                   </div>
                     {!isLoggingIn && (
@@ -98,7 +110,7 @@ const LoginRegisterForm = () => {
                           ? handleRepeatPasswordChange 
                           : (newPassword) => handlePasswordChange(isLoggingIn, newPassword)}
                         onPasswordComplete={handlePasswordComplete(isLoggingIn)}
-                        onClear={handleClear(isLoggingIn)}
+                     
                       />
                   </div>
                   <div className={styles.formActions}>
