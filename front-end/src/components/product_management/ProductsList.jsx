@@ -12,10 +12,12 @@ const ProductsList = () => {
     filters,
     setFilters,
     filteredProducts,
-    setFilteredProducts
+    setFilteredProducts,
+    filterOptions,
+    setFilterOptions
   } = useContext(AppContext);
 
-  const { filterProducts, fetchProductsByShop } = ProductManagementFunctions();
+  const { filterProducts, fetchProductsByShop, fetchProductTypes } = ProductManagementFunctions();
 
   const [filteredProductsCount, setFilteredProductsCount] = useState(0);
 
@@ -51,6 +53,21 @@ const ProductsList = () => {
       setFilteredProductsCount(0);
     }
   }, [products, filters]);
+
+  useEffect(() => {
+    const fetchTypes = async () => {
+      const productTypes = await fetchProductTypes();
+      console.log('Product Types:', productTypes);
+      setFilterOptions((prevFilterOptions) => ({
+        ...prevFilterOptions,
+        tipo: {
+          label: 'Tipo de producto',
+          options: productTypes
+        }
+      }));
+    };
+    fetchTypes();
+  }, [setFilterOptions]);
 
   if (error) return <div>Error: {error}</div>;
 

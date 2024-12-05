@@ -69,8 +69,21 @@ const ProductManagementFunctions = () => {
     }
   };
 
+  async function fetchProductTypes() {
+    try {
+      const response = await axiosInstance.get('/product/by-type');
+      console.log('Response:', response);
+      console.log('Response Data:', response.data);
+      return response.data.data; // Return the data property of the response data
+    } catch (error) {
+      console.error('Error:', error);
+      return [];
+    }
+  }
+
   return { filterProducts,
-    fetchProductsByShop
+    fetchProductsByShop,
+    fetchProductTypes
    };
 };
 

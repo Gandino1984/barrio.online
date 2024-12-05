@@ -10,6 +10,9 @@ const FiltersForProducts = () => {
     setFilters 
   } = useContext(AppContext);
 
+  console.log('Filter Options:', filterOptions);
+
+
   const handleFilterChange = (filterName, option) => {
     // Normalize the option to handle case sensitivity and exact matching
     const normalizedOption = option === "" ? null : 
@@ -32,15 +35,15 @@ const FiltersForProducts = () => {
             onChange={(e) => handleFilterChange(filterName, e.target.value)}
             className={styles.filterSelect}
           >
-            <option value="">
-              Mostrar por {filterOptions[filterName].label}
-            </option>
-            {filterOptions[filterName].options.map((option) => (
-              <option key={option} value={option}>
-                {option}
+              <option value="">
+                Mostrar por {filterOptions[filterName].label}
               </option>
-            ))}
-          </select>
+                   {Array.isArray(filterOptions[filterName].options) && filterOptions[filterName].options.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                   ))}
+              </select>
         </div>
       ))}
     </div>
