@@ -1,4 +1,5 @@
 import product_model from "../../models/product_model.js";
+import { Op } from "sequelize";
 
 async function getAll() {
     try {
@@ -108,6 +109,20 @@ async function getByType() {
     }
 }
 
-export { getAll, getById, create, update, removeById, getByShopId, getByType }
+// getOnSale
+async function getOnSale() {
+    try {
+        const products = await product_model.findAll({
+            // discount_product
+            where: { discount_product: {[Op.gt]:0} }
+        });
+        return { data: products };
+    } catch (error) {
+        console.error("Error in getOnSale:", error);
+        return { error: error.message };
+    }
+}
 
-export default { getAll, getById, create, update, removeById, getByShopId, getByType }
+export { getAll, getById, create, update, removeById, getByShopId, getByType, getOnSale}
+
+export default { getAll, getById, create, update, removeById, getByShopId, getByType, getOnSale }

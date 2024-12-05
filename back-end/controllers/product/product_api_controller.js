@@ -36,10 +36,18 @@ async function getByShopId(req, res) {
     res.json({error, data});
 }
 
-
 async function getByType(req, res) {
     const {error, data} = await productController.getByType();
     res.json({error, data});
+}
+
+async function getOnSale(req, res) {
+    const {error, data} = await productController.getOnSale();
+    if (error) {
+        res.status(500).json({ error: error });
+    } else {
+        res.json({ data: data });
+    }
 }
 
 export {
@@ -49,7 +57,8 @@ export {
     update,
     removeById,
     getByShopId,
-    getByType
+    getByType,
+    getOnSale
 }
 
 export default {
@@ -59,5 +68,6 @@ export default {
     update,
     removeById,
     getByShopId,
-    getByType
+    getByType,
+    getOnSale
 }
