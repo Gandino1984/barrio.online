@@ -74,7 +74,8 @@ export const AppContextProvider = ({ children }) => {
     },
     oferta: {
       label: 'Oferta',
-      options: ['Sí, No'], 
+      // Removed 'Sí, No' options as we're using a checkbox now
+      options: [], 
     },
     calificacion: {
       label: 'Calificación',
