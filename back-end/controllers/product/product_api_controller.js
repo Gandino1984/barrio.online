@@ -36,13 +36,20 @@ async function getByShopId(req, res) {
     res.json({error, data});
 }
 
+
+async function getByType(req, res) {
+    const {error, data} = await productController.getByType();
+    res.json({error, data});
+}
+
 export {
     getAll,
     getById,
     create,
     update,
     removeById,
-    getByShopId
+    getByShopId,
+    getByType
 }
 
 export default {
@@ -51,5 +58,6 @@ export default {
     create,
     update,
     removeById,
-    getByShopId
+    getByShopId,
+    getByType
 }

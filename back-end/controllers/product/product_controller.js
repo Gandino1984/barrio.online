@@ -95,6 +95,19 @@ async function getByShopId(idShop) {
     }
 }
 
-export { getAll, getById, create, update, removeById, getByShopId }
+async function getByType() {
+    try {
+        const productTypes = await product_model.findAll({
+            attributes: ['type_product'],
+            group: ['type_product'],
+          });
+          return { data: productTypes.map((type) => type.type_product) };
+    } catch (error) {
+        console.error("Error in getByType:", error);
+        return { error: error.message };
+    }
+}
 
-export default { getAll, getById, create, update, removeById, getByShopId }
+export { getAll, getById, create, update, removeById, getByShopId, getByType }
+
+export default { getAll, getById, create, update, removeById, getByShopId, getByType }

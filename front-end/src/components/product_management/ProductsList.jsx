@@ -1,22 +1,23 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import AppContext from '../../app_context/AppContext.js';
 import styles from './ProductsList.module.css';
 import ProductManagementFunctions from './ProductManagementFunctions.jsx';
 import FiltersForProducts from './FiltersForProducts.jsx';
 
 const ProductsList = () => {
-  const { 
-    products, 
+  const {
+    products,
     error,
-    selectedShop, 
-    loading,
-    filters, 
+    selectedShop,
+    filters,
     setFilters,
-    filteredProducts, 
+    filteredProducts,
     setFilteredProducts
   } = useContext(AppContext);
 
   const { filterProducts, fetchProductsByShop } = ProductManagementFunctions();
+
+  const [filteredProductsCount, setFilteredProductsCount] = useState(0);
 
   useEffect(() => {
     // Reset filters when a new shop is selected
@@ -33,7 +34,7 @@ const ProductsList = () => {
       fetchProductsByShop();
     } else {
       console.warn("No shop selected or invalid shop ID");
-      setFilteredProducts([]);
+      setFilteredProducts([]); 
     }
   }, [selectedShop]);
 
@@ -42,14 +43,15 @@ const ProductsList = () => {
     if (Array.isArray(products) && products.length > 0) {
       const filtered = filterProducts(products, filters);
       console.log("Filtered Products:", filtered);
-      setFilteredProducts(filtered);
+      setFilteredProducts(filtered); 
+      setFilteredProductsCount(filtered.length);
     } else {
       console.log("No products to filter");
-      setFilteredProducts([]);
+      setFilteredProducts([]); 
+      setFilteredProductsCount(0);
     }
-  }, [products, filters, setFilteredProducts]);
+  }, [products, filters]);
 
-  if (loading) return <div>Cargando productos...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
@@ -65,15 +67,19 @@ const ProductsList = () => {
           </p>
         </div>
       )}
-      
+
       <div className={styles.filtersContainer}>
         <FiltersForProducts />
       </div>
-      
+
       <h2 className="text-2xl font-bold text-center flex-1 pr-10">
         Productos de la tienda
       </h2>
-      
+
+      <p>
+        Productos mostrados: {filteredProductsCount}
+      </p>
+
       {filteredProducts.length === 0 ? (
         <p className="text-center">
           No hay productos disponibles
@@ -90,12 +96,6 @@ const ProductsList = () => {
               </p>
               <p className={styles.productPrice}>
                 Precio: {product.price_product}
-              </p>
-              <p className={styles.productType}>
-                Tipo: {product.type_product}
-              </p>
-              <p className={styles.productStock}>
-                Stock: {product.stock_product}
               </p>
             </div>
           ))}

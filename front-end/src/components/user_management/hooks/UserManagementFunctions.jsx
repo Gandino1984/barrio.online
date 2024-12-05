@@ -16,7 +16,7 @@ export const UserManagementFunctions = () => {
   const {
     setSelectedBusinessType,
     setBusinessType,
-    shopTypes, setShopTypes
+    setShopTypes
   } = useContext(AppContext);
 
   /**

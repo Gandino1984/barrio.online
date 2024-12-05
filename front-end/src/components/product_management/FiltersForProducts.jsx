@@ -33,7 +33,7 @@ const FiltersForProducts = () => {
             className={styles.filterSelect}
           >
             <option value="">
-              Por {filterOptions[filterName].label}
+              Mostrar por {filterOptions[filterName].label}
             </option>
             {filterOptions[filterName].options.map((option) => (
               <option key={option} value={option}>
