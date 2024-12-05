@@ -7,35 +7,42 @@ const FiltersForProducts = () => {
   const { 
     filterOptions, 
     filters, 
-    setFilters } = useContext(AppContext);
+    setFilters 
+  } = useContext(AppContext);
 
-    const handleFilterChange = (filterName, option) => {
-        setFilters((prevFilters) => ({
-          ...prevFilters,
-          [filterName]: option === "" ? null : option,
-        }));
-      };
+  const handleFilterChange = (filterName, option) => {
+    // Normalize the option to handle case sensitivity and exact matching
+    const normalizedOption = option === "" ? null : 
+      filterName === 'temporada' ? 
+        (option === 'Todo el año' ? 'Todo el Año' : option) : 
+        option;
+
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterName]: normalizedOption,
+    }));
+  };
 
   return (
     <div className={styles.container}>
-        {Object.keys(filterOptions).map((filterName) => (
-        <div key={filterName}>
-            {/* <h4>{filterOptions[filterName].label}</h4> */}
-            <select
-            value={filters[filterName]}
+      {Object.keys(filterOptions).map((filterName) => (
+        <div key={filterName} className={styles.filterWrapper}>
+          <select
+            value={filters[filterName] || ""}
             onChange={(e) => handleFilterChange(filterName, e.target.value)}
-            >
-                <option value="">
-                    Por {filterOptions[filterName].label}
-                </option>
-                {filterOptions[filterName].options.map((option) => (
-                <option key={option} value={option}>
-                    {option}
-                </option>
-                ))}
-            </select>
+            className={styles.filterSelect}
+          >
+            <option value="">
+              Por {filterOptions[filterName].label}
+            </option>
+            {filterOptions[filterName].options.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         </div>
-        ))}
+      ))}
     </div>
   );
 };

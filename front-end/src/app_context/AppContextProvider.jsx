@@ -66,7 +66,7 @@ export const AppContextProvider = ({ children }) => {
   const [filterOptions, setFilterOptions] = useState({
     temporada: {
       label: 'Temporada',
-      options: ['Primavera', 'Verano', 'Otoño', 'Invierno', 'Todo el año'],
+      options: ['Primavera', 'Verano', 'Otoño', 'Invierno', 'Todo el Año'],
     },
     tipo: {
       label: 'Tipo',
