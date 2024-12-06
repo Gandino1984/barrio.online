@@ -30,7 +30,10 @@ const ProductManagementFunctions = () => {
         (filters.oferta === 'No' && product.discount_product === 0);
       
       const calificationMatch = filters.calificacion === null || 
-        product.calification_product >= parseInt(filters.calificacion);
+        // New calification filtering logic
+        product.calification_product === parseInt(filters.calificacion) ||
+        (filters.calificacion !== null && 
+         product.calification_product <= parseInt(filters.calificacion));
   
       console.log('Filtering Debug:', {
         product: product.name_product,

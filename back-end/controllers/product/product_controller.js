@@ -109,7 +109,7 @@ async function getByType() {
     }
 }
 
-// getOnSale
+
 async function getOnSale() {
     try {
         const products = await product_model.findAll({
