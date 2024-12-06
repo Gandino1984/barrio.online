@@ -44,7 +44,7 @@ const FiltersForProducts = () => {
                   onChange={handleOnSaleChange}
                   className={styles.checkbox}
                 />
-                Mostrar solo productos en oferta
+                 En oferta
               </label>
             </div>
           );
@@ -59,7 +59,7 @@ const FiltersForProducts = () => {
               className={styles.filterSelect}
             >
               <option value="">
-                Mostrar por {filterOptions[filterName].label}
+                Por {filterOptions[filterName].label}
               </option>
               {Array.isArray(filterOptions[filterName].options) && filterOptions[filterName].options.map((option) => (
                 <option key={option} value={option}>

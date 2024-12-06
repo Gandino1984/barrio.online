@@ -73,51 +73,51 @@ const ProductsList = () => {
 
   return (
     <div className={styles.container}>
-      {selectedShop && (
-        <div className={styles.shopInfo}>
-          <h2 className="text-2xl font-bold text-center flex-1 pr-10">
-            {selectedShop.name_shop}
-          </h2>
-          <p>Ubicación: {selectedShop.location_shop}</p>
-          <p>
-            Calificación: {selectedShop.calification_shop || 'No disponible'}/5
-          </p>
+        {selectedShop && (
+          <div className={styles.shop}>
+              <h2 className="text-2xl font-bold text-center flex-1 pr-10">
+                  {selectedShop.name_shop}
+              </h2>
+              <p>
+                  Ubicación: {selectedShop.location_shop}</p>
+              <p>
+                  Calificación: {selectedShop.calification_shop || 'No disponible'}/5
+              </p>
+          </div>
+        )}
+
+        <div className={styles.productsListHeader}>
+            <h2 className="text-2xl font-bold text-center flex-1 pr-10">
+                Productos de la tienda
+            </h2>
+            <p>
+                Productos mostrados: {filteredProductsCount}
+            </p>
         </div>
-      )}
-
-      <div className={styles.filtersContainer}>
-        <FiltersForProducts />
-      </div>
-
-      <h2 className="text-2xl font-bold text-center flex-1 pr-10">
-        Productos de la tienda
-      </h2>
-
-      <p>
-        Productos mostrados: {filteredProductsCount}
-      </p>
-
-      {filteredProducts.length === 0 ? (
+        <div className={styles.filters}>
+            <FiltersForProducts />
+        </div>
+        {filteredProducts.length === 0 ? (
         <p className="text-center">
-          No hay productos disponibles
+            No hay productos disponibles
         </p>
-      ) : (
+        ) : (
         <div className={styles.list}>
-          {filteredProducts.map((product) => (
-            <div key={product.id_product} className={styles.product}>
-              <h3 className={styles.productName}>
-                {product.name_product}
-              </h3>
-              <p className={styles.productDescription}>
-                {product.info_product}
-              </p>
-              <p className={styles.productPrice}>
-                Precio: {product.price_product}
-              </p>
-            </div>
-          ))}
+            {filteredProducts.map((product) => (
+              <div key={product.id_product} className={styles.product}>
+                <h3 className={styles.productName}>
+                  {product.name_product}
+                </h3>
+                <p className={styles.productDescription}>
+                  {product.info_product}
+                </p>
+                <p className={styles.productPrice}>
+                  Precio: {product.price_product}
+                </p>
+              </div>
+            ))}
         </div>
-      )}
+        )}
     </div>
   );
 };

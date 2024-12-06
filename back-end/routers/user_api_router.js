@@ -7,11 +7,10 @@ const router = Router();
 const MAX_REGISTRATIONS = parseInt(process.env.MAX_REGISTRATIONS) || 2;
 const RESET_HOURS = parseInt(process.env.RESET_HOURS) || 24;
 
-// GET user/... routes
+
 router.get("/", userApiController.getAll);
 router.get("/:id", userApiController.getById);
 router.get("/:id/update", userApiController.update);
-// localhost:APP_PORT/user/ip/check
 router.get('/ip/check', async (req, res) => {
     const ip = req.ip || req.connection.remoteAddress;
     try {
@@ -57,12 +56,10 @@ router.get('/ip/check', async (req, res) => {
         }
     }
 });
-
-// POST localhost:APP_PORT/user/... routes
 router.post("/login", userApiController.login);
 router.post("/create", userApiController.create);
 router.post("/remove", userApiController.removeById);
-// localhost:APP_PORT/user/register
+
 router.post('/register', async (req, res) => {
     console.log('Register endpoint hit');  
     const ip = req.ip || req.connection.remoteAddress;
