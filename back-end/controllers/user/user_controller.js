@@ -11,22 +11,22 @@ const validateUserData = (userData) => {
             errors.push(`Falta el campo: ${field}`);
         }
     });
-    // Username validation
-    if (userData.name_user) {
-        if (userData.name_user.length < 3) {
-            errors.push('El nombre debe tener al menos 3 caracteres');
-        }
-        if (userData.name_user.length > 50) {
-            errors.push('El nombre no puede exceder 50 characters');
-        }
-        if (!/^[a-zA-Z0-9_]+$/.test(userData.name_user)) {
-            errors.push('El nombre solo puede contener letras, números y guiones bajos');
-        }
+// Username validation
+if (userData.name_user) {
+    if (userData.name_user.length < 3) {
+        errors.push('El nombre debe tener al menos 3 caracteres');
     }
+    if (userData.name_user.length > 50) {
+        errors.push('El nombre no puede exceder 50 characters');
+    }
+    if (!/^[a-zA-Z0-9_ ]+$/.test(userData.name_user)) {
+        errors.push('El nombre solo puede contener letras, números, guiones bajos y espacios');
+    }
+}
     // Password validation
     if (userData.pass_user) {
         if (userData.pass_user.length !== 4) {
-            errors.push('La contraseña debe tener 4 digitos');º
+            errors.push('La contraseña debe tener 4 digitos');
         }
         if (!/^\d+$/.test(userData.pass_user)) {
             errors.push('La contraseña solo puede contener numeros');
@@ -97,7 +97,6 @@ async function getByUserName(userName) {
      const user = await user_model.findOne({ 
          where: { name_user: userName } 
     });
-    
     if (user) {
         return { 
             data: user
