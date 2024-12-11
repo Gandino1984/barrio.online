@@ -2,19 +2,9 @@
 
 -- Insert Users with different types
 INSERT INTO `user` (name_user, pass_user, location_user, type_user) VALUES
-    ('Admin Principal', '1234', 'Madrid', 'admin'),
-    ('Juan Perez', '5678', 'Barcelona', 'seller'),
-    ('Maria Lopez', '9012', 'Valencia', 'user'),
-    ('Carlos Rodriguez', '3456', 'Sevilla', 'provider'),
-    ('Ana Martinez', '7890', 'Bilbao', 'seller'),
-    ('Pedro Sanchez', '2345', 'Zaragoza', 'user');
-
--- Insert Providers
-INSERT INTO `provider` (name_provider, location_provider, pass_provider) VALUES
-    ('Frutas y Verduras S.L.', 'Barcelona', '1111'),
-    ('Pescados del Mar', 'Valencia', '2222'),
-    ('Panaderia El Horno', 'Madrid', '3333'),
-    ('Electronica Tech', 'Bilbao', '4444');
+    ('German Andino', '0000', 'Valencia', 'user'),
+    ('German Andino 2', '0000', 'Barcelona', 'seller');
+    
 
 -- Insert Shops with diverse types
 INSERT INTO `shop` (name_shop, location_shop, type_shop, id_user, calification_shop) VALUES
@@ -108,9 +98,3 @@ INSERT INTO `orders` (id_user, id_product, delivery_date, finished) VALUES
     (3, 1, '2024-02-15 10:00:00', 0),
     (3, 12, '2024-02-16 14:30:00', 0),
     (6, 5, '2024-02-17 11:45:00', 1);
-
--- Sample Sales
-INSERT INTO `sales` (id_shop, id_user, id_product, sale_date) VALUES
-    (1, 3, 1, '2024-02-15 10:15:00'),
-    (2, 3, 12, '2024-02-16 15:00:00'),
-    (1, 6, 5, '2024-02-17 12:00:00');

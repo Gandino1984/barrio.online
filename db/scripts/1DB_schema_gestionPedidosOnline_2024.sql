@@ -32,8 +32,25 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`user` (
   `pass_user` VARCHAR(255) NOT NULL,
   `location_user` VARCHAR(45) NOT NULL,
   `type_user` VARCHAR(45) NOT NULL,
+  `id_shop` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_user`),
   UNIQUE INDEX `id_user_UNIQUE` (`id_user` ASC) VISIBLE
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `DB_gestionPedidosOnline_2024`.`shop`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`shop` (
+  `id_shop` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name_shop` VARCHAR(100) NOT NULL,
+  `location_shop` VARCHAR(45) NOT NULL,
+  `type_shop` VARCHAR(45) NOT NULL,
+  `subtype_shop` VARCHAR(45) NOT NULL,
+  `id_user` INT UNSIGNED NOT NULL,
+  `calification_shop` INT NOT NULL DEFAULT 0,
+  'id_product' INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`id_shop`),
+  UNIQUE INDEX `id_shop_UNIQUE` (`id_shop` ASC) VISIBLE,
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -50,10 +67,23 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`product` (
   `stock_product` INT NOT NULL DEFAULT 0,
   `info_product` TEXT,
   `id_shop` INT UNSIGNED NOT NULL,
+  `id_provider` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_product`),
   UNIQUE INDEX `id_product_UNIQUE` (`id_product` ASC) VISIBLE,
-  CHECK (`calification_product` BETWEEN 0 AND 5),
-  CHECK (`discount_product` BETWEEN 0 AND 100)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `DB_gestionPedidosOnline_2024`.`orders`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`orders` (
+  `id_order` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_user` INT UNSIGNED NOT NULL,
+  `id_product` INT UNSIGNED NOT NULL,
+  `id_shop` INT UNSIGNED NOT NULL,
+  `delivery_date` DATETIME NOT NULL,
+  `order_date` DATETIME NOT NULL,
+  `finished` TINYINT(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id_order`),
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -64,37 +94,11 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`provider` (
   `name_provider` VARCHAR(100) NOT NULL,
   `location_provider` VARCHAR(45) NOT NULL,
   `pass_provider` VARCHAR(255) NOT NULL,
+  `id_product` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_provider`),
   UNIQUE INDEX `id_provider_UNIQUE` (`id_provider` ASC) VISIBLE
 ) ENGINE = InnoDB;
 
--- -----------------------------------------------------
--- Table `DB_gestionPedidosOnline_2024`.`shop`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`shop` (
-  `id_shop` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name_shop` VARCHAR(100) NOT NULL,
-  `location_shop` VARCHAR(45) NOT NULL,
-  `type_shop` VARCHAR(45) NOT NULL,
-  `id_user` INT UNSIGNED NOT NULL,
-  `calification_shop` INT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id_shop`),
-  UNIQUE INDEX `id_shop_UNIQUE` (`id_shop` ASC) VISIBLE,
-  CHECK (`calification_shop` BETWEEN 0 AND 5)
-) ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `DB_gestionPedidosOnline_2024`.`orders`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`orders` (
-  `id_order` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_user` INT UNSIGNED NOT NULL,
-  `id_product` INT UNSIGNED NOT NULL,
-  `delivery_date` DATETIME NOT NULL,
-  `finished` TINYINT(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id_order`),
-  CHECK (`finished` IN (0,1))
-) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `DB_gestionPedidosOnline_2024`.`sales`
@@ -104,17 +108,17 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`sales` (
   `id_shop` INT UNSIGNED NOT NULL,
   `id_user` INT UNSIGNED NOT NULL,
   `id_product` INT UNSIGNED NOT NULL,
-  `sale_date` DATETIME NOT NULL,
   PRIMARY KEY (`id_sales`)
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `DB_gestionPedidosOnline_2024`.`buys`
+-- Table `DB_gestionPedidosOnline_2024`.`buys(inventory)`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`buys` (
   `id_buys` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_shop` INT UNSIGNED NOT NULL,
   `id_provider` INT UNSIGNED NOT NULL,
+  `id_product` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_buys`)
 ) ENGINE = InnoDB;
 
