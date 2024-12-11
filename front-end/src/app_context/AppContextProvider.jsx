@@ -20,6 +20,8 @@ export const AppContextProvider = ({ children }) => {
   };
 
   // Initialize currentUser from localStorage
+  // if there's a user in local storage the app shouldn't
+  // go through login/registration
   const [currentUser, setCurrentUser] = useState(() => {
     const storedUserData = localStorage.getItem('currentUser');
     if (storedUserData) {
@@ -36,17 +38,13 @@ export const AppContextProvider = ({ children }) => {
 
   // Custom login function to handle both context and localStorage
   const login = (userData) => {
-    // Create an object with user data and timestamp
     const userDataToStore = {
       user: userData,
       timestamp: new Date().getTime()
     };
     console.log('User data for local storage:', userDataToStore);
-    // Update localStorage
     localStorage.setItem('currentUser', JSON.stringify(userDataToStore)); 
-    // Update context state
     setCurrentUser(userData);
-    // Reset shops state
     setShops([]);
   };
 
@@ -60,25 +58,6 @@ export const AppContextProvider = ({ children }) => {
   useEffect(() => {
     checkAndClearUserData();
   }, []);
-
-  const [filterOptions, setFilterOptions] = useState({
-    temporada: {
-      label: 'Temporada',
-      options: ['Primavera', 'Verano', 'Otoño', 'Invierno', 'Todo el Año'],
-    },
-    tipo: {
-      label: 'Tipo',
-      options: ['Todos'],
-    },
-    oferta: {
-      label: 'Oferta',
-      options: [], 
-    },
-    calificacion: {
-      label: 'Calificación',
-      options: ['1', '2', '3', '4', '5'], 
-    },
-  });
 
   const MAX_PASSWORD_LENGTH = 4;
 
@@ -98,6 +77,9 @@ export const AppContextProvider = ({ children }) => {
   const [showShopCreationForm, setShowShopCreationForm] = useState(false);
   const [ipError, setIpError] = useState('');
   const [ip, setIp] = useState('');
+  const [error, setError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -106,28 +88,35 @@ export const AppContextProvider = ({ children }) => {
   
   const [businessType, setBusinessType] = useState('general');
   const [shops, setShops] = useState([]);
-  
-  
-  
-  
+  const [shopTypes, setShopTypes] = useState([]);
   
   const [products, setProducts] = useState([]);
-
-  
-  
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [filters, setFilters] = useState({
     temporada: null,
     tipo: null,
     oferta: null,
     calificacion: null,
   });
+  const [filterOptions, setFilterOptions] = useState({
+    temporada: {
+      label: 'Temporada',
+      options: ['Primavera', 'Verano', 'Otoño', 'Invierno', 'Todo el Año'],
+    },
+    tipo: {
+      label: 'Tipo',
+      options: ['Todos'],
+    },
+    oferta: {
+      label: 'Oferta',
+      options: [], 
+    },
+    calificacion: {
+      label: 'Calificación',
+      options: ['1', '2', '3', '4', '5'], 
+    },
+  });
 
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [shopTypes, setShopTypes] = useState([]);
-  const [error, setError] = useState('');
-  const [usernameError, setUsernameError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  
   const value = {
     isLoggingIn, setIsLoggingIn,
     username, setUsername,
