@@ -17,9 +17,9 @@ USE `DB_gestionPedidosOnline_2024`;
 -- Table `DB_gestionPedidosOnline_2024`.`ip`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS ip_registry (
-    ip_address VARCHAR(45) PRIMARY KEY,
-    registration_count INT DEFAULT 0,
-    last_attempt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    'ip_address' VARCHAR(45) PRIMARY KEY,
+    'registration_count' INT DEFAULT 0,
+    'last_attempt' TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_last_attempt (last_attempt)
 );
 
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`user` (
   `id_user` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name_user` VARCHAR(100) NOT NULL,
   `pass_user` VARCHAR(255) NOT NULL,
-  `location_user` VARCHAR(45) NOT NULL,
+  `location_user` VARCHAR(100) NOT NULL,
   `type_user` VARCHAR(45) NOT NULL,
   `id_shop` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_user`),
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`user` (
 CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`shop` (
   `id_shop` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name_shop` VARCHAR(100) NOT NULL,
-  `location_shop` VARCHAR(45) NOT NULL,
+  `location_shop` VARCHAR(100) NOT NULL,
   `type_shop` VARCHAR(45) NOT NULL,
   `subtype_shop` VARCHAR(45) NOT NULL,
   `id_user` INT UNSIGNED NOT NULL,
@@ -61,9 +61,9 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`product` (
   `name_product` VARCHAR(100) NOT NULL,
   `price_product` DECIMAL(10,2) NOT NULL DEFAULT 0.0,
   `discount_product` INT NULL DEFAULT 0,
-  `season_product` VARCHAR(255) NOT NULL,
+  `season_product` VARCHAR(45) NOT NULL,
   `calification_product` INT NOT NULL DEFAULT 0,
-  `type_product` VARCHAR(255) NOT NULL,
+  `type_product` VARCHAR(45) NOT NULL,
   `stock_product` INT NOT NULL DEFAULT 0,
   `info_product` TEXT,
   `id_shop` INT UNSIGNED NOT NULL,
@@ -92,23 +92,11 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`orders` (
 CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`provider` (
   `id_provider` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name_provider` VARCHAR(100) NOT NULL,
-  `location_provider` VARCHAR(45) NOT NULL,
+  `location_provider` VARCHAR(100) NOT NULL,
   `pass_provider` VARCHAR(255) NOT NULL,
   `id_product` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_provider`),
   UNIQUE INDEX `id_provider_UNIQUE` (`id_provider` ASC) VISIBLE
-) ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `DB_gestionPedidosOnline_2024`.`sales`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`sales` (
-  `id_sales` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_shop` INT UNSIGNED NOT NULL,
-  `id_user` INT UNSIGNED NOT NULL,
-  `id_product` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`id_sales`)
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -119,18 +107,11 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`buys` (
   `id_shop` INT UNSIGNED NOT NULL,
   `id_provider` INT UNSIGNED NOT NULL,
   `id_product` INT UNSIGNED NOT NULL,
+  `quantity` INT NOT NULL DEFAULT 0,
+  `price_provider` DECIMAL(10,2) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id_buys`)
 ) ENGINE = InnoDB;
 
--- -----------------------------------------------------
--- Table `DB_gestionPedidosOnline_2024`.`produce`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`produce` (
-  `id_produce` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_provider` INT UNSIGNED NOT NULL,
-  `id_product` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`id_produce`)
-) ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

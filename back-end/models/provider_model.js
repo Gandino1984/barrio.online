@@ -15,11 +15,23 @@ const provider_model = sequelize.define("provider", {
         allowNull: false
     },
     location_provider: { 
-        type: DataTypes.STRING(45),
+        type: DataTypes.STRING(100),
         allowNull: false
     },
     pass_provider: { 
         type: DataTypes.STRING(255),
+        allowNull: false
+    },
+    id_product: { 
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: false
+    },
+    quantity: { 
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: false
+    },
+    price_provider: { 
+        type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     }
 }, {

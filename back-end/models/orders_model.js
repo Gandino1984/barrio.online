@@ -20,6 +20,10 @@ const orders_model = sequelize.define("orders", {
         type: DataTypes.DATE,
         allowNull: false
     },
+    order_date: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
     finished: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
