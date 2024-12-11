@@ -1,7 +1,7 @@
 -- Insert Users with different types
-INSERT INTO `user` (name_user, pass_user, location_user, type_user, id_shop) VALUES
-    ('German Andino', '0000', 'Valencia', 'user', 1),
-    ('German Andino 2', '0000', 'Barcelona', 'seller', 2);
+INSERT INTO `user` (name_user, pass_user, location_user, type_user) VALUES
+    ('German Andino', '0000', 'Valencia', 'user'),
+    ('German Andino 2', '0000', 'Barcelona', 'seller');
     
 
 -- Insert Shops with diverse types

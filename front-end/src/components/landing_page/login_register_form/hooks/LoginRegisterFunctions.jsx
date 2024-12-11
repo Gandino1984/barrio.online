@@ -18,7 +18,7 @@ export const LoginRegisterFunctions = () => {
         setShowPasswordRepeat,
         setShowPasswordLabel,
         setKeyboardKey,
-        setShowBusinessSelector,
+        setshowShopManagement,
         setDisplayedPassword,
         userType, setUserType,
         currentUser, 
@@ -151,21 +151,21 @@ export const LoginRegisterFunctions = () => {
                 // If no shops exist, open the shop creation form
                 if (userShops.length === 0) {
                     setIsAddingShop(true);
-                    setShowBusinessSelector(false);
+                    setshowShopManagement(false);
                 } else {
                     // Set the shops owned by this specific seller
                     setShops(userShops);
-                    setShowBusinessSelector(true);
+                    setshowShopManagement(true);
                     setIsAddingShop(false);
                 }
             } catch (error) {
                 console.error('Error fetching seller shops:', error);
                 setIsAddingShop(true);
-                setShowBusinessSelector(false);
+                setshowShopManagement(false);
             }
         }else {
             // For other user types (client, provider), show business selector
-            setShowBusinessSelector(true);
+            setshowShopManagement(true);
         }
     };
 
@@ -192,7 +192,7 @@ export const LoginRegisterFunctions = () => {
             id: userData.id_user
         };
         login(normalizedUserData);
-        setShowBusinessSelector(true); //??
+        setshowShopManagement(true); //??
     };
 
     // /**
@@ -255,7 +255,7 @@ export const LoginRegisterFunctions = () => {
           await handleLoginResponse(loginResponse);
           // Check if user type is 'seller' and show ShopManagement component
           if (type === 'seller') {
-            setShowBusinessSelector(true);
+            setshowShopManagement(true);
           }
         } catch (error) {
           const errorMessage = error.response?.data?.error || error.message;
@@ -296,7 +296,7 @@ export const LoginRegisterFunctions = () => {
         setDisplayedPassword('');
         setShowPasswordLabel(true);
         setKeyboardKey((prev) => prev + 1);
-        setShowBusinessSelector(false);
+        setshowShopManagement(false);
     };
       
     /**

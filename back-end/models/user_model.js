@@ -24,10 +24,6 @@ const user_model = sequelize.define("user", {
         type: DataTypes.STRING(45),
         allowNull: false,
     },
-    id_shop: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false,
-    },
 }, {
     timestamps: false,
     freezeTableName: true

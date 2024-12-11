@@ -1,12 +1,3 @@
-/**
- * LoginRegisterForm component
- * 
- * This component handles the login and registration form for the application.
- * It uses the AppContext to access and update the application state.
- * 
- * @returns {JSX.Element} The JSX element representing the login/registration form.
- */
-
 import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import { LoginRegisterFunctions } from './hooks/LoginRegisterFunctions.jsx';
@@ -20,7 +11,7 @@ const LoginRegisterForm = () => {
     username,setUsername, 
     isLoggingIn, 
     userType, setUserType,
-    showBusinessSelector,setShowBusinessSelector,
+    showShopManagement,setshowShopManagement,
     password, passwordRepeat, showPasswordRepeat,
     keyboardKey, 
     usernameError,passwordError,
@@ -37,17 +28,17 @@ const LoginRegisterForm = () => {
   } = LoginRegisterFunctions();
 
   // If the business selector is shown, render the ShopManagement or UserManagement component
-  if (showBusinessSelector) {
+  if (showShopManagement) {
     if (userType === 'seller') {
         return (
           <ShopManagement
-          onBack={() => setShowBusinessSelector(false)}
+          onBack={() => setshowShopManagement(false)}
           />
         );
     } else {
         return (
           <UserManagement
-            onBack={() => setShowBusinessSelector(false)}
+            onBack={() => setshowShopManagement(false)}
           />
         );
     }

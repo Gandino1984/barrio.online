@@ -10,7 +10,7 @@ export const ShopManagementFunctions = () => {
         setError,
         setIsAddingShop,
         setSelectedShop,
-        setShowBusinessSelector
+        setshowShopManagement
       } = useContext(AppContext);
 
     const fetchUserShops = async () => {
@@ -32,7 +32,7 @@ export const ShopManagementFunctions = () => {
         }
       };
     const handleCancel = () => {
-    setShowBusinessSelector(false);
+    setshowShopManagement(false);
     };
     const handleSelectShop = (shop) => {
         setSelectedShop(shop);

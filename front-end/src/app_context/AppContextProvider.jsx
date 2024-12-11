@@ -52,9 +52,7 @@ export const AppContextProvider = ({ children }) => {
 
   // Custom logout function
   const logout = () => {
-    // Remove from localStorage
     localStorage.removeItem('currentUser');
-    // Clear context state
     setCurrentUser(null);
   };
 
@@ -74,7 +72,6 @@ export const AppContextProvider = ({ children }) => {
     },
     oferta: {
       label: 'Oferta',
-      // Removed 'Sí, No' options as we're using a checkbox now
       options: [], 
     },
     calificacion: {
@@ -83,30 +80,40 @@ export const AppContextProvider = ({ children }) => {
     },
   });
 
+  const MAX_PASSWORD_LENGTH = 4;
+
   const [databaseResponse, setDatabaseResponse] = useState(true);
   const [isLoggingIn, setIsLoggingIn] = useState(true);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordRepeat, setPasswordRepeat] = useState('');
   const [displayedPassword, setDisplayedPassword] = useState('');
-  const [userType, setUserType] = useState(''); 
-  const MAX_PASSWORD_LENGTH = 4;
   const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
   const [showPasswordLabel, setShowPasswordLabel] = useState(true);
   const [keyboardKey, setKeyboardKey] = useState(0);
-  const [showBusinessSelector, setShowBusinessSelector] = useState(false);
+  const [showShopManagement, setshowShopManagement] = useState(false);
   const [onPasswordComplete, setOnPasswordComplete] = useState(null);
   const [onClear, setOnClear] = useState(null);
-  const [businessType, setBusinessType] = useState('general');
-  const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedShop, setSelectedShop] = useState(null);
   const [isAddingShop, setIsAddingShop] = useState(false);
   const [selectedBusinessType, setSelectedBusinessType] = useState(null);
   const [showShopCreationForm, setShowShopCreationForm] = useState(false);
+  const [ipError, setIpError] = useState('');
+  const [ip, setIp] = useState('');
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordRepeat, setPasswordRepeat] = useState('');
+  const [userType, setUserType] = useState(''); 
+  
+  const [businessType, setBusinessType] = useState('general');
+  const [shops, setShops] = useState([]);
+  
+  
+  
+  
+  
   const [products, setProducts] = useState([]);
 
-  const [ipError, setIpError] = useState('');
+  
   
   const [filters, setFilters] = useState({
     temporada: null,
@@ -130,7 +137,7 @@ export const AppContextProvider = ({ children }) => {
     databaseResponse, setDatabaseResponse,
     userType, setUserType,
     businessType, setBusinessType,
-    showBusinessSelector, setShowBusinessSelector,
+    showShopManagement, setshowShopManagement,
     showPasswordRepeat, setShowPasswordRepeat,
     showPasswordLabel, setShowPasswordLabel,
     keyboardKey, setKeyboardKey,
@@ -153,7 +160,8 @@ export const AppContextProvider = ({ children }) => {
     filters, setFilters,
     filteredProducts, setFilteredProducts,
     shopTypes, setShopTypes,
-    passwordError, setPasswordError
+    passwordError, setPasswordError,
+    ip, setIp
   };
 
   return (

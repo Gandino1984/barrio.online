@@ -16,6 +16,10 @@ const orders_model = sequelize.define("orders", {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },
+    id_shop: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: false
+    },
     delivery_date: {
         type: DataTypes.DATE,
         allowNull: false
