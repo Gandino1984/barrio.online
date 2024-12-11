@@ -22,18 +22,6 @@ const provider_model = sequelize.define("provider", {
         type: DataTypes.STRING(255),
         allowNull: false
     },
-    id_product: { 
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false
-    },
-    quantity: { 
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false
-    },
-    price_provider: { 
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false
-    }
 }, {
     timestamps: false,
     freezeTableName: true

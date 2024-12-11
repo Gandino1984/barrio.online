@@ -34,10 +34,6 @@ const shop_model = sequelize.define("shop", {
         allowNull: false,
         defaultValue: 0,
     },
-    id_product: { 
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false
-    },
 }, {
     timestamps: false,
     freezeTableName: true
