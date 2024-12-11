@@ -1,52 +1,57 @@
+/**
+ * ShopsByType component.
+ * Displays a list of shops by type and allows the user to select a shop.
+ * 
+ * @param {Object} props - The component props.
+ * @param {Function} props.onBack - The callback function to navigate back.
+ * 
+ * @returns {JSX.Element} The ShopsByType component.
+ */
 import React, { useEffect, useContext } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import axiosInstance from '../../../../utils/axiosConfig.js';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopsByType.module.css';
 import ProductsList from '../../product_management/ProductsList.jsx'; 
+import { ShopsByTypeFunctions } from './hooks/ShopsByTypeFunctions.jsx';
 
 const ShopsByType = ({ onBack }) => {
+  /**
+   * Destructure the business type, shops, loading, error, selected shop, and setSelectedShop from the AppContext.
+   * These values are used to display the shops by type and handle shop selection.
+   */
   const { 
     businessType, 
-    shops, setShops,
-    loading, setLoading,
-    error, setError,
+    shops,
+    loading,
+    error,
     selectedShop, setSelectedShop,
   } = useContext(AppContext);
 
+  /**
+   * Destructure the fetchShopsByType function from the ShopsByTypeFunctions hook.
+   * This function is used to fetch the shops by type when the component mounts or the business type changes.
+   */
+  const { fetchShopsByType } = ShopsByTypeFunctions();
+
+  /**
+   * Effect hook to fetch the shops by type when the component mounts or the business type changes.
+   * Resets the selected shop to null when the business type changes.
+   */
   useEffect(() => {
+    console.log('!!! Business type:', businessType);
     setSelectedShop(null);
-    const fetchShops = async () => {
-      console.log('Fetching shops for business type:', businessType);
-      try {
-        setLoading(true);
-        const response = await axiosInstance.post('/shop/type', {
-          type_shop: businessType
-        }, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        if (response.data.error) {
-          throw new Error(response.data.error);
-        }
-        setShops(response.data.data || []);
-        setLoading(false);
-      } catch (err) {
-        console.error('FULL ERROR:', err);
-        setError(err.message || `Error al cargar ${businessType} shops`);
-      }finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchShops();
+    fetchShopsByType();
   }, [businessType]);
 
+  /**
+   * Handle shop selection by setting the selected shop in the AppContext.
+   * 
+   * @param {Object} shop - The selected shop.
+   */
   const handleShopSelect = (shop) => {
     setSelectedShop(shop);
   };
-  if (loading) return <div>Cargando {businessType} shops...</div>;
+
   if (error) return <div>{error}</div>;
 
   return (
@@ -58,15 +63,23 @@ const ShopsByType = ({ onBack }) => {
         >
           <ArrowLeft size={16} />
         </button>
-   
       </div>
       {selectedShop ? (
+        /**
+         * Display the ProductsList component if a shop is selected.
+         */
         <ProductsList />
       ) : (
         <div>
           {shops.length === 0 ? (
+            /**
+             * Display a message if no shops are available for the selected type.
+             */
             <p>No hay {businessType} shops disponibles.</p>
           ) : (
+            /**
+             * Display a list of shops by type.
+             */
             <div className={styles.list}>
               {shops.map(shop => (
                 <div 

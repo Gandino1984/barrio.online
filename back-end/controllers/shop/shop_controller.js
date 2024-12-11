@@ -158,6 +158,25 @@ async function removeById(id) {
     }
   }
 
-export { getAll, create, update, removeById, getByType, getByUserId }
+  /**
+ * Retrieves unique shop types from the database.
+ * 
+ * @async
+ * @returns {Object} An object containing the unique shop types or an error message.
+ */
+async function getTypesOfShops() {
+    try {
+      const shopTypes = await shop_model.findAll({
+        attributes: ['type_shop'],
+        group: ['type_shop'],
+      });
+      return { data: shopTypes.map((type) => type.type_shop) };
+    } catch (error) {
+      console.error('Error fetching types of shops: ', error);
+      return { error: error.message };
+    }
+  }
 
-export default { getAll, create, update, removeById, getByType, getByUserId }
+export { getAll, create, update, removeById, getByType, getByUserId, getTypesOfShops }
+
+export default { getAll, create, update, removeById, getByType, getByUserId, getTypesOfShops }

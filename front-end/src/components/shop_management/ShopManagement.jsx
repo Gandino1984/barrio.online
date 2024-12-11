@@ -25,6 +25,7 @@ const ShopManagement = ({ onBack }) => {
     setSelectedShop(shop);
   };
 
+  // take this away from here
   useEffect(() => {
     const fetchUserShops = async () => {
       if (!currentUser) return;

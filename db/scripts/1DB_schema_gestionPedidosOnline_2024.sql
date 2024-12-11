@@ -44,13 +44,16 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`product` (
   `name_product` VARCHAR(100) NOT NULL,
   `price_product` DECIMAL(10,2) NOT NULL DEFAULT 0.0,
   `discount_product` INT NULL DEFAULT 0,
-  `season_product` ENUM('Spring', 'Summer', 'Fall', 'Winter', 'All Year') NOT NULL,
+  `season_product` VARCHAR(255) NOT NULL,
   `calification_product` INT NOT NULL DEFAULT 0,
+  `type_product` VARCHAR(255) NOT NULL,
+  `stock_product` INT NOT NULL DEFAULT 0,
+  `info_product` TEXT,
   `id_shop` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_product`),
   UNIQUE INDEX `id_product_UNIQUE` (`id_product` ASC) VISIBLE,
-  CONSTRAINT `chk_product_calification` CHECK (`calification_product` BETWEEN 0 AND 5),
-  CONSTRAINT `chk_product_discount` CHECK (`discount_product` BETWEEN 0 AND 100)
+  CHECK (`calification_product` BETWEEN 0 AND 5),
+  CHECK (`discount_product` BETWEEN 0 AND 100)
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -77,13 +80,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`shop` (
   `calification_shop` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_shop`),
   UNIQUE INDEX `id_shop_UNIQUE` (`id_shop` ASC) VISIBLE,
-  INDEX `fk_shop_user_idx` (`id_user` ASC) VISIBLE,
-  CONSTRAINT `fk_shop_user`
-    FOREIGN KEY (`id_user`)
-    REFERENCES `DB_gestionPedidosOnline_2024`.`user` (`id_user`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `chk_shop_calification` CHECK (`calification_shop` BETWEEN 0 AND 5)
+  CHECK (`calification_shop` BETWEEN 0 AND 5)
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -96,19 +93,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`orders` (
   `delivery_date` DATETIME NOT NULL,
   `finished` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_order`),
-  INDEX `fk_orders_product_idx` (`id_product` ASC) VISIBLE,
-  INDEX `fk_orders_user_idx` (`id_user` ASC) VISIBLE,
-  CONSTRAINT `fk_orders_user`
-    FOREIGN KEY (`id_user`)
-    REFERENCES `DB_gestionPedidosOnline_2024`.`user` (`id_user`)
-    ON DELETE  CASCADE
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_orders_product`
-    FOREIGN KEY (`id_product`)
-    REFERENCES `DB_gestionPedidosOnline_2024`.`product` (`id_product`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `chk_orders_finished` CHECK (`finished` IN (0,1))
+  CHECK (`finished` IN (0,1))
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -120,25 +105,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`sales` (
   `id_user` INT UNSIGNED NOT NULL,
   `id_product` INT UNSIGNED NOT NULL,
   `sale_date` DATETIME NOT NULL,
-  PRIMARY KEY (`id_sales`),
-  INDEX `fk_sales_product_idx` (`id_product` ASC) VISIBLE,
-  INDEX `fk_sales_shop_idx` (`id_shop` ASC) VISIBLE,
-  INDEX `fk_sales_user_idx` (`id_user` ASC) VISIBLE,
-  CONSTRAINT `fk_sales_shop`
-    FOREIGN KEY (`id_shop`)
-    REFERENCES `DB_gestionPedidosOnline_2024`.`shop` (`id_shop`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_sales_user`
-    FOREIGN KEY (`id_user`)
-    REFERENCES `DB_gestionPedidosOnline_2024`.`user` (`id_user`)
-    ON DELETE  CASCADE
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_sales_product`
-    FOREIGN KEY (`id_product`)
-    REFERENCES `DB_gestionPedidosOnline_2024`.`product` (`id_product`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
+  PRIMARY KEY (`id_sales`)
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -148,19 +115,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`buys` (
   `id_buys` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_shop` INT UNSIGNED NOT NULL,
   `id_provider` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`id_buys`),
-  INDEX `fk_buys_provider_idx` (`id_provider` ASC) VISIBLE,
-  INDEX `fk_buys_shop_idx` (`id_shop` ASC) VISIBLE,
-  CONSTRAINT `fk_buys_shop`
-    FOREIGN KEY (`id_shop`)
-    REFERENCES `DB_gestionPedidosOnline_2024`.`shop` (`id_shop`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_buys_provider`
-    FOREIGN KEY (`id_provider`)
-    REFERENCES `DB_gestionPedidosOnline_2024`.`provider` (`id_provider`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
+  PRIMARY KEY (`id_buys`)
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -170,19 +125,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`produce` (
   `id_produce` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_provider` INT UNSIGNED NOT NULL,
   `id_product` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`id_produce`),
-  INDEX `fk_produce_product_idx` (`id_product` ASC) VISIBLE,
-  INDEX `fk_produce_provider_idx` (`id_provider` ASC) VISIBLE,
-  CONSTRAINT `fk_produce_provider`
-    FOREIGN KEY (`id_provider`)
-    REFERENCES `DB_gestionPedidosOnline_2024`.`provider` (`id_provider`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_produce_product`
-    FOREIGN KEY (`id_product`)
-    REFERENCES `DB_gestionPedidosOnline_2024`.`product` (`id_product`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
+  PRIMARY KEY (`id_produce`)
 ) ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;

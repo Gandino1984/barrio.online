@@ -18,20 +18,22 @@ import ShopManagement from "../../shop_management/ShopManagement.jsx";
 const LoginRegisterForm = () => {
   const {
     username,setUsername, 
-    isLoggingIn, userType,
+    isLoggingIn, 
+    userType, setUserType,
     showBusinessSelector,setShowBusinessSelector,
     password, passwordRepeat, showPasswordRepeat,
-    keyboardKey
+    keyboardKey, 
+    usernameError,passwordError,
+    ipError
   } = useContext(AppContext);
 
   const {
     handlePasswordComplete,
     handleClear, handlePasswordChange,
     handleRepeatPasswordChange, isButtonDisabled,
-    toggleForm, handleBusinessSelect,
+    toggleForm, 
     handleFormSubmit, handleUserTypeChange,
-    handleUsernameChange, usernameError,
-    ipError
+    handleUsernameChange, 
   } = LoginRegisterFunctions();
 
   // If the business selector is shown, render the ShopManagement or UserManagement component
@@ -45,12 +47,11 @@ const LoginRegisterForm = () => {
     } else {
         return (
           <UserManagement
-            onSelectBusiness={handleBusinessSelect}
             onBack={() => setShowBusinessSelector(false)}
           />
         );
     }
-}
+  }
   // Render the login/registration form
   return (
     <div className={styles.container}>
@@ -62,54 +63,30 @@ const LoginRegisterForm = () => {
                   <div className={styles.formField}>
                       <label htmlFor="username">1. Escribe tu nombre de usuario</label>
                       <input
-                        id="username"
-                        type="text"
-                        value={username}
-                        onChange={handleUsernameChange}
-                        className={usernameError ? styles.inputError : ''}
-                        onKeyUp={(e) => {setUsername(e.target.value)
-                                      console.log('Username input:', e.target.value);
-                        }}
-                        required
+                          id="username"
+                          type="text"
+                          value={username}
+                          onChange={handleUsernameChange}
+                          className={usernameError ? styles.inputError : ''}
+                          required
                       />
+                    {usernameError && <div className={styles.errorText}>{usernameError}</div>}
+                    {ipError && <div className={styles.errorText}>{ipError}</div>}
+                    {passwordError && <div className={styles.errorText}>{passwordError}</div>}
                   </div>
-                  {!isLoggingIn && (
+                    {!isLoggingIn && (
                       // Render the user type radio buttons for registration
-                      <div className={`${styles.formField} ${styles.radioGroup}`}>
+                      <div className={styles.formField }>
                           <div className={styles.radioOptions}>
-                              <div className={styles.radioOption}>
-                                  <input
-                                    type="radio"
-                                    id="user"
-                                    name="userType"
-                                    value="user"
-                                    checked={userType === 'user'}
-                                    onChange={handleUserTypeChange}
-                                  />
-                                  <label htmlFor="user">Usuario</label>
-                              </div>
-                              <div className={styles.radioOption}>
-                                  <input
-                                    type="radio"
-                                    id="seller"
-                                    name="userType"
-                                    value="seller"
-                                    checked={userType === 'seller'}
-                                    onChange={handleUserTypeChange}
-                                  />
-                                  <label htmlFor="seller">Vendedor</label>
-                              </div>
-                              <div className={styles.radioOption}>
-                                  <input
-                                    type="radio"
-                                    id="provider"
-                                    name="userType"
-                                    value="provider"
-                                    checked={userType === 'provider'}
-                                    onChange={handleUserTypeChange}
-                                  />
-                                  <label htmlFor="provider">Proveedor</label>
-                              </div>
+                          <select value={userType} 
+                          onChange={handleUserTypeChange}
+                          required
+                          >
+                              <option value="">Tipo de usuario</option>
+                              <option value="user">Cliente</option>
+                              <option value="seller">Vendedor</option>
+                              <option value="provider">Productor</option>
+                          </select>
                           </div>
                       </div>
                   )}
@@ -121,11 +98,10 @@ const LoginRegisterForm = () => {
                           ? handleRepeatPasswordChange 
                           : (newPassword) => handlePasswordChange(isLoggingIn, newPassword)}
                         onPasswordComplete={handlePasswordComplete(isLoggingIn)}
-                        onClear={handleClear(isLoggingIn)}
+                        error={!!usernameError || !!passwordError}
                       />
                   </div>
                   <div className={styles.formActions}>
-                      {/* Render the submit button */}
                       <button
                         type="submit"
                         className={`${styles.submitButton} ${isButtonDisabled() ? styles.inactive : styles.active}`}

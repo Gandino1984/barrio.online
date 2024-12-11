@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/sequelize.js";
-import product_model from "./product_model.js";
 
 const user_model = sequelize.define("user", {
     id_user: {
@@ -23,7 +22,13 @@ const user_model = sequelize.define("user", {
     },
     type_user: {
         type: DataTypes.STRING(45),
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isIn: {
+                args: [['admin', 'user', 'seller', 'provider']], 
+                msg: 'Tipo de usuario inválido'
+            }
+        }
     }
 }, {
     timestamps: false,

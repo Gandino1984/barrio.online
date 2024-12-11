@@ -63,6 +63,26 @@ export const AppContextProvider = ({ children }) => {
     checkAndClearUserData();
   }, []);
 
+  const [filterOptions, setFilterOptions] = useState({
+    temporada: {
+      label: 'Temporada',
+      options: ['Primavera', 'Verano', 'Otoño', 'Invierno', 'Todo el Año'],
+    },
+    tipo: {
+      label: 'Tipo',
+      options: ['Todos'],
+    },
+    oferta: {
+      label: 'Oferta',
+      // Removed 'Sí, No' options as we're using a checkbox now
+      options: [], 
+    },
+    calificacion: {
+      label: 'Calificación',
+      options: ['1', '2', '3', '4', '5'], 
+    },
+  });
+
   const [databaseResponse, setDatabaseResponse] = useState(true);
   const [isLoggingIn, setIsLoggingIn] = useState(true);
   const [username, setUsername] = useState('');
@@ -80,15 +100,31 @@ export const AppContextProvider = ({ children }) => {
   const [businessType, setBusinessType] = useState('general');
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
   const [selectedShop, setSelectedShop] = useState(null);
   const [isAddingShop, setIsAddingShop] = useState(false);
   const [selectedBusinessType, setSelectedBusinessType] = useState(null);
   const [showShopCreationForm, setShowShopCreationForm] = useState(false);
   const [products, setProducts] = useState([]);
 
+<<<<<<< HEAD
   const [usernameError, setUsernameError] = useState('');
   const [ipError, setIpError] = useState('');
+=======
+  const [ipError, setIpError] = useState('');
+  
+  const [filters, setFilters] = useState({
+    temporada: null,
+    tipo: null,
+    oferta: null,
+    calificacion: null,
+  });
+
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [shopTypes, setShopTypes] = useState([]);
+  const [error, setError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+>>>>>>> dev
   
   const value = {
     isLoggingIn, setIsLoggingIn,
@@ -118,6 +154,14 @@ export const AppContextProvider = ({ children }) => {
     usernameError, setUsernameError,
     ipError, setIpError,
     error, setError,
+<<<<<<< HEAD
+=======
+    filterOptions, setFilterOptions,
+    filters, setFilters,
+    filteredProducts, setFilteredProducts,
+    shopTypes, setShopTypes,
+    passwordError, setPasswordError
+>>>>>>> dev
   };
 
   return (
