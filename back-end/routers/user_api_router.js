@@ -2,7 +2,6 @@ import { Router } from "express";
 import userApiController from "../controllers/user/user_api_controller.js";
 import IpRegistry from '../../back-end/models/ip_registry_model.js'; 
 import dotenv from 'dotenv';
-import AppContext from '../../front-end/src/app_context/AppContext.js';
 
 dotenv.config();
 
@@ -20,7 +19,8 @@ router.get("/", userApiController.getAll);
 // router.get("/:id/update", userApiController.update);
 
 router.get('/ip/check', async (req, res) => {
-    const userIp = req.ip || req.socket.remoteAddress;
+    const userIp = req.socket.remoteAddress;
+
     try {
         const [ipRecord, created] = await IpRegistry.findOrCreate({
             where: { ip_address: userIp },

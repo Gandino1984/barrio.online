@@ -14,7 +14,7 @@ async function getById(req, res) {
 
 async function getByUserName(req, res) {
     const name = req.body.name_user;
-    console.log("user_api_controller - getByUserName - name = ", name);
+    console.log("-> user_api_controller.js - getByUserName() - User name = ", name);
     const {error, data} = await userController.getByUserName(name);
     res.json({error, data});
 }

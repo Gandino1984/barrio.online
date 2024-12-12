@@ -2,17 +2,14 @@
     "folder-customization.folders": [
         {
             "path": "uribarri.online/back-end/",
-            "badge": "🥶",
             "color": "foldercustomization.AnsiColor14"
         },
         {
             "path": "uribarri.online/front-end/",
-            "badge": "😡",
             "color": "foldercustomization.AnsiColor208"
         },
         {
             "path": "uribarri.online/db/scripts/",
-            "badge": "😈",
             "color": "foldercustomization.AnsiColor198"
         },
         {

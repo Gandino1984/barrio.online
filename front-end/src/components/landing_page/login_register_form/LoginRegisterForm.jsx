@@ -8,14 +8,11 @@ import ShopManagement from "../../shop_management/ShopManagement.jsx";
 
 const LoginRegisterForm = () => {
   const {
-    username,setUsername, 
-    isLoggingIn, 
-    userType, setUserType,
-    showShopManagement,setshowShopManagement,
+    username, currentUser, usernameError,
+    isLoggingIn, userType, 
+    showShopManagement, ipError,passwordError,
     password, passwordRepeat, showPasswordRepeat,
-    keyboardKey, 
-    usernameError,passwordError,
-    ipError
+    keyboardKey, checkAndClearUserData
   } = useContext(AppContext);
 
   const {
@@ -24,22 +21,30 @@ const LoginRegisterForm = () => {
     handleRepeatPasswordChange, isButtonDisabled,
     toggleForm, 
     handleFormSubmit, handleUserTypeChange,
-    handleUsernameChange, 
+    handleUsernameChange
   } = LoginRegisterFunctions();
 
-  // If the business selector is shown, render the ShopManagement or UserManagement component
-  if (showShopManagement) {
+  
+  console.log('-> LoginRegisterForm.jsx - isLoggingIn state = ', isLoggingIn);
+
+  console.log('-> LoginRegisterForm.jsx - showShopManagement state = ', showShopManagement);
+
+
+
+  //check if there is a user in local storage
+  checkAndClearUserData();
+
+    // If the shopManagement selector is shown, render the ShopManagement or UserManagement component
+  if (showShopManagement || currentUser) {
+    console.log('-> LoginRegisterForm.jsx - userType = ', userType);
+
     if (userType === 'seller') {
         return (
-          <ShopManagement
-          onBack={() => setshowShopManagement(false)}
-          />
+          <ShopManagement/>
         );
     } else {
         return (
-          <UserManagement
-            onBack={() => setshowShopManagement(false)}
-          />
+          <UserManagement/>
         );
     }
   }
@@ -52,13 +57,13 @@ const LoginRegisterForm = () => {
               </h2>
               <form onSubmit={handleFormSubmit} className={styles.formContent}>
                   <div className={styles.formField}>
-                      <label htmlFor="username">1. Escribe tu nombre de usuario</label>
                       <input
                           id="username"
                           type="text"
                           value={username}
                           onChange={handleUsernameChange}
                           className={usernameError ? styles.inputError : ''}
+                          placeholder='Escribe tu nombre de usuario'
                           required
                       />
                     {usernameError && <div className={styles.errorText}>{usernameError}</div>}

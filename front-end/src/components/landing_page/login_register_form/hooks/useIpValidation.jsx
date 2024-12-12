@@ -13,9 +13,8 @@ export const useIPValidation = () => {
 
   const validateIPRegistration = async () => {
     try {
-      // Send a GET request to the '/user/ip/check' endpoint to check the registration limit
       const response = await axiosInstance.get('/user/ip/check');
-
+      console.log('Response:', response.data);
       // If the response indicates that registration is not allowed
       if (!response.data.canRegister) {
         // Calculate the number of hours until the registration limit resets

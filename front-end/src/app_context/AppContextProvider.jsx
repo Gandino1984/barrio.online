@@ -3,9 +3,15 @@ import AppContext from '../app_context/AppContext.js';
 
 export const AppContextProvider = ({ children }) => {
 
+  const [isLoggingIn, setIsLoggingIn] = useState(true);
+  const [showShopManagement, setshowShopManagement] = useState(false);
+  
   // Function to check and clear expired user data
   const checkAndClearUserData = () => {
     const storedUserData = localStorage.getItem('currentUser');
+    
+    setCurrentUser(storedUserData);
+    
     if (storedUserData) {
       const { timestamp } = JSON.parse(storedUserData);
       const currentTime = new Date().getTime();
@@ -27,6 +33,7 @@ export const AppContextProvider = ({ children }) => {
     if (storedUserData) {
       try {
         const parsedData = JSON.parse(storedUserData);
+        console.log('-> Datos de usuario en el Local Storage:', parsedData);
         return parsedData.user || null;
       } catch (error) {
         console.error('Error parsing stored user data:', error);
@@ -42,14 +49,20 @@ export const AppContextProvider = ({ children }) => {
       user: userData,
       timestamp: new Date().getTime()
     };
-    console.log('User data for local storage:', userDataToStore);
+    console.log('-> User data for local storage = ', userDataToStore);
+
     localStorage.setItem('currentUser', JSON.stringify(userDataToStore)); 
+    
     setCurrentUser(userData);
-    setShops([]);
+
+    
+    // just added
+    // setShops([]);
   };
 
   // Custom logout function
   const logout = () => {
+    //to-do: ask later if the user to log out
     localStorage.removeItem('currentUser');
     setCurrentUser(null);
   };
@@ -62,12 +75,10 @@ export const AppContextProvider = ({ children }) => {
   const MAX_PASSWORD_LENGTH = 4;
 
   const [databaseResponse, setDatabaseResponse] = useState(true);
-  const [isLoggingIn, setIsLoggingIn] = useState(true);
   const [displayedPassword, setDisplayedPassword] = useState('');
   const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
   const [showPasswordLabel, setShowPasswordLabel] = useState(true);
   const [keyboardKey, setKeyboardKey] = useState(0);
-  const [showShopManagement, setshowShopManagement] = useState(false);
   const [onPasswordComplete, setOnPasswordComplete] = useState(null);
   const [onClear, setOnClear] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -150,7 +161,8 @@ export const AppContextProvider = ({ children }) => {
     filteredProducts, setFilteredProducts,
     shopTypes, setShopTypes,
     passwordError, setPasswordError,
-    ip, setIp
+    ip, setIp,
+    checkAndClearUserData
   };
 
   return (
