@@ -1,5 +1,5 @@
 import user_model from "../../models/user_model.js";
-import { Op } from "sequelize";
+// import { Op } from "sequelize";
 
 // Validation utilities
 const validateUserData = (userData) => {
@@ -92,22 +92,26 @@ async function getById(id) {
 }
 
 async function getByUserName(userName) {
-    console.log("user_controller - getByUserName - userName = ", userName);
-    
+    console.log("-> user_controller.js - getByUserName() - userName = ", userName);
+    console.log("-> Buscando datos en la DB con nombre de usuario: ", userName);
+
      const user = await user_model.findOne({ 
          where: { name_user: userName } 
     });
+
     if (user) {
+        //erase this log later
+        console.log('->  getByUserName() - Datos completos obtenidos = ', user);
         return { 
             data: user
         };
     }else{
-        return { 
+        console.log('->  El usuario no existe');
+        return {  
             error: "El usuario no existe"
         };
     }
 }
-
 
 async function create(userData) {
     try {
@@ -146,9 +150,11 @@ async function create(userData) {
 }
 
 async function login(userData) {
+    console.log("-> user_controller.js - login() - userData = ", userData);
     try {
         // Validate login data
         if (!userData.name_user || !userData.pass_user) {
+            console.log('-> login() - Información de usuario incompleta');
             return { 
                 error: "Información de usuario incompleta",
                 details: "Both username and password are required" 
@@ -171,13 +177,15 @@ async function login(userData) {
                 details: "User not found" 
             };
         }
-        // Verify password
+        // Password comparison
         if (user.pass_user !== userData.pass_user) {
+            console.log('-> login() - Contraseña incorrecta');
             return { 
                 error: "Contraseña incorrecta",
                 details: "Incorrect password" 
             };
         }
+
         // Return user data without sensitive information
         const userResponse = {
             id_user: user.id_user,
@@ -185,12 +193,13 @@ async function login(userData) {
             type_user: user.type_user,
             location_user: user.location_user
         };
+
         return { 
             data: userResponse,
-            message: "Login successful" 
+            message: "Login exitoso" 
         };
     } catch (error) {
-        console.error("Error in login:", error);
+        console.error("-> Error al iniciar sesión =", error);
         return { 
             error: "Error al iniciar sesión",
             details: error.message 
@@ -207,7 +216,7 @@ async function register(userData) {
         });
 
         if (!validation.isValid) {
-            console.error('Validation errors: ', validation.errors);
+            console.error('-> user_controller.js - register() - Error de validación = ', validation.errors);
             return { 
                 error: "Validación fallida",
                 details: validation.errors 
@@ -218,8 +227,9 @@ async function register(userData) {
         const existingUser = await user_model.findOne({ 
             where: { name_user: userData.name_user } 
         });
-        
+
         if (existingUser) {
+            console.log('-> register() - existingUser = ', existingUser);
             return { 
                 error: "El usuario ya existe",
                 details: "Username already exists" 
@@ -229,7 +239,7 @@ async function register(userData) {
         // Create user
         const user = await user_model.create({
             ...userData,
-            location_user: userData.location_user || 'Bilbao'
+            location_user: userData.location_user || 'Uribarri'
         });
 
         // Return user data without sensitive information
@@ -240,12 +250,14 @@ async function register(userData) {
             location_user: user.location_user
         };
 
+        console.log('-> register() - new user without sensitive info = ', userResponse);
+
         return { 
             data: userResponse,
             message: "Registro exitoso" 
         };
     } catch (error) {
-        console.error("Error in register:", error);
+        console.error("Error en el registro = ", error);
         return { 
             error: "Error de registro",
             details: error.message 

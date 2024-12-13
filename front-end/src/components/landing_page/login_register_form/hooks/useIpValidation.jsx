@@ -3,11 +3,7 @@ import axiosInstance from '../../../../../utils/axiosConfig.js';
 import { useContext } from 'react';
 import AppContext from '../../../../app_context/AppContext.js';
 
-/**
- * Custom hook to handle IP validation for registration.
- * 
- * @returns {object} An object containing the IP error state and a function to validate IP registration.
- */
+
 export const useIPValidation = () => {
 <<<<<<< HEAD
 =======
@@ -17,16 +13,11 @@ export const useIPValidation = () => {
     ipError, setIpError
   } = useContext(AppContext);
 
-  /**
-   * Validate IP registration by checking if the client's IP has exceeded the registration limit.
-   * 
-   * @returns {boolean} True if registration is allowed, false otherwise.
-   */
+
   const validateIPRegistration = async () => {
     try {
-      // Send a GET request to the '/user/ip/check' endpoint to check the registration limit
       const response = await axiosInstance.get('/user/ip/check');
-
+      console.log('Response:', response.data);
       // If the response indicates that registration is not allowed
       if (!response.data.canRegister) {
         // Calculate the number of hours until the registration limit resets

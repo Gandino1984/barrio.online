@@ -15,13 +15,13 @@ const provider_model = sequelize.define("provider", {
         allowNull: false
     },
     location_provider: { 
-        type: DataTypes.STRING(45),
+        type: DataTypes.STRING(100),
         allowNull: false
     },
     pass_provider: { 
         type: DataTypes.STRING(255),
         allowNull: false
-    }
+    },
 }, {
     timestamps: false,
     freezeTableName: true

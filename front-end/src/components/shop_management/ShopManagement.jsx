@@ -12,13 +12,13 @@ const ShopManagement = ({ onBack }) => {
     error, setError,
     selectedShop, setSelectedShop,
     showShopCreationForm, setShowShopCreationForm,
-    ShowBusinessSelector, setShowBusinessSelector,
+    showShopManagement, setshowShopManagement,
     isAddingShop, setIsAddingShop
   } = useContext(AppContext);
 
 
   const handleCancel = () => {
-    setShowBusinessSelector(false);
+    setshowShopManagement(false);
   };
 
   const handleSelectShop = (shop) => {

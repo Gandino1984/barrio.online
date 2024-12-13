@@ -20,10 +20,10 @@ const sequelize = new Sequelize(
 async function initialize() {
     try {
         await sequelize.authenticate();
-        console.log('******* SEQUELIZE: Connection has been established successfully ********');
-        
+        console.log('*** SEQUELIZE: La conexion con la base de datos ha sido establecida ***');
+        sequelize.sync({ alter: true }); 
     } catch (error) {
-        console.error('!!!! SEQUELIZE: Unable to connect to the database !!!!!', error);
+        console.error('!!! SEQUELIZE: Error en la conexion con la base de datos', error);
         throw error;
     }
 } 
