@@ -34,8 +34,9 @@ export const LoginRegisterFunctions = () => {
         setShowPasswordRepeat, setShowPasswordLabel, setKeyboardKey, setshowShopManagement, setDisplayedPassword, userType, 
         setUserType, currentUser, login, logout,
         setIsAddingShop, setShops, usernameError, 
-        setUsernameError, passwordError, setPasswordError
->>>>>>> dev
+        setUsernameError, passwordError, setPasswordError,
+        userlocation, setUserlocation,
+        userlocationError, setUserlocationError
     } = useContext(AppContext);
 
     // Custom hooks for validation
@@ -44,16 +45,18 @@ export const LoginRegisterFunctions = () => {
     const { ipError, validateIPRegistration } = useIPValidation();
 
     const handleUsernameChange = (e) => {
-        const rawValue = e.target.value;
-<<<<<<< HEAD
-        console.log('Username input:', rawValue);
-=======
-        console.log('!!! LOGIN: Username rawValue= ', rawValue);
->>>>>>> dev
-        setUsername(rawValue);
-        setUsernameError('');
+        const rawUsername = e.target.value;
+        console.log('-> LOGIN: Username rawValue= ', rawUsername);
+        setUsername(rawUsername);
+        // setUsernameError('');
       };
-
+    
+      const handleUserLocationChange = (ev) => {
+      const location = ev.target.value;
+      console.log('-> REGISTER: userlocation value= ', location);
+      setUserlocation(location);
+      // setUserlocationError('');
+    };
 
     const handlePasswordComplete = (isLogin) => () => {
         if (!isLogin) {
@@ -275,18 +278,17 @@ export const LoginRegisterFunctions = () => {
       }
     };
 
-  const handleRegistration = async (cleanedUsername, password, userType) => {
+  const handleRegistration = async (cleanedUsername, password, userType, userLocation) => {
       const registrationData = {
           name_user: cleanedUsername,
           pass_user: password,
           type_user: userType,
-          //passing by default Uribarri
-          location_user: 'Distrito 2, Uribarri'
+          location_user: userLocation
       };
 
       const response = await axiosInstance.post('/user/register', registrationData);
       
-      console.log('-> handleRegistration() - /user/register response = ', response);
+      console.log('-> LoginRegisterFunctions.jsx - handleRegistration() - /user/register response = ', response);
 
       await handleRegistrationResponse(response);
 
@@ -338,9 +340,9 @@ export const LoginRegisterFunctions = () => {
             await handleLogin(cleanedUsername, password);
           
           } else {
-            console.log('-> Registrando usuario', { username, userType });
+            console.log('-> Registrando usuario', { cleanedUsername, userType });
 
-            await handleRegistration(cleanedUsername, password, userType);
+            await handleRegistration(cleanedUsername, password, userType, userlocation);
             
           }
         } catch (error) {
@@ -363,6 +365,11 @@ export const LoginRegisterFunctions = () => {
 
     const handleUserTypeChange = (e) => {
         setUserType(e.target.value);
+        if(e.target.value === 'seller') {
+            setIsLoggingIn(false);
+        } else {
+            setIsLoggingIn(true);
+        }
         setUsernameError('');
     };
 
@@ -397,6 +404,7 @@ export const LoginRegisterFunctions = () => {
         // validateForm,
         usernameError,
         passwordError,
-        ipError
+        ipError,
+        handleUserLocationChange
     };
 };
