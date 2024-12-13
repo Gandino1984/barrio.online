@@ -6,28 +6,6 @@ import axiosInstance from '../../../../../utils/axiosConfig.js';
 
 export const LoginRegisterFunctions = () => {
     const {
-<<<<<<< HEAD
-        isLoggingIn, setIsLoggingIn,
-        username, setUsername,
-        password, setPassword,
-        passwordRepeat, showPasswordRepeat,
-        setPasswordRepeat,
-        setShowPasswordRepeat,
-        setShowPasswordLabel,
-        setKeyboardKey,
-        setShowBusinessSelector,
-        setDisplayedPassword,
-        userType, setUserType,
-        currentUser, 
-        login, logout,
-        setIsAddingShop,
-        setShops,
-        usernameError, setUsernameError,
-<<<<<<< HEAD
-=======
-        passwordError, setPasswordError
->>>>>>> dev
-=======
         isLoggingIn, setIsLoggingIn, username, 
         setUsername, password, setPassword,
         passwordRepeat, showPasswordRepeat, setPasswordRepeat,
