@@ -16,7 +16,7 @@ export const LoginRegisterFunctions = () => {
     } = useContext(AppContext);
 
     // Custom hooks for validation
-    const { validateUsername, cleanupUsername } = useUsernameValidation();
+    const { validateUsername } = useUsernameValidation();
 
     const { ipError, validateIPRegistration } = useIPValidation();
 
@@ -73,99 +73,100 @@ export const LoginRegisterFunctions = () => {
   };
 
 
-    const toggleForm = () => {
-        clearUserSession();
-        setIsLoggingIn((prevState) => !prevState);
-    };
+  const toggleForm = () => {
+      setIsLoggingIn((prevState) => !prevState);
+      clearUserSession();
+  };
 
-    const handleLoginResponse = async (response) => {
-        if (!response.data) {
-            console.log('-> handleLoginResponse() - No se recibió respuesta del servidor en el login');
-            throw new Error('Login - No se recibió respuesta del servidor en el login');
-        }
+  const handleLoginResponse = async (response) => {
+      if (!response.data) {
+          console.log('-> handleLoginResponse() - No se recibió respuesta del servidor en el login');
+          throw new Error('Login - No se recibió respuesta del servidor en el login');
+      }
 
-        if (response.data.error) {
-            console.log('-> handleLoginResponse() - Error en el login:', response.data.error);
-            throw new Error(response.data.error);
-        }
+      if (response.data.error) {
+          console.log('-> handleLoginResponse() - Error en el login:', response.data.error);
+          throw new Error(response.data.error);
+      }
 
-        const userData = response.data.data;
+      const userData = response.data.data;
 
-        console.log('-> handleLoginResponse() - userData = ', userData);
+      console.log('-> handleLoginResponse() - userData = ', userData);
 
-        // check the database response in depth
-        if (!userData || !userData.id_user || !userData.name_user || !userData.type_user) {
-            console.log('-> handleLoginResponse() - Datos de usuario incompletos o inválidos');
-            //just added 
-            clearUserSession();
-            throw new Error('Datos de usuario incompletos o inválidos');
-        }
+      // check the database response in depth
+      if (!userData || !userData.id_user || !userData.name_user || !userData.type_user) {
+          console.log('-> handleLoginResponse() - Datos de usuario incompletos o inválidos');
+          //just added 
+          clearUserSession();
+          throw new Error('Datos de usuario incompletos o inválidos');
+      }
 
-        setUserType(userData.type_user);
-        // Normalize user data structure using the server-provided user type
-        const normalizedUserData = {
-          id: userData.id_user, 
+      setUserType(userData.type_user);
+      // Normalize user data structure using the server-provided user type
+      const normalizedUserData = {
+        id: userData.id_user, 
+        username: userData.name_user,
+        password: password,
+        userType: userData.type_user 
+      };
+
+
+      login(normalizedUserData);
+
+      // Special handling for seller type
+      if (userData.type_user === 'seller') {
+          try {
+              // Fetch shops specifically for the logged-in seller
+              const shopsResponse = await axiosInstance.post('/shop/user', {
+                  id_user: userData.id_user
+              });
+              
+              const userShops = shopsResponse.data.data || [];
+              
+              // If no shops exist, open the shop creation form
+              if (userShops.length === 0) {
+                  setIsAddingShop(true);
+                  setshowShopManagement(false);
+              } else {
+                  // Set the shops owned by this specific seller
+                  setShops(userShops);
+                  setshowShopManagement(true);
+                  setIsAddingShop(false);
+              }
+          } catch (error) {
+              console.error('-> handleLoginResponse() - El usuario no tiene tiendas:', error);
+              console.log('-> handleLoginResponse() - Renderizando el formulario para crear tienda');
+              setIsAddingShop(true);
+              setshowShopManagement(false);
+          }
+      }else {
+          // For other user types (client, provider), show business selector
+          setshowShopManagement(true);
+      }
+  };
+
+
+  const handleRegistrationResponse = async (response) => {
+      if (!response.data) {
+          throw new Error('No se recibió respuesta del servidor');
+      }
+      if (response.data.error) {
+          throw new Error(response.data.error);
+      }
+      const userData = response.data.data;
+      if (!userData || !userData.id_user) {
+          throw new Error('Error en el registro: datos de usuario incompletos');
+      }
+      const normalizedUserData = {
+          id: userData.id_user,
           username: userData.name_user,
           password: password,
-          userType: userData.type_user 
-        };
-
-
-        login(normalizedUserData);
-
-        // Special handling for seller type
-        if (userData.type_user === 'seller') {
-            try {
-                // Fetch shops specifically for the logged-in seller
-                const shopsResponse = await axiosInstance.post('/shop/user', {
-                    id_user: userData.id_user
-                });
-                
-                const userShops = shopsResponse.data.data || [];
-                
-                // If no shops exist, open the shop creation form
-                if (userShops.length === 0) {
-                    setIsAddingShop(true);
-                    setshowShopManagement(false);
-                } else {
-                    // Set the shops owned by this specific seller
-                    setShops(userShops);
-                    setshowShopManagement(true);
-                    setIsAddingShop(false);
-                }
-            } catch (error) {
-                console.error('-> handleLoginResponse() - El usuario no tiene tiendas:', error);
-                console.log('-> handleLoginResponse() - Renderizando el formulario para crear tienda');
-                setIsAddingShop(true);
-                setshowShopManagement(false);
-            }
-        }else {
-            // For other user types (client, provider), show business selector
-            setshowShopManagement(true);
-        }
-    };
-
-
-    const handleRegistrationResponse = async (response) => {
-        if (!response.data) {
-            throw new Error('No se recibió respuesta del servidor');
-        }
-        if (response.data.error) {
-            throw new Error(response.data.error);
-        }
-        const userData = response.data.data;
-        if (!userData || !userData.id_user) {
-            throw new Error('Error en el registro: datos de usuario incompletos');
-        }
-        const normalizedUserData = {
-            id: userData.id_user,
-            username: userData.name_user,
-            password: password,
-            userType: userType,
-        };
-        login(normalizedUserData);
-        setshowShopManagement(true); //??
-    };
+          userType: userType,
+      };
+      
+      login(normalizedUserData);
+      setshowShopManagement(true); //??
+  };
 
     // /**
     //  * Validates form inputs
@@ -194,74 +195,85 @@ export const LoginRegisterFunctions = () => {
     // };
 
 
-    const handleLogin = async (cleanedUsername, password) => {
-        try {
-          // Fetch user details first
-          const userDetailsResponse = await axiosInstance.post('/user/details', {
-            name_user: cleanedUsername
-          });
-          // Enhanced type extraction and validation
-          
-          const type = userDetailsResponse.data.data.type_user;
+  const handleLogin = async (cleanedUsername, password) => {
+      try {
+        // Fetch user details first
+        const userDetailsResponse = await axiosInstance.post('/user/details', {
+          name_user: cleanedUsername
+        });
+        // Enhanced type extraction and validation
+        
+        const type = userDetailsResponse.data.data.type_user;
 
-          if (!userDetailsResponse.data.data) {
-            setUsernameError('Nombre de usuario no encontrado');
-            return;
-          }
-          if (!type) {
-            setUsernameError('Tipo de usuario no encontrado');
-            console.error('User type not found for username:', cleanedUsername);
-            return;
-          }
-          // Explicitly set user type in context before login
-          console.log('Login: Tipo de usuario extraido de los detalles del usuario en la DB = ', type);
-          
-          setUserType(type);
-
-          console.log( '-> UserType actualizado en el contexto de la App');
-          // Proceed with login using the obtained user type
-          
-          const loginResponse = await axiosInstance.post('/user/login', {
-            name_user: cleanedUsername,
-            pass_user: password,
-            type_user: type
-          });
-
-          await handleLoginResponse(loginResponse);
-
-          // Check if user type is 'seller' and show ShopManagement component
-          if (type === 'seller') {
-            setshowShopManagement(true);
-          }
-
-        } catch (error) {
-          const errorMessage = error.response?.data?.error || error.message;
-          if (errorMessage.includes('username')) {
-            setUsernameError('Nombre de usuario no encontrado');
-          } else {
-            setUsernameError('Nombre de usuario o contraseña incorrectos');
-          }
+        if (!userDetailsResponse.data.data) {
+          setUsernameError('Nombre de usuario no encontrado');
+          return;
         }
+        if (!type) {
+          setUsernameError('Tipo de usuario no encontrado');
+          console.error('User type not found for username:', cleanedUsername);
+          return;
+        }
+        // Explicitly set user type in context before login
+        console.log('Login: Tipo de usuario extraido de los detalles del usuario en la DB = ', type);
+        
+        setUserType(type);
+
+        console.log( '-> UserType actualizado en el contexto de la App');
+        // Proceed with login using the obtained user type
+        
+        const loginResponse = await axiosInstance.post('/user/login', {
+          name_user: cleanedUsername,
+          pass_user: password,
+          type_user: type
+        });
+
+        console.log('-> handleLogin() - /user/login response = ', loginResponse);
+
+        await handleLoginResponse(loginResponse);
+
+        //just added
+        // // Check if user type is 'seller' and show ShopManagement component
+        // if (type === 'seller') {
+        //   setshowShopManagement(true);
+        // }
+
+      } catch (error) {
+        const errorMessage = error.response?.data?.error || error.message;
+        if (errorMessage.includes('username')) {
+          setUsernameError('Nombre de usuario no encontrado');
+        } else {
+          setUsernameError('Nombre de usuario o contraseña incorrectos');
+        }
+      }
+    };
+
+  const handleRegistration = async (cleanedUsername, password, userType) => {
+      const registrationData = {
+          name_user: cleanedUsername,
+          pass_user: password,
+          type_user: userType,
+          location_user: 'Uribarri'
       };
 
-    const handleRegistration = async (cleanedUsername, password, userType) => {
-        const registrationData = {
-            name_user: cleanedUsername,
-            pass_user: password,
-            type_user: userType,
-            location_user: 'bilbao'
-        };
-        const response = await axiosInstance.post('/user/register', registrationData);
-        await handleRegistrationResponse(response);
-        toggleForm();
-    };
+      const response = await axiosInstance.post('/user/register', registrationData);
       
+      console.log('-> handleRegistration() - /user/register response = ', response);
+
+      await handleRegistrationResponse(response);
+
+      toggleForm();
+  };
+    
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
+        
+          console.log('-> handleFormSubmit() - isLoggingIn:', isLoggingIn);
           // IP validation for registration only
           if (!isLoggingIn) {
+            console.log('-> handleFormSubmit() - Validación de IP para registro');
             const canRegister = await validateIPRegistration();
             if (!canRegister) {
               console.log('Validación de IP fallida. No se permite el registro.');
@@ -271,7 +283,9 @@ export const LoginRegisterFunctions = () => {
       
           // Username validation
           const { isValid, cleanedUsername, errors } = validateUsername(username);
+
           if (!isValid) {
+            console.log('Error en el nombre de usuario:', errors[0]);
             setError(errors[0]);
             return;
           }
@@ -283,21 +297,23 @@ export const LoginRegisterFunctions = () => {
       
           // Check for existing session
           if (!isLoggingIn && currentUser?.id) {
-            console.log('Existing user session');
+            console.log('-> Ya existe un usuario registrado con ese nombre.');
             setUsernameError('Ya existe un usuario registrado con ese nombre.');
             return;
           }
       
-          // Handle login or registration
+          ///////// Handle login or registration /////////
+
           if (isLoggingIn) {
-            console.log('Attempting login', { 
-              username, 
-              userType  // Log the current user type
-            });
+            console.log('-> Iniciando sesión', { cleanedUsername, userType });
+
             await handleLogin(cleanedUsername, password);
+          
           } else {
-            console.log('Attempting registration');
+            console.log('-> Registrando usuario', { username, userType });
+
             await handleRegistration(cleanedUsername, password, userType);
+            
           }
         } catch (error) {
           const errorMessage = error.response?.data?.error || error.message;

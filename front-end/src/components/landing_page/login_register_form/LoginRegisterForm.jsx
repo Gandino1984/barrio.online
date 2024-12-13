@@ -29,10 +29,8 @@ const LoginRegisterForm = () => {
 
   console.log('-> LoginRegisterForm.jsx - showShopManagement state = ', showShopManagement);
 
-
-
-  //check if there is a user in local storage
-  checkAndClearUserData();
+  // //check if there is a user in local storage
+  // checkAndClearUserData();
 
     // If the shopManagement selector is shown, render the ShopManagement or UserManagement component
   if (showShopManagement || currentUser) {

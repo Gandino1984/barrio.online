@@ -54,7 +54,6 @@ export const AppContextProvider = ({ children }) => {
     localStorage.setItem('currentUser', JSON.stringify(userDataToStore)); 
     
     setCurrentUser(userData);
-
     
     // just added
     // setShops([]);

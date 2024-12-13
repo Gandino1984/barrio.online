@@ -81,8 +81,11 @@ router.post("/create", userApiController.create);
 router.post("/remove", userApiController.removeById);
 
 router.post('/register', async (req, res) => {
-    console.log('Register endpoint hit');  
+    console.log('-> Register endpoint hit');
+
     const userIp = req.ip || req.socket.remoteAddress;
+    console.log('-> /registerI - IP del usuario:', userIp);
+
     try {
         const [ipRecord, created] = await IpRegistry.findOrCreate({
             where: { ip_address: userIp },
