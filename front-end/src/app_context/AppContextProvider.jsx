@@ -146,7 +146,7 @@ export const AppContextProvider = ({ children }) => {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedShop, setSelectedShop] = useState(null);
-  const [isAddingShop, setIsAddingShop] = useState(false);
+  const [isAddingShop, setIsAdding<<<<<<< HEADShop] = useState(false);
   const [selectedBusinessType, setSelectedBusinessType] = useState(null);
   const [showShopCreationForm, setShowShopCreationForm] = useState(false);
   const [products, setProducts] = useState([]);
@@ -223,3 +223,4 @@ export const AppContextProvider = ({ children }) => {
     </AppContext.Provider>
   );
 };
+<<<<<<< HEAD
