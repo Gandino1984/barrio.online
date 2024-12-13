@@ -12,7 +12,9 @@ const LoginRegisterForm = () => {
     isLoggingIn, userType, 
     showShopManagement, ipError,passwordError,
     password, passwordRepeat, showPasswordRepeat,
-    keyboardKey, checkAndClearUserData
+    keyboardKey,
+    userlocation, setUserlocation,
+    userlocationError, setUserlocationError
   } = useContext(AppContext);
 
   const {
@@ -21,16 +23,13 @@ const LoginRegisterForm = () => {
     handleRepeatPasswordChange, isButtonDisabled,
     toggleForm, 
     handleFormSubmit, handleUserTypeChange,
-    handleUsernameChange
+    handleUsernameChange, handleUserLocationChange
   } = LoginRegisterFunctions();
 
   
   console.log('-> LoginRegisterForm.jsx - isLoggingIn state = ', isLoggingIn);
 
   console.log('-> LoginRegisterForm.jsx - showShopManagement state = ', showShopManagement);
-
-  // //check if there is a user in local storage
-  // checkAndClearUserData();
 
     // If the shopManagement selector is shown, render the ShopManagement or UserManagement component
   if (showShopManagement || currentUser) {
@@ -72,17 +71,27 @@ const LoginRegisterForm = () => {
                       // Render the user type radio buttons for registration
                       <div className={styles.formField }>
                           <div className={styles.radioOptions}>
-                          <select value={userType} 
-                          onChange={handleUserTypeChange}
-                          required
-                          >
-                              <option value="">Tipo de usuario</option>
-                              <option value="user">Cliente</option>
-                              <option value="seller">Vendedor</option>
-                              <option value="provider">Productor</option>
-                          </select>
+                              <select value={userType} 
+                              onChange={handleUserTypeChange}
+                              required
+                              >
+                                  <option value="">Tipo de usuario</option>
+                                  <option value="user">Cliente</option>
+                                  <option value="seller">Vendedor</option>
+                                  <option value="provider">Productor</option>
+                              </select>
                           </div>
-                      </div>
+                          
+                          <input
+                            id="userlocation"
+                            type="text"
+                            value={userlocation}
+                            onChange={handleUserLocationChange}
+                            className={userlocationError ? styles.inputError : ''}
+                            placeholder='Escribe tu dirección'
+                            required />
+                        </div>
+                      
                   )}
                   <div className={styles.formField}>
                       <NumericKeyboard

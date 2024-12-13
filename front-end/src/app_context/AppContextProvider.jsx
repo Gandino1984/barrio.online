@@ -90,11 +90,13 @@ export const AppContextProvider = ({ children }) => {
   const [error, setError] = useState('');
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [userlocationError, setUserlocationError] = useState('');
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
   const [userType, setUserType] = useState(''); 
+  const [userlocation, setUserlocation] = useState(''); 
   
   const [businessType, setBusinessType] = useState('general');
   const [shops, setShops] = useState([]);
@@ -161,7 +163,9 @@ export const AppContextProvider = ({ children }) => {
     shopTypes, setShopTypes,
     passwordError, setPasswordError,
     ip, setIp,
-    checkAndClearUserData
+    checkAndClearUserData,
+    userlocation, setUserlocation,
+    userlocationError, setUserlocationError
   };
 
   return (
