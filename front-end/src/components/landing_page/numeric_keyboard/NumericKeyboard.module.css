@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    padding: 1rem 1rem;
 }
 .numericKeyboardInput{
     /* border: 2px solid red; */
