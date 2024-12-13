@@ -33,6 +33,9 @@ async function create(req, res) {
 
 async function register(req, res) {
     const {name_user, pass_user, location_user, type_user } = req.body;
+    
+    console.log('-> user_api_controller.js - register() - req.body passed to user_controller = ', req.body);
+
     const {error, data} = await userController.register({name_user, pass_user, location_user, type_user});
     res.json({error, data});
 }

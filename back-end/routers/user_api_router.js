@@ -105,8 +105,9 @@ router.post('/register', async (req, res) => {
             registration_count: hoursSinceLastAttempt >= RESET_HOURS ? 1 : ipRecord.registration_count + 1,
             last_attempt: new Date()
         });
-        // Proceed with registration
+
         await userApiController.register(req, res);
+
     } catch (error) {
         console.error('-> Registration error:', error);
         res.status(500).json({ error: 'Error en el registro' });

@@ -163,7 +163,7 @@ export const LoginRegisterFunctions = () => {
           password: password,
           userType: userType,
       };
-      
+
       login(normalizedUserData);
       setshowShopManagement(true); //??
   };
@@ -253,7 +253,8 @@ export const LoginRegisterFunctions = () => {
           name_user: cleanedUsername,
           pass_user: password,
           type_user: userType,
-          location_user: 'Uribarri'
+          //passing by default Uribarri
+          location_user: 'Distrito 2, Uribarri'
       };
 
       const response = await axiosInstance.post('/user/register', registrationData);
