@@ -173,14 +173,10 @@ export const LoginRegisterFunctions = () => {
       };
 
       login(normalizedUserData);
-      setshowShopManagement(true); //??
+      setshowShopManagement(true); 
   };
 
-    // /**
-    //  * Validates form inputs
-    //  * @param {string} cleanedUsername - Sanitized username
-    //  * @returns {Object} Validation result and error message if any
-    //  */
+
     // const validateForm = (cleanedUsername) => {
     //     if (!cleanedUsername || cleanedUsername.trim() === '') {
     //         return { isValid: false, error: 'El nombre de usuario es requerido' };
@@ -239,12 +235,6 @@ export const LoginRegisterFunctions = () => {
         console.log('-> handleLogin() - /user/login response = ', loginResponse);
 
         await handleLoginResponse(loginResponse);
-
-        //just added
-        // // Check if user type is 'seller' and show ShopManagement component
-        // if (type === 'seller') {
-        //   setshowShopManagement(true);
-        // }
 
       } catch (error) {
         const errorMessage = error.response?.data?.error || error.message;
@@ -348,7 +338,7 @@ export const LoginRegisterFunctions = () => {
         } else {
             setIsLoggingIn(true);
         }
-        setUsernameError('');
+        // setUsernameError('');
     };
 
 

@@ -9,7 +9,7 @@ import { ShopsByTypeFunctions } from './hooks/ShopsByTypeFunctions.jsx';
 const ShopsByType = ({ onBack }) => {
 
   const { 
-    businessType, 
+    shopType, 
     shops,
     loading,
     error,
@@ -20,10 +20,10 @@ const ShopsByType = ({ onBack }) => {
   const { fetchShopsByType } = ShopsByTypeFunctions();
 
   useEffect(() => {
-    console.log('!!! Business type:', businessType);
+    console.log('!!! Business type:', shopType);
     setSelectedShop(null);
     fetchShopsByType();
-  }, [businessType]);
+  }, [shopType]);
 
   const handleShopSelect = (shop) => {
     setSelectedShop(shop);
@@ -47,7 +47,7 @@ const ShopsByType = ({ onBack }) => {
         <div>
           {shops.length === 0 ? (
          
-            <p>No hay {businessType} shops disponibles.</p>
+            <p>No hay {shopType} shops disponibles.</p>
           ) : (
             <div className={styles.list}>
               {shops.map(shop => (
