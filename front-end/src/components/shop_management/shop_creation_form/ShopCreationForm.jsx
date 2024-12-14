@@ -2,16 +2,19 @@ import React, { useState, useContext } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import AppContext from '../../../app_context/AppContext.js';
 import axiosInstance from '../../../../utils/axiosConfig.js';
+import styles from './ShopCreationForm.module.css';
+import { ShopCreationFormFunctions } from './ShopCreationFormFunctions.jsx'
 
 const ShopCreationForm = ({ onShopCreated, onCancel }) => {
-  const { currentUser, setShops, setError } = useContext(AppContext);
 
-  const [newShop, setNewShop] = useState({
-    name_shop: '',
-    location_shop: '',
-    type_shop: '',
-    id_user: currentUser?.id || null
-  });
+  const {
+    setShops, setError } = useContext(AppContext);
+
+      const {
+        checkUserLogged
+      } = ShopCreationFormFunctions();
+
+  const newShop = checkUserLogged();
 
   const handleAddShop = async (e) => {
     e.preventDefault();
@@ -20,6 +23,8 @@ const ShopCreationForm = ({ onShopCreated, onCancel }) => {
         ...newShop,
         calification_shop: 0  // Default value
       };
+
+      console.log('-> ShopCreationForm - New shop data = ', shopData);
 
       const response = await axiosInstance.post('/shop/create', shopData);
       

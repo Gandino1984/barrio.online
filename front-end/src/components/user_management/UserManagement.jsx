@@ -10,7 +10,7 @@ import { UserManagementFunctions } from './hooks/UserManagementFunctions.jsx';
 const UserManagement = ({ onBack }) => {
   
   const { 
-    selectedBusinessType, setSelectedBusinessType, shopTypes 
+    selectedShopType, setSelectedShopType, shopTypes 
    } = useContext(AppContext);
 
   const { handleBusinessTypeSelect, 
@@ -23,8 +23,8 @@ const UserManagement = ({ onBack }) => {
 
   // If a business type is selected, render the ShopsByType 
   //component for that type
-  if (selectedBusinessType) {
-    return <ShopsByType onBack={() => setSelectedBusinessType(null)} />;
+  if (selectedShopType) {
+    return <ShopsByType onBack={() => setSelectedShopType(null)} />;
   }
 
   return (
