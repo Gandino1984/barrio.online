@@ -97,7 +97,15 @@ export const AppContextProvider = ({ children }) => {
   const [userType, setUserType] = useState(''); 
   const [userlocation, setUserlocation] = useState(''); 
   
-  
+  const [newShop, setNewShop] = useState({
+    name_shop: '',
+    type_shop: '',
+    sub_type: '',
+    location_shop: '',
+    id_user: '',
+    calificacion_shop: ''
+  })
+
   const [shopType, setShopType] = useState('');
 
 
@@ -167,7 +175,8 @@ export const AppContextProvider = ({ children }) => {
     ip, setIp,
     checkAndClearUserData,
     userlocation, setUserlocation,
-    userlocationError, setUserlocationError
+    userlocationError, setUserlocationError,
+    newShop, setNewShop
   };
 
   return (

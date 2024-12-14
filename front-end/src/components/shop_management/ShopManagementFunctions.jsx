@@ -5,6 +5,7 @@ import axiosInstance from '../../../utils/axiosConfig.js';
 export const ShopManagementFunctions = () => {
  
     const {
+        currentUser,
         setShops,
         setLoading,
         setError,
@@ -34,12 +35,15 @@ export const ShopManagementFunctions = () => {
     const handleCancel = () => {
     setshowShopManagement(false);
     };
+
     const handleSelectShop = (shop) => {
         setSelectedShop(shop);
     };
+
     const handleShopCreated = (newShop) => {
     setIsAddingShop(false);
     };
+    
     return {
         fetchUserShops,
         handleShopCreated,

@@ -7,39 +7,12 @@ import { ShopCreationFormFunctions } from './ShopCreationFormFunctions.jsx'
 
 const ShopCreationForm = ({ onShopCreated, onCancel }) => {
 
+
   const {
-    setShops, setError } = useContext(AppContext);
+    handleAddShop
+  } = ShopCreationFormFunctions();
 
-      const {
-        checkUserLogged
-      } = ShopCreationFormFunctions();
-
-  const newShop = checkUserLogged();
-
-  const handleAddShop = async (e) => {
-    e.preventDefault();
-    try {
-      const shopData = {
-        ...newShop,
-        calification_shop: 0  // Default value
-      };
-
-      console.log('-> ShopCreationForm - New shop data = ', shopData);
-
-      const response = await axiosInstance.post('/shop/create', shopData);
-      
-      if (response.data.error) {
-        throw new Error(response.data.error);
-      }
-
-      // Update shops list and notify parent
-      setShops(prevShops => [...prevShops, response.data.data]);
-      onShopCreated(response.data.data);
-    } catch (err) {
-      setError(err.message || 'Error adding shop');
-      console.error('Shop creation error:', err);
-    }
-  };
+  handleAddShop(newShop);
 
   return (
     <div className="container mx-auto p-4">
@@ -57,9 +30,9 @@ const ShopCreationForm = ({ onShopCreated, onCancel }) => {
 
       <form onSubmit={handleAddShop} className="space-y-4">
         <div>
-          <label className="block mb-2">Nombre del Negocio</label>
           <input
             type="text"
+            placeholder='Nombre del Negocio'
             value={newShop.name_shop}
             onChange={(e) => setNewShop({...newShop, name_shop: e.target.value})}
             className="w-full p-2 border rounded"
@@ -67,9 +40,9 @@ const ShopCreationForm = ({ onShopCreated, onCancel }) => {
           />
         </div>
         <div>
-          <label className="block mb-2">Dirección</label>
           <input
             type="text"
+            placeholder='Dirección'
             value={newShop.location_shop}
             onChange={(e) => setNewShop({...newShop, location_shop: e.target.value})}
             className="w-full p-2 border rounded"

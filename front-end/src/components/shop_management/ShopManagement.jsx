@@ -16,41 +16,18 @@ const ShopManagement = ({ onBack }) => {
     isAddingShop, setIsAddingShop
   } = useContext(AppContext);
 
+  const {
+    fetchUserShops,
+    handleShopCreated,
+    handleSelectShop,
+    handleCancel
+  } = ShopManagementFunctions();
 
-  const handleCancel = () => {
-    setshowShopManagement(false);
-  };
 
-  const handleSelectShop = (shop) => {
-    setSelectedShop(shop);
-  };
-
-  // take this away from here
   useEffect(() => {
-    const fetchUserShops = async () => {
-      if (!currentUser) return;
-      try {
-        setLoading(true);
-        const response = await axiosInstance.post('/shop/by-user-id', {
-          id_user: currentUser.id
-        });
-        const userShops = response.data.data?.filter(shop => 
-          shop.id_user === currentUser.id
-        ) || [];
-
-        setShops(userShops);
-        setLoading(false);
-      } catch (err) {
-        setError(err.response?.data?.error || 'Error fetching shops');
-        setLoading(false);
-      }
-    };
     fetchUserShops();
   }, [currentUser]);
 
-  const handleShopCreated = (newShop) => {
-    setIsAddingShop(false);
-  };
 
   if (loading) return <div>Cargando...</div>;
   if (shops.length === 0) {
