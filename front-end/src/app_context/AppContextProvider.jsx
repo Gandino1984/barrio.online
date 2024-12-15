@@ -122,6 +122,7 @@ export const AppContextProvider = ({ children }) => {
     oferta: null,
     calificacion: null,
   });
+
   const [filterOptions, setFilterOptions] = useState({
     temporada: {
       label: 'Temporada',
@@ -139,6 +140,25 @@ export const AppContextProvider = ({ children }) => {
       label: 'Calificación',
       options: ['1', '2', '3', '4', '5'], 
     },
+  });
+
+  const [shopTypesAndSubtypes, setShopTypesAndSubtypes] = useState({
+    'Artesania': ['Accesorios', 'Complementos', 'Varios'],
+    'Bienestar': ['Peluqueria', 'Fisioterapia', 'Varios'],
+    'Consultoria': ['Tecnica', 'Digital', 'Varios'],
+    'Comida': [
+      'Fruteria', 'Carniceria', 'Pescaderia', 'Panaderia', 
+      'Local', 'Peruana', 'China', 'Japonesa', 'Italiana', 
+      'Turca', 'Kebab', 'Restaurante', 'Varios'
+    ],
+    'Educativo': [
+      'Clases Particulares', 'Asesoria', 'Charla', 
+      'Presentacion', 'Clase Grupal', 'Investigacion', 'Varios'
+    ],
+    'Especializado': ['Diseno', 'Arte', 'Varios'],
+    'Ropa': ['Infantil', 'Adultos', 'Intima', 'Alquiler', 'Boda', 'Varios'],
+    'Servicios': ['Autonomos', 'Tecnico', 'Arte', 'Limpieza', 'Varios'],
+    'Taller': ['Pintura', 'Escultura', 'Ilustracion', 'Diseno', 'Mecanico', 'Electrodomesticos', 'Varios']
   });
 
   const value = {
@@ -178,7 +198,8 @@ export const AppContextProvider = ({ children }) => {
     checkAndClearUserData,
     userlocation, setUserlocation,
     userlocationError, setUserlocationError,
-    newShop, setNewShop
+    newShop, setNewShop,
+    shopTypesAndSubtypes, setShopTypesAndSubtypes
   };
 
   return (
