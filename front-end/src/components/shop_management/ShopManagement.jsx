@@ -2,8 +2,9 @@ import React, { useContext, useState, useEffect } from 'react';
 import AppContext from '../../app_context/AppContext.js';
 import ShopsListByUser from './shops_list_byUser/ShopsListByUser.jsx';
 import ShopCreationForm from './shop_creation_form/ShopCreationForm.jsx';
+import { ShopManagementFunctions } from './ShopManagementFunctions.jsx';
 
-const ShopManagement = ({ onBack }) => {
+const ShopManagement = () => {
   const { 
     currentUser, 
     shops, 
@@ -15,7 +16,6 @@ const ShopManagement = ({ onBack }) => {
 
   const {
     fetchUserShops,
-    handleShopCreated,
     handleSelectShop,
     handleCancel
   } = ShopManagementFunctions();
@@ -36,7 +36,6 @@ const ShopManagement = ({ onBack }) => {
       shop creation component */
 
       <ShopCreationForm 
-        onShopCreated={handleShopCreated}
         onCancel={handleCancel} 
       />
     );
@@ -44,14 +43,12 @@ const ShopManagement = ({ onBack }) => {
     if (showShopCreationForm) {
       return (
         <ShopCreationForm 
-          onShopCreated={handleShopCreated}
           onCancel={() => setShowShopCreationForm(false)} 
         />
       );
     } else {
       return (
         <ShopsListByUser
-          onBack={onBack}   
           onAddShop={() => setIsAddingShop(true)}
           onSelectShop={handleSelectShop}
         />

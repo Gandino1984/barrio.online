@@ -39,14 +39,9 @@ export const ShopManagementFunctions = () => {
     const handleSelectShop = (shop) => {
         setSelectedShop(shop);
     };
-
-    const handleShopCreated = (newShop) => {
-    setIsAddingShop(false);
-    };
     
     return {
         fetchUserShops,
-        handleShopCreated,
         handleSelectShop,
         handleCancel
       };
