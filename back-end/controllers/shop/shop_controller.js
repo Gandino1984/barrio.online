@@ -7,7 +7,7 @@ async function getAll() {
         console.log("Retrieved shops:", shops);
         return { data: shops };
     } catch (error) {
-        console.error("Error in getAll:", error);
+        console.error("Error in getAll():", error);
         return { error: error.message };
     }
 }
@@ -15,17 +15,23 @@ async function getAll() {
 async function create(shopData) {
     try {
         // Check if user already exists by name
+        console.log('-> shop_controller.js - create() - Buscando shopData.name_shop en la DB = ', shopData.name_shop);
+
         const existingShop = await shop_model.findOne({ 
             where: { name_shop: shopData.name_shop } 
         });
+
         if (existingShop) {
+            console.error("Ya existe una tienda con ese nombre");
             return { 
                 error: "Ya existe una tienda con ese nombre", 
                 data: null 
             };
         }
+
         // If no existing shop, proceed with creation
         const shop = await shop_model.create(shopData);
+        
         return { data: shop };
     } catch (error) {
         return { error: error.message };

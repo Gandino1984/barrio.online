@@ -75,10 +75,10 @@ const LoginRegisterForm = () => {
                               onChange={handleUserTypeChange}
                               required
                               >
-                                  <option value="">Tipo de usuario</option>
+                                  <option disabled selected value="">Tipo de usuario</option>
                                   <option value="user">Cliente</option>
                                   <option value="seller">Vendedor</option>
-                                  <option value="provider">Productor</option>
+                                  <option disabled selected value="provider">Productor</option>
                               </select>
                           </div>
                           
