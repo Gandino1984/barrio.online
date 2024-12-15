@@ -5,18 +5,18 @@ import AppContext from '../../../../app_context/AppContext.js';
 export const ShopsByTypeFunctions = () => {
 
   const {
-    businessType, 
+    shopType, 
     setShops,
     setLoading,
     setError,
   } = useContext(AppContext);
   
   const fetchShopsByType = async () => {
-    console.log('!!! Fetching shops by business type:', businessType);
+    console.log('!!! Fetching shops by business type:', shopType);
     try {
       setLoading(true);
       const response = await axiosInstance.post('/shop/type', {
-        type_shop: businessType
+        type_shop: shopType
       }, {
         headers: {
           'Content-Type': 'application/json'
@@ -29,7 +29,7 @@ export const ShopsByTypeFunctions = () => {
       setLoading(false);
     } catch (err) {
       console.error('FULL ERROR:', err);
-      setError(err.message || `Error al cargar ${businessType} shops`);
+      setError(err.message || `Error al cargar ${shopType} shops`);
     }finally {
       setLoading(false);
     }

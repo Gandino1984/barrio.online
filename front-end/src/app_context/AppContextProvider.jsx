@@ -25,9 +25,8 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
-  // Initialize currentUser from localStorage
-  // if there's a user in local storage the app shouldn't
-  // go through login/registration
+  // Initialize currentUser from localStorage:
+  // a user is stored in the Local Storage when he logs, not on register
   const [currentUser, setCurrentUser] = useState(() => {
     const storedUserData = localStorage.getItem('currentUser');
     if (storedUserData) {
@@ -50,13 +49,15 @@ export const AppContextProvider = ({ children }) => {
       timestamp: new Date().getTime()
     };
     console.log('-> User data for local storage = ', userDataToStore);
-
+  
     localStorage.setItem('currentUser', JSON.stringify(userDataToStore)); 
     
+    // Explicitly set the current user to the entire user object
     setCurrentUser(userData);
-    
-    // just added
-    // setShops([]);
+  
+    // Optional: Reset other states if needed
+    setIsLoggingIn(false);
+    setshowShopManagement(true);
   };
 
   // Custom logout function
@@ -83,7 +84,7 @@ export const AppContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [selectedShop, setSelectedShop] = useState(null);
   const [isAddingShop, setIsAddingShop] = useState(false);
-  const [selectedBusinessType, setSelectedBusinessType] = useState(null);
+  const [selectedShopType, setSelectedShopType] = useState(null);
   const [showShopCreationForm, setShowShopCreationForm] = useState(false);
   const [ipError, setIpError] = useState('');
   const [ip, setIp] = useState('');
@@ -98,7 +99,18 @@ export const AppContextProvider = ({ children }) => {
   const [userType, setUserType] = useState(''); 
   const [userlocation, setUserlocation] = useState(''); 
   
-  const [businessType, setBusinessType] = useState('general');
+  const [newShop, setNewShop] = useState({
+    name_shop: '',
+    type_shop: '',
+    subtype_shop: '',
+    location_shop: '',
+    id_user: '',
+    calificacion_shop: ''
+  })
+
+  const [shopType, setShopType] = useState('');
+
+
   const [shops, setShops] = useState([]);
   const [shopTypes, setShopTypes] = useState([]);
   
@@ -121,7 +133,7 @@ export const AppContextProvider = ({ children }) => {
     },
     oferta: {
       label: 'Oferta',
-      options: [], 
+      options: ['Descuento'], 
     },
     calificacion: {
       label: 'Calificación',
@@ -137,7 +149,7 @@ export const AppContextProvider = ({ children }) => {
     MAX_PASSWORD_LENGTH,
     databaseResponse, setDatabaseResponse,
     userType, setUserType,
-    businessType, setBusinessType,
+    shopType, setShopType,
     showShopManagement, setshowShopManagement,
     showPasswordRepeat, setShowPasswordRepeat,
     showPasswordLabel, setShowPasswordLabel,
@@ -151,7 +163,7 @@ export const AppContextProvider = ({ children }) => {
     loading, setLoading,
     selectedShop, setSelectedShop,
     isAddingShop, setIsAddingShop,
-    selectedBusinessType, setSelectedBusinessType,
+    selectedShopType, setSelectedShopType,
     showShopCreationForm, setShowShopCreationForm,
     products, setProducts,
     usernameError, setUsernameError,
@@ -165,7 +177,8 @@ export const AppContextProvider = ({ children }) => {
     ip, setIp,
     checkAndClearUserData,
     userlocation, setUserlocation,
-    userlocationError, setUserlocationError
+    userlocationError, setUserlocationError,
+    newShop, setNewShop
   };
 
   return (

@@ -1,64 +1,44 @@
 import shop_model from "../../models/shop_model.js";
 import user_model from "../../models/user_model.js";
 
-/**
- * Retrieves all shops from the database.
- * 
- * @async
- * @returns {Object} An object containing the retrieved shops or an error message.
- */
 async function getAll() {
     try {
         const shops = await shop_model.findAll();
         console.log("Retrieved shops:", shops);
         return { data: shops };
     } catch (error) {
-        console.error("Error in getAll:", error);
+        console.error("Error in getAll():", error);
         return { error: error.message };
     }
 }
 
-/**
- * Creates a new shop in the database.
- * 
- * @async
- * @param {Object} shopData - The data for the new shop.
- * @param {string} shopData.name_shop - The name of the shop.
- * @param {string} shopData.location_shop - The location of the shop.
- * @param {string} shopData.type_shop - The type of the shop.
- * @returns {Object} An object containing the created shop or an error message.
- */
 async function create(shopData) {
     try {
         // Check if user already exists by name
+        console.log('-> shop_controller.js - create() - Buscando shopData.name_shop en la DB = ', shopData.name_shop);
+
         const existingShop = await shop_model.findOne({ 
             where: { name_shop: shopData.name_shop } 
         });
+
         if (existingShop) {
+            console.error("Ya existe una tienda con ese nombre");
             return { 
                 error: "Ya existe una tienda con ese nombre", 
                 data: null 
             };
         }
+
         // If no existing shop, proceed with creation
         const shop = await shop_model.create(shopData);
+        
         return { data: shop };
     } catch (error) {
         return { error: error.message };
     }
 }
 
-/**
- * Updates an existing shop in the database.
- * 
- * @async
- * @param {number} id - The ID of the shop to update.
- * @param {Object} shopData - The updated data for the shop.
- * @param {string} shopData.name_shop - The updated name of the shop.
- * @param {string} shopData.location_shop - The updated location of the shop.
- * @param {string} shopData.type_shop - The updated type of the shop.
- * @returns {Object} An object containing the updated shop or an error message.
- */
+
 async function update(id, shopData) {
     try {
         const { name_shop, location_shop, type_shop } = shopData;
@@ -80,13 +60,6 @@ async function update(id, shopData) {
     }
 }
 
-/**
- * Retrieves shops by type from the database.
- * 
- * @async
- * @param {string} shopType - The type of shops to retrieve.
- * @returns {Object} An object containing the retrieved shops or an error message.
- */
 async function getByType(shopType) {
     try {
         console.log(`!!! Attempting to find shops with type: ${shopType}`);
@@ -106,13 +79,6 @@ async function getByType(shopType) {
     }
 }
 
-/**
- * Retrieves shops by user ID from the database.
- * 
- * @async
- * @param {number} id - The ID of the user.
- * @returns {Object} An object containing the retrieved shops or an error message.
- */
 async function getByUserId(id) {
     try {
         console.log(`Attempting to find shops for user ID: ${id}`);
@@ -133,13 +99,6 @@ async function getByUserId(id) {
     }
 }
 
-/**
- * Deletes a shop by ID from the database.
- * 
- * @async
- * @param {number} id - The ID of the shop to delete.
- * @returns {Object} An object containing a success message or an error message.
- */
 async function removeById(id) {
     try {
       // Find the shop and verify it exists
@@ -158,12 +117,6 @@ async function removeById(id) {
     }
   }
 
-  /**
- * Retrieves unique shop types from the database.
- * 
- * @async
- * @returns {Object} An object containing the unique shop types or an error message.
- */
 async function getTypesOfShops() {
     try {
       const shopTypes = await shop_model.findAll({

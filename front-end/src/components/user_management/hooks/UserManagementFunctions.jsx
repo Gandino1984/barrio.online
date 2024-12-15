@@ -10,12 +10,12 @@ import axiosInstance from '../../../../utils/axiosConfig.js';
  */
 export const UserManagementFunctions = () => {
   /**
-   * Destructure setSelectedBusinessType and setBusinessType from AppContext.
+   * Destructure setSelectedShopType and setShopType from AppContext.
    * These functions are used to update the business type in the application context.
    */
   const {
-    setSelectedBusinessType,
-    setBusinessType,
+    setSelectedShopType,
+    setShopType,
     setShopTypes
   } = useContext(AppContext);
 
@@ -39,7 +39,7 @@ export const UserManagementFunctions = () => {
    * @param {string} type - The business type to be set.
    */
   const handleClick = (type) => {
-    setBusinessType(type);
+    setShopType(type);
   };
 
   /**
@@ -48,9 +48,9 @@ export const UserManagementFunctions = () => {
    * @param {string} type - The business type to be set.
    */
   const handleBusinessTypeSelect = (type) => {
-    setBusinessType(type);
+    setShopType(type);
     // Set the selected business type to trigger rendering of specific shops
-    setSelectedBusinessType(type);
+    setSelectedShopType(type);
   };
 
   return {

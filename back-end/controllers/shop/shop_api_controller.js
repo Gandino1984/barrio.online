@@ -12,22 +12,24 @@ async function getById(req, res) {
 }
 
 async function getByType(req, res) {
-    console.log('!!! shop_api_controller - getByType - req = ', req);
+    console.log('-> shop_api_controller.js - getByType() - req.* = ', req);
     console.log('Request Headers:', req.headers);
     console.log('Request Body:', req.body);
     console.log('Request Query:', req.query);
-    // Add explicit destructuring and logging
+  
     const { type_shop } = req.body;
-    console.log('!!! Destructured type_shop:', type_shop);
+  
     if (!type_shop) {
         return res.status(400).json({ 
             error: 'El parámetro type_shop es obligatorio', 
             requestBody: req.body 
         });
     }
+  
     const {error, data} = await shopController.getByType(type_shop);
-    console.log('!!! Shop Type Response - Error:', error);
-    console.log('!!! Shop Type Response - Data:', data);
+
+    console.error('-> Shop Type Response - Error:', error);
+    console.log('-> Shop Type Response - Data:', data);
     res.json({error, data});
 }
 
@@ -37,8 +39,8 @@ async function getTypesOfShops(req, res) {
 }
 
 async function create(req, res) {
-    const { name_shop, location_shop, type_shop, id_user, calification_shop } = req.body;
-    const {error, data} = await shopController.create({name_shop, location_shop, type_shop, id_user, calification_shop});
+    const { name_shop, location_shop, type_shop, subtype_shop, id_user, calification_shop } = req.body;
+    const {error, data} = await shopController.create({name_shop, location_shop, type_shop, subtype_shop, id_user, calification_shop});
     res.json({error, data});
 }
 

@@ -1,63 +1,41 @@
 import React, { useContext, useState, useEffect } from 'react';
 import AppContext from '../../app_context/AppContext.js';
-import axiosInstance from '../../../utils/axiosConfig.js';
 import ShopsListByUser from './shops_list_byUser/ShopsListByUser.jsx';
 import ShopCreationForm from './shop_creation_form/ShopCreationForm.jsx';
+import { ShopManagementFunctions } from './ShopManagementFunctions.jsx';
 
-const ShopManagement = ({ onBack }) => {
+const ShopManagement = () => {
   const { 
     currentUser, 
-    shops, setShops, 
-    loading, setLoading, 
+    shops, 
+    loading,  
     error, setError,
-    selectedShop, setSelectedShop,
     showShopCreationForm, setShowShopCreationForm,
-    showShopManagement, setshowShopManagement,
-    isAddingShop, setIsAddingShop
+    setIsAddingShop
   } = useContext(AppContext);
 
+  const {
+    fetchUserShops,
+    handleSelectShop,
+    handleCancel
+  } = ShopManagementFunctions();
 
-  const handleCancel = () => {
-    setshowShopManagement(false);
-  };
 
-  const handleSelectShop = (shop) => {
-    setSelectedShop(shop);
-  };
-
-  // take this away from here
   useEffect(() => {
-    const fetchUserShops = async () => {
-      if (!currentUser) return;
-      try {
-        setLoading(true);
-        const response = await axiosInstance.post('/shop/by-user-id', {
-          id_user: currentUser.id
-        });
-        const userShops = response.data.data?.filter(shop => 
-          shop.id_user === currentUser.id
-        ) || [];
-
-        setShops(userShops);
-        setLoading(false);
-      } catch (err) {
-        setError(err.response?.data?.error || 'Error fetching shops');
-        setLoading(false);
-      }
-    };
     fetchUserShops();
   }, [currentUser]);
 
-  const handleShopCreated = (newShop) => {
-    setIsAddingShop(false);
-  };
 
   if (loading) return <div>Cargando...</div>;
+
   if (shops.length === 0) {
     // User has no shops, show ShopCreationForm
     return (
+
+      /* I need to show current user info above the 
+      shop creation component */
+
       <ShopCreationForm 
-        onShopCreated={handleShopCreated}
         onCancel={handleCancel} 
       />
     );
@@ -65,14 +43,12 @@ const ShopManagement = ({ onBack }) => {
     if (showShopCreationForm) {
       return (
         <ShopCreationForm 
-          onShopCreated={handleShopCreated}
           onCancel={() => setShowShopCreationForm(false)} 
         />
       );
     } else {
       return (
         <ShopsListByUser
-          onBack={onBack}   
           onAddShop={() => setIsAddingShop(true)}
           onSelectShop={handleSelectShop}
         />
