@@ -49,13 +49,15 @@ export const AppContextProvider = ({ children }) => {
       timestamp: new Date().getTime()
     };
     console.log('-> User data for local storage = ', userDataToStore);
-
+  
     localStorage.setItem('currentUser', JSON.stringify(userDataToStore)); 
     
+    // Explicitly set the current user to the entire user object
     setCurrentUser(userData);
-    
-    // just added
-    // setShops([]);
+  
+    // Optional: Reset other states if needed
+    setIsLoggingIn(false);
+    setshowShopManagement(true);
   };
 
   // Custom logout function
@@ -100,7 +102,7 @@ export const AppContextProvider = ({ children }) => {
   const [newShop, setNewShop] = useState({
     name_shop: '',
     type_shop: '',
-    sub_type: '',
+    subtype_shop: '',
     location_shop: '',
     id_user: '',
     calificacion_shop: ''

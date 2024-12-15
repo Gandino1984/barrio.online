@@ -16,7 +16,6 @@ const ShopManagement = () => {
 
   const {
     fetchUserShops,
-    handleShopCreated,
     handleSelectShop,
     handleCancel
   } = ShopManagementFunctions();
@@ -37,7 +36,6 @@ const ShopManagement = () => {
       shop creation component */
 
       <ShopCreationForm 
-        onShopCreated={handleShopCreated}
         onCancel={handleCancel} 
       />
     );
@@ -45,14 +43,12 @@ const ShopManagement = () => {
     if (showShopCreationForm) {
       return (
         <ShopCreationForm 
-          onShopCreated={handleShopCreated}
           onCancel={() => setShowShopCreationForm(false)} 
         />
       );
     } else {
       return (
         <ShopsListByUser
-          onBack={onBack}   
           onAddShop={() => setIsAddingShop(true)}
           onSelectShop={handleSelectShop}
         />
