@@ -9,18 +9,21 @@ export const LoginRegisterFunctions = () => {
         isLoggingIn, setIsLoggingIn, username, 
         setUsername, password, setPassword,
         passwordRepeat, showPasswordRepeat, setPasswordRepeat,
-        setShowPasswordRepeat, setShowPasswordLabel, setKeyboardKey, setshowShopManagement, setDisplayedPassword, userType, 
-        setUserType, currentUser, login, logout,
-        setIsAddingShop, setShops, usernameError, 
-        setUsernameError, passwordError, setPasswordError,
-        userlocation, setUserlocation,
-        userlocationError, setUserlocationError
+        setShowPasswordRepeat, setShowPasswordLabel, 
+        setKeyboardKey, setshowShopManagement, 
+        setDisplayedPassword, userType, 
+        setUserType, currentUser, 
+        login, logout, setIsAddingShop, 
+        setShops, setUsernameError, setPasswordError,
+        userlocation, setUserlocation, setUserTypeError,
     } = useContext(AppContext);
 
-    // Custom hooks for validation
+
     const { validateUsername } = useUsernameValidation();
 
-    const { ipError, validateIPRegistration } = useIPValidation();
+
+    const { validateIPRegistration } = useIPValidation();
+
 
     const handleUsernameChange = (e) => {
         const rawUsername = e.target.value;
@@ -66,7 +69,6 @@ export const LoginRegisterFunctions = () => {
         setDisplayedPassword('*'.repeat(newPassword.length));
     };
 
-
     const clearUserSession = () => {
       logout();
       setUsername('');
@@ -75,16 +77,29 @@ export const LoginRegisterFunctions = () => {
       setDisplayedPassword('');
       setShowPasswordLabel(true);
       setKeyboardKey((prev) => prev + 1);
+      setIsLoggingIn(true);
       setshowShopManagement(false);
       setUsernameError('');
       setUserType('');
   };
 
-
-  const toggleForm = () => {
-      setIsLoggingIn((prevState) => !prevState);
-      clearUserSession();
+    const toggleForm = () => {
+        setIsLoggingIn(prev => !prev);
+        console.log('-> toggleForm() - isLoggingIn:', isLoggingIn);
+        if(!isLoggingIn){
+          clearUserSession();
+        }
   };
+
+    const handleUserTypeChange = (e) => {
+      setUserType(e.target.value);
+      if(userType) {
+          setIsLoggingIn(false);
+      }else{
+        setUserTypeError('Tipo de usuario no seleccionado');
+      }
+  };
+
 
   const handleLoginResponse = async (response) => {
       if (!response.data) {
@@ -177,28 +192,6 @@ export const LoginRegisterFunctions = () => {
   };
 
 
-    // const validateForm = (cleanedUsername) => {
-    //     if (!cleanedUsername || cleanedUsername.trim() === '') {
-    //         return { isValid: false, error: 'El nombre de usuario es requerido' };
-    //     }
-    //     if (!password || password.length !== 4) {
-    //         return { isValid: false, error: 'La contraseña debe tener 4 dígitos' };
-    //     }
-    //     if (!isLoggingIn) {
-    //         if (!passwordRepeat || passwordRepeat.length !== 4) {
-    //             return { isValid: false, error: 'La confirmación de contraseña debe tener 4 dígitos' };
-    //         }
-    //         if (password !== passwordRepeat) {
-    //             return { isValid: false, error: 'Las contraseñas no coinciden' };
-    //         }
-    //         if (!userType) {
-    //             return { isValid: false, error: 'Debe seleccionar un tipo de usuario' };
-    //         }
-    //     }
-    //     return { isValid: true, error: null };
-    // };
-
-
   const handleLogin = async (cleanedUsername, password) => {
       try {
         // Fetch user details first
@@ -264,83 +257,71 @@ export const LoginRegisterFunctions = () => {
   };
     
 
-    const handleFormSubmit = async (e) => {
-        e.preventDefault();
-        try {
+  const handleFormSubmit = async (e) => {
+      e.preventDefault();
+      try {
+      
+        console.log('-> handleFormSubmit() - isLoggingIn:', isLoggingIn);
+        // IP validation for registration only
+        if (!isLoggingIn) {
+          console.log('-> handleFormSubmit() - Validación de IP para registro');
+          const canRegister = await validateIPRegistration();
+          if (!canRegister) {
+            console.log('Validación de IP fallida. No se permite el registro.');
+            return;
+          }
+        }
+    
+        // Username validation
+        const { isValid, cleanedUsername, errors } = validateUsername(username);
+
+        if (!isValid) {
+          console.log('Error en el nombre de usuario:', errors[0]);
+          setError(errors[0]);
+          return;
+        }
+    
+        // Form validation
+        if (isButtonDisabled()) {
+          return;
+        }
+    
+        // Check for existing session
+        if (!isLoggingIn && currentUser?.id) {
+          console.log('-> Ya existe un usuario registrado con ese nombre.');
+          setUsernameError('Ya existe un usuario registrado con ese nombre.');
+          return;
+        }
+    
+        ///////// Handle login or registration /////////
+
+        if (isLoggingIn) {
+          console.log('-> Iniciando sesión', { cleanedUsername, userType });
+
+          await handleLogin(cleanedUsername, password);
         
-          console.log('-> handleFormSubmit() - isLoggingIn:', isLoggingIn);
-          // IP validation for registration only
-          if (!isLoggingIn) {
-            console.log('-> handleFormSubmit() - Validación de IP para registro');
-            const canRegister = await validateIPRegistration();
-            if (!canRegister) {
-              console.log('Validación de IP fallida. No se permite el registro.');
-              return;
-            }
-          }
-      
-          // Username validation
-          const { isValid, cleanedUsername, errors } = validateUsername(username);
-
-          if (!isValid) {
-            console.log('Error en el nombre de usuario:', errors[0]);
-            setError(errors[0]);
-            return;
-          }
-      
-          // Form validation
-          if (isButtonDisabled()) {
-            return;
-          }
-      
-          // Check for existing session
-          if (!isLoggingIn && currentUser?.id) {
-            console.log('-> Ya existe un usuario registrado con ese nombre.');
-            setUsernameError('Ya existe un usuario registrado con ese nombre.');
-            return;
-          }
-      
-          ///////// Handle login or registration /////////
-
-          if (isLoggingIn) {
-            console.log('-> Iniciando sesión', { cleanedUsername, userType });
-
-            await handleLogin(cleanedUsername, password);
-          
-          } else {
-            console.log('-> Registrando usuario', { cleanedUsername, userType });
-
-            await handleRegistration(cleanedUsername, password, userType, userlocation);
-            
-          }
-        } catch (error) {
-          const errorMessage = error.response?.data?.error || error.message;
-          if (errorMessage.includes('username')) {
-            setUsernameError(errorMessage);
-          } else {
-            setPasswordError(errorMessage);
-          } 
-          
-          // Reset password fields on error
-          setPassword('');
-          setPasswordRepeat('');
-          setDisplayedPassword('');
-          setShowPasswordLabel(true);
-          setKeyboardKey((prev) => prev + 1);
-        }
-      };
-
-
-    const handleUserTypeChange = (e) => {
-        setUserType(e.target.value);
-        if(e.target.value === 'seller') {
-            setIsLoggingIn(false);
         } else {
-            setIsLoggingIn(true);
-        }
-        // setUsernameError('');
-    };
+          console.log('-> Registrando usuario', { cleanedUsername, userType });
 
+          await handleRegistration(cleanedUsername, password, userType, userlocation);
+          
+        }
+      } catch (error) {
+        const errorMessage = error.response?.data?.error || error.message;
+        if (errorMessage.includes('username')) {
+          setUsernameError(errorMessage);
+        } else {
+          setPasswordError(errorMessage);
+        } 
+        
+        // Reset password fields on error
+        setPassword('');
+        setPasswordRepeat('');
+        setDisplayedPassword('');
+        setShowPasswordLabel(true);
+        setKeyboardKey((prev) => prev + 1);
+      }
+    };
 
     const isButtonDisabled = () => {
         // Check if the username is valid
@@ -369,10 +350,7 @@ export const LoginRegisterFunctions = () => {
         handleFormSubmit,
         handleUserTypeChange,
         handleUsernameChange,
-        // validateForm,
-        usernameError,
-        passwordError,
-        ipError,
-        handleUserLocationChange
+        handleUserLocationChange,
+        clearUserSession
     };
 };
