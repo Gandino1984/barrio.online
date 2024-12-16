@@ -3,6 +3,7 @@ import AppContext from '../../../app_context/AppContext.js';
 import { LoginRegisterFunctions } from './hooks/LoginRegisterFunctions.jsx';
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
 import UserManagement from "../../user_management/UserManagement.jsx";
+import TopBar from '../../general_top_bar/TopBar.jsx';
 import styles from './LoginRegisterForm.module.css';
 import ShopManagement from "../../shop_management/ShopManagement.jsx";
 
@@ -16,43 +17,30 @@ const LoginRegisterForm = () => {
   } = useContext(AppContext);
 
   const {
-    handlePasswordComplete,
-    clearUserSession, handlePasswordChange,
+    handlePasswordComplete, handlePasswordChange,
     handleRepeatPasswordChange, isButtonDisabled,
-    toggleForm, 
-    handleFormSubmit, handleUserTypeChange,
-    handleUsernameChange, handleUserLocationChange
+    toggleForm, handleFormSubmit, 
+    handleUserTypeChange, handleUsernameChange, handleUserLocationChange
   } = LoginRegisterFunctions();
 
   
-  console.log('-> LoginRegisterForm.jsx - isLoggingIn state = ', isLoggingIn);
-
-  console.log('-> LoginRegisterForm.jsx - showShopManagement state = ', showShopManagement);
-
-    // If the shopManagement selector is shown, render the ShopManagement or UserManagement component
+  /*   console.log('-> LoginRegisterForm.jsx - isLoggingIn state = ', isLoggingIn);
+  console.log('-> LoginRegisterForm.jsx - showShopManagement state = ', showShopManagement); */
   if (showShopManagement || currentUser) {
     console.log('-> LoginRegisterForm.jsx - userType = ', userType);
 
     if (userType === 'seller') {
         return (
           <>
-              <div className={styles.header}>
-                  <button type="button" className={styles.logoutButton} onClick={clearUserSession}>
-                      Cerrar Sesión
-                  </button>
-            </div>
+             <TopBar/>
             <ShopManagement/>
           </>
         );
     } else {
         return (
           <>
-            <div className={styles.header}>
-                  <button type="button" className={styles.logoutButton} onClick={clearUserSession}>
-                      Cerrar Sesión
-                  </button>
-            </div>
-          <UserManagement/>
+             <TopBar/>
+            <UserManagement/>
         </>
         );
     }
@@ -60,12 +48,7 @@ const LoginRegisterForm = () => {
   // Render the login/registration form
   return (
     <div className={styles.container}>
-          
-          <div className={styles.header}>
-              <button type="button" className={styles.logoutButton} onClick={clearUserSession}>
-                    Cerrar Sesión
-                </button>
-          </div>
+          <TopBar/>
           <div className={styles.formContainer}>
               <h2 className={styles.formTitle}>
                   {isLoggingIn ? 'INICIA SESIÓN' : 'CREA TU USUARIO'}
@@ -93,10 +76,10 @@ const LoginRegisterForm = () => {
                               onChange={handleUserTypeChange}
                               required
                               >
-                                  <option disabled selected value="">Tipo de usuario</option>
+                                  <option  value="" disabled>Tipo de usuario</option>
                                   <option value="user">Cliente</option>
                                   <option value="seller">Vendedor</option>
-                                  <option disabled selected value="provider">Productor</option>
+                                  <option value="provider" disabled>Productor</option>
                               </select>
                           </div>
                           

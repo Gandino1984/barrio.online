@@ -3,6 +3,8 @@ import AppContext from '../../app_context/AppContext.js';
 import ShopsListByUser from './shops_list_byUser/ShopsListByUser.jsx';
 import ShopCreationForm from './shop_creation_form/ShopCreationForm.jsx';
 import { ShopManagementFunctions } from './ShopManagementFunctions.jsx';
+import styles from './ShopManagement.module.css';
+import TopBar from '../general_top_bar/TopBar.jsx';
 
 const ShopManagement = () => {
   const { 
@@ -29,31 +31,34 @@ const ShopManagement = () => {
   if (loading) return <div>Cargando...</div>;
 
   if (shops.length === 0) {
-    // User has no shops, show ShopCreationForm
-    return (
 
+    return (
       /* I need to show current user info above the 
       shop creation component */
-
-      <ShopCreationForm 
-        onCancel={handleCancel} 
-      />
+      <>
+          <TopBar />
+          <ShopCreationForm />
+      </>
     );
   } else {
-    if (showShopCreationForm) {
-      return (
-        <ShopCreationForm 
-          onCancel={() => setShowShopCreationForm(false)} 
-        />
-      );
-    } else {
-      return (
-        <ShopsListByUser
-          onAddShop={() => setIsAddingShop(true)}
-          onSelectShop={handleSelectShop}
-        />
-      );
-    }
+      if (showShopCreationForm) {
+        return (
+          <>
+              <TopBar />
+              <ShopCreationForm />
+          </>
+        );
+      } else {
+        return (
+          <>
+              <TopBar />
+              <ShopsListByUser
+                onAddShop={() => setIsAddingShop(true)}
+                onSelectShop={handleSelectShop}
+              />
+          </>
+        );
+      }
   }
 };
 

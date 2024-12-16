@@ -83,6 +83,7 @@ export const LoginRegisterFunctions = () => {
       setUserType('');
   };
 
+
     const toggleForm = () => {
         setIsLoggingIn(prev => !prev);
         console.log('-> toggleForm() - isLoggingIn:', isLoggingIn);

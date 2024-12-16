@@ -12,7 +12,7 @@
   justify-content: right;
   width: 100%;
   padding-right: 3rem;
-  padding-bottom: 1rem;
+  padding-bottom: .5rem;
 }
 
 .formContainer{
@@ -35,8 +35,8 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 1rem;
-  gap: 1rem;
+  margin-top: .5rem;
+  gap: .5rem;
 }
 
 .formField label{
@@ -48,7 +48,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-bottom: 1rem;
+    padding-bottom: .5rem;
     /* gap: 0.5rem; */
   }
     
@@ -85,13 +85,12 @@
     display: block;
   }
 
-  .radioGroup {
+  /* .radioGroup {
     margin: 1rem 0;
   }
   
   .radioGroupLabel {
     display: block;
-    /* margin-bottom: 0.5rem; */
     font-weight: 500;
   }
   
@@ -100,7 +99,6 @@
     align-items:center;
     justify-content:space-around;
     gap: 1rem;
-    /* padding-bottom: 1rem; */
   }
   
   .radioOption {
@@ -109,7 +107,7 @@
     justify-content: center;
     margin-right: .5rem;
     /* gap: 0.5rem; */
-  }
+  /* } */
   
   .radioOption input[type="radio"] {
     margin-right: .3rem;
@@ -119,7 +117,7 @@
   .radioOption label {
     cursor: pointer;
     font-size: 1rem;
-  }
+  } 
 
   .inputError{
     border: 2px solid red;
