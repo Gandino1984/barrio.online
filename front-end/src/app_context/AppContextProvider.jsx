@@ -62,9 +62,11 @@ export const AppContextProvider = ({ children }) => {
 
   // Custom logout function
   const logout = () => {
-    //to-do: ask later if the user to log out
+    //to-do: show modal to ask later if the user wants to log out
     localStorage.removeItem('currentUser');
     setCurrentUser(null);
+    setIsLoggingIn(true);
+    setshowShopManagement(false);
   };
 
   // Check for expired user data on component mount
@@ -92,6 +94,7 @@ export const AppContextProvider = ({ children }) => {
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [userlocationError, setUserlocationError] = useState('');
+  const [userTypeError, setUserTypeError] = useState('');
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -116,6 +119,7 @@ export const AppContextProvider = ({ children }) => {
   
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+
   const [filters, setFilters] = useState({
     temporada: null,
     tipo: null,
@@ -199,7 +203,8 @@ export const AppContextProvider = ({ children }) => {
     userlocation, setUserlocation,
     userlocationError, setUserlocationError,
     newShop, setNewShop,
-    shopTypesAndSubtypes, setShopTypesAndSubtypes
+    shopTypesAndSubtypes, setShopTypesAndSubtypes,
+    userTypeError, setUserTypeError
   };
 
   return (

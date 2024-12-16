@@ -12,14 +12,12 @@ const LoginRegisterForm = () => {
     isLoggingIn, userType, 
     showShopManagement, ipError,passwordError,
     password, passwordRepeat, showPasswordRepeat,
-    keyboardKey,
-    userlocation, setUserlocation,
-    userlocationError, setUserlocationError
+    keyboardKey, userlocation, userlocationError, 
   } = useContext(AppContext);
 
   const {
     handlePasswordComplete,
-    handleClear, handlePasswordChange,
+    clearUserSession, handlePasswordChange,
     handleRepeatPasswordChange, isButtonDisabled,
     toggleForm, 
     handleFormSubmit, handleUserTypeChange,
@@ -37,17 +35,37 @@ const LoginRegisterForm = () => {
 
     if (userType === 'seller') {
         return (
-          <ShopManagement/>
+          <>
+              <div className={styles.header}>
+                  <button type="button" className={styles.logoutButton} onClick={clearUserSession}>
+                      Cerrar Sesión
+                  </button>
+            </div>
+            <ShopManagement/>
+          </>
         );
     } else {
         return (
+          <>
+            <div className={styles.header}>
+                  <button type="button" className={styles.logoutButton} onClick={clearUserSession}>
+                      Cerrar Sesión
+                  </button>
+            </div>
           <UserManagement/>
+        </>
         );
     }
   }
   // Render the login/registration form
   return (
     <div className={styles.container}>
+          
+          <div className={styles.header}>
+              <button type="button" className={styles.logoutButton} onClick={clearUserSession}>
+                    Cerrar Sesión
+                </button>
+          </div>
           <div className={styles.formContainer}>
               <h2 className={styles.formTitle}>
                   {isLoggingIn ? 'INICIA SESIÓN' : 'CREA TU USUARIO'}
