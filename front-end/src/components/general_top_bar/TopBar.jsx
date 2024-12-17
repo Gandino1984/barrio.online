@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 function TopBar() {
     const {
+      isLoggingIn,
+      showShopManagement,
       showShopCreationForm,
       selectedShop
     } = useContext(AppContext);
@@ -21,12 +23,15 @@ function TopBar() {
 
     return (
       <div className={styles.container}>
-          <button 
-            className={styles.backButton}
-            onClick={handleBack}
-          > 
-              <ArrowLeft size={20} />
-          </button>
+
+      {(selectedShop || showShopCreationForm) && (
+        <button
+          className={styles.backButton}
+          onClick={handleBack}
+        >
+          <ArrowLeft size={20} />
+        </button>
+      )}
 
           <button 
             type="button" 
