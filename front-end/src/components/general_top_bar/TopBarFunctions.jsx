@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import AppContext from '../../../src/app_context/AppContext.js';
-import { useNavigate } from 'react-router-dom';
 
 export const TopBarFunctions = () => {
 
@@ -9,11 +8,25 @@ export const TopBarFunctions = () => {
         setPassword, setPasswordRepeat,
         setShowPasswordLabel, setKeyboardKey, 
         setshowShopManagement, setDisplayedPassword, 
-        setUserType, logout, setUsernameError
+        setUserType, logout, setUsernameError,
+        showShopManagement, setShowShopCreationForm,
+        showShopCreationForm, selectedShop, setSelectedShop 
     } = useContext(AppContext);
 
     const handleBack = () => {
-      
+        if (showShopCreationForm) {
+            // If on shop creation form, go back to shop management
+            setShowShopCreationForm(false);
+            setshowShopManagement(true);
+        } else if (selectedShop) {
+            // If a shop is selected, deselect it
+            setSelectedShop(null);
+            setshowShopManagement(true);
+        } else if (showShopManagement) {
+            // If on shop management, go back to login/initial state
+            setshowShopManagement(false);
+            setIsLoggingIn(true);
+        }
     };
 
     const clearUserSession = () => {

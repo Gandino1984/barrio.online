@@ -5,6 +5,7 @@ export const AppContextProvider = ({ children }) => {
 
   const [isLoggingIn, setIsLoggingIn] = useState(true);
   const [showShopManagement, setshowShopManagement] = useState(false);
+  const [error, setError] = useState('');
   
   // Function to check and clear expired user data
   const checkAndClearUserData = () => {
@@ -32,10 +33,11 @@ export const AppContextProvider = ({ children }) => {
     if (storedUserData) {
       try {
         const parsedData = JSON.parse(storedUserData);
-        console.log('-> Datos de usuario en el Local Storage:', parsedData);
+        console.log('-> Datos de usuario en el Local Storage = ', parsedData);
         return parsedData.user || null;
       } catch (error) {
-        console.error('Error parsing stored user data:', error);
+        setError('Error al obtener los datos de sesión del usuario');
+        console.error('-> Error al obtener los datos de sesión del usuario = ', error);
         return null;
       }
     }
@@ -90,7 +92,7 @@ export const AppContextProvider = ({ children }) => {
   const [showShopCreationForm, setShowShopCreationForm] = useState(false);
   const [ipError, setIpError] = useState('');
   const [ip, setIp] = useState('');
-  const [error, setError] = useState('');
+
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [userlocationError, setUserlocationError] = useState('');

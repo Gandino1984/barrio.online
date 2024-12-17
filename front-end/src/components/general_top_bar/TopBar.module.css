@@ -1,0 +1,18 @@
+.container{
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 3rem;
+    position: fixed;
+    top: 0;
+}
+
+.logoutButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    gap: .5rem;
+    font-size: .8rem;
+}
