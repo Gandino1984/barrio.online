@@ -9,12 +9,24 @@ export const ShopsByTypeFunctions = () => {
     setShops,
     setLoading,
     setError,
+    setSelectedShop, 
+    setshowShopManagement 
   } = useContext(AppContext);
+
+  const handleShopSelect = (shop) => {
+    setSelectedShop(shop);
+  };
+
+  const handleBack = () => {
+    setSelectedShop(null);
+    setshowShopManagement(true);
+  };
   
   const fetchShopsByType = async () => {
-    console.log('!!! Fetching shops by business type:', shopType);
+    console.log('-> ShopsByTypeFunctions.jsx - fetchShopsByType() - Buscando negocios del tipo = ', shopType);
     try {
       setLoading(true);
+
       const response = await axiosInstance.post('/shop/type', {
         type_shop: shopType
       }, {
@@ -22,20 +34,29 @@ export const ShopsByTypeFunctions = () => {
           'Content-Type': 'application/json'
         }
       });
+      
+      console.log('-> ShopsByTypeFunctions.jsx - fetchShopsByType() - Response = ', response);
+
       if (response.data.error) {
+        console.error('-> ShopsByTypeFunctions.jsx - fetchShopsByType() - Error =', response.data.error);
         throw new Error(response.data.error);
       }
+
       setShops(response.data.data || []);
-      setLoading(false);
+      // just added
+      // setLoading(false);
     } catch (err) {
-      console.error('FULL ERROR:', err);
+      console.error('-> ShopsByTypeFunctions.jsx - fetchShopsByType() - Error = ', err);
       setError(err.message || `Error al cargar ${shopType} shops`);
-    }finally {
+    }
+    finally {
       setLoading(false);
     }
   };
 
   return {
-    fetchShopsByType
+    handleShopSelect,
+    fetchShopsByType,
+    handleBack
   };
 };

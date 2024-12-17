@@ -85,6 +85,7 @@ export const LoginRegisterFunctions = () => {
 
 
     const toggleForm = () => {
+        console.log('-> toggleForm() - isLoggingIn:', isLoggingIn);
         setIsLoggingIn(prev => !prev);
         console.log('-> toggleForm() - isLoggingIn:', isLoggingIn);
         if(!isLoggingIn){
