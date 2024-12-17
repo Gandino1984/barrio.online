@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopCreationForm.module.css';
 import { ShopCreationFormFunctions } from './ShopCreationFormFunctions.jsx'
@@ -8,10 +7,13 @@ const ShopCreationForm = () => {
   const { 
     newShop, 
     setNewShop,
-    shopTypesAndSubtypes
+    shopTypesAndSubtypes,
+    setShowShopCreationForm, 
+    setshowShopManagement 
   } = useContext(AppContext);
 
   const {
+    handleBack,
     handleAddShop
   } = ShopCreationFormFunctions();
 
@@ -25,12 +27,11 @@ const ShopCreationForm = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        
-        <h2 className={styles.headerTitle}>
-          Crear un negocio
-        </h2>
-      </div>
+        <div className={styles.header}>   
+            <h2 className={styles.headerTitle}>
+                Crear un negocio
+            </h2>
+        </div>
       <form onSubmit={handleAddShop} className={styles.form}>
         <div className={styles.formField}>
           <input

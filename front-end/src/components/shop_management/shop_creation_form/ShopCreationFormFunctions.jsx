@@ -6,12 +6,18 @@ export const ShopCreationFormFunctions = () => {
     const { 
         currentUser, 
         setShowShopCreationForm, 
+        setshowShopManagement,
         setIsLoggingIn, 
         newShop, 
         setNewShop,
         setShops, 
         setError
     } = useContext(AppContext);
+
+    const handleBack = () => {
+        setShowShopCreationForm(false);
+        setshowShopManagement(true);
+      };
 
     const handleAddShop = async (e) => {
         e.preventDefault();
@@ -53,6 +59,9 @@ export const ShopCreationFormFunctions = () => {
                 calificacion_shop: ''
             });
 
+            setShowShopCreationForm(false);
+            setshowShopManagement(true);
+
             return response.data.data;
         } catch (err) {
             setError(err.message || 'Error adding shop');
@@ -62,6 +71,7 @@ export const ShopCreationFormFunctions = () => {
     };
 
     return {
+        handleBack,
         handleAddShop
     }
 }
