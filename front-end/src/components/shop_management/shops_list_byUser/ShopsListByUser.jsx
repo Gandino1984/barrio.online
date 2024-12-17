@@ -3,7 +3,7 @@ import { ArrowLeft, ShoppingCart } from 'lucide-react';
 import AppContext from '../../../app_context/AppContext.js';
 import axiosInstance from '../../../../utils/axiosConfig.js';
 import styles from './ShopsListByUser.module.css';
-import TopBar from '../../general_top_bar/TopBar.jsx';
+
 
 const ShopsListByUser = ({ onBack }) => {
   const { 
@@ -43,7 +43,6 @@ const ShopsListByUser = ({ onBack }) => {
 
   return (
     <div className={styles.container}>
-        <TopBar />
         <div className="flex items-center mb-6">
               <div className={styles.header}>
                   <h2 className="text-2xl font-bold text-center flex-1 pr-10">

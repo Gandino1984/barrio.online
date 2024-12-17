@@ -32,7 +32,8 @@ export const ShopManagementFunctions = () => {
           setLoading(false);
         }
       };
-    const handleCancel = () => {
+
+    const handleBack = () => {
     setshowShopManagement(false);
     };
 
@@ -43,6 +44,6 @@ export const ShopManagementFunctions = () => {
     return {
         fetchUserShops,
         handleSelectShop,
-        handleCancel
+        handleBack
       };
 }

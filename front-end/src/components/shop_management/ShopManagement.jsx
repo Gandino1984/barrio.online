@@ -19,7 +19,7 @@ const ShopManagement = () => {
   const {
     fetchUserShops,
     handleSelectShop,
-    handleCancel
+    handleBack
   } = ShopManagementFunctions();
 
 
@@ -30,35 +30,26 @@ const ShopManagement = () => {
 
   if (loading) return <div>Cargando...</div>;
 
-  if (shops.length === 0) {
-
+  if (shops.length === 0 || showShopCreationForm) {
     return (
       /* I need to show current user info above the 
       shop creation component */
       <>
-          <TopBar />
           <ShopCreationForm />
       </>
     );
   } else {
-      if (showShopCreationForm) {
-        return (
-          <>
-              <TopBar />
-              <ShopCreationForm />
-          </>
-        );
-      } else {
-        return (
-          <>
-              <TopBar />
-              <ShopsListByUser
-                onAddShop={() => setIsAddingShop(true)}
-                onSelectShop={handleSelectShop}
-              />
-          </>
-        );
-      }
+      return (
+          /* I need to show current user info above the 
+         shop creation component */
+        <>
+            <ShopsListByUser
+              onAddShop={() => setIsAddingShop(true)}
+              onSelectShop={handleSelectShop}
+            />
+        </>
+      );
+      
   }
 };
 
