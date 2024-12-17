@@ -4,8 +4,17 @@ import AppContext from '../app_context/AppContext.js';
 export const AppContextProvider = ({ children }) => {
 
   const [isLoggingIn, setIsLoggingIn] = useState(true);
+  
   const [showShopManagement, setshowShopManagement] = useState(false);
-  const [error, setError] = useState('');
+
+  const [error, setError] = useState({
+    username: '',
+    password: '',
+    passwordRepeat: '',
+    ip: '',
+    userlocation: '',
+    userType: '',
+  });
   
   // Function to check and clear expired user data
   const checkAndClearUserData = () => {

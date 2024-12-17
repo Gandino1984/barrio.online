@@ -4,10 +4,11 @@ import { TopBarFunctions } from './TopBarFunctions.jsx';
 import { ArrowLeft } from 'lucide-react';
 import { LogOut } from 'lucide-react';
 import AppContext from '../../../src/app_context/AppContext.js';
-import { useNavigate } from 'react-router-dom';
+import ErrorCard from '../error_card/ErrorCard.jsx';
 
 function TopBar() {
     const {
+      error,
       isLoggingIn,
       showShopManagement,
       showShopCreationForm,
@@ -20,27 +21,27 @@ function TopBar() {
     } = TopBarFunctions();
 
   
-
     return (
       <div className={styles.container}>
+          {error && <ErrorCard />}
+          
+          {(selectedShop || showShopCreationForm) && (
+            <button
+              className={styles.backButton}
+              onClick={handleBack}
+            >
+              <ArrowLeft size={24} />
+            </button>
+          )}
 
-      {(selectedShop || showShopCreationForm) && (
-        <button
-          className={styles.backButton}
-          onClick={handleBack}
-        >
-          <ArrowLeft size={20} />
-        </button>
-      )}
-
-          <button 
-            type="button" 
-            className={styles.logoutButton} 
-            onClick={clearUserSession}
-          >
-              <LogOut size={20}/>
-              Cerrar Sesión
-          </button>
+              <button 
+                type="button" 
+                className={styles.logoutButton} 
+                onClick={clearUserSession}
+              >
+                  <LogOut size={24}/>
+                  Cerrar
+              </button>
       </div>
     )
 }

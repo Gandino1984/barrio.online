@@ -101,9 +101,9 @@ const NumericKeyboard = ({
                     onClick={(e) => handleBackspaceClick(e)}
                   >
                       {showRetryIcon ? (
-                        <RotateCcw size={16} />
+                        <RotateCcw size={24} />
                       ) : (
-                        <Delete size={16} />
+                        <Delete size={24} />
                       )}
                   </button>
               </div>

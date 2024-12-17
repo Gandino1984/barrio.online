@@ -7,7 +7,7 @@ import styles from './UserManagement.module.css';
 import { UserManagementFunctions } from './hooks/UserManagementFunctions.jsx';
 
 
-const UserManagement = ({ onBack }) => {
+const UserManagement = () => {
   
   const { 
     selectedShopType, setSelectedShopType, shopTypes 

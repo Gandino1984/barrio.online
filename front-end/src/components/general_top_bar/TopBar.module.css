@@ -2,10 +2,11 @@
     width: 100vw;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 1rem 3rem;
+    justify-content: space-around;
+    padding: .5rem 1rem;
     position: fixed;
     top: 0;
+    margin-bottom: 1rem;
 }
 
 .logoutButton{
