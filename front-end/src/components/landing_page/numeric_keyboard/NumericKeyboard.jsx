@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import { useNumericKeyboardFunctions } from './hooks/useNumericKeyboardFunctions.jsx';
-import { Delete, Trash2, RotateCcw } from 'lucide-react';
+import { Delete, RotateCcw } from 'lucide-react';
 import styles from './NumericKeyboard.module.css';
+import { Banana, Apple, Bean, Beef, Carrot, Beer, Croissant, Drill, Dog, Fish, Drumstick, Gift, Gem, Ham, Palette, Printer, Wrench, Car, Scissors, HeartPulse, BookMarked, Mouse, Cpu, Laptop, Smile, ChefHat, Laugh, Lollipop, Cake, Pizza, ShoppingBasket, Speaker, Amphora, ConciergeBell, Flower, Baby, Shirt, Watch, Sandwich } from 'lucide-react';
 
 const NumericKeyboard = ({ 
   value, 
@@ -25,9 +26,26 @@ const NumericKeyboard = ({
     setPasswordError
   } = useContext(AppContext);
 
-  const maskedValue = showMaskedPassword ? '*'.repeat(value.length) : value;
+  const icons = [Banana, Apple, Bean, Beef, Carrot, Beer, Croissant, Drill, Dog, Fish, Drumstick, Gift, Gem, Ham, Palette, Printer, Wrench, Car, Scissors, HeartPulse, BookMarked, Mouse, Cpu, Laptop, Smile, ChefHat, Laugh, Lollipop, Cake, Pizza, ShoppingBasket, Speaker, Amphora, ConciergeBell, Flower, Baby, Shirt, Watch, Sandwich];
 
-  const showRetryIcon = (!isLoggingIn && showPasswordRepeat) && (passwordRepeat.length === MAX_PASSWORD_LENGTH) && (password !== passwordRepeat);
+  const [passwordIcons, setPasswordIcons] = useState([]);
+
+  useEffect(() => {
+    if (showMaskedPassword) {
+      const newIcons = Array(value.length).fill().map(() => icons[Math.floor(Math.random() * icons.length)]);
+      setPasswordIcons(newIcons);
+    } else {
+      setPasswordIcons([]);
+    }
+  }, [value, showMaskedPassword]);
+
+  useEffect(() => {
+    if (showMaskedPassword) {
+      setDisplayedPassword(passwordIcons.map((Icon, index) => <Icon key={index} size={16} />));
+    } else {
+      setDisplayedPassword(value);
+    }
+  }, [passwordIcons, showMaskedPassword]);
 
   const {
     handleKeyClick,
@@ -36,14 +54,9 @@ const NumericKeyboard = ({
     handleClear
   } = useNumericKeyboardFunctions(value, onChange, onPasswordComplete);
 
-  useEffect(() => {
-    setDisplayedPassword(maskedValue);
-  }, [value, showMaskedPassword]);
-
-  const handleBackspaceClick = (e) => {
-    handleBackspace(e);
+  const handleBackspaceClick = (event) => {
+    handleBackspace(event);
     if (error) {
-      // Reset both username and password errors when backspace is clicked
       setUsernameError('');
       setPasswordError('');
     }
@@ -100,11 +113,7 @@ const NumericKeyboard = ({
                     className={`${styles.key} ${styles.clear}`} 
                     onClick={(e) => handleBackspaceClick(e)}
                   >
-                      {showRetryIcon ? (
-                        <RotateCcw size={24} />
-                      ) : (
                         <Delete size={24} />
-                      )}
                   </button>
               </div>
           </div>

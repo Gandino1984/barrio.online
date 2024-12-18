@@ -92,12 +92,11 @@ export const LoginRegisterFunctions = () => {
 
 
     const toggleForm = () => {
-        console.log('-> toggleForm() - isLoggingIn:', isLoggingIn);
         setIsLoggingIn(prev => !prev);
-        console.log('-> toggleForm() - isLoggingIn:', isLoggingIn);
         if(!isLoggingIn){
           clearUserSession();
         }
+        console.log('-> toggleForm() - isLoggingIn:', isLoggingIn);
   };
 
     const handleUserTypeChange = (e) => {
@@ -128,12 +127,12 @@ export const LoginRegisterFunctions = () => {
       // check the database response in depth
       if (!userData || !userData.id_user || !userData.name_user || !userData.type_user) {
           console.log('-> handleLoginResponse() - Datos de usuario incompletos o inválidos');
-          //just added 
           clearUserSession();
           throw new Error('Datos de usuario incompletos o inválidos');
       }
 
       setUserType(userData.type_user);
+
       // Normalize user data structure using the server-provided user type
       const normalizedUserData = {
         id: userData.id_user, 
@@ -197,6 +196,7 @@ export const LoginRegisterFunctions = () => {
       };
 
       login(normalizedUserData);
+      
       setshowShopManagement(true); 
   };
 
