@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import AppContext from '../../app_context/AppContext.js';
 import styles from './ErrorCard.module.css';
 import { CircleX } from 'lucide-react';
@@ -8,7 +8,10 @@ const ErrorCard = () => {
     usernameError,
     ipError,
     passwordError,
-    userlocationError
+    userlocationError,
+    isLoggingIn,
+    showShopManagement,
+    showErrorCard, setShowErrorCard
   } = useContext(AppContext);
 
   const errors = {
@@ -18,21 +21,32 @@ const ErrorCard = () => {
     userlocationError
   };
 
-  if (!Object.values(errors).some((error) => error)) {
-    return null;
-  }
+  useEffect(() => {
+    if (!Object.values(errors).some((error) => error)) {
+      setShowErrorCard(false);
+    } else {
+      setShowErrorCard(true);
+    }
+  }, [isLoggingIn, showShopManagement, 
+    usernameError,
+    ipError,
+    passwordError,
+    userlocationError,
+  ]);
 
   return (
-    <div className={styles.container}>
-      <CircleX color="red" size={24} />
-      <ul className={styles.errorList}>
-        {Object.keys(errors).map((errorKey) => (
-          <li key={errorKey}>
-            {errors[errorKey]}
-          </li>
-        ))}
-      </ul>
-    </div>
+    showErrorCard && (
+      <div className={styles.container}>
+        <CircleX color="red" size={24} />
+        <ul className={styles.errorList}>
+          {Object.keys(errors).map((errorKey) => (
+            <li key={errorKey}>
+              {errors[errorKey]}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
   );
 };
 

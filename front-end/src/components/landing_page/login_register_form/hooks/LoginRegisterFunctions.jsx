@@ -14,8 +14,12 @@ export const LoginRegisterFunctions = () => {
         setDisplayedPassword, userType, 
         setUserType, currentUser, 
         login, logout, setIsAddingShop, 
-        setShops, setUsernameError, setPasswordError,
+        setShops,
         userlocation, setUserlocation, setUserTypeError,
+        setUsernameError,
+        setIpError,
+        setPasswordError,
+        setUserlocationError
     } = useContext(AppContext);
 
 
@@ -79,8 +83,11 @@ export const LoginRegisterFunctions = () => {
       setKeyboardKey((prev) => prev + 1);
       setIsLoggingIn(true);
       setshowShopManagement(false);
-      setUsernameError('');
       setUserType('');
+      setUsernameError('');
+      setIpError(''),
+      setPasswordError(''),
+      setUserlocationError('')
   };
 
 

@@ -7,6 +7,8 @@ export const AppContextProvider = ({ children }) => {
   
   const [showShopManagement, setshowShopManagement] = useState(false);
 
+  const [showErrorCard, setShowErrorCard] = useState(false);
+
   const [error, setError] = useState({
     username: '',
     password: '',
@@ -55,6 +57,7 @@ export const AppContextProvider = ({ children }) => {
 
   // Custom login function to handle both context and localStorage
   const login = (userData) => {
+    
     const userDataToStore = {
       user: userData,
       timestamp: new Date().getTime()
@@ -215,7 +218,8 @@ export const AppContextProvider = ({ children }) => {
     userlocationError, setUserlocationError,
     newShop, setNewShop,
     shopTypesAndSubtypes, setShopTypesAndSubtypes,
-    userTypeError, setUserTypeError
+    userTypeError, setUserTypeError,
+    showErrorCard, setShowErrorCard
   };
 
   return (
