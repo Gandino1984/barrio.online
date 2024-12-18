@@ -1,48 +1,39 @@
 import user_model from "../../models/user_model.js";
-// import { Op } from "sequelize";
+import bcrypt from "bcrypt";
 
-// Validation utilities
 const validateUserData = (userData) => {
+    console.log("-> user_controller.js - validateUserData() - userData = ", userData);
+    
     const errors = [];
-    // Required fields check
-    const requiredFields = ['name_user', 'pass_user'];
+    const requiredFields = ['name_user', 'type_user', 'location_user'];
+    
     requiredFields.forEach(field => {
         if (!userData[field]) {
             errors.push(`Falta el campo: ${field}`);
         }
     });
-// Username validation
-if (userData.name_user) {
-    if (userData.name_user.length < 3) {
-        errors.push('El nombre debe tener al menos 3 caracteres');
-    }
-    if (userData.name_user.length > 50) {
-        errors.push('El nombre no puede exceder 50 characters');
-    }
-    if (!/^[a-zA-Z0-9_ ]+$/.test(userData.name_user)) {
-        errors.push('El nombre solo puede contener letras, números, guiones bajos y espacios');
-    }
-}
-    // Password validation
-    if (userData.pass_user) {
-        if (userData.pass_user.length !== 4) {
-            errors.push('La contraseña debe tener 4 digitos');
+    
+    if (userData.name_user) {
+        if (userData.name_user.length < 3) {
+            errors.push('El nombre debe tener al menos 3 caracteres');
         }
-        if (!/^\d+$/.test(userData.pass_user)) {
-            errors.push('La contraseña solo puede contener numeros');
+        if (userData.name_user.length > 100) {
+            errors.push('El nombre no puede exceder 50 characters');
+        }
+        if (!/^[a-zA-Z0-9_ ]+$/.test(userData.name_user)) {
+            errors.push('El nombre solo puede contener letras, números, guiones bajos y espacios');
         }
     }
-    // User type validation for registration
     if (userData.type_user) {
         const validTypes = ['user', 'seller', 'provider', 'admin'];
         if (!validTypes.includes(userData.type_user)) {
             errors.push('Tipo de usuario no valido');
         }
     }
-    // Location validation if provided
-    if (userData.location_user && typeof userData.location_user !== 'string') {
-        errors.push('la ubicacion debe ser una cadena de texto');
+    if (!userData.location_user) {
+        errors.push(`Falta el campo: location_user`);
     }
+
     return {
         isValid: errors.length === 0,
         errors
@@ -152,33 +143,40 @@ async function create(userData) {
 async function login(userData) {
     console.log("-> user_controller.js - login() - userData = ", userData);
     try {
-        // Validate login data
         if (!userData.name_user || !userData.pass_user) {
             console.log('-> login() - Información de usuario incompleta');
-            return { 
+            return {
                 error: "Información de usuario incompleta",
-                details: "Both username and password are required" 
-            };
+                details: "Both username and password are required"
+            }; 
         }
-        // Password validation
         if (userData.pass_user.length !== 4 || !/^\d+$/.test(userData.pass_user)) {
-            return { 
+            return {
                 error: "Contraseña inválida",
                 details: "Password must be exactly 4 digits" 
-            };
+            }; 
         }
-        // Find user
+
+        // Find user: we need the hashed password and the user_type
+        // to add it to the user login data so the app knows what
+        // type of user is trying to log in
         const user = await user_model.findOne({ 
             where: { name_user: userData.name_user } 
         });
+
         if (!user) {
-            return { 
+            return {
                 error: "El usuario no existe",
                 details: "User not found" 
             };
         }
-        // Password comparison
-        if (user.pass_user !== userData.pass_user) {
+
+        // Password comparisson: userData.pass_user is the one from the 
+        // request(form/unhashed data) user.pass_user is the hashed one
+        const isPasswordValid = bcrypt.compare(userData.pass_user, user.pass_user);
+
+        // Password check
+        if (!isPasswordValid) {
             console.log('-> login() - Contraseña incorrecta');
             return { 
                 error: "Contraseña incorrecta",
@@ -194,27 +192,25 @@ async function login(userData) {
             location_user: user.location_user
         };
 
-        return { 
+        return {
             data: userResponse,
             message: "Login exitoso" 
         };
+
     } catch (error) {
         console.error("-> Error al iniciar sesión =", error);
-        return { 
+        return {
             error: "Error al iniciar sesión",
-            details: error.message 
-        };
+            details: error.message        
+        }; 
     }
 }
 
 async function register(userData) {
+    // console.log("-> user_controller.js - register() - userData = ", userData);
     try {
         // Validate registration data
-        const validation = validateUserData({
-            ...userData,
-            type_user: userData.type_user || 'user' // Default to user if not specified
-        });
-
+        const validation = validateUserData(userData);
         if (!validation.isValid) {
             console.error('-> user_controller.js - register() - Error de validación = ', validation.errors);
             return { 
@@ -229,18 +225,14 @@ async function register(userData) {
         });
 
         if (existingUser) {
-            console.log('-> register() - existingUser = ', existingUser);
+            console.log('-> register() - El usuario ', existingUser, ' ya existe');
             return { 
                 error: "El usuario ya existe",
                 details: "Username already exists" 
             };
         }
 
-        // Create user
-        const user = await user_model.create({
-            ...userData,
-            location_user: userData.location_user || 'Uribarri'
-        });
+        const user = await user_model.create(userData);
 
         // Return user data without sensitive information
         const userResponse = {
@@ -249,8 +241,6 @@ async function register(userData) {
             type_user: user.type_user,
             location_user: user.location_user
         };
-
-        console.log('-> register() - new user without sensitive info = ', userResponse);
 
         return { 
             data: userResponse,
