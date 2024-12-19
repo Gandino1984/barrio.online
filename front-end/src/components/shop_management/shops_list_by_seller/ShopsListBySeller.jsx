@@ -1,44 +1,20 @@
 import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
-import axiosInstance from '../../../../utils/axiosConfig.js';
 import styles from './ShopsListBySeller.module.css';
+import { ShopsListBySellerFunctions } from './ShopsListBySellerFunctions.jsx';
 
 
 const ShopsListBySeller = ({ onBack }) => {
   const { 
-    currentUser, 
     shops, 
-    setShops, 
-    error, 
-    setError,
-    isAddingShop, setIsAddingShop,
     selectedShop, setSelectedShop,
-    showShopCreationForm, setShowShopCreationForm
   } = useContext(AppContext);
 
-  const handleSelectShop = (shop) => {
-    setSelectedShop(shop);
-  };
-
-  const handleDeleteShop = async (shopId) => {
-    console.log("handleDeleteShop - shopId:", shopId);
-    try {
-      const response = await axiosInstance.post('/shop/removeById', { id_shop: shopId });
-      
-      if (response.data.error) {
-        throw new Error(response.data.error);
-      }
-  
-      setShops(prevShops => prevShops.filter(shop => shop.id_shop !== shopId));
-    } catch (err) {
-      setError(err.message || 'Error eliminando tienda');
-      console.error('Shop deletion error:', err);
-    }
-  };
-
-  const handleAddShop = () => {
-    setShowShopCreationForm(true);
-  };
+    const { 
+      handleSelectShop,
+      handleDeleteShop,
+      handleAddShop
+    } = ShopsListBySellerFunctions();
 
   return (
     <div className={styles.container}>
