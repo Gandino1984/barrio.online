@@ -1,6 +1,3 @@
-// import { useContext } from 'react';
-// import AppContext from '../../../../app_context/AppContext.js';
-
 export const useUsernameValidation = () => {
 
   const getValidationErrors = (username) => {
@@ -39,7 +36,6 @@ const cleanupUsername = (username) => {
         errors: getValidationErrors(cleanedUsername)
     };
 };
-
 
   return {
     validateUsername,

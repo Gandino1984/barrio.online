@@ -14,8 +14,12 @@ export const LoginRegisterFunctions = () => {
         setDisplayedPassword, userType, 
         setUserType, currentUser, 
         login, logout, setIsAddingShop, 
-        setShops, setUsernameError, setPasswordError,
+        setShops,
         userlocation, setUserlocation, setUserTypeError,
+        setUsernameError,
+        setIpError,
+        setPasswordError,
+        setUserlocationError
     } = useContext(AppContext);
 
 
@@ -69,6 +73,7 @@ export const LoginRegisterFunctions = () => {
         setDisplayedPassword('*'.repeat(newPassword.length));
     };
 
+
     const clearUserSession = () => {
       logout();
       setUsername('');
@@ -79,19 +84,26 @@ export const LoginRegisterFunctions = () => {
       setKeyboardKey((prev) => prev + 1);
       setIsLoggingIn(true);
       setshowShopManagement(false);
-      setUsernameError('');
       setUserType('');
+      setUsernameError('');
+      setIpError(''),
+      setPasswordError(''),
+      setUserlocationError(''),
+      setShowPasswordRepeat(false);
   };
 
 
     const toggleForm = () => {
-        console.log('-> toggleForm() - isLoggingIn:', isLoggingIn);
         setIsLoggingIn(prev => !prev);
-        console.log('-> toggleForm() - isLoggingIn:', isLoggingIn);
         if(!isLoggingIn){
           clearUserSession();
+          setPassword('');
+          setPasswordRepeat('');
+          setShowPasswordRepeat(false);
+          setUserType('');
         }
   };
+
 
     const handleUserTypeChange = (e) => {
       setUserType(e.target.value);
@@ -121,12 +133,12 @@ export const LoginRegisterFunctions = () => {
       // check the database response in depth
       if (!userData || !userData.id_user || !userData.name_user || !userData.type_user) {
           console.log('-> handleLoginResponse() - Datos de usuario incompletos o inválidos');
-          //just added 
           clearUserSession();
           throw new Error('Datos de usuario incompletos o inválidos');
       }
 
       setUserType(userData.type_user);
+
       // Normalize user data structure using the server-provided user type
       const normalizedUserData = {
         id: userData.id_user, 
@@ -190,6 +202,7 @@ export const LoginRegisterFunctions = () => {
       };
 
       login(normalizedUserData);
+      
       setshowShopManagement(true); 
   };
 
@@ -200,27 +213,29 @@ export const LoginRegisterFunctions = () => {
         const userDetailsResponse = await axiosInstance.post('/user/details', {
           name_user: cleanedUsername
         });
-        // Enhanced type extraction and validation
-        
-        const type = userDetailsResponse.data.data.type_user;
 
         if (!userDetailsResponse.data.data) {
           setUsernameError('Nombre de usuario no encontrado');
           return;
         }
+
+        const type = userDetailsResponse.data.data.type_user;
+
+       
         if (!type) {
           setUsernameError('Tipo de usuario no encontrado');
           console.error('User type not found for username:', cleanedUsername);
           return;
         }
+
         // Explicitly set user type in context before login
         console.log('Login: Tipo de usuario extraido de los detalles del usuario en la DB = ', type);
         
         setUserType(type);
 
         console.log( '-> UserType actualizado en el contexto de la App');
+
         // Proceed with login using the obtained user type
-        
         const loginResponse = await axiosInstance.post('/user/login', {
           name_user: cleanedUsername,
           pass_user: password,
@@ -228,6 +243,12 @@ export const LoginRegisterFunctions = () => {
         });
 
         console.log('-> handleLogin() - /user/login response = ', loginResponse);
+
+        // Check if the login was successful
+        if (loginResponse.data.error) {
+          setPasswordError('Nombre de usuario o contraseña incorrectos');
+          return;
+        }
 
         await handleLoginResponse(loginResponse);
 
@@ -255,6 +276,13 @@ export const LoginRegisterFunctions = () => {
 
       await handleRegistrationResponse(response);
 
+      // Reset key states after successful registration
+      setPassword('');
+      setPasswordRepeat('');
+      setDisplayedPassword('');
+      setShowPasswordRepeat(false);
+      setUserType('');
+
       toggleForm();
   };
     
@@ -266,6 +294,7 @@ export const LoginRegisterFunctions = () => {
         console.log('-> handleFormSubmit() - isLoggingIn:', isLoggingIn);
         // IP validation for registration only
         if (!isLoggingIn) {
+          console.log('************************************');
           console.log('-> handleFormSubmit() - Validación de IP para registro');
           const canRegister = await validateIPRegistration();
           if (!canRegister) {
@@ -326,20 +355,18 @@ export const LoginRegisterFunctions = () => {
     };
 
     const isButtonDisabled = () => {
-        // Check if the username is valid
         const { isValid } = validateUsername(username);
-        // If the username is not valid, disable the button
+
         if (!isValid) return true;
-        // Check password fields based on whether we're logging in or registering
+
         if (isLoggingIn) {
-        // For login, only require a 4-digit password
-        return password.length !== 4;
+          return password.length !== 4;
         } else {
         // For registration, require a 4-digit password, matching password repeat, and a selected user type
         return password.length !== 4 || 
                 passwordRepeat.length !== 4 || 
                 password !== passwordRepeat || 
-                !userType === '';
+                userType === '';
         }
     };
 

@@ -4,8 +4,19 @@ import AppContext from '../app_context/AppContext.js';
 export const AppContextProvider = ({ children }) => {
 
   const [isLoggingIn, setIsLoggingIn] = useState(true);
+  
   const [showShopManagement, setshowShopManagement] = useState(false);
-  const [error, setError] = useState('');
+
+  const [showErrorCard, setShowErrorCard] = useState(false);
+
+  const [error, setError] = useState({
+    username: '',
+    password: '',
+    passwordRepeat: '',
+    ip: '',
+    userlocation: '',
+    userType: '',
+  });
   
   // Function to check and clear expired user data
   const checkAndClearUserData = () => {
@@ -46,16 +57,22 @@ export const AppContextProvider = ({ children }) => {
 
   // Custom login function to handle both context and localStorage
   const login = (userData) => {
+    
+    // Remove the password from the user data before storing it
+    const { password, ...userWithoutPassword } = userData;
+
+
     const userDataToStore = {
-      user: userData,
+      user: userWithoutPassword,
       timestamp: new Date().getTime()
     };
+
     console.log('-> User data for local storage = ', userDataToStore);
   
     localStorage.setItem('currentUser', JSON.stringify(userDataToStore)); 
     
     // Explicitly set the current user to the entire user object
-    setCurrentUser(userData);
+    setCurrentUser(userWithoutPassword);
   
     // Optional: Reset other states if needed
     setIsLoggingIn(false);
@@ -151,7 +168,7 @@ export const AppContextProvider = ({ children }) => {
   const [shopTypesAndSubtypes, setShopTypesAndSubtypes] = useState({
     'Artesania': ['Accesorios', 'Complementos', 'Varios'],
     'Bienestar': ['Peluqueria', 'Fisioterapia', 'Varios'],
-    'Consultoria': ['Tecnica', 'Digital', 'Varios'],
+    'Consultoría': ['Técnica', 'Digital', 'Varios'],
     'Comida': [
       'Fruteria', 'Carniceria', 'Pescaderia', 'Panaderia', 
       'Local', 'Peruana', 'China', 'Japonesa', 'Italiana', 
@@ -206,7 +223,8 @@ export const AppContextProvider = ({ children }) => {
     userlocationError, setUserlocationError,
     newShop, setNewShop,
     shopTypesAndSubtypes, setShopTypesAndSubtypes,
-    userTypeError, setUserTypeError
+    userTypeError, setUserTypeError,
+    showErrorCard, setShowErrorCard
   };
 
   return (

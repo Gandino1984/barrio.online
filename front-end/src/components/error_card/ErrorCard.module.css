@@ -1,0 +1,17 @@
+.container{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: .2rem; 
+}
+.errorList{
+    list-style-type: none;
+    border-radius: 5px;
+    color: red;
+    padding: .2rem .3rem;
+}
+
+.errorList li{
+    line-height: .9rem;
+    font-size: .8rem;
+}

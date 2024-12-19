@@ -60,9 +60,9 @@ const LoginRegisterForm = () => {
                           placeholder='Escribe tu nombre de usuario'
                           required
                       />
-                    {usernameError && <div className={styles.errorText}>{usernameError}</div>}
+                    {/* {usernameError && <div className={styles.errorText}>{usernameError}</div>}
                     {ipError && <div className={styles.errorText}>{ipError}</div>}
-                    {passwordError && <div className={styles.errorText}>{passwordError}</div>}
+                    {passwordError && <div className={styles.errorText}>{passwordError}</div>} */}
                   </div>
                     {!isLoggingIn && (
                       // Render the user type radio buttons for registration

@@ -94,12 +94,15 @@ router.post('/register', async (req, res) => {
                 last_attempt: new Date()
             }
         });
+
         const hoursSinceLastAttempt = created ? 0 : (Date.now() - new Date(ipRecord.last_attempt).getTime()) / (1000 * 60 * 60);
+        
         if (!created && hoursSinceLastAttempt < RESET_HOURS && ipRecord.registration_count >= MAX_REGISTRATIONS) {
             return res.status(429).json({ 
                 error: 'Has excedido el límite de registros permitidos.' 
             });
         }
+        
         // Update registration count
         await ipRecord.update({
             registration_count: hoursSinceLastAttempt >= RESET_HOURS ? 1 : ipRecord.registration_count + 1,

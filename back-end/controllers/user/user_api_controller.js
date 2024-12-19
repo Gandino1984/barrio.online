@@ -1,27 +1,8 @@
 import userController from "./user_controller.js";
+import bcrypt from 'bcrypt';
 
 async function getAll(req, res) {
     const {error, data} = await userController.getAll();
-    res.json({error, data});
-}
-
-async function getById(req, res) {
-    const id = req.params.id;
-    const {error, data} = await userController.getById(id);
-    res.json({error, data});
-}
-
-
-async function getByUserName(req, res) {
-    const name = req.body.name_user;
-    console.log("-> user_api_controller.js - getByUserName() - User name = ", name);
-    const {error, data} = await userController.getByUserName(name);
-    res.json({error, data});
-}
-
-async function login(req, res) {
-    const { name_user, pass_user, type_user } = req.body;
-    const {error, data} = await userController.login({ name_user, pass_user, type_user});
     res.json({error, data});
 }
 
@@ -31,13 +12,58 @@ async function create(req, res) {
     res.json({error, data});
 }
 
-async function register(req, res) {
-    const {name_user, pass_user, location_user, type_user } = req.body;
-    
-    console.log('-> user_api_controller.js - register() - req.body passed to user_controller = ', req.body);
-
-    const {error, data} = await userController.register({name_user, pass_user, location_user, type_user});
+async function getById(req, res) {
+    const id = req.params.id;
+    const {error, data} = await userController.getById(id);
     res.json({error, data});
+}
+
+async function getByUserName(req, res) {
+    const name = req.body.name_user;
+    console.log("-> user_api_controller.js - getByUserName() - User name = ", name);
+    const {error, data} = await userController.getByUserName(name);
+    res.json({error, data});
+}
+
+async function login(req, res) {
+    const { name_user, pass_user} = req.body;
+    try {
+        if(!name_user || !pass_user){
+            return res.status(400).json({ 
+                error: 'Los parámetros name_user, pass_user son obligatorios', 
+                requestBody: req.body 
+            });
+        }
+        
+        const {error, data} = await userController.login({ name_user, pass_user});
+
+        res.json({error, data});
+    } catch (error) {
+        res.status(500).json({ error: 'Error al iniciar sesión', details: error.message });
+    }
+ 
+}
+
+async function register(req, res) {
+    let {name_user, pass_user, location_user, type_user } = req.body;
+    try{
+        if(!name_user || !pass_user || !location_user || !type_user){
+            return res.status(400).json({ 
+                error: 'Los parámetros name_user, pass_user, location_user y type_user son obligatorios', 
+                requestBody: req.body 
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(pass_user, 5);
+
+        pass_user = hashedPassword;
+
+        const {error, data} = await userController.register({name_user, pass_user, location_user, type_user});
+        res.json({error, data});
+    }catch(error){
+        console.error('-> user_api_controller.js - register() - Error = ', error);
+        res.status(500).json({ error: 'Error en el registro de usuario' });
+    }
 }
 
 async function update(req, res) {
@@ -55,7 +81,6 @@ async function removeById(req, res) {
     const {error, data} = await userController.removeById(id);
     res.json({error, data});
 }
-
 
 export {
     getAll,
