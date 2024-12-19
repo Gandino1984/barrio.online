@@ -4,6 +4,7 @@ import { TopBarFunctions } from './TopBarFunctions.jsx';
 import { ArrowLeft } from 'lucide-react';
 import { LogOut } from 'lucide-react';
 import AppContext from '../../../src/app_context/AppContext.js';
+
 import ErrorCard from '../error_card/ErrorCard.jsx';
 
 function TopBar() {

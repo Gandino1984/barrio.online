@@ -5,7 +5,10 @@ import AppContext from '../../../../app_context/AppContext.js';
 
 
 export const useIPValidation = () => {
+<<<<<<< HEAD
+=======
 
+>>>>>>> dev
   const {
     ipError, setIpError
   } = useContext(AppContext);

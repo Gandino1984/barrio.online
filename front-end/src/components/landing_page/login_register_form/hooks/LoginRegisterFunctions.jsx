@@ -73,7 +73,6 @@ export const LoginRegisterFunctions = () => {
         setDisplayedPassword('*'.repeat(newPassword.length));
     };
 
-
     const clearUserSession = () => {
       logout();
       setUsername('');
@@ -103,7 +102,6 @@ export const LoginRegisterFunctions = () => {
           setUserType('');
         }
   };
-
 
     const handleUserTypeChange = (e) => {
       setUserType(e.target.value);

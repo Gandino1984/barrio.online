@@ -17,6 +17,7 @@ export const AppContextProvider = ({ children }) => {
     userlocation: '',
     userType: '',
   });
+
   
   // Function to check and clear expired user data
   const checkAndClearUserData = () => {
@@ -225,6 +226,7 @@ export const AppContextProvider = ({ children }) => {
     shopTypesAndSubtypes, setShopTypesAndSubtypes,
     userTypeError, setUserTypeError,
     showErrorCard, setShowErrorCard
+
   };
 
   return (
