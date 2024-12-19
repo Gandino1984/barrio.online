@@ -10,14 +10,16 @@ export const ShopCreationFormFunctions = () => {
         setIsLoggingIn, 
         newShop, 
         setNewShop,
-        setShops, 
-        setError
+        setShops,
+        setError,
+        setShopTypes,  // Add this from context
+        setIsAddingShop // Add this from context
     } = useContext(AppContext);
 
     const handleBack = () => {
         setShowShopCreationForm(false);
         setshowShopManagement(true);
-      };
+    };
 
     const handleAddShop = async (e) => {
         e.preventDefault();
@@ -46,10 +48,20 @@ export const ShopCreationFormFunctions = () => {
                 throw new Error(response.data.error);
             }
   
-            // Update shops list 
-            setShops(prevShops => [...prevShops, response.data.data]);
+            const createdShop = response.data.data;
 
-            // Optional: Reset newShop state or handle post-creation logic
+            // Update shops list with the newly created shop
+            setShops(prevShops => [...prevShops, createdShop]);
+
+            // Ensure the shop type is in shopTypes list
+            setShopTypes(prevTypes => {
+                if (!prevTypes.includes(createdShop.type_shop)) {
+                    return [...prevTypes, createdShop.type_shop];
+                }
+                return prevTypes;
+            });
+
+            // Reset form and states
             setNewShop({
                 name_shop: '',
                 type_shop: '',
@@ -59,13 +71,33 @@ export const ShopCreationFormFunctions = () => {
                 calificacion_shop: ''
             });
 
+            setIsAddingShop(false);
             setShowShopCreationForm(false);
             setshowShopManagement(true);
 
-            return response.data.data;
+            // Force a refresh of the shops list by making a new request
+            try {
+                const refreshResponse = await axiosInstance.post('/shop/type', {
+                    type_shop: createdShop.type_shop
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Cache-Control': 'no-cache'
+                    }
+                });
+
+                if (!refreshResponse.data.error) {
+                    setShops(refreshResponse.data.data || []);
+                }
+            } catch (refreshErr) {
+                console.error('Error refreshing shops list:', refreshErr);
+                // Don't throw here - we still want to complete the shop creation flow
+            }
+
+            return createdShop;
         } catch (err) {
-            setError(err.message || 'Error adding shop');
-            console.error('Shop creation error:', err);
+            setError(err.message || 'Error al crear la tienda');
+            console.error('-> - handleAddShop() - Error al crear la tienda = ', err);
             return err;
         }
     };
@@ -74,4 +106,4 @@ export const ShopCreationFormFunctions = () => {
         handleBack,
         handleAddShop
     }
-}
+};

@@ -2,59 +2,52 @@ import { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import axiosInstance from '../../../../utils/axiosConfig.js';
 
-/**
- * UserManagementFunctions component.
- * Provides functions for managing user-related business type selections.
-
- * @return {Object} An object containing two functions: handleClick and handleBusinessTypeSelect.
- */
 export const UserManagementFunctions = () => {
-  /**
-   * Destructure setSelectedShopType and setShopType from AppContext.
-   * These functions are used to update the business type in the application context.
-   */
   const {
     setSelectedShopType,
     setShopType,
-    setShopTypes
+    setShopTypes,
+    setLoading,
+    setError,
+    setShops
   } = useContext(AppContext);
 
-  /**
-   * fetchShopTypes function.
-   * Fetches the types of shops from the database and updates the shopTypes state.
-   */
+  // Fetch shop types from the server
   const fetchShopTypes = async () => {
+    setLoading(true);
     try {
       const response = await axiosInstance.get('/shop/types-of-shops');
       setShopTypes(response.data.data || []); // Adjust based on your actual response structure
     } catch (error) {
       console.error('Error fetching shop types:', error);
-      setShopTypes([]); 
+      setShopTypes([]);
+      setError('Error fetching shop types');
+    } finally {
+      setLoading(false);
     }
   };
-  
-  /**
-   * handleClick function.
-   * Sets the business type in the application context.
-   * @param {string} type - The business type to be set.
-   */
-  const handleClick = (type) => {
-    setShopType(type);
-  };
 
-  /**
-   * handleBusinessTypeSelect function.
-   * Sets the business type in the application context and triggers rendering of specific shops.
-   * @param {string} type - The business type to be set.
-   */
-  const handleBusinessTypeSelect = (type) => {
+  // Handle business type selection
+  const handleBusinessTypeSelect = async (type) => {
     setShopType(type);
-    // Set the selected business type to trigger rendering of specific shops
     setSelectedShopType(type);
+    setLoading(true);
+    try {
+      const response = await axiosInstance.post('/shop/type', { type_shop: type });
+      if (response.data.error) {
+        throw new Error(response.data.error);
+      }
+      setShops(response.data.data || []);
+    } catch (error) {
+      console.error('Error fetching shops by type:', error);
+      setShops([]);
+      setError('Error fetching shops by type');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return {
-    handleClick,
     handleBusinessTypeSelect,
     fetchShopTypes
   };

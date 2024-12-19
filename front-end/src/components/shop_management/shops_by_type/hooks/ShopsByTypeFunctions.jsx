@@ -1,9 +1,8 @@
-import React, { useEffect, useContext } from 'react';
+import { useContext } from 'react';
 import axiosInstance from '../../../../../utils/axiosConfig.js';
 import AppContext from '../../../../app_context/AppContext.js';
 
 export const ShopsByTypeFunctions = () => {
-
   const {
     shopType, 
     setShops,
@@ -14,7 +13,9 @@ export const ShopsByTypeFunctions = () => {
   } = useContext(AppContext);
 
   const handleShopSelect = (shop) => {
-    setSelectedShop(shop);
+    if (shop && typeof shop === 'object') {
+      setSelectedShop(shop);
+    }
   };
 
   const handleBack = () => {
@@ -23,9 +24,15 @@ export const ShopsByTypeFunctions = () => {
   };
   
   const fetchShopsByType = async () => {
+    if (!shopType) {
+      setShops([]);
+      return;
+    }
+
     console.log('-> ShopsByTypeFunctions.jsx - fetchShopsByType() - Buscando negocios del tipo = ', shopType);
     try {
       setLoading(true);
+      setError(null);
 
       const response = await axiosInstance.post('/shop/type', {
         type_shop: shopType
@@ -35,21 +42,30 @@ export const ShopsByTypeFunctions = () => {
         }
       });
       
-      console.log('-> ShopsByTypeFunctions.jsx - fetchShopsByType() - Response = ', response);
-
       if (response.data.error) {
-        console.error('-> ShopsByTypeFunctions.jsx - fetchShopsByType() - Error =', response.data.error);
         throw new Error(response.data.error);
       }
 
-      setShops(response.data.data || []);
-      // just added
-      // setLoading(false);
+      // Validate and filter shops data
+      const shopsData = response.data.data;
+      if (!Array.isArray(shopsData)) {
+        throw new Error('Invalid shops data received');
+      }
+
+      const validShops = shopsData.filter(shop => 
+        shop && 
+        typeof shop === 'object' && 
+        shop.id_shop && 
+        shop.type_shop === shopType
+      );
+
+      setShops(validShops);
+      setLoading(false);
     } catch (err) {
       console.error('-> ShopsByTypeFunctions.jsx - fetchShopsByType() - Error = ', err);
-      setError(err.message || `Error al cargar ${shopType} shops`);
-    }
-    finally {
+      setError(typeof err === 'string' ? err : err.message || `Error al cargar ${shopType} shops`);
+      setShops([]);
+    } finally {
       setLoading(false);
     }
   };
