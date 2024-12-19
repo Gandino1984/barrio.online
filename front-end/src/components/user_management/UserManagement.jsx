@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import AppContext from '../../app_context/AppContext.js';
-import BusinessTypeButton from './BusinessTypeButton.jsx';
+import ShopTypeButton from './ShopTypeButton.jsx';
 import ShopsByType from '../shop_management/shops_by_type/ShopsByType.jsx'; 
 import styles from './UserManagement.module.css';
 import { UserManagementFunctions } from './hooks/UserManagementFunctions.jsx';
@@ -31,12 +31,12 @@ const UserManagement = () => {
         </div>
         <div className="space-y-3">
             {shopTypes.map((shopType) => (
-                <BusinessTypeButton 
+                <ShopTypeButton 
                     key={shopType} 
                     onClick={() => handleBusinessTypeSelect(shopType)}
                 >
                     {shopType}
-                </BusinessTypeButton>
+                </ShopTypeButton>
             ))}
         </div>
     </div>

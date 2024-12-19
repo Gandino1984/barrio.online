@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import AppContext from '../../app_context/AppContext.js';
-import ShopsListBySeller from './shops_list_byUser/ShopsListBySeller.jsx';
+import ShopsListBySeller from './shops_list_by_seller/ShopsListBySeller.jsx';
 import ShopCreationForm from './shop_creation_form/ShopCreationForm.jsx';
 import { ShopManagementFunctions } from './ShopManagementFunctions.jsx';
 import styles from './ShopManagement.module.css';

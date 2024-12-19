@@ -1,6 +1,7 @@
 import React from 'react';
 
-const BusinessTypeButton = ({ children, onClick }) => {
+
+const ShopTypeButton = ({ children, onClick }) => {
   return (
     <button
       onClick={onClick}
@@ -11,4 +12,4 @@ const BusinessTypeButton = ({ children, onClick }) => {
   );
 };
 
-export default BusinessTypeButton;
+export default ShopTypeButton;
