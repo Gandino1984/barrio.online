@@ -73,6 +73,7 @@ export const LoginRegisterFunctions = () => {
         setDisplayedPassword('*'.repeat(newPassword.length));
     };
 
+
     const clearUserSession = () => {
       logout();
       setUsername('');
@@ -87,7 +88,8 @@ export const LoginRegisterFunctions = () => {
       setUsernameError('');
       setIpError(''),
       setPasswordError(''),
-      setUserlocationError('')
+      setUserlocationError(''),
+      setShowPasswordRepeat(false);
   };
 
 
@@ -95,9 +97,13 @@ export const LoginRegisterFunctions = () => {
         setIsLoggingIn(prev => !prev);
         if(!isLoggingIn){
           clearUserSession();
+          setPassword('');
+          setPasswordRepeat('');
+          setShowPasswordRepeat(false);
+          setUserType('');
         }
-        console.log('-> toggleForm() - isLoggingIn:', isLoggingIn);
   };
+
 
     const handleUserTypeChange = (e) => {
       setUserType(e.target.value);
@@ -207,27 +213,29 @@ export const LoginRegisterFunctions = () => {
         const userDetailsResponse = await axiosInstance.post('/user/details', {
           name_user: cleanedUsername
         });
-        // Enhanced type extraction and validation
-        
-        const type = userDetailsResponse.data.data.type_user;
 
         if (!userDetailsResponse.data.data) {
           setUsernameError('Nombre de usuario no encontrado');
           return;
         }
+
+        const type = userDetailsResponse.data.data.type_user;
+
+       
         if (!type) {
           setUsernameError('Tipo de usuario no encontrado');
           console.error('User type not found for username:', cleanedUsername);
           return;
         }
+
         // Explicitly set user type in context before login
         console.log('Login: Tipo de usuario extraido de los detalles del usuario en la DB = ', type);
         
         setUserType(type);
 
         console.log( '-> UserType actualizado en el contexto de la App');
+
         // Proceed with login using the obtained user type
-        
         const loginResponse = await axiosInstance.post('/user/login', {
           name_user: cleanedUsername,
           pass_user: password,
@@ -235,6 +243,12 @@ export const LoginRegisterFunctions = () => {
         });
 
         console.log('-> handleLogin() - /user/login response = ', loginResponse);
+
+        // Check if the login was successful
+        if (loginResponse.data.error) {
+          setPasswordError('Nombre de usuario o contraseña incorrectos');
+          return;
+        }
 
         await handleLoginResponse(loginResponse);
 
@@ -262,6 +276,13 @@ export const LoginRegisterFunctions = () => {
 
       await handleRegistrationResponse(response);
 
+      // Reset key states after successful registration
+      setPassword('');
+      setPasswordRepeat('');
+      setDisplayedPassword('');
+      setShowPasswordRepeat(false);
+      setUserType('');
+
       toggleForm();
   };
     
@@ -273,6 +294,7 @@ export const LoginRegisterFunctions = () => {
         console.log('-> handleFormSubmit() - isLoggingIn:', isLoggingIn);
         // IP validation for registration only
         if (!isLoggingIn) {
+          console.log('************************************');
           console.log('-> handleFormSubmit() - Validación de IP para registro');
           const canRegister = await validateIPRegistration();
           if (!canRegister) {
@@ -333,20 +355,18 @@ export const LoginRegisterFunctions = () => {
     };
 
     const isButtonDisabled = () => {
-        // Check if the username is valid
         const { isValid } = validateUsername(username);
-        // If the username is not valid, disable the button
+
         if (!isValid) return true;
-        // Check password fields based on whether we're logging in or registering
+
         if (isLoggingIn) {
-        // For login, only require a 4-digit password
-        return password.length !== 4;
+          return password.length !== 4;
         } else {
         // For registration, require a 4-digit password, matching password repeat, and a selected user type
         return password.length !== 4 || 
                 passwordRepeat.length !== 4 || 
                 password !== passwordRepeat || 
-                !userType === '';
+                userType === '';
         }
     };
 

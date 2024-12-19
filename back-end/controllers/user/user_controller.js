@@ -141,7 +141,9 @@ async function create(userData) {
 }
 
 async function login(userData) {
+
     console.log("-> user_controller.js - login() - userData = ", userData);
+    
     try {
         if (!userData.name_user || !userData.pass_user) {
             console.log('-> login() - Información de usuario incompleta');
@@ -173,7 +175,7 @@ async function login(userData) {
 
         // Password comparisson: userData.pass_user is the one from the 
         // request(form/unhashed data) user.pass_user is the hashed one
-        const isPasswordValid = bcrypt.compare(userData.pass_user, user.pass_user);
+        const isPasswordValid = await bcrypt.compare(userData.pass_user, user.pass_user);
 
         // Password check
         if (!isPasswordValid) {
