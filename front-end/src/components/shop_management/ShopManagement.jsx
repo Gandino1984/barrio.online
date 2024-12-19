@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import AppContext from '../../app_context/AppContext.js';
-import ShopsListByUser from './shops_list_byUser/ShopsListByUser.jsx';
+import ShopsListBySeller from './shops_list_byUser/ShopsListBySeller.jsx';
 import ShopCreationForm from './shop_creation_form/ShopCreationForm.jsx';
 import { ShopManagementFunctions } from './ShopManagementFunctions.jsx';
 import styles from './ShopManagement.module.css';
@@ -42,7 +42,7 @@ const ShopManagement = () => {
           /* I need to show current user info above the 
          shop creation component */
         <>
-            <ShopsListByUser
+            <ShopsListBySeller
               onAddShop={() => setIsAddingShop(true)}
               onSelectShop={handleSelectShop}
             />

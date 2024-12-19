@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
-import { ArrowLeft, ShoppingCart } from 'lucide-react';
 import AppContext from '../../../app_context/AppContext.js';
 import axiosInstance from '../../../../utils/axiosConfig.js';
-import styles from './ShopsListByUser.module.css';
+import styles from './ShopsListBySeller.module.css';
 
 
-const ShopsListByUser = ({ onBack }) => {
+const ShopsListBySeller = ({ onBack }) => {
   const { 
     currentUser, 
     shops, 
@@ -102,4 +101,4 @@ const ShopsListByUser = ({ onBack }) => {
   );
 };
 
-export default ShopsListByUser;
+export default ShopsListBySeller;

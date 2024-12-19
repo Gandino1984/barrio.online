@@ -104,7 +104,7 @@ export const AppContextProvider = ({ children }) => {
   const [onPasswordComplete, setOnPasswordComplete] = useState(null);
   const [onClear, setOnClear] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [selectedShop, setSelectedShop] = useState(null);
+ 
   const [isAddingShop, setIsAddingShop] = useState(false);
   const [selectedShopType, setSelectedShopType] = useState(null);
   const [showShopCreationForm, setShowShopCreationForm] = useState(false);
@@ -130,10 +130,8 @@ export const AppContextProvider = ({ children }) => {
     id_user: '',
     calificacion_shop: ''
   })
-
+  const [selectedShop, setSelectedShop] = useState(null);
   const [shopType, setShopType] = useState('');
-
-
   const [shops, setShops] = useState([]);
   const [shopTypes, setShopTypes] = useState([]);
   
@@ -167,22 +165,23 @@ export const AppContextProvider = ({ children }) => {
   });
 
   const [shopTypesAndSubtypes, setShopTypesAndSubtypes] = useState({
-    'Artesania': ['Accesorios', 'Complementos', 'Varios'],
-    'Bienestar': ['Peluqueria', 'Fisioterapia', 'Varios'],
-    'Consultoría': ['Técnica', 'Digital', 'Varios'],
+    'Artesanía': ['Accesorios', 'Complementos', 'Varios'],
+    'Bienestar': ['Peluquería', 'Fisioterapia', 'Osteopatía','Perfumería', 'Parafarmacia', 'Yoga', 'Varios'],
+    'Consultoría': ['Técnica', 'Digital', 'Formativa', 'Varios'],
     'Comida': [
-      'Fruteria', 'Carniceria', 'Pescaderia', 'Panaderia', 
+      'Fruteria', 'Carniceria', 'Asador', 'Pescaderia', 'Panaderia', 
       'Local', 'Peruana', 'China', 'Japonesa', 'Italiana', 
       'Turca', 'Kebab', 'Restaurante', 'Varios'
     ],
     'Educativo': [
-      'Clases Particulares', 'Asesoria', 'Charla', 
-      'Presentacion', 'Clase Grupal', 'Investigacion', 'Varios'
+      'Librería', 'Curso', 'Clase Particular', 'Asesoría', 'Charla', 
+      'Presentación', 'Clase Grupal', 'Investigación', 'Varios'
     ],
-    'Especializado': ['Diseno', 'Arte', 'Varios'],
-    'Ropa': ['Infantil', 'Adultos', 'Intima', 'Alquiler', 'Boda', 'Varios'],
-    'Servicios': ['Autonomos', 'Tecnico', 'Arte', 'Limpieza', 'Varios'],
-    'Taller': ['Pintura', 'Escultura', 'Ilustracion', 'Diseno', 'Mecanico', 'Electrodomesticos', 'Varios']
+    'Especializado': ['Vinoteca', 'Diseño', 'Estudio', 'Editorial', 'Tabaco', 'Arte', 'Estanco', 'Varios'],
+    'Ocio': ['Teatro', 'Baile', 'Varios'],
+    'Ropa': ['Infantil', 'Adulto', 'Hombre', 'Mujer', 'Niño', 'Niña', 'Lencería', 'Alquiler', 'Boda', 'Varios'],
+    'Servicios': ['Autónomo', 'Técnico', 'Fotografía', 'Arte', 'Limpieza', 'Pintura', 'Varios'],
+    'Taller': ['Pintura', 'Escultura', 'Ilustración', 'Diseno', 'Mecánico', 'Electrodoméstico', 'Varios']
   });
 
   const value = {
@@ -201,7 +200,7 @@ export const AppContextProvider = ({ children }) => {
     onPasswordComplete, setOnPasswordComplete,
     onClear, setOnClear,
     displayedPassword, setDisplayedPassword,
-    currentUser,
+    currentUser, setCurrentUser,
     login, logout,
     shops, setShops,
     loading, setLoading,
