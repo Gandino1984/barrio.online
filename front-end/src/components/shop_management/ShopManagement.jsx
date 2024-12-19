@@ -4,7 +4,6 @@ import ShopsListByUser from './shops_list_byUser/ShopsListByUser.jsx';
 import ShopCreationForm from './shop_creation_form/ShopCreationForm.jsx';
 import { ShopManagementFunctions } from './ShopManagementFunctions.jsx';
 import styles from './ShopManagement.module.css';
-import TopBar from '../general_top_bar/TopBar.jsx';
 
 const ShopManagement = () => {
   const { 
