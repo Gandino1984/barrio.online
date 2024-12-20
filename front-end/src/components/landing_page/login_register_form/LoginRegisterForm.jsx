@@ -11,9 +11,10 @@ const LoginRegisterForm = () => {
   const {
     username, currentUser, usernameError,
     isLoggingIn, userType, 
-    showShopManagement, ipError,passwordError,
+    showShopManagement, ipError, passwordError,
     password, passwordRepeat, showPasswordRepeat,
-    keyboardKey, userlocation, userlocationError, 
+    keyboardKey, userlocation, userlocationError,
+    showRepeatPasswordMessage
   } = useContext(AppContext);
 
   const {
@@ -21,7 +22,7 @@ const LoginRegisterForm = () => {
     handleRepeatPasswordChange, isButtonDisabled,
     toggleForm, handleFormSubmit, 
     handleUserTypeChange, handleUsernameChange, 
-    handleUserLocationChange, passwordComplete
+    handleUserLocationChange,
   } = LoginRegisterFunctions();
 
   
@@ -64,9 +65,6 @@ const LoginRegisterForm = () => {
                           placeholder={userType === 'seller' ? 'Nombre de vendedor:' : 'Nombre de cliente:'}
                           required
                       />
-                    {/* {usernameError && <div className={styles.errorText}>{usernameError}</div>}
-                    {ipError && <div className={styles.errorText}>{ipError}</div>}
-                    {passwordError && <div className={styles.errorText}>{passwordError}</div>} */}
                   </div>
                     {!isLoggingIn && (
                       // Render the user type radio buttons for registration
@@ -94,10 +92,10 @@ const LoginRegisterForm = () => {
                         </div>
                       
                   )}
-                  {passwordComplete && !isLoggingIn && (
-                    <div className={styles.repeatPasswordMessage}>
-                      Repite la contraseña
-                    </div>
+                  {!isLoggingIn && showRepeatPasswordMessage && (
+                      <div className={styles.repeatPasswordMessage}>
+                          Repite la contraseña
+                      </div>
                   )}
                   <div className={styles.formField}>
                       <NumericKeyboard

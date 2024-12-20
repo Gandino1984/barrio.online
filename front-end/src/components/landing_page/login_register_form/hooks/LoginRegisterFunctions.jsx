@@ -5,22 +5,23 @@ import { useIPValidation } from './useIpValidation.jsx';
 import axiosInstance from '../../../../../utils/axiosConfig.js';
 
 export const LoginRegisterFunctions = () => {
-    const {
-        isLoggingIn, setIsLoggingIn, username, 
-        setUsername, password, setPassword,
-        passwordRepeat, showPasswordRepeat, setPasswordRepeat,
-        setShowPasswordRepeat, setShowPasswordLabel, 
-        setKeyboardKey, setshowShopManagement, 
-        setDisplayedPassword, userType, 
-        setUserType, currentUser, 
-        login, logout, setIsAddingShop, 
-        setShops,
-        userlocation, setUserlocation, setUserTypeError,
-        setUsernameError,
-        setIpError,
-        setPasswordError,
-        setUserlocationError
-    } = useContext(AppContext);
+  const {
+    isLoggingIn, setIsLoggingIn, username, 
+    setUsername, password, setPassword,
+    passwordRepeat, showPasswordRepeat, setPasswordRepeat,
+    setShowPasswordRepeat, setShowPasswordLabel, 
+    setKeyboardKey, setshowShopManagement, 
+    setDisplayedPassword, userType, 
+    setUserType, currentUser, 
+    login, logout, setIsAddingShop, 
+    setShops,
+    userlocation, setUserlocation, setUserTypeError,
+    setUsernameError,
+    setIpError,
+    setPasswordError,
+    setUserlocationError,
+    setShowRepeatPasswordMessage
+  } = useContext(AppContext);
 
 
     const { validateUsername } = useUsernameValidation();
@@ -47,44 +48,42 @@ export const LoginRegisterFunctions = () => {
     };
 
     const handlePasswordComplete = (isLogin) => () => {
-        if (!isLogin) {
-            setDisplayedPassword('');
-            setShowPasswordRepeat(true);
-            setKeyboardKey((prev) => prev + 1);
-            setPasswordComplete(true);
-            setTypingSecondPassword(false);
-            setSecondPasswordComplete(false); 
-        } else {
-            setShowPasswordLabel(false);
-        }
+      if (!isLogin) {
+        setDisplayedPassword('');
+        setShowPasswordRepeat(true);
+        setShowRepeatPasswordMessage(true);
+        setKeyboardKey((prev) => prev + 1);
+      } else {
+        setShowPasswordLabel(false);
+      }
     };
 
 
     const handlePasswordChange = (isLogin, newPassword) => {
-        if (!isLogin && showPasswordRepeat) {
-            setPasswordRepeat(newPassword);
-            setDisplayedPassword('*'.repeat(newPassword.length));
-        } else {
-            setPassword(newPassword);
-            setDisplayedPassword('*'.repeat(newPassword.length));
-        }   
-        if (isLogin && newPassword.length !== 4) {
-            setShowPasswordLabel(true);
-        }
+      if (!isLogin && showPasswordRepeat) {
+        setPasswordRepeat(newPassword);
+        setDisplayedPassword('*'.repeat(newPassword.length));
+      } else {
+        setPassword(newPassword);
+        setDisplayedPassword('*'.repeat(newPassword.length));
+      }   
+      if (isLogin && newPassword.length !== 4) {
+        setShowPasswordLabel(true);
+      }
     };
 
 
     const handleRepeatPasswordChange = (newPassword) => {
       setPasswordRepeat(newPassword);
       setDisplayedPassword('*'.repeat(newPassword.length));
-      setPasswordComplete(false); // Reset password complete state
-      setTypingSecondPassword(true); // Set typing second password state
+      // When the repeat password is complete, hide the message
       if (newPassword.length === 4) {
-          setSecondPasswordComplete(true); // Set second password complete state
-      } else {
-          setSecondPasswordComplete(false); // Reset second password complete state
+        setTimeout(() => {
+          setShowRepeatPasswordMessage(false);
+          setShowPasswordRepeat(false);
+        }, 15);
       }
-  };
+    };
 
     const clearUserSession = () => {
       logout();
@@ -105,15 +104,16 @@ export const LoginRegisterFunctions = () => {
   };
 
 
-    const toggleForm = () => {
-        setIsLoggingIn(prev => !prev);
-        if(!isLoggingIn){
-          clearUserSession();
-          setPassword('');
-          setPasswordRepeat('');
-          setShowPasswordRepeat(false);
-          setUserType('');
-        }
+  const toggleForm = () => {
+    setIsLoggingIn(prev => !prev);
+    if (!isLoggingIn) {
+      clearUserSession();
+      setPassword('');
+      setPasswordRepeat('');
+      setShowPasswordRepeat(false);
+      setShowRepeatPasswordMessage(false);
+      setUserType('');
+    }
   };
 
     const handleUserTypeChange = (e) => {

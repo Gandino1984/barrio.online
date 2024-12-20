@@ -104,6 +104,7 @@ export const AppContextProvider = ({ children }) => {
   const [onPasswordComplete, setOnPasswordComplete] = useState(null);
   const [onClear, setOnClear] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showRepeatPasswordMessage, setShowRepeatPasswordMessage] = useState(false);
  
   const [isAddingShop, setIsAddingShop] = useState(false);
   const [selectedShopType, setSelectedShopType] = useState(null);
@@ -224,8 +225,9 @@ export const AppContextProvider = ({ children }) => {
     newShop, setNewShop,
     shopTypesAndSubtypes, setShopTypesAndSubtypes,
     userTypeError, setUserTypeError,
-    showErrorCard, setShowErrorCard
-
+    showErrorCard, setShowErrorCard,
+    showRepeatPasswordMessage,
+    setShowRepeatPasswordMessage
   };
 
   return (
