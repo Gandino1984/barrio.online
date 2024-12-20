@@ -77,12 +77,12 @@ export const LoginRegisterFunctions = () => {
     const handleRepeatPasswordChange = (newPassword) => {
       setPasswordRepeat(newPassword);
       setDisplayedPassword('*'.repeat(newPassword.length));
-      // setPasswordComplete(false); 
-      setTypingSecondPassword(true); 
+      setPasswordComplete(false); // Reset password complete state
+      setTypingSecondPassword(true); // Set typing second password state
       if (newPassword.length === 4) {
-          setSecondPasswordComplete(true);
+          setSecondPasswordComplete(true); // Set second password complete state
       } else {
-          setSecondPasswordComplete(false); 
+          setSecondPasswordComplete(false); // Reset second password complete state
       }
   };
 
@@ -393,7 +393,6 @@ export const LoginRegisterFunctions = () => {
         handleUserLocationChange,
         clearUserSession,
         passwordComplete,
-        typingSecondPassword,
-        secondPasswordComplete
+        typingSecondPassword
     };
 };
