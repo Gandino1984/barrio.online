@@ -7,20 +7,19 @@ async function getAll(req, res) {
 }
 
 async function create(req, res) {
-    const {name_user, pass_user, location_user, type_user } = req.body;
-    const {error, data} = await userController.create({name_user, pass_user, location_user, type_user});
+    const {name_user, pass_user, location_user, type_user, image_user } = req.body;
+    const {error, data} = await userController.create({name_user, pass_user, location_user, type_user, image_user});
     res.json({error, data});
 }
 
 async function getById(req, res) {
-    const id = req.params.id;
+    const id = req.body.id_user;
     const {error, data} = await userController.getById(id);
     res.json({error, data});
 }
 
 async function getByUserName(req, res) {
     const name = req.body.name_user;
-    console.log("-> user_api_controller.js - getByUserName() - User name = ", name);
     const {error, data} = await userController.getByUserName(name);
     res.json({error, data});
 }
@@ -45,7 +44,7 @@ async function login(req, res) {
 }
 
 async function register(req, res) {
-    let {name_user, pass_user, location_user, type_user } = req.body;
+    let {name_user, pass_user, location_user, type_user, image_user } = req.body;
     try{
         if(!name_user || !pass_user || !location_user || !type_user){
             return res.status(400).json({ 
@@ -58,26 +57,25 @@ async function register(req, res) {
 
         pass_user = hashedPassword;
 
-        const {error, data} = await userController.register({name_user, pass_user, location_user, type_user});
+        const {error, data} = await userController.register({name_user, pass_user, location_user, type_user, image_user});
+
         res.json({error, data});
-    }catch(error){
-        console.error('-> user_api_controller.js - register() - Error = ', error);
+    }catch(err){
+        console.error('-> user_api_controller.js - register() - Error = ', err);
         res.status(500).json({ error: 'Error en el registro de usuario' });
     }
 }
 
 async function update(req, res) {
-     //post method
-    // const {id_user, name_user, pass_user, location_user } = req.body;
-    //get method
-    const id = req.params.id;
-    const {id_user, name_user, pass_user, location_user, type_user } = req.query;
-    const {error, data} = await userController.update(id, {id_user, name_user, pass_user, location_user, type_user});
+    const {id_user, name_user, pass_user, location_user, type_user, image_user } = req.body;
+    
+    const {error, data} = await userController.update(id_user, { name_user, pass_user, location_user, type_user, image_user });
+    
     res.json({error, data});
 }
 
 async function removeById(req, res) {
-    const id = req.body.id;
+    const id = req.body.id_user;
     const {error, data} = await userController.removeById(id);
     res.json({error, data});
 }

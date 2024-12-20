@@ -43,18 +43,19 @@ const validateUserData = (userData) => {
 async function getAll() {
     try {
         const users = await user_model.findAll();
-        console.log("Retrieved users:", users);
+
+        console.log("-> user_controller.js - getAll() - Retrieved users = ", users);
         
         if (!users || users.length === 0) {
-            return { data: [], message: "Ningún usuario encontrado" };
+            return { error: "No hay usuarios registrados", data: [] };
         }
         
         return { data: users };
-    } catch (error) {
-        console.error("Error in getAll:", error);
+    } catch (err) {
+        console.error("-> user_controller.js - getAll() = ", err);
         return { 
             error: "Error obteniendo los usuarios",
-            details: error.message 
+            details: err.message 
         };
     }
 }
@@ -64,78 +65,86 @@ async function getById(id) {
         if (!id) {
             return { error: "ID de usuario requerido" };
         }
+
         const user = await user_model.findByPk(id);
-        console.log("Retrieved user:", user);
+        
+        console.log("-> user_controller.js - getById() - Retrieved user = ", user);
+
         if (!user) {
             return { 
-                error: "Usuario no encontrado",
-                details: `No user found with ID: ${id}` 
+                error: "Usuario no encontrado"
             };
         }   
         return { data: user };
-    } catch (error) {
-        console.error("Error in getById:", error);
+    } catch (err) {
+        console.error("-> user_controller.js - Error in getById() = ", err);
         return { 
             error: "Error al obtener el usuario",
-            details: error.message 
         };
     }
 }
 
 async function getByUserName(userName) {
     console.log("-> user_controller.js - getByUserName() - userName = ", userName);
-    console.log("-> Buscando datos en la DB con nombre de usuario: ", userName);
 
-     const user = await user_model.findOne({ 
-         where: { name_user: userName } 
-    });
-
-    if (user) {
-        //erase this log later
-        console.log('->  getByUserName() - Datos completos obtenidos = ', user);
-        return { 
-            data: user
-        };
-    }else{
-        console.log('->  El usuario no existe');
-        return {  
-            error: "El usuario no existe"
+    try{
+        const user = await user_model.findOne({ 
+             where: { name_user: userName } 
+        });
+    
+        if (user) {
+            //erase this log later
+            console.log('->  getByUserName() - Datos completos obtenidos = ', user);
+            return { 
+                data: user
+            };
+        }else{
+            console.log('->  El usuario no existe');
+            return {  
+                error: "El usuario no existe"
+            };
+        }
+    }catch(err){
+        console.error("-> user_controller.js - Error in getByUserName() = ", err);
+        return {
+            error: "Error al obtener el usuario"
         };
     }
+
 }
 
 async function create(userData) {
     try {
-        // Validate input data
         const validation = validateUserData(userData);
+
         if (!validation.isValid) {
             return { 
-                error: "Validación fallida",
-                details: validation.errors 
+                error: "Validación fallida"
             };
         }
+
         // Check if user already exists
         const existingUser = await user_model.findOne({ 
             where: { name_user: userData.name_user } 
         });
+
         if (existingUser) {
             return { 
-                error: "El usuario ya existe",
-                details: "A user with this username already exists" 
+                error: "El usuario ya existe"
             };
         }
         // Create new user
         const user = await user_model.create(userData);
         console.log("Created user:", user);
+
         return { 
             data: user,
             message: "Usuario creado" 
         };
-    } catch (error) {
-        console.error("Error in create:", error);
+    } catch (err) {
+        console.error("Error in create:", err);
         return { 
             error: "Error al crear el usuario",
-            details: error.message 
         };
     }
 }
@@ -154,13 +163,12 @@ async function login(userData) {
         }
         if (userData.pass_user.length !== 4 || !/^\d+$/.test(userData.pass_user)) {
             return {
-                error: "Contraseña inválida",
-                details: "Password must be exactly 4 digits" 
+                error: "Contraseña inválida"
             }; 
         }
 
-        // Find user: we need the hashed password and the user_type
-        // to add it to the user login data so the app knows what
+        // Find user: we need the hashed password and to retrieve the user_type
+        // to add it to the currentUser login data so the app knows what
         // type of user is trying to log in
         const user = await user_model.findOne({ 
             where: { name_user: userData.name_user } 
@@ -168,8 +176,7 @@ async function login(userData) {
 
         if (!user) {
             return {
-                error: "El usuario no existe",
-                details: "User not found" 
+                error: "El usuario no existe"
             };
         }
 
@@ -179,10 +186,9 @@ async function login(userData) {
 
         // Password check
         if (!isPasswordValid) {
-            console.log('-> login() - Contraseña incorrecta');
+            console.log('-> user_controller.js - login() - Contraseña incorrecta');
             return { 
-                error: "Contraseña incorrecta",
-                details: "Incorrect password" 
+                error: "Contraseña incorrecta"
             };
         }
 
@@ -199,20 +205,19 @@ async function login(userData) {
             message: "Login exitoso" 
         };
 
-    } catch (error) {
-        console.error("-> Error al iniciar sesión =", error);
+    } catch (err) {
+        console.error("-> Error al iniciar sesión =", err);
         return {
             error: "Error al iniciar sesión",
-            details: error.message        
+            details: err.message        
         }; 
     }
 }
 
 async function register(userData) {
-    // console.log("-> user_controller.js - register() - userData = ", userData);
     try {
-        // Validate registration data
         const validation = validateUserData(userData);
+
         if (!validation.isValid) {
             console.error('-> user_controller.js - register() - Error de validación = ', validation.errors);
             return { 
@@ -230,7 +235,6 @@ async function register(userData) {
             console.log('-> register() - El usuario ', existingUser, ' ya existe');
             return { 
                 error: "El usuario ya existe",
-                details: "Username already exists" 
             };
         }
 
@@ -248,11 +252,11 @@ async function register(userData) {
             data: userResponse,
             message: "Registro exitoso" 
         };
-    } catch (error) {
-        console.error("Error en el registro = ", error);
+    } catch (err) {
+        console.error("Error en el registro = ", err);
         return { 
             error: "Error de registro",
-            details: error.message 
+            details: err.message 
         };
     }
 }
@@ -260,10 +264,10 @@ async function register(userData) {
 async function update(id, userData) {
     try {
         if (!id) {
-            return { error: "User ID is required" };
+            return { error: "El ID de usuario es requerido" };
         }
 
-        // Validate update data
+        // Check if userData is empty
         if (Object.keys(userData).length === 0) {
             return { 
                 error: "No hay campos para actualizar",

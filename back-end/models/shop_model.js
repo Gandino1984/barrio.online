@@ -25,15 +25,19 @@ const shop_model = sequelize.define("shop", {
         type: DataTypes.STRING(45),
         allowNull: false,
     },
-    id_user: { 
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false
-    },
     calification_shop: { 
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
     },
+    image_shop: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+    },
+    id_user: { 
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: false
+    }
 }, {
     timestamps: false,
     freezeTableName: true

@@ -24,6 +24,10 @@ const user_model = sequelize.define("user", {
         type: DataTypes.STRING(45),
         allowNull: false,
     },
+    image_user: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+    },
 }, {
     timestamps: false,
     freezeTableName: true

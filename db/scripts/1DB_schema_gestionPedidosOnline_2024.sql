@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`user` (
   `pass_user` VARCHAR(255) NOT NULL,
   `location_user` VARCHAR(100) NOT NULL,
   `type_user` VARCHAR(45) NOT NULL,
+  `image_user` VARCHAR(255) NULL,
   PRIMARY KEY (`id_user`),
   UNIQUE INDEX `id_user_UNIQUE` (`id_user` ASC) VISIBLE
 ) ENGINE = InnoDB;
@@ -45,8 +46,9 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`shop` (
   `location_shop` VARCHAR(100) NOT NULL,
   `type_shop` VARCHAR(45) NOT NULL,
   `subtype_shop` VARCHAR(45) NOT NULL,
-  `id_user` INT UNSIGNED NOT NULL,
   `calification_shop` INT NOT NULL DEFAULT 0,
+  `image_shop` VARCHAR(255) NULL,
+  `id_user` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_shop`),
   UNIQUE INDEX `id_shop_UNIQUE` (`id_shop` ASC) VISIBLE,
 ) ENGINE = InnoDB;
