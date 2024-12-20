@@ -26,12 +26,8 @@ export const LoginRegisterFunctions = () => {
 
     const { validateUsername } = useUsernameValidation();
 
-
     const { validateIPRegistration } = useIPValidation();
 
-    const [passwordComplete, setPasswordComplete] = useState(false);
-    const [typingSecondPassword, setTypingSecondPassword] = useState(false);
-    const [secondPasswordComplete, setSecondPasswordComplete] = useState(false);
 
     const handleUsernameChange = (e) => {
         const rawUsername = e.target.value;
@@ -63,12 +59,13 @@ export const LoginRegisterFunctions = () => {
       if (!isLogin && showPasswordRepeat) {
         setPasswordRepeat(newPassword);
         setDisplayedPassword('*'.repeat(newPassword.length));
+        setShowRepeatPasswordMessage(newPassword.length < 4);
       } else {
         setPassword(newPassword);
         setDisplayedPassword('*'.repeat(newPassword.length));
-      }   
-      if (isLogin && newPassword.length !== 4) {
-        setShowPasswordLabel(true);
+        if (isLogin && newPassword.length !== 4) {
+          setShowPasswordLabel(true);
+        }
       }
     };
 
@@ -76,12 +73,12 @@ export const LoginRegisterFunctions = () => {
     const handleRepeatPasswordChange = (newPassword) => {
       setPasswordRepeat(newPassword);
       setDisplayedPassword('*'.repeat(newPassword.length));
-      // When the repeat password is complete, hide the message
+      
+      // Update message visibility based on password completion
       if (newPassword.length === 4) {
-        setTimeout(() => {
-          setShowRepeatPasswordMessage(false);
-          setShowPasswordRepeat(false);
-        }, 15);
+        setShowRepeatPasswordMessage(false);
+      } else {
+        setShowRepeatPasswordMessage(true);
       }
     };
 
@@ -392,7 +389,5 @@ export const LoginRegisterFunctions = () => {
         handleUsernameChange,
         handleUserLocationChange,
         clearUserSession,
-        passwordComplete,
-        typingSecondPassword
     };
 };
