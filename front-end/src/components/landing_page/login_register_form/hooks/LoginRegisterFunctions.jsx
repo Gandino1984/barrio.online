@@ -28,6 +28,9 @@ export const LoginRegisterFunctions = () => {
 
     const { validateIPRegistration } = useIPValidation();
 
+    const [passwordComplete, setPasswordComplete] = useState(false);
+    const [typingSecondPassword, setTypingSecondPassword] = useState(false);
+    const [secondPasswordComplete, setSecondPasswordComplete] = useState(false);
 
     const handleUsernameChange = (e) => {
         const rawUsername = e.target.value;
@@ -48,6 +51,9 @@ export const LoginRegisterFunctions = () => {
             setDisplayedPassword('');
             setShowPasswordRepeat(true);
             setKeyboardKey((prev) => prev + 1);
+            setPasswordComplete(true);
+            setTypingSecondPassword(false);
+            setSecondPasswordComplete(false); 
         } else {
             setShowPasswordLabel(false);
         }
@@ -69,9 +75,16 @@ export const LoginRegisterFunctions = () => {
 
 
     const handleRepeatPasswordChange = (newPassword) => {
-        setPasswordRepeat(newPassword);
-        setDisplayedPassword('*'.repeat(newPassword.length));
-    };
+      setPasswordRepeat(newPassword);
+      setDisplayedPassword('*'.repeat(newPassword.length));
+      // setPasswordComplete(false); 
+      setTypingSecondPassword(true); 
+      if (newPassword.length === 4) {
+          setSecondPasswordComplete(true);
+      } else {
+          setSecondPasswordComplete(false); 
+      }
+  };
 
     const clearUserSession = () => {
       logout();
@@ -378,6 +391,9 @@ export const LoginRegisterFunctions = () => {
         handleUserTypeChange,
         handleUsernameChange,
         handleUserLocationChange,
-        clearUserSession
+        clearUserSession,
+        passwordComplete,
+        typingSecondPassword,
+        secondPasswordComplete
     };
 };

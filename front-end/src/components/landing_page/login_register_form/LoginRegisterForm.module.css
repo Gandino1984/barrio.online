@@ -105,3 +105,9 @@
     border: 2px solid green;
     color: green;
   }
+
+  .repeatPasswordMessage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

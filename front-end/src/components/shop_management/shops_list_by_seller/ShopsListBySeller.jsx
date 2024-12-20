@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopsListBySeller.module.css';
 import { ShopsListBySellerFunctions } from './ShopsListBySellerFunctions.jsx';
+import { Plus, Eraser } from 'lucide-react';
 
 
 const ShopsListBySeller = ({ onBack }) => {
@@ -18,16 +19,17 @@ const ShopsListBySeller = ({ onBack }) => {
 
   return (
     <div className={styles.container}>
-        <div className="flex items-center mb-6">
+        <div className={styles.headerContainer}>
               <div className={styles.header}>
-                  <h2 className="text-2xl font-bold text-center flex-1 pr-10">
+                  <h2 className={styles.title}>
                       Mis Negocios
                   </h2>
                   <button 
                       onClick={handleAddShop}
-                      className="p-2 bg-green-500 text-white rounded hover:bg-green-600"
+                      className={styles.addButton}
                   >
-                      + Agregar
+                      <Plus size={24} />
+                      Agregar
                   </button>
               </div>
         </div>
@@ -58,14 +60,15 @@ const ShopsListBySeller = ({ onBack }) => {
                         Calificación: {shop.calification_shop}/5
                       </p>
                   </div>
-                  <div className="flex space-x-2">
+                  <div className={styles.shopActions}>
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDeleteShop(shop.id_shop);
                         }}
-                        className="text-red-500 hover:text-red-700"
+                        className={styles.deleteButton}
                       >
+                          <Eraser size={24} />
                           Eliminar
                       </button>
                   </div>

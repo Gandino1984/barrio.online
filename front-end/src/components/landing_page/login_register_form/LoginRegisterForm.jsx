@@ -20,14 +20,14 @@ const LoginRegisterForm = () => {
     handlePasswordComplete, handlePasswordChange,
     handleRepeatPasswordChange, isButtonDisabled,
     toggleForm, handleFormSubmit, 
-    handleUserTypeChange, handleUsernameChange, handleUserLocationChange
+    handleUserTypeChange, handleUsernameChange, 
+    handleUserLocationChange, passwordComplete
   } = LoginRegisterFunctions();
 
   
   console.log('-> LoginRegisterForm.jsx - isLoggingIn state = ', isLoggingIn);
   console.log('-> LoginRegisterForm.jsx - showShopManagement state = ', showShopManagement); 
   
-
 
   if (showShopManagement || currentUser) {
     console.log('-> LoginRegisterForm.jsx - userType = ', userType);
@@ -89,10 +89,15 @@ const LoginRegisterForm = () => {
                             value={userlocation}
                             onChange={handleUserLocationChange}
                             className={userlocationError ? styles.inputError : ''}
-                            placeholder={userType === 'seller' ? 'Dirección de tienda. Ej: Matiko, 7, 7a izq' : 'Dirección de cliente. Ej: Matiko, 7, 7a izq'}
+                            placeholder={userType === 'seller' ? 'Dirección de vendedor. Ej: Matiko, 7, 7a izq' : 'Dirección de cliente. Ej: Matiko, 7, 7a izq'}
                             required />
                         </div>
                       
+                  )}
+                  {passwordComplete && !isLoggingIn && (
+                    <div className={styles.repeatPasswordMessage}>
+                      Repite la contraseña
+                    </div>
                   )}
                   <div className={styles.formField}>
                       <NumericKeyboard
