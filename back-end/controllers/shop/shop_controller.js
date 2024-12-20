@@ -5,10 +5,15 @@ async function getAll() {
     try {
         const shops = await shop_model.findAll();
         console.log("Retrieved shops:", shops);
+
+        if (!shops || shops.length === 0) {
+            return { error: "No hay tiendas registradas", data: [] };
+        }
+
         return { data: shops };
-    } catch (error) {
-        console.error("Error in getAll():", error);
-        return { error: error.message };
+    } catch (err) {
+        console.error("Error in getAll():", err);
+        return { error: err.message };
     }
 }
 
@@ -33,8 +38,8 @@ async function create(shopData) {
         const shop = await shop_model.create(shopData);
         
         return { data: shop };
-    } catch (error) {
-        return { error: error.message };
+    } catch (err) {
+        return { error: err.message };
     }
 }
 
@@ -54,9 +59,9 @@ async function update(id, shopData) {
         await shop.save();
         console.log("Updated shop:", shop);
         return { data: shop };
-    } catch (error) {
-        console.error("Error in update:", error);
-        return { error: error.message };
+    } catch (err) {
+        console.error("Error in update:", err);
+        return { error: err.message };
     }
 }
 
@@ -73,9 +78,9 @@ async function getByType(shopType) {
         }
         console.log(`Retrieved shops with type ${shopType}:`, shops);
         return { data: shops };
-    } catch (error) {
-        console.error("Detailed error in getByType:", error);
-        return { error: error.message };
+    } catch (err) {
+        console.error("Detailed error in getByType:", err);
+        return { error: err.message };
     }
 }
 
@@ -93,9 +98,9 @@ async function getByUserId(id) {
             return { error: "No shops found for this user" };
         }
         return { data: shops };
-    } catch (error) {
-        console.error("Detailed error in getByUser:", error);
-        return { error: error.message };
+    } catch (err) {
+        console.error("Detailed error in getByUser:", err);
+        return { error: err.message };
     }
 }
 
@@ -111,8 +116,8 @@ async function removeById(id) {
       // Delete the shop with cascade (do I need this with cascade??????)
       await shop.destroy({ cascade: true });
       return { data: { message: "Shop successfully deleted", id: id } };
-    } catch (error) {
-      console.error("Error in removeById:", error);
+    } catch (err) {
+      console.error("Error in removeById:", err);
       return { error: "An error occurred while deleting the shop", status: 500 };
     }
   }
@@ -124,12 +129,24 @@ async function getTypesOfShops() {
         group: ['type_shop'],
       });
       return { data: shopTypes.map((type) => type.type_shop) };
-    } catch (error) {
-      console.error('Error fetching types of shops: ', error);
-      return { error: error.message };
+    } catch (err) {
+      console.error('Error fetching types of shops: ', err);
+      return { error: err.message };
     }
   }
 
-export { getAll, create, update, removeById, getByType, getByUserId, getTypesOfShops }
+export { getAll, 
+    create, 
+    update, 
+    removeById, 
+    getByType, 
+    getByUserId, 
+    getTypesOfShops }
 
-export default { getAll, create, update, removeById, getByType, getByUserId, getTypesOfShops }
+export default { getAll, 
+    create, 
+    update, 
+    removeById, 
+    getByType, 
+    getByUserId, 
+    getTypesOfShops }

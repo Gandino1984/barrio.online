@@ -6,20 +6,17 @@ async function getAll(req, res) {
 }
 
 async function getById(req, res) {
-    const id = req.params.id;
-    const {error, data} = await shopController.getById(id);
+    const { id_shop } = req.body;
+    const {error, data} = await shopController.getById(id_shop);
     res.json({error, data});
 }
 
 async function getByType(req, res) {
-    console.log('-> shop_api_controller.js - getByType() - req.* = ', req);
-    console.log('Request Headers:', req.headers);
-    console.log('Request Body:', req.body);
-    console.log('Request Query:', req.query);
   
     const { type_shop } = req.body;
   
     if (!type_shop) {
+        console.error('-> shop_api_controller.js - getByType() - Error = El parámetro type_shop es obligatorio');
         return res.status(400).json({ 
             error: 'El parámetro type_shop es obligatorio', 
             requestBody: req.body 
@@ -28,8 +25,6 @@ async function getByType(req, res) {
   
     const {error, data} = await shopController.getByType(type_shop);
 
-    console.error('-> Shop Type Response - Error:', error);
-    console.log('-> Shop Type Response - Data:', data);
     res.json({error, data});
 }
 
@@ -39,43 +34,48 @@ async function getTypesOfShops(req, res) {
 }
 
 async function create(req, res) {
-    const { name_shop, location_shop, type_shop, subtype_shop, id_user, calification_shop } = req.body;
-    const {error, data} = await shopController.create({name_shop, location_shop, type_shop, subtype_shop, id_user, calification_shop});
+    const { name_shop, location_shop, type_shop, subtype_shop, id_user, calification_shop, image_shop } = req.body;
+    
+    const {error, data} = await shopController.create({name_shop, location_shop, type_shop, subtype_shop, id_user, calification_shop, image_shop});
+    
     res.json({error, data});
 }
 
 async function update(req, res) {
-    const id = req.params.id;
-    const {id_shop, name_shop, pass_shop, location_shop } = req.query;
-    const {error, data} = await shopController.update(id, {id_shop, name_shop, pass_shop, location_shop});
+    const {id_shop} = req.body;
+
+    const {error, data} = await shopController.update(id_shop, { name_shop, location_shop, type_shop, subtype_shop, id_user, calification_shop, image_shop});
+    
     res.json({error, data});
 }
 
 async function removeById(req, res) {
-    console.log('!!!!! Received request:', req);
     try {
       const { id_shop } = req.body;
-    //   const userId = req.user.id; // Assuming you have middleware to attach user info
+
       if (!id_shop) {
+        console.error('-> shop_api_controller.js - removeById() - Error = Shop ID is required');
         return res.status(400).json({ 
           error: 'Shop ID is required', 
           success: false 
         });
       }
+      
       const {error, data, status} = await shopController.removeById(id_shop);
+      
       if (error) {
         console.error("Error deleting shop:", error);
+
         return res.status(status || 400).json({ 
           error, 
           success: false 
         });
       }
-      res.json({ 
-        data, 
-        success: true 
-      });
-    } catch (error) {
-      console.error("Error in removeById API route:", error);
+      
+      res.json({ data, success: true });
+
+    } catch (err) {
+      console.error("-> shop_api_controller.js - removeById() - Error =", err);
       return res.status(500).json({ 
         error: "An error occurred while deleting the shop", 
         success: false 
@@ -86,30 +86,36 @@ async function removeById(req, res) {
 const getByUserId = async (req, res) => {
     try {
         const { id_user } = req.body;
-        console.log('Received user ID:', id_user);  // Added logging
+        
         if (!id_user) {
+            console.error('-> shop_api_controller.js - getByUserId() - Error = User ID is required');
             return res.status(400).json({
-                error: 'User ID is required',
+                error: 'El ID de usuario es obligatorio',
                 success: false
             });
         }
+
         const {error, data} = await shopController.getByUserId(id_user);
+        
         // Add handling for when an error is returned from the controller
         if (error) {
+          console.error('Error al obtener las tiendas del usuario = ', error);
             return res.status(404).json({
                 error: error,
                 success: false
             });
         }
+        
         res.json({error, data, success: true});
-    } catch (error) {
-        console.error('Error fetching user shops:', error);
+    } catch (err) {
+        console.error('-> Error al obtener las tiendas del usuario = ', err);
         return res.status(500).json({
             error: 'Internal server error',
             success: false
         });
     }
 };
+
 export {
     getAll,
     getById,
