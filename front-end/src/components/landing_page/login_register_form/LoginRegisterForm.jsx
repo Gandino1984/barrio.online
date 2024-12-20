@@ -27,15 +27,7 @@ const LoginRegisterForm = () => {
   console.log('-> LoginRegisterForm.jsx - isLoggingIn state = ', isLoggingIn);
   console.log('-> LoginRegisterForm.jsx - showShopManagement state = ', showShopManagement); 
   
-  let placeholderDirección = '';
 
-  useEffect(() => {
-    if(userType === '' || userType === 'user' || isLoggingIn) {
-      placeholderDirección = 'Dirección de cliente. Ej: Matiko, 7, 7a izq';
-    }else if(userType === 'seller' || !isLoggingIn) {
-      placeholderDirección = 'Dirección de tienda. Ej: Matiko, 7, 7a izq';
-    }
-  },[])
 
   if (showShopManagement || currentUser) {
     console.log('-> LoginRegisterForm.jsx - userType = ', userType);
@@ -69,7 +61,7 @@ const LoginRegisterForm = () => {
                           value={username}
                           onChange={handleUsernameChange}
                           className={usernameError ? styles.inputError : ''}
-                          placeholder={placeholderDirección}
+                          placeholder={userType === 'seller' ? 'Nombre de vendedor:' : 'Nombre de cliente:'}
                           required
                       />
                     {/* {usernameError && <div className={styles.errorText}>{usernameError}</div>}
@@ -97,7 +89,7 @@ const LoginRegisterForm = () => {
                             value={userlocation}
                             onChange={handleUserLocationChange}
                             className={userlocationError ? styles.inputError : ''}
-                            placeholder='Dirección de tienda. Ej: Matiko, 7, 7a izq'
+                            placeholder={userType === 'seller' ? 'Dirección de tienda. Ej: Matiko, 7, 7a izq' : 'Dirección de cliente. Ej: Matiko, 7, 7a izq'}
                             required />
                         </div>
                       
