@@ -10,7 +10,8 @@ export const TopBarFunctions = () => {
         setshowShopManagement, setDisplayedPassword, 
         setUserType, logout, setUsernameError,
         showShopManagement, setShowShopCreationForm,
-        showShopCreationForm, selectedShop, setSelectedShop 
+        showShopCreationForm, selectedShop, setSelectedShop,
+        setCurrentUser 
     } = useContext(AppContext);
 
     const handleBack = () => {
@@ -41,6 +42,18 @@ export const TopBarFunctions = () => {
         setshowShopManagement(false);
         setUsernameError('');
         setUserType('');
+        logout();
+        setUsername('');
+        setPassword('');
+        setPasswordRepeat('');
+        setDisplayedPassword('');
+        setShowPasswordLabel(true);
+        setKeyboardKey((prev) => prev + 1);
+        setIsLoggingIn(true);
+        setshowShopManagement(false);
+        setUsernameError('');
+        setCurrentUser(null); 
+        localStorage.removeItem('currentUser'); 
     };
 
     return {
