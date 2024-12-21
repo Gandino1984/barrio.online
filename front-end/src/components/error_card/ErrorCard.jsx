@@ -11,7 +11,8 @@ const ErrorCard = () => {
     userlocationError,
     isLoggingIn,
     showShopManagement,
-    showErrorCard, setShowErrorCard
+    showErrorCard, setShowErrorCard,
+    error, clearError
   } = useContext(AppContext);
 
   const errors = {
@@ -20,6 +21,12 @@ const ErrorCard = () => {
     passwordError,
     userlocationError
   };
+
+  useEffect(() => {
+    if (!error) {
+      clearError();
+    }
+  }, [error]);
 
   useEffect(() => {
     if (!Object.values(errors).some((error) => error)) {

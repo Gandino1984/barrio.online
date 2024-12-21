@@ -18,7 +18,25 @@ export const AppContextProvider = ({ children }) => {
     userType: '',
   });
 
+    // Initialize currentUser from localStorage:
+  // a user is stored in the Local Storage when he logs, not on register
+  const [currentUser, setCurrentUser] = useState(() => {
+    const storedUserData = localStorage.getItem('currentUser');
+    if (storedUserData) {
+      try {
+        const parsedData = JSON.parse(storedUserData);
+        console.log('-> Datos de usuario en el Local Storage = ', parsedData);
+        return parsedData.user || null;
+      } catch (error) {
+        setError('Error al obtener los datos de sesión del usuario');
+        console.error('-> Error al obtener los datos de sesión del usuario = ', error);
+        return null;
+      }
+    }
+    return null;
+  });
   
+
   // Function to check and clear expired user data
   const checkAndClearUserData = () => {
     const storedUserData = localStorage.getItem('currentUser');
@@ -38,23 +56,10 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
-  // Initialize currentUser from localStorage:
-  // a user is stored in the Local Storage when he logs, not on register
-  const [currentUser, setCurrentUser] = useState(() => {
-    const storedUserData = localStorage.getItem('currentUser');
-    if (storedUserData) {
-      try {
-        const parsedData = JSON.parse(storedUserData);
-        console.log('-> Datos de usuario en el Local Storage = ', parsedData);
-        return parsedData.user || null;
-      } catch (error) {
-        setError('Error al obtener los datos de sesión del usuario');
-        console.error('-> Error al obtener los datos de sesión del usuario = ', error);
-        return null;
-      }
-    }
-    return null;
-  });
+  const clearError = () => {
+    setError(null);
+    setShowErrorCard(false);
+  };
 
   // Custom login function to handle both context and localStorage
   const login = (userData) => {
@@ -227,7 +232,7 @@ export const AppContextProvider = ({ children }) => {
     userTypeError, setUserTypeError,
     showErrorCard, setShowErrorCard,
     showRepeatPasswordMessage,
-    setShowRepeatPasswordMessage
+    setShowRepeatPasswordMessage, clearError
   };
 
   return (

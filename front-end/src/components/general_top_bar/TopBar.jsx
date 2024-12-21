@@ -10,10 +10,9 @@ import UserInfoCard from '../user_info_card/UserInfoCard.jsx';
 function TopBar() {
     const {
       error,
-      isLoggingIn,
-      showShopManagement,
       showShopCreationForm,
-      selectedShop
+      selectedShop,
+      showErrorCard,
     } = useContext(AppContext);
     
     const {
