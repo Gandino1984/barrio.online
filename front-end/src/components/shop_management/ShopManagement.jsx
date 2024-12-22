@@ -21,26 +21,20 @@ const ShopManagement = () => {
     handleBack
   } = ShopManagementFunctions();
 
-
   useEffect(() => {
     fetchUserShops();
   }, [currentUser]);
-
 
   if (loading) return <div>Cargando...</div>;
 
   if (shops.length === 0 || showShopCreationForm) {
     return (
-      /* I need to show current user info above the 
-      shop creation component */
       <>
           <ShopCreationForm />
       </>
     );
   } else {
       return (
-          /* I need to show current user info above the 
-         shop creation component */
         <>
             <ShopsListBySeller
               onAddShop={() => setIsAddingShop(true)}

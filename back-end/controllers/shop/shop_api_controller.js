@@ -9,7 +9,42 @@ async function getAll(req, res) {
     console.error("-> shop_api_controller.js - getAll() - Error =", err);
     return res.status(500).json({ 
       error: "Error al obtener todas las tiendas", 
-      success: false 
+      data: data
+    });
+  }
+}
+
+async function getTypesOfShops(req, res) {
+  try{
+    const {error, data} = await shopController.getTypesOfShops();
+    res.json({error, data});
+  }catch (err) {
+    console.error("-> shop_api_controller.js - getTypesOfShops() - Error =", err);
+    return res.status(500).json({ 
+      error: "Error al obtener todos los tipos de tiendas",
+      data: data
+    });
+  }    
+}
+
+async function getByType(req, res) {
+  try {
+    const { type_shop } = req.body;
+
+    if (!type_shop) {
+        console.error('-> shop_api_controller.js - getByType() - Error = El parámetro type_shop es obligatorio');
+        return res.status(400).json({ 
+            error: 'El parámetro type_shop es obligatorio', 
+        });
+    }
+  
+    const {error, data} = await shopController.getByType(type_shop);
+
+    res.json({error, data});
+  }catch (err) {
+    console.error("-> shop_api_controller.js - getByType() - Error =", err);
+    return res.status(500).json({ 
+      error: "Error al obtener las tiendas por tipo" 
     });
   }
 }
@@ -18,28 +53,6 @@ async function getById(req, res) {
     const { id_shop } = req.body;
     const {error, data} = await shopController.getById(id_shop);
     res.json({error, data});
-}
-
-async function getByType(req, res) {
-  
-    const { type_shop } = req.body;
-  
-    if (!type_shop) {
-        console.error('-> shop_api_controller.js - getByType() - Error = El parámetro type_shop es obligatorio');
-        return res.status(400).json({ 
-            error: 'El parámetro type_shop es obligatorio', 
-            requestBody: req.body 
-        });
-    }
-  
-    const {error, data} = await shopController.getByType(type_shop);
-
-    res.json({error, data});
-}
-
-async function getTypesOfShops(req, res) {
-  const {error, data} = await shopController.getTypesOfShops();
-  res.json({error, data});
 }
 
 async function create(req, res) {

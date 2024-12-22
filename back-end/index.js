@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import sequelize from './config/sequelize.js';
-import setupAssociations from './models/associations.js'; 
+// import setupAssociations from './models/associations.js'; 
 import router from './routers/main_router.js';
 
 dotenv.config();
@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 async function initializeDatabase() {
   try {
     // Setup model associations
-    setupAssociations();
+    // setupAssociations();
 
     // Synchronize models with database
     await sequelize.sync({ alter: true });

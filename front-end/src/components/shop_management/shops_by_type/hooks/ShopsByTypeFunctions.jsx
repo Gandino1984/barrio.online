@@ -13,9 +13,7 @@ export const ShopsByTypeFunctions = () => {
   } = useContext(AppContext);
 
   const handleShopSelect = (shop) => {
-    if (shop && typeof shop === 'object') {
       setSelectedShop(shop);
-    }
   };
 
   const handleBack = () => {
@@ -24,6 +22,7 @@ export const ShopsByTypeFunctions = () => {
   };
   
   const fetchShopsByType = async () => {
+    
     if (!shopType) {
       setShops([]);
       return;
@@ -34,7 +33,7 @@ export const ShopsByTypeFunctions = () => {
       setLoading(true);
       setError(null);
 
-      const response = await axiosInstance.post('/shop/type', {
+      const response = await axiosInstance.post('/shop/by-type', {
         type_shop: shopType
       }, {
         headers: {

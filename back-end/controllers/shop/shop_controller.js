@@ -44,6 +44,25 @@ async function create(shopData) {
     }
 }
 
+async function getByType(shopType) {
+    try {
+        const shops = await shop_model.findAll({ 
+            where: { type_shop: shopType }
+        });
+
+        if (shops.length === 0) {
+            console.warn(`No hay tiendas registradas de tipo =  ${shopType}`);
+            return { error: "No hay tiendas registradas de este tipo" }
+             }
+
+        return { data: shops };
+    
+    } catch (err) {
+        console.error("-> shop_controller.js - getByType() - Error = ", err);
+        return { error: err.message };
+    }
+}
+
 
 async function update(id, shopData) {
     try {
@@ -61,29 +80,12 @@ async function update(id, shopData) {
         console.log("Updated shop:", shop);
         return { data: shop };
     } catch (err) {
-        console.error("Error in update:", err);
+        console.error("Error al actualizar la tienda =", err);
         return { error: err.message };
     }
 }
 
-async function getByType(shopType) {
-    try {
-        console.log(`!!! Attempting to find shops with type: ${shopType}`);
-        const shops = await shop_model.findAll({ 
-            where: { type_shop: shopType }
-        }); 
-        console.log(`Database Query - Shops found:`, shops);
-        if (shops.length === 0) {
-            console.log(`No shops found with type: ${shopType}`);
-            return { error: "No shops found with this type" };
-        }
-        console.log(`Retrieved shops with type ${shopType}:`, shops);
-        return { data: shops };
-    } catch (err) {
-        console.error("Detailed error in getByType:", err);
-        return { error: err.message };
-    }
-}
+
 
 async function getByUserId(id) {
     try {
@@ -131,7 +133,7 @@ async function getTypesOfShops() {
       });
       return { data: shopTypes.map((type) => type.type_shop) };
     } catch (err) {
-      console.error('Error fetching types of shops: ', err);
+      console.error('Error al obtener todos los tipos de tiendas', err);
       return { error: err.message };
     }
   }

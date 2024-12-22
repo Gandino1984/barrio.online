@@ -7,13 +7,9 @@ router.get("/", shopApiController.getAll);
 
 router.get('/types-of-shops', shopApiController.getTypesOfShops);
 
+router.post("/by-type", shopApiController.getByType);
 
 router.post("/by-id", shopApiController.getById);
-
-// should be named /ByType instead of /type
-router.post("/type", (req, res) => {
-  shopApiController.getByType(req, res)
-});
 
 router.post("/create", shopApiController.create);
 
