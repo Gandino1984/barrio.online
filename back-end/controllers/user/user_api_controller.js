@@ -78,18 +78,17 @@ async function removeById(req, res) {
     try {
         const id_user = req.params.id_user;
 
-        console.log('-> user_api_controller.js - removeById() - id_user =', id_user);
-        
-        const { error, data } = await userController.removeById(id_user);
-        if (error) {
-            return res.status(400).json({ error });
+        if (!id_user) {
+            return res.status(400).json({ error: 'El ID del usuario es obligatorio' });
         }
-        res.json({ data });
-    } catch (error) {
-        res.status(500).json({ error: 'Error al eliminar el usuario', details: error.message });
+
+        const { error, data } = await userController.removeById(id_user);
+
+        res.json({ error, data });
+    } catch (err) {
+        res.status(500).json({ error: 'Error al eliminar el usuario', details: err.message });
     }
 }
-
 
 export {
     getAll,

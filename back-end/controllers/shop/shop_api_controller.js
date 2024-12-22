@@ -73,34 +73,22 @@ async function update(req, res) {
 
 async function removeById(req, res) {
     try {
-      const { id_shop } = req.body;
+      const  id_shop  = req.params.id_shop;
 
       if (!id_shop) {
-        console.error('-> shop_api_controller.js - removeById() - Error = Shop ID is required');
         return res.status(400).json({ 
-          error: 'Shop ID is required', 
-          success: false 
+          error: 'El ID de la tienda es obligatorio', 
         });
       }
       
-      const {error, data, status} = await shopController.removeById(id_shop);
+      const {error, data} = await shopController.removeById(id_shop);
       
-      if (error) {
-        console.error("Error deleting shop:", error);
-
-        return res.status(status || 400).json({ 
-          error, 
-          success: false 
-        });
-      }
-      
-      res.json({ data, success: true });
-
+      res.json({ data, error });
     } catch (err) {
       console.error("-> shop_api_controller.js - removeById() - Error =", err);
       return res.status(500).json({ 
-        error: "An error occurred while deleting the shop", 
-        success: false 
+        error: "Error al eliminar la tienda",
+        details: err.message 
       });
     }
   }

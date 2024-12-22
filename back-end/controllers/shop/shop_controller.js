@@ -63,7 +63,6 @@ async function getByType(shopType) {
     }
 }
 
-
 async function update(id, shopData) {
     try {
         const { name_shop, location_shop, type_shop } = shopData;
@@ -85,8 +84,6 @@ async function update(id, shopData) {
     }
 }
 
-
-
 async function getByUserId(id) {
     try {
         console.log(`Attempting to find shops for user ID: ${id}`);
@@ -107,21 +104,33 @@ async function getByUserId(id) {
     }
 }
 
-async function removeById(id) {
+async function removeById(id_shop) {
     try {
-      // Find the shop and verify it exists
-      const shop = await shop_model.findOne({
-        where: { id_shop: id }
-      });
-      if (!shop) {
-        return { error: "Shop not found", status: 404 };
-      }
-      // Delete the shop with cascade (do I need this with cascade??????)
-      await shop.destroy({ cascade: true });
-      return { data: { message: "Shop successfully deleted", id: id } };
+        if (!id_shop) {
+            return { error: "Shop not found"};
+        }
+
+        const shop = await shop_model.findByPk(id_shop);
+        
+        if (!shop) {
+            return { 
+                error: "Negocio no encontrado",
+                details: "Negocio no encontrado" 
+            };
+        }
+   
+      await shop.destroy();
+
+      return { 
+        data:  id_shop,
+        message: "El usuario se ha borrado correctamente" 
+        };
     } catch (err) {
       console.error("Error in removeById:", err);
-      return { error: "An error occurred while deleting the shop", status: 500 };
+      return { 
+        error: "An error occurred while deleting the shop",
+        details: err.message
+       };
     }
   }
 

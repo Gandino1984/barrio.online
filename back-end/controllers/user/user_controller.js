@@ -332,20 +332,18 @@ async function removeById(id_user) {
             };
         }
 
-        await user_model.destroy({
-            where: { id_user }
-        });       
+        await user.destroy();       
         
         return { 
-            data: { id_user },
+            data: id_user,
             message: "El usuario se ha borrado correctamente" 
         };
 
-    } catch (error) {
-        console.error("-> user_controller.js - removeById() - Error = ", error);
+    } catch (err) {
+        console.error("-> user_controller.js - removeById() - Error = ", err);
         return { 
             error: "Error al borrar el usuario",
-            details: error.message 
+            details: err.message 
         };
     }
 }

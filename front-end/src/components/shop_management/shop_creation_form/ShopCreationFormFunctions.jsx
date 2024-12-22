@@ -77,7 +77,7 @@ export const ShopCreationFormFunctions = () => {
 
             // Force a refresh of the shops list by making a new request
             try {
-                const refreshResponse = await axiosInstance.post('/shop/type', {
+                const refreshResponse = await axiosInstance.post('/shop/by-type', {
                     type_shop: createdShop.type_shop
                 }, {
                     headers: {

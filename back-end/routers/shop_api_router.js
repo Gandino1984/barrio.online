@@ -13,15 +13,11 @@ router.post("/by-id", shopApiController.getById);
 
 router.post("/create", shopApiController.create);
 
-router.post("/by-user-id", (req, res) => {
-  shopApiController.getByUserId(req, res)
-});
+router.post("/by-user-id", shopApiController.getByUserId);
 
 router.patch("/update", shopApiController.update);
 
-router.post("/removeById", (req, res) => {
-  shopApiController.removeById(req, res)
-});
+router.delete("/remove-by-id/:id_shop", shopApiController.removeById);
 
 // get by shop name
 // router.post("/by-name", (req, res) => {
@@ -29,7 +25,5 @@ router.post("/removeById", (req, res) => {
 // });
 
 router.patch("/update", shopApiController.update);
-
-
 
 export default router;
