@@ -4,6 +4,7 @@ import styles from './UserInfoCard.module.css';
 import { SquareUserRound } from 'lucide-react';
 
 const UserInfoCard = () => {
+  
   const { currentUser } = useContext(AppContext);
 
   useEffect(() => {

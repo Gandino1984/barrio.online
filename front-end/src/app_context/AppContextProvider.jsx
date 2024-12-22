@@ -3,9 +3,27 @@ import AppContext from '../app_context/AppContext.js';
 
 export const AppContextProvider = ({ children }) => {
 
-  const [isLoggingIn, setIsLoggingIn] = useState(true);
-  
-  const [showShopManagement, setshowShopManagement] = useState(false);
+// Initialize currentUser from localStorage:
+  // a user is stored in the Local Storage when he logs, not on register
+  const [currentUser, setCurrentUser] = useState(() => {
+    const storedUserData = localStorage.getItem('currentUser');
+    if (storedUserData) {
+      try {
+        const parsedData = JSON.parse(storedUserData);
+        return parsedData.user || null;
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+        return null;
+      }
+    }
+    return null;
+  });
+
+  const [username, setUsername] = useState(() => currentUser?.username || '');
+  const [password, setPassword] = useState('');
+  const [passwordRepeat, setPasswordRepeat] = useState('');
+  const [userType, setUserType] = useState(() => currentUser?.userType || '');
+  const [userlocation, setUserlocation] = useState(() => currentUser?.userlocation || '');
 
   const [showErrorCard, setShowErrorCard] = useState(false);
 
@@ -18,31 +36,16 @@ export const AppContextProvider = ({ children }) => {
     userType: '',
   });
 
-    // Initialize currentUser from localStorage:
-  // a user is stored in the Local Storage when he logs, not on register
-  const [currentUser, setCurrentUser] = useState(() => {
-    const storedUserData = localStorage.getItem('currentUser');
-    if (storedUserData) {
-      try {
-        const parsedData = JSON.parse(storedUserData);
-        console.log('-> Datos de usuario en el Local Storage = ', parsedData);
-        return parsedData.user || null;
-      } catch (error) {
-        setError('Error al obtener los datos de sesión del usuario');
-        console.error('-> Error al obtener los datos de sesión del usuario = ', error);
-        return null;
-      }
-    }
-    return null;
-  });
+    
+
+  const [isLoggingIn, setIsLoggingIn] = useState(() => !currentUser);
+  const [showShopManagement, setshowShopManagement] = useState(() => !!currentUser);
   
 
   // Function to check and clear expired user data
   const checkAndClearUserData = () => {
     const storedUserData = localStorage.getItem('currentUser');
-    
     setCurrentUser(storedUserData);
-    
     if (storedUserData) {
       const { timestamp } = JSON.parse(storedUserData);
       const currentTime = new Date().getTime();
@@ -121,12 +124,6 @@ export const AppContextProvider = ({ children }) => {
   const [passwordError, setPasswordError] = useState('');
   const [userlocationError, setUserlocationError] = useState('');
   const [userTypeError, setUserTypeError] = useState('');
-
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordRepeat, setPasswordRepeat] = useState('');
-  const [userType, setUserType] = useState(''); 
-  const [userlocation, setUserlocation] = useState(''); 
   
   const [newShop, setNewShop] = useState({
     name_shop: '',
@@ -191,6 +188,7 @@ export const AppContextProvider = ({ children }) => {
   });
 
   const value = {
+    
     isLoggingIn, setIsLoggingIn,
     username, setUsername,
     password, setPassword,
