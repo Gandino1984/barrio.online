@@ -17,6 +17,8 @@ router.post("/by-user-id", (req, res) => {
   shopApiController.getByUserId(req, res)
 });
 
+router.patch("/update", shopApiController.update);
+
 router.post("/removeById", (req, res) => {
   shopApiController.removeById(req, res)
 });

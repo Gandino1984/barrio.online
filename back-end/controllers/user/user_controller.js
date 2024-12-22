@@ -317,33 +317,34 @@ async function update(id, userData) {
     }
 }
 
-async function removeById(id) {
+async function removeById(id_user) {
     try {
-        if (!id) {
+        if (!id_user) {
             return { error: "El ID de usuario es requerido" };
         }
 
-        const user = await user_model.findByPk(id);
+        const user = await user_model.findByPk(id_user);
+        
         if (!user) {
             return { 
-                error: "Borrado fallido",
-                details: "User not found" 
+                error: "Usuario no encontrado",
+                details: "Usuario no encontrado" 
             };
         }
 
         await user_model.destroy({
-            where: { id_user: id }
+            where: { id_user }
         });       
-
-        console.log("Deleted user with id:", id);
+        
         return { 
-            data: { id },
+            data: { id_user },
             message: "El usuario se ha borrado correctamente" 
         };
+
     } catch (error) {
-        console.error("Error in removeById:", error);
+        console.error("-> user_controller.js - removeById() - Error = ", error);
         return { 
-            error: "Error de borrado",
+            error: "Error al borrar el usuario",
             details: error.message 
         };
     }

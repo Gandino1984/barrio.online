@@ -11,13 +11,6 @@ const MAX_REGISTRATIONS = parseInt(process.env.MAX_REGISTRATIONS) || 2;
 
 const RESET_HOURS = parseInt(process.env.RESET_HOURS) || 24;
 
-
-router.get("/", userApiController.getAll);
-
-router.post("/byId", userApiController.getById);
-
-router.patch("/update", userApiController.update);
-
 router.get('/ip/check', async (req, res) => {
     const userIp = req.socket.remoteAddress;
 
@@ -74,11 +67,17 @@ router.get('/ip/check', async (req, res) => {
     }
 });
 
+router.get("/", userApiController.getAll);
+
+router.post("/byId", userApiController.getById);
+
 router.post("/login", userApiController.login);
 
 router.post("/create", userApiController.create);
 
-router.post("/remove", userApiController.removeById);
+router.patch("/update", userApiController.update);
+
+router.delete("/remove/:id_user", userApiController.removeById);
 
 router.post('/register', async (req, res) => {
     const userIp = req.ip || req.socket.remoteAddress;
