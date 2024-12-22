@@ -4,7 +4,7 @@ import styles from './ShopsByType.module.css';
 import ProductsList from '../../product_management/ProductsList.jsx'; 
 import { ShopsByTypeFunctions } from './hooks/ShopsByTypeFunctions.jsx';
 
-const ShopsByType = ({ onBack }) => {
+const ShopsByType = () => {
   const { 
     shopType, 
     shops,
@@ -35,7 +35,6 @@ const ShopsByType = ({ onBack }) => {
 
   return (
     <div className={styles.container}>
-        <button onClick={onBack}>Back</button>
         {selectedShop ? (
           <ProductsList />
         ) : (

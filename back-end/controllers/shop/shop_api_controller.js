@@ -1,8 +1,17 @@
 import shopController from "./shop_controller.js";
 
 async function getAll(req, res) {
+  try{
     const {error, data} = await shopController.getAll();
     res.json({error, data});
+  }  
+  catch (err) {
+    console.error("-> shop_api_controller.js - getAll() - Error =", err);
+    return res.status(500).json({ 
+      error: "Error al obtener todas las tiendas", 
+      success: false 
+    });
+  }
 }
 
 async function getById(req, res) {

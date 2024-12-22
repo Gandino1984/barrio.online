@@ -4,15 +4,16 @@ import user_model from "../../models/user_model.js";
 async function getAll() {
     try {
         const shops = await shop_model.findAll();
-        console.log("Retrieved shops:", shops);
 
         if (!shops || shops.length === 0) {
             return { error: "No hay tiendas registradas", data: [] };
         }
 
+        console.log("-> shop_controller.js - getAll() - Tiendas encontradas = ", shops);
+
         return { data: shops };
     } catch (err) {
-        console.error("Error in getAll():", err);
+        console.error("-> shop_controller.js - getAll() -Error = ", err);
         return { error: err.message };
     }
 }

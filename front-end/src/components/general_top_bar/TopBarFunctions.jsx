@@ -11,7 +11,7 @@ export const TopBarFunctions = () => {
         setUserType, logout, setUsernameError,
         showShopManagement, setShowShopCreationForm,
         showShopCreationForm, selectedShop, setSelectedShop,
-        setCurrentUser 
+        setCurrentUser, setShops 
     } = useContext(AppContext);
 
     const handleBack = () => {
@@ -54,6 +54,7 @@ export const TopBarFunctions = () => {
         setUsernameError('');
         setCurrentUser(null); 
         localStorage.removeItem('currentUser'); 
+        setShops([]);
     };
 
     return {
