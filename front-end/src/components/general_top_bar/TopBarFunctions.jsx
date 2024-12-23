@@ -55,7 +55,7 @@ export const TopBarFunctions = () => {
         setUsernameError('');
         setCurrentUser(null); 
         localStorage.removeItem('currentUser'); 
-        setShops([]);
+        // setShops([]);
         setSelectedShopType(null);  
     };
 

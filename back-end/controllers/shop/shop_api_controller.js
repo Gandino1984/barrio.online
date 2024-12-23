@@ -107,21 +107,12 @@ const getByUserId = async (req, res) => {
 
         const {error, data} = await shopController.getByUserId(id_user);
         
-        // Add handling for when an error is returned from the controller
-        if (error) {
-          console.error('Error al obtener las tiendas del usuario = ', error);
-            return res.status(404).json({
-                error: error,
-                success: false
-            });
-        }
-        
-        res.json({error, data, success: true});
+   
+        res.json({error, data});
     } catch (err) {
         console.error('-> Error al obtener las tiendas del usuario = ', err);
         return res.status(500).json({
-            error: 'Internal server error',
-            success: false
+            error: 'Error al obtener las tiendas del usuario',
         });
     }
 };

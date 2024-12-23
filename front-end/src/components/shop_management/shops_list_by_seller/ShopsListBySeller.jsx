@@ -7,7 +7,8 @@ import { Plus, Eraser } from 'lucide-react';
 
 const ShopsListBySeller = () => {
   const { 
-    shops, setShops
+    shops, setShops, 
+    currentUser
   } = useContext(AppContext);
 
     const { 
@@ -16,9 +17,6 @@ const ShopsListBySeller = () => {
       handleAddShop
     } = ShopsListBySellerFunctions();
 
-    // useEffect(() => { 
-    //   setShops([]);
-    // }, [currentUser]);
 
   return (
     <div className={styles.container}>

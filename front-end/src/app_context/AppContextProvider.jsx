@@ -25,7 +25,6 @@ export const AppContextProvider = ({ children }) => {
     }
     return null;
   });
-
   const [username, setUsername] = useState(() => currentUser?.username || '');
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
@@ -92,11 +91,6 @@ export const AppContextProvider = ({ children }) => {
     setIsLoggingIn(true);
     setshowShopManagement(false);
   };
-
-  // Check for expired user data on component mount
-  useEffect(() => {
-    checkAndClearUserData();
-  }, []);
 
   const MAX_PASSWORD_LENGTH = 4;
 
@@ -182,6 +176,11 @@ export const AppContextProvider = ({ children }) => {
     'Servicios': ['Autónomo', 'Técnico', 'Fotografía', 'Arte', 'Limpieza', 'Pintura', 'Varios'],
     'Taller': ['Pintura', 'Escultura', 'Ilustración', 'Diseno', 'Mecánico', 'Electrodoméstico', 'Varios']
   });
+
+    // Check for expired user data on component mount
+    useEffect(() => {
+      checkAndClearUserData();
+    }, []);
 
   const value = {
     

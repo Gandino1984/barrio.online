@@ -1,14 +1,25 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import axiosInstance from '../../../../utils/axiosConfig.js';
 import AppContext from '../../../app_context/AppContext.js';
+import {ShopManagementFunctions} from '../ShopManagementFunctions.jsx';
 
 export const ShopsListBySellerFunctions = () => {
   const {
     setSelectedShop,
     setShops,
+    shops,
     setError,
-    setShowShopCreationForm
+    setShowShopCreationForm,
+    currentUser,
   } = useContext(AppContext);
+
+    const { 
+      fetchUserShops
+    } = ShopManagementFunctions();
+
+    // useEffect(() => {
+    //   fetchUserShops();
+    // }, []);
 
   const handleSelectShop = (shop) => {
     setSelectedShop(shop);

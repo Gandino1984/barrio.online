@@ -86,20 +86,19 @@ async function update(id, shopData) {
 
 async function getByUserId(id) {
     try {
-        console.log(`Attempting to find shops for user ID: ${id}`);
         const shops = await shop_model.findAll({ 
-            where: { id_user: id },
-            // include the related user details
-            include: [{ model: user_model, as: 'shopbelongstouser' }]
+            where: { id_user: id }
         }); 
-        console.log(`Retrieved shops for user ${id}:`, shops);
+
+        console.log(`-> shop_controller.js - getByUserId() - Retrieved shops for user ${id}:`, shops);
+        
         if (shops.length === 0) {
-            console.log(`No shops found for user ID: ${id}`);
-            return { error: "No shops found for this user" };
+            console.log(`-> shop_controller.js - getByUserId() - No shops found for user ID: ${id}`);
+            return { error: "No se encontraron tiendas para este usuario" };
         }
         return { data: shops };
     } catch (err) {
-        console.error("Detailed error in getByUser:", err);
+        console.error("-> shop_controller.js - getByUserId() - Error = ", err);
         return { error: err.message };
     }
 }

@@ -17,8 +17,6 @@ const ShopManagement = () => {
 
   const {
     fetchUserShops,
-    handleSelectShop,
-    handleBack
   } = ShopManagementFunctions();
 
   useEffect(() => {
@@ -27,23 +25,15 @@ const ShopManagement = () => {
 
   if (loading) return <div>Cargando...</div>;
 
-  if (shops.length === 0 || showShopCreationForm) {
-    return (
-      <>
-          <ShopCreationForm />
-      </>
-    );
-  } else {
-      return (
-        <>
-            <ShopsListBySeller
-              onAddShop={() => setIsAddingShop(true)}
-              onSelectShop={handleSelectShop}
-            />
-        </>
-      );
-      
-  }
+  return (
+    <>
+      {showShopCreationForm ? (
+        <ShopCreationForm />
+      ) : (
+        <ShopsListBySeller />
+      )}
+    </>
+  );
 };
 
 export default ShopManagement;
