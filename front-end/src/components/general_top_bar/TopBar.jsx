@@ -20,7 +20,9 @@ function TopBar() {
       clearUserSession
     } = TopBarFunctions();
 
-  
+    console.log('-> TopBar.jsx - selectedShop = ', selectedShop);
+    console.log('-> TopBar.jsx - showShopCreationForm = ', showShopCreationForm);
+
     return (
       <div className={styles.container}>
           {error && <ErrorCard />}

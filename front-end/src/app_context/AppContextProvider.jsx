@@ -3,16 +3,23 @@ import AppContext from '../app_context/AppContext.js';
 
 export const AppContextProvider = ({ children }) => {
 
-// Initialize currentUser from localStorage:
-  // a user is stored in the Local Storage when he logs, not on register
   const [currentUser, setCurrentUser] = useState(() => {
+    
     const storedUserData = localStorage.getItem('currentUser');
     if (storedUserData) {
       try {
         const parsedData = JSON.parse(storedUserData);
-        return parsedData.user || null;
+        
+        if (!parsedData || typeof parsedData !== 'object' || !parsedData.username) {
+          console.error('-> AppContextProvider.jsx - Estrucutra de datos de usuario inválida');
+          localStorage.removeItem('currentUser');
+          return null;
+        }
+
+        return parsedData;
       } catch (error) {
-        console.error('Error parsing user data:', error);
+        console.error('-> AppContextProvider.jsx - Error = ', error);
+        localStorage.removeItem('currentUser');
         return null;
       }
     }
@@ -36,11 +43,8 @@ export const AppContextProvider = ({ children }) => {
     userType: '',
   });
 
-    
-
   const [isLoggingIn, setIsLoggingIn] = useState(() => !currentUser);
-  const [showShopManagement, setshowShopManagement] = useState(() => !!currentUser);
-  
+  const [showShopManagement, setshowShopManagement] = useState(() => !!currentUser);  
 
   // Function to check and clear expired user data
   const checkAndClearUserData = () => {
@@ -64,31 +68,23 @@ export const AppContextProvider = ({ children }) => {
     setShowErrorCard(false);
   };
 
-  // Custom login function to handle both context and localStorage
   const login = (userData) => {
-    
-    // Remove the password from the user data before storing it
+    // Remove the password and ensure we have required fields
     const { password, ...userWithoutPassword } = userData;
-
-
-    const userDataToStore = {
-      user: userWithoutPassword,
-      timestamp: new Date().getTime()
-    };
-
-    console.log('-> User data for local storage = ', userDataToStore);
-  
-    localStorage.setItem('currentUser', JSON.stringify(userDataToStore)); 
     
-    // Explicitly set the current user to the entire user object
+    if (!userWithoutPassword.username) {
+      console.error('Invalid user data structure');
+      return;
+    }
+  
+    localStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
     setCurrentUser(userWithoutPassword);
   
-    // Optional: Reset other states if needed
     setIsLoggingIn(false);
     setshowShopManagement(true);
   };
 
-  // Custom logout function
+  // logout function
   const logout = () => {
     //to-do: show modal to ask later if the user wants to log out
     localStorage.removeItem('currentUser');
