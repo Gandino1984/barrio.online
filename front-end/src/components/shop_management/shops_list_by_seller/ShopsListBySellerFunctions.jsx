@@ -1,14 +1,25 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import axiosInstance from '../../../../utils/axiosConfig.js';
 import AppContext from '../../../app_context/AppContext.js';
+import {ShopManagementFunctions} from '../ShopManagementFunctions.jsx';
 
 export const ShopsListBySellerFunctions = () => {
   const {
     setSelectedShop,
     setShops,
+    shops,
     setError,
-    setShowShopCreationForm
+    setShowShopCreationForm,
+    currentUser,
   } = useContext(AppContext);
+
+    const { 
+      fetchUserShops
+    } = ShopManagementFunctions();
+
+    // useEffect(() => {
+    //   fetchUserShops();
+    // }, []);
 
   const handleSelectShop = (shop) => {
     setSelectedShop(shop);
@@ -16,8 +27,12 @@ export const ShopsListBySellerFunctions = () => {
 
   const handleDeleteShop = async (shopId) => {
     console.log("handleDeleteShop - shopId:", shopId);
+
     try {
-      const response = await axiosInstance.post('/shop/removeById', { id_shop: shopId });
+    
+      const response = await axiosInstance.post('/shop/remove-by-id', { 
+        id_shop: shopId 
+      });
       
       if (response.data.error) {
         throw new Error(response.data.error);
@@ -26,7 +41,7 @@ export const ShopsListBySellerFunctions = () => {
       setShops(prevShops => prevShops.filter(shop => shop.id_shop !== shopId));
     } catch (err) {
       setError(err.message || 'Error eliminando tienda');
-      console.error('Shop deletion error:', err);
+      console.error('-> ShopsListBySellerFunctions.jsx - handleDeleteShop() - Error = ', err);
     }
   };
 

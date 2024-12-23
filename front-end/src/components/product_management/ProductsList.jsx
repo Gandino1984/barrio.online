@@ -69,8 +69,6 @@ const ProductsList = () => {
     fetchTypes();
   }, [setFilterOptions]);
 
-  if (error) return <div>Error: {error}</div>;
-
   return (
     <div className={styles.container}>
         {selectedShop && (

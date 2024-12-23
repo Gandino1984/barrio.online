@@ -75,9 +75,19 @@ async function update(req, res) {
 }
 
 async function removeById(req, res) {
-    const id = req.body.id_user;
-    const {error, data} = await userController.removeById(id);
-    res.json({error, data});
+    try {
+        const id_user = req.params.id_user;
+
+        if (!id_user) {
+            return res.status(400).json({ error: 'El ID del usuario es obligatorio' });
+        }
+
+        const { error, data } = await userController.removeById(id_user);
+
+        res.json({ error, data });
+    } catch (err) {
+        res.status(500).json({ error: 'Error al eliminar el usuario', details: err.message });
+    }
 }
 
 export {

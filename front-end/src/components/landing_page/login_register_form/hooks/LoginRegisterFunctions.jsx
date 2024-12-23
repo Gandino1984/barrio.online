@@ -152,7 +152,8 @@ export const LoginRegisterFunctions = () => {
         id: userData.id_user, 
         username: userData.name_user,
         password: password,
-        userType: userData.type_user 
+        userType: userData.type_user,
+        location: userData.location_user 
       };
 
 

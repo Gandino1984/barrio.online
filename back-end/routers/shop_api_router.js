@@ -7,23 +7,17 @@ router.get("/", shopApiController.getAll);
 
 router.get('/types-of-shops', shopApiController.getTypesOfShops);
 
+router.post("/by-type", shopApiController.getByType);
 
 router.post("/by-id", shopApiController.getById);
 
-// should be named /ByType instead of /type
-router.post("/type", (req, res) => {
-  shopApiController.getByType(req, res)
-});
-
 router.post("/create", shopApiController.create);
 
-router.post("/by-user-id", (req, res) => {
-  shopApiController.getByUserId(req, res)
-});
+router.post("/by-user-id", shopApiController.getByUserId);
 
-router.post("/removeById", (req, res) => {
-  shopApiController.removeById(req, res)
-});
+router.patch("/update", shopApiController.update);
+
+router.delete("/remove-by-id/:id_shop", shopApiController.removeById);
 
 // get by shop name
 // router.post("/by-name", (req, res) => {
@@ -31,7 +25,5 @@ router.post("/removeById", (req, res) => {
 // });
 
 router.patch("/update", shopApiController.update);
-
-
 
 export default router;

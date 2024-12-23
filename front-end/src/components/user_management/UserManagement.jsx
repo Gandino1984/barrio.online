@@ -7,7 +7,7 @@ import { UserManagementFunctions } from './hooks/UserManagementFunctions.jsx';
 
 const UserManagement = () => {
   const { 
-    selectedShopType, setSelectedShopType, shopTypes 
+    selectedShopType, shopTypes 
   } = useContext(AppContext);
 
   const { handleBusinessTypeSelect, fetchShopTypes } = UserManagementFunctions();
@@ -17,19 +17,19 @@ const UserManagement = () => {
     fetchShopTypes();
   }, []);
 
-  // If a business type is selected, render the ShopsByType component for that type
+
   if (selectedShopType) {
-    return <ShopsByType onBack={() => setSelectedShopType(null)} />;
+    return <ShopsByType />;
   }
 
   return (
     <div className={styles.container}>
-        <div className="flex items-center mb-6">
-            <h2 className="text-2xl font-bold text-center flex-1 pr-10">
+        <div className={styles.header}>
+            <h2 className={styles.title}>
                 Selecciona el tipo de negocio
             </h2>
         </div>
-        <div className="space-y-3">
+        <div className={styles.buttonsContainer}>
             {shopTypes.map((shopType) => (
                 <ShopTypeButton 
                     key={shopType} 

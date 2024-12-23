@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopsListBySeller.module.css';
 import { ShopsListBySellerFunctions } from './ShopsListBySellerFunctions.jsx';
 import { Plus, Eraser } from 'lucide-react';
 
 
-const ShopsListBySeller = ({ onBack }) => {
+const ShopsListBySeller = () => {
   const { 
-    shops, 
-    selectedShop, setSelectedShop,
+    shops, setShops, 
+    currentUser
   } = useContext(AppContext);
 
     const { 
@@ -16,6 +16,7 @@ const ShopsListBySeller = ({ onBack }) => {
       handleDeleteShop,
       handleAddShop
     } = ShopsListBySellerFunctions();
+
 
   return (
     <div className={styles.container}>
@@ -33,12 +34,6 @@ const ShopsListBySeller = ({ onBack }) => {
                   </button>
               </div>
         </div>
-
-        {/* {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-              {error}
-          </div>
-        )} */}
 
         {shops.length === 0 ? (
           <div className="text-center text-gray-500 mt-10">

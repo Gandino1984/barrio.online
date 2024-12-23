@@ -4,13 +4,10 @@ import styles from './ShopsByType.module.css';
 import ProductsList from '../../product_management/ProductsList.jsx'; 
 import { ShopsByTypeFunctions } from './hooks/ShopsByTypeFunctions.jsx';
 
-const ShopsByType = ({ onBack }) => {
+const ShopsByType = () => {
   const { 
-    shopType, 
-    shops,
-    loading,
-    error,
-    selectedShop, setSelectedShop,
+    shopType, shops,
+    error, selectedShop, setSelectedShop,
   } = useContext(AppContext);
 
   const { 
@@ -19,7 +16,10 @@ const ShopsByType = ({ onBack }) => {
   } = ShopsByTypeFunctions();
 
   useEffect(() => {
-    console.log('-> ShopsByType.jsx - Tipo de negocio = ', shopType);
+    console.log('-> ShopsByType.jsx - error = ', error);
+  }, [error]);  
+
+  useEffect(() => {
     setSelectedShop(null);
     fetchShopsByType();
   }, [shopType]);
@@ -28,14 +28,8 @@ const ShopsByType = ({ onBack }) => {
     console.log('-> ShopsByType.jsx - Shops state = ', shops);
   }, [shops]);
 
-  if (loading) return <div>Loading...</div>;
-  
-  // Handle error state - ensure error is a string
-  if (error) return <div>{error.toString()}</div>;
-
   return (
     <div className={styles.container}>
-        <button onClick={onBack}>Back</button>
         {selectedShop ? (
           <ProductsList />
         ) : (

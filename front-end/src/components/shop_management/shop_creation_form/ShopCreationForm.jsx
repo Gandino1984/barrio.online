@@ -8,12 +8,9 @@ const ShopCreationForm = () => {
     newShop, 
     setNewShop,
     shopTypesAndSubtypes,
-    setShowShopCreationForm, 
-    setshowShopManagement 
   } = useContext(AppContext);
 
   const {
-    handleBack,
     handleAddShop
   } = ShopCreationFormFunctions();
 

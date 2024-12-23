@@ -4,15 +4,16 @@ import user_model from "../../models/user_model.js";
 async function getAll() {
     try {
         const shops = await shop_model.findAll();
-        console.log("Retrieved shops:", shops);
 
         if (!shops || shops.length === 0) {
             return { error: "No hay tiendas registradas", data: [] };
         }
 
+        console.log("-> shop_controller.js - getAll() - Tiendas encontradas = ", shops);
+
         return { data: shops };
     } catch (err) {
-        console.error("Error in getAll():", err);
+        console.error("-> shop_controller.js - getAll() -Error = ", err);
         return { error: err.message };
     }
 }
@@ -43,6 +44,24 @@ async function create(shopData) {
     }
 }
 
+async function getByType(shopType) {
+    try {
+        const shops = await shop_model.findAll({ 
+            where: { type_shop: shopType }
+        });
+
+        if (shops.length === 0) {
+            console.warn(`No hay tiendas registradas de tipo =  ${shopType}`);
+            return { error: "No hay tiendas registradas de este tipo" }
+             }
+
+        return { data: shops };
+    
+    } catch (err) {
+        console.error("-> shop_controller.js - getByType() - Error = ", err);
+        return { error: err.message };
+    }
+}
 
 async function update(id, shopData) {
     try {
@@ -60,65 +79,57 @@ async function update(id, shopData) {
         console.log("Updated shop:", shop);
         return { data: shop };
     } catch (err) {
-        console.error("Error in update:", err);
-        return { error: err.message };
-    }
-}
-
-async function getByType(shopType) {
-    try {
-        console.log(`!!! Attempting to find shops with type: ${shopType}`);
-        const shops = await shop_model.findAll({ 
-            where: { type_shop: shopType }
-        }); 
-        console.log(`Database Query - Shops found:`, shops);
-        if (shops.length === 0) {
-            console.log(`No shops found with type: ${shopType}`);
-            return { error: "No shops found with this type" };
-        }
-        console.log(`Retrieved shops with type ${shopType}:`, shops);
-        return { data: shops };
-    } catch (err) {
-        console.error("Detailed error in getByType:", err);
+        console.error("Error al actualizar la tienda =", err);
         return { error: err.message };
     }
 }
 
 async function getByUserId(id) {
     try {
-        console.log(`Attempting to find shops for user ID: ${id}`);
         const shops = await shop_model.findAll({ 
-            where: { id_user: id },
-            // include the related user details
-            include: [{ model: user_model, as: 'shopbelongstouser' }]
+            where: { id_user: id }
         }); 
-        console.log(`Retrieved shops for user ${id}:`, shops);
+
+        console.log(`-> shop_controller.js - getByUserId() - Retrieved shops for user ${id}:`, shops);
+        
         if (shops.length === 0) {
-            console.log(`No shops found for user ID: ${id}`);
-            return { error: "No shops found for this user" };
+            console.log(`-> shop_controller.js - getByUserId() - No shops found for user ID: ${id}`);
+            return { error: "No se encontraron tiendas para este usuario" };
         }
         return { data: shops };
     } catch (err) {
-        console.error("Detailed error in getByUser:", err);
+        console.error("-> shop_controller.js - getByUserId() - Error = ", err);
         return { error: err.message };
     }
 }
 
-async function removeById(id) {
+async function removeById(id_shop) {
     try {
-      // Find the shop and verify it exists
-      const shop = await shop_model.findOne({
-        where: { id_shop: id }
-      });
-      if (!shop) {
-        return { error: "Shop not found", status: 404 };
-      }
-      // Delete the shop with cascade (do I need this with cascade??????)
-      await shop.destroy({ cascade: true });
-      return { data: { message: "Shop successfully deleted", id: id } };
+        if (!id_shop) {
+            return { error: "Shop not found"};
+        }
+
+        const shop = await shop_model.findByPk(id_shop);
+        
+        if (!shop) {
+            return { 
+                error: "Negocio no encontrado",
+                details: "Negocio no encontrado" 
+            };
+        }
+   
+      await shop.destroy();
+
+      return { 
+        data:  id_shop,
+        message: "El usuario se ha borrado correctamente" 
+        };
     } catch (err) {
       console.error("Error in removeById:", err);
-      return { error: "An error occurred while deleting the shop", status: 500 };
+      return { 
+        error: "An error occurred while deleting the shop",
+        details: err.message
+       };
     }
   }
 
@@ -130,7 +141,7 @@ async function getTypesOfShops() {
       });
       return { data: shopTypes.map((type) => type.type_shop) };
     } catch (err) {
-      console.error('Error fetching types of shops: ', err);
+      console.error('Error al obtener todos los tipos de tiendas', err);
       return { error: err.message };
     }
   }

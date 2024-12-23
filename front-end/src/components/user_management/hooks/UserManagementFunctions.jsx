@@ -14,16 +14,13 @@ export const UserManagementFunctions = () => {
 
   // Fetch shop types from the server
   const fetchShopTypes = async () => {
-    setLoading(true);
     try {
       const response = await axiosInstance.get('/shop/types-of-shops');
       setShopTypes(response.data.data || []); // Adjust based on your actual response structure
     } catch (error) {
-      console.error('Error fetching shop types:', error);
+      console.error('-> UserManagementFunctions.jsx - fetchShopTypes() - Error = ', error);
       setShopTypes([]);
-      setError('Error fetching shop types');
-    } finally {
-      setLoading(false);
+      setError('Error al obtener los tipos de negocio');
     }
   };
 
