@@ -62,7 +62,15 @@ export const AppContextProvider = ({ children }) => {
   };
 
   const clearError = () => {
-    setError(null);
+    setError({
+      userError: '',
+      passwordError: '',
+      passwordRepeatError: '',
+      ipError: '',
+      userlocationError: '',
+      userTypeError: '',
+      databaseResponseError: '',
+    });
     setShowErrorCard(false);
   };
 
@@ -82,7 +90,6 @@ export const AppContextProvider = ({ children }) => {
     setshowShopManagement(true);
   };
 
-  // logout function
   const logout = () => {
     //to-do: show modal to ask later if the user wants to log out
     localStorage.removeItem('currentUser');
@@ -126,17 +133,35 @@ export const AppContextProvider = ({ children }) => {
   const [shopType, setShopType] = useState('');
   const [shops, setShops] = useState([]);
   const [shopTypes, setShopTypes] = useState([]);
+
+  const [shopTypesAndSubtypes, setShopTypesAndSubtypes] = useState({
+    'Artesanía': ['Accesorios', 'Complementos', 'Varios'],
+    'Bienestar': ['Peluquería', 'Fisioterapia', 'Osteopatía','Perfumería', 'Parafarmacia', 'Yoga', 'Varios'],
+    'Consultoría': ['Técnica', 'Digital', 'Formativa', 'Varios'],
+    'Comida': [
+      'Fruteria', 'Carniceria', 'Asador', 'Pescaderia', 'Panaderia', 
+      'Local', 'Peruana', 'China', 'Japonesa', 'Italiana', 
+      'Turca', 'Kebab', 'Restaurante', 'Varios'
+    ],
+    'Educativo': [
+      'Librería', 'Curso', 'Clase Particular', 'Asesoría', 'Charla', 
+      'Presentación', 'Clase Grupal', 'Investigación', 'Varios'
+    ],
+    'Especializado': ['Vinoteca', 'Diseño', 'Estudio', 'Editorial', 'Tabaco', 'Arte', 'Estanco', 'Varios'],
+    'Entretenimiento': ['Teatro', 'Música', 'Danza', 'Escape Room', 'Varios'],
+    'Ropa': ['Infantil', 'Adulto', 'Hombre', 'Mujer', 'No binario' , 'Niño', 'Niña', 'Lencería', 'Alquiler', 'Boda', 'Varios'],
+    'Servicios': ['Autónomo', 'Técnico', 'Fotografía', 'Arte', 'Limpieza', 'Pintura', 'Varios'],
+    'Taller': ['Pintura', 'Escultura', 'Ilustración', 'Diseno', 'Mecánico', 'Electrodoméstico', 'Varios']
+  });
   
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-
   const [filters, setFilters] = useState({
     temporada: null,
     tipo: null,
     oferta: null,
     calificacion: null,
   });
-
   const [filterOptions, setFilterOptions] = useState({
     temporada: {
       label: 'Temporada',
@@ -156,33 +181,12 @@ export const AppContextProvider = ({ children }) => {
     },
   });
 
-  const [shopTypesAndSubtypes, setShopTypesAndSubtypes] = useState({
-    'Artesanía': ['Accesorios', 'Complementos', 'Varios'],
-    'Bienestar': ['Peluquería', 'Fisioterapia', 'Osteopatía','Perfumería', 'Parafarmacia', 'Yoga', 'Varios'],
-    'Consultoría': ['Técnica', 'Digital', 'Formativa', 'Varios'],
-    'Comida': [
-      'Fruteria', 'Carniceria', 'Asador', 'Pescaderia', 'Panaderia', 
-      'Local', 'Peruana', 'China', 'Japonesa', 'Italiana', 
-      'Turca', 'Kebab', 'Restaurante', 'Varios'
-    ],
-    'Educativo': [
-      'Librería', 'Curso', 'Clase Particular', 'Asesoría', 'Charla', 
-      'Presentación', 'Clase Grupal', 'Investigación', 'Varios'
-    ],
-    'Especializado': ['Vinoteca', 'Diseño', 'Estudio', 'Editorial', 'Tabaco', 'Arte', 'Estanco', 'Varios'],
-    'Ocio': ['Teatro', 'Baile', 'Varios'],
-    'Ropa': ['Infantil', 'Adulto', 'Hombre', 'Mujer', 'Niño', 'Niña', 'Lencería', 'Alquiler', 'Boda', 'Varios'],
-    'Servicios': ['Autónomo', 'Técnico', 'Fotografía', 'Arte', 'Limpieza', 'Pintura', 'Varios'],
-    'Taller': ['Pintura', 'Escultura', 'Ilustración', 'Diseno', 'Mecánico', 'Electrodoméstico', 'Varios']
-  });
-
     // Check for expired user data on component mount
     useEffect(() => {
       checkAndClearUserData();
     }, []);
 
   const value = {
-    
     isLoggingIn, setIsLoggingIn,
     username, setUsername,
     password, setPassword,

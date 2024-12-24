@@ -21,7 +21,6 @@ export const ShopManagementFunctions = () => {
     }
 
     try {
-      setLoading(true);
       const response = await axiosInstance.post('/shop/by-user-id', {
         id_user: currentUser.id
       });
@@ -37,9 +36,7 @@ export const ShopManagementFunctions = () => {
     } catch (err) {
       console.error('Error fetching shops:', err);
       
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   const handleBack = () => {

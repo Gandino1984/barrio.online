@@ -23,7 +23,6 @@ const ShopManagement = () => {
     fetchUserShops();
   }, [currentUser]);
 
-  if (loading) return <div>Cargando...</div>;
 
   return (
     <>

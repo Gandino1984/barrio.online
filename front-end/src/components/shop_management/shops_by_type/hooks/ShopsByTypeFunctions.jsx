@@ -22,16 +22,25 @@ export const ShopsByTypeFunctions = () => {
   };
   
   const fetchShopsByType = async () => {
-    
     if (!shopType) {
+      // warning card
       setShops([]);
       return;
     }
 
     console.log('-> ShopsByTypeFunctions.jsx - fetchShopsByType() - Buscando negocios del tipo = ', shopType);
+    
     try {
-      setLoading(true);
-      setError(null);
+
+      setError({
+        userError: '',
+        passwordError: '',
+        passwordRepeatError: '',
+        ipError: '',
+        userlocationError: '',
+        userTypeError: '',
+        databaseResponseError: '',
+      });
 
       const response = await axiosInstance.post('/shop/by-type', {
         type_shop: shopType
@@ -42,12 +51,13 @@ export const ShopsByTypeFunctions = () => {
       });
       
       if (response.data.error) {
+        setError(prevError => ({ ...prevError, databaseError: "Error al obtener la lista de negocios por tipo" }));
         throw new Error(response.data.error);
       }
 
-      // Validate and filter shops data
       const shopsData = response.data.data;
       if (!Array.isArray(shopsData)) {
+        setError(prevError => ({ ...prevError, shopError: "La respuesta del servidor no contiene una lista válida de negocios por tipo" }));
         throw new Error('Invalid shops data received');
       }
 
@@ -59,14 +69,11 @@ export const ShopsByTypeFunctions = () => {
       );
 
       setShops(validShops);
-      setLoading(false);
+      
     } catch (err) {
       console.error('-> ShopsByTypeFunctions.jsx - fetchShopsByType() - Error = ', err);
-      setError(typeof err === 'string' ? err : err.message || `Error al cargar ${shopType} shops`);
       setShops([]);
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   return {

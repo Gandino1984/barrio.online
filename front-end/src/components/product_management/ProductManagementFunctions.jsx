@@ -50,7 +50,6 @@ const ProductManagementFunctions = () => {
   };
 
   async function fetchProductsByShop(){
-    setLoading(true);
     try {
       if (!selectedShop || !selectedShop.id_shop) {
         console.warn('No shop selected');
@@ -67,9 +66,7 @@ const ProductManagementFunctions = () => {
       setError(err.message);
       console.error('Error fetching products:', err);
       setProducts([]);
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   async function fetchProductTypes() {
