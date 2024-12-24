@@ -14,11 +14,10 @@ export const LoginRegisterFunctions = () => {
     setDisplayedPassword, userType, 
     setUserType, currentUser, 
     login, logout, setIsAddingShop, 
-    setShops, setError, error,
+    setShops, setError, 
     userlocation, setUserlocation,
     setShowRepeatPasswordMessage
   } = useContext(AppContext);
-
 
     const { validateUsername } = useUsernameValidation();
 
@@ -108,8 +107,6 @@ export const LoginRegisterFunctions = () => {
       setUserType(e.target.value);
       if(userType) {
           setIsLoggingIn(false);
-      }else{
-        setError(prevError => ({ ...prevError, userTypeError: "Tipo de usuario no seleccionado" }));
       }
   };
 
@@ -184,8 +181,6 @@ export const LoginRegisterFunctions = () => {
     }  
   };
 
-
-  // setError(prevError => ({ ...prevError, userTypeError: "Tipo de usuario no seleccionado" }));
   const handleRegistrationResponse = async (response) => {
     try {
       if (!response.data) {

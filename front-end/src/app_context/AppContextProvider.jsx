@@ -39,6 +39,7 @@ export const AppContextProvider = ({ children }) => {
     userlocationError: '',
     userTypeError: '',
     databaseResponseError: '',
+    shopError: ''
   });
 
   const [isLoggingIn, setIsLoggingIn] = useState(() => !currentUser);

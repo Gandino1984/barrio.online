@@ -16,6 +16,10 @@ export const UserManagementFunctions = () => {
   const fetchShopTypes = async () => {
     try {
       const response = await axiosInstance.get('/shop/types-of-shops');
+      if(response.data.error) {
+        setError(prevError => ({ ...prevError, shopError: "Error al obtener los tipos de tiendas" }));
+        throw new Error(response.data.error);
+      }
       setShopTypes(response.data.data || []); // Adjust based on your actual response structure
     } catch (error) {
       console.error('-> UserManagementFunctions.jsx - fetchShopTypes() - Error = ', error);

@@ -6,9 +6,7 @@ export const ShopManagementFunctions = () => {
   const {
     currentUser,
     setShops,
-    setLoading,
     setError,
-    setIsAddingShop,
     setSelectedShop,
     setshowShopManagement
   } = useContext(AppContext);
@@ -26,6 +24,7 @@ export const ShopManagementFunctions = () => {
       });
 
       if (response.data.error) {
+        setError(prevError => ({ ...prevError, shopError: "Error al obtener las tiendas del usuario" }));
         throw new Error(response.data.error);
       }
 
@@ -35,7 +34,6 @@ export const ShopManagementFunctions = () => {
       setShops(userShops);
     } catch (err) {
       console.error('Error fetching shops:', err);
-      
     } 
   };
 

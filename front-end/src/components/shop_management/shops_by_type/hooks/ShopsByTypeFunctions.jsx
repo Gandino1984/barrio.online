@@ -51,7 +51,7 @@ export const ShopsByTypeFunctions = () => {
       });
       
       if (response.data.error) {
-        setError(prevError => ({ ...prevError, databaseError: "Error al obtener la lista de negocios por tipo" }));
+        setError(prevError => ({ ...prevError, shopError: "Error al obtener la lista de negocios por tipo" }));
         throw new Error(response.data.error);
       }
 

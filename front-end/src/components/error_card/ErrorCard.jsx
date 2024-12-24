@@ -22,6 +22,12 @@ const ErrorCard = () => {
       setShowErrorCard(false);
     } else {
       setShowErrorCard(true);
+      
+      const timer = setTimeout(() => {
+        setShowErrorCard(false);
+      }, 6000);
+
+      return () => clearTimeout(timer); 
     }
   }, [isLoggingIn, showShopManagement, error
   ]);
