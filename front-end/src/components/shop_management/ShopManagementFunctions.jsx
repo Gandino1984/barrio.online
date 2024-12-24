@@ -36,8 +36,7 @@ export const ShopManagementFunctions = () => {
       setShops(userShops);
     } catch (err) {
       console.error('Error fetching shops:', err);
-      setError(err.response?.data?.error || 'Error fetching shops');
-      setShops([]);
+      
     } finally {
       setLoading(false);
     }

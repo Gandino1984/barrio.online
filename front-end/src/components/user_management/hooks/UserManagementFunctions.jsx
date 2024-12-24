@@ -31,14 +31,15 @@ export const UserManagementFunctions = () => {
     setLoading(true);
     try {
       const response = await axiosInstance.post('/shop/type', { type_shop: type });
+
       if (response.data.error) {
         throw new Error(response.data.error);
       }
+      
       setShops(response.data.data || []);
     } catch (error) {
       console.error('Error fetching shops by type:', error);
       setShops([]);
-      setError('Error fetching shops by type');
     } finally {
       setLoading(false);
     }

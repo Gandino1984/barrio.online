@@ -11,7 +11,7 @@ const LoginRegisterForm = () => {
   const {
     username, currentUser, usernameError,
     isLoggingIn, userType, 
-    showShopManagement, ipError, passwordError,
+    showShopManagement, passwordError,
     password, passwordRepeat, showPasswordRepeat,
     keyboardKey, userlocation, userlocationError,
     showRepeatPasswordMessage
@@ -27,9 +27,9 @@ const LoginRegisterForm = () => {
 
   
   console.log('-> LoginRegisterForm.jsx - isLoggingIn state = ', isLoggingIn);
+  
   console.log('-> LoginRegisterForm.jsx - showShopManagement state = ', showShopManagement); 
   
-
   if (showShopManagement || currentUser) {
     console.log('-> LoginRegisterForm.jsx - userType = ', userType);
 

@@ -32,14 +32,13 @@ export const AppContextProvider = ({ children }) => {
   const [showErrorCard, setShowErrorCard] = useState(false);
 
   const [error, setError] = useState({
-    username: '',
-    password: '',
-    passwordRepeat: '',
-    ip: '',
-    userlocation: '',
-    userType: '',
-    backendResponse: '',
-    databaseResponse: '',
+    userError: '',
+    passwordError: '',
+    passwordRepeatError: '',
+    ipError: '',
+    userlocationError: '',
+    userTypeError: '',
+    databaseResponseError: '',
   });
 
   const [isLoggingIn, setIsLoggingIn] = useState(() => !currentUser);
