@@ -3,8 +3,7 @@ import AppContext from '../app_context/AppContext.js';
 
 export const AppContextProvider = ({ children }) => {
 
-  const [currentUser, setCurrentUser] = useState(() => {
-    
+  const [currentUser, setCurrentUser] = useState(() => { 
     const storedUserData = localStorage.getItem('currentUser');
     if (storedUserData) {
       try {
@@ -15,10 +14,9 @@ export const AppContextProvider = ({ children }) => {
           localStorage.removeItem('currentUser');
           return null;
         }
-
         return parsedData;
-      } catch (error) {
-        console.error('-> AppContextProvider.jsx - Error = ', error);
+      } catch (err) {
+        console.error('-> AppContextProvider.jsx - Error = ', err);
         localStorage.removeItem('currentUser');
         return null;
       }
@@ -40,6 +38,8 @@ export const AppContextProvider = ({ children }) => {
     ip: '',
     userlocation: '',
     userType: '',
+    backendResponse: '',
+    databaseResponse: '',
   });
 
   const [isLoggingIn, setIsLoggingIn] = useState(() => !currentUser);

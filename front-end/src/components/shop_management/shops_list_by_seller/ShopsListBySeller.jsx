@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopsListBySeller.module.css';
 import { ShopsListBySellerFunctions } from './ShopsListBySellerFunctions.jsx';
@@ -36,7 +36,7 @@ const ShopsListBySeller = () => {
         </div>
 
         {shops.length === 0 ? (
-          <div className="text-center text-gray-500 mt-10">
+          <div className={styles.messageNoShops}>
               No tienes negocios registrados. ¡Agrega uno para comenzar!
           </div>
         ) : (
@@ -48,11 +48,11 @@ const ShopsListBySeller = () => {
                   onClick={() => handleSelectShop(shop)}
                 >
                   <div className={styles.shopInfo}>
-                      <h3 className="text-lg font-semibold">{shop.name_shop}</h3>
-                      <p className="text-gray-600">{shop.location_shop}</p>
-                      <p className="text-sm text-gray-500">{shop.type_shop}</p>
-                      <p className="text-xs text-gray-400">
-                        Calificación: {shop.calification_shop}/5
+                      <h3 className={styles.shopName}>{shop.name_shop}</h3>
+                      <p className={styles.shopLocation}>{shop.location_shop}</p>
+                      <p className={styles.shopType}>{shop.type_shop}</p>
+                      <p className={styles.shopCalification}>
+                        Calificación: {shop.calification_shop}
                       </p>
                   </div>
                   <div className={styles.shopActions}>

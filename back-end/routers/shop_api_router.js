@@ -19,11 +19,6 @@ router.patch("/update", shopApiController.update);
 
 router.delete("/remove-by-id/:id_shop", shopApiController.removeById);
 
-// get by shop name
-// router.post("/by-name", (req, res) => {
-//   shopApiController.getByName(req, res)
-// });
-
 router.patch("/update", shopApiController.update);
 
 export default router;

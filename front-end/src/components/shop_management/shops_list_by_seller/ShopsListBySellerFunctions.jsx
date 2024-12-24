@@ -7,10 +7,8 @@ export const ShopsListBySellerFunctions = () => {
   const {
     setSelectedShop,
     setShops,
-    shops,
     setError,
     setShowShopCreationForm,
-    currentUser,
   } = useContext(AppContext);
 
     const { 
@@ -25,29 +23,34 @@ export const ShopsListBySellerFunctions = () => {
     setSelectedShop(shop);
   };
 
-  const handleDeleteShop = async (shopId) => {
-    console.log("handleDeleteShop - shopId:", shopId);
+  const handleAddShop = () => {
+    setShowShopCreationForm(true);
+  };
+
+  const handleDeleteShop = async (id_shop) => {
+    console.log("-> ShopsListBySellerFunctions.jsx - handleDeleteShop() - shopId = ", id_shop);
 
     try {
     
-      const response = await axiosInstance.post('/shop/remove-by-id', { 
-        id_shop: shopId 
-      });
+      const response = await axiosInstance.delete(`/shop/remove-by-id/${id_shop}`); 
       
       if (response.data.error) {
+        setError(prevError => ({ ...prevError, databaseResponse: response.data.error }));
         throw new Error(response.data.error);
       }
   
-      setShops(prevShops => prevShops.filter(shop => shop.id_shop !== shopId));
+      // remove shop fom the UI array
+      setShops(existingShops => existingShops.filter(shop => shop.id_shop !== id_shop));
+
     } catch (err) {
-      setError(err.message || 'Error eliminando tienda');
+      
+      setError(prevError => ({ ...prevError, backendResponse: err.message }));
+      
       console.error('-> ShopsListBySellerFunctions.jsx - handleDeleteShop() - Error = ', err);
     }
   };
 
-  const handleAddShop = () => {
-    setShowShopCreationForm(true);
-  };
+
 
   return {
     handleSelectShop,
