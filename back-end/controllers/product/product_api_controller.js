@@ -159,7 +159,6 @@ async function getOnSale(req, res) {
         }
 
         const {error, data} = await productController.getOnSale();
-        
         res.json({error, data});    
     } catch (err) {
         console.error("-> product_api_controller.js - getOnSale() - Error =", err);

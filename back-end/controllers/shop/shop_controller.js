@@ -29,20 +29,23 @@ async function create(shopData) {
 
         if (existingShop) {
             console.error("Ya existe una tienda con ese nombre");
-            return { 
+            return res.status(400).json({ 
                 error: "Ya existe una tienda con ese nombre", 
                 data: null 
-            };
+            });
         }
 
         // If no existing shop, proceed with creation
         const shop = await shop_model.create(shopData);
         
-        return { data: shop };
+        return res.status(200).json({ data: shop });
     } catch (err) {
-        return { error: err.message };
+        console.error("-> shop_controller.js - create() - Error al crear la tienda =", err);
+        return res.status(500).json({ error: err.message });
     }
 }
+
+// get by shop id??
 
 async function getByType(shopType) {
     try {
@@ -106,7 +109,7 @@ async function getByUserId(id) {
 async function removeById(id_shop) {
     try {
         if (!id_shop) {
-            return { error: "Shop not found"};
+            return { error: "Negocio no encontrado" };
         }
 
         const shop = await shop_model.findByPk(id_shop);
@@ -114,24 +117,23 @@ async function removeById(id_shop) {
         if (!shop) {
             return { 
                 error: "Negocio no encontrado",
-                details: "Negocio no encontrado" 
             };
         }
    
-      await shop.destroy();
+        await shop.destroy();
 
       return { 
         data:  id_shop,
-        message: "El usuario se ha borrado correctamente" 
+        message: "El negocio se ha borrado correctamente" 
         };
     } catch (err) {
-      console.error("Error in removeById:", err);
+      console.error("-> shop_controller.js - removeById() - Error = ", err);
       return { 
-        error: "An error occurred while deleting the shop",
+        error: "Error al borrar el negocio",
         details: err.message
        };
     }
-  }
+}
 
 async function getTypesOfShops() {
     try {
@@ -144,7 +146,7 @@ async function getTypesOfShops() {
       console.error('Error al obtener todos los tipos de tiendas', err);
       return { error: err.message };
     }
-  }
+}
 
 export { getAll, 
     create, 
