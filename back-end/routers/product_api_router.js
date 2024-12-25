@@ -8,6 +8,8 @@ router.get("/", productApiController.getAll);
 
 router.post("/create", productApiController.create);
 
+router.get("/by-id/:id_product", productApiController.getById);
+
 router.patch("/update", productApiController.update);
 
 router.delete("/remove-by-id/:id_product", productApiController.removeById);

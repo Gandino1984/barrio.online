@@ -8,12 +8,25 @@ async function getAll() {
         if (!products || products.length === 0) {
             return { error: "No hay productos registrados", data: [] };
         }
-
-        console.log("-> product_controller.js - getAll() - products = ", products);
         
-        return { data: products };
+        return { data: products,
+             success: "Productos encontrados"
+        };
     } catch (err) {
         console.error("-> product_controller.js - getAll() -Error =", err);
+        return { error: err.message };
+    }
+}
+
+async function create(productData) {
+    try {
+        const product = await product_model.create(productData);
+        
+        return { data: product,
+            success: "Producto creado"
+         };
+    } catch (err) {
+        console.error("-> product_controller.js - create() - Error = ", err);
         return { error: err.message };
     }
 }
@@ -22,32 +35,19 @@ async function getById(id) {
     try {
         const product = await product_model.findByPk(id);
         
-        console.log("-> product_controller.js - getById() - product = ", product);
-        
         if (!product) {
             console.error("-> product_controller.js - getById() - producto no encontrado = ", id);
             return { error: "Producto no encontrado" };
         }
         
-        return { data: product };
+        return  {data: product, 
+            success: "Producto encontrado"
+        };
     } catch (err) {
         console.error("-> product_controller.js - getById() - Error = ", err);
         return { error: err.message };
     }
 }
-
-async function create(productData) {
-    try {
-        const product = await product_model.create(productData);
-
-        console.log("-> product_controller.js - create() - Created product:", product);
-        
-        return { data: product };
-    } catch (err) {
-        console.error("-> product_controller.js - create() - Error = ", err);
-        return { error: err.message };
-    }
-}   
 
 async function update(id, productData) {
     try {
@@ -63,7 +63,7 @@ async function update(id, productData) {
         if (price_product) product.price_product = price_product;
         if (discount_product) product.discount_product = discount_product;
         if (season_product) product.season_product = season_product;
-        if (calification_product) product.calification_product = season_product;
+        if (calification_product) product.calification_product = calification_product;
         if (type_product) product.type_product = type_product;
         if (stock_product) product.stock_product = stock_product;
         if (info_product) product.info_product = info_product;
@@ -71,7 +71,9 @@ async function update(id, productData) {
         
         await product.save();
 
-        return { data: product };
+        return { data: product,
+            success: "Producto actualizado"
+        };
     } catch (err) {
         console.error("-> product_controller.js - update() - Error =", err);
         return { error: err.message };
@@ -91,7 +93,7 @@ async function removeById(id_product) {
 
         return { 
             data:  id_product,
-            message: "El producto se ha borrado correctamente" 
+            success: "Producto eliminado"
             };
     } catch (err) {
         console.error("-> product_controller.js - removeById() - Error = ", err);
@@ -107,7 +109,9 @@ async function getByShopId(id_shop) {
 
         console.log("-> product_controller.js - getByShopId() - products de tienda = ", id_shop, products);
         
-        return { data: products };
+        return { data: products,
+            success: "Productos encontrados"
+         };
     } catch (err) {
         console.error("-> product_controller.js - getByShopId() - Error = ", err);
         return { error: err.message };
@@ -120,7 +124,9 @@ async function getByType(type_product) {
             attributes: [type_product],
             group: [type_product],
         });
-        return { data: productTypes.map((type) => type[type_product]) };
+        return { data: productTypes.map((type) => type[type_product]),
+            success: "Productos por tipo encontrados"
+         };
     } catch (err) {
         console.error("-> product_controller.js - getByType() - Error = ", err);
         return { error: err.message };
@@ -140,7 +146,9 @@ async function getOnSale() {
 
         console.log("-> product_controller.js - getOnSale() - products = ", products);
         
-        return { data: products };
+        return { data: products,
+            success: "Productos en oferta encontrados"
+         };
     } catch (err) {
         console.error("-> product_controller.js - getOnSale() - Error = ", err);
         return { error: err.message };

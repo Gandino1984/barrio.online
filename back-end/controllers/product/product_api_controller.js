@@ -2,8 +2,8 @@ import productController from "./product_controller.js";
 
 async function getAll(req, res) {
     try {
-        const {error, data} = await productController.getAll();
-        res.json({error, data});
+        const {error, data, success} = await productController.getAll();
+        res.json({error, data, success});
     } catch (err) {
         console.error("-> product_api_controller.js - getAll() - Error =", err);
         return res.status(500).json({ 
@@ -29,10 +29,10 @@ async function create(req, res) {
             });
         }
 
-        const {error, data} = await productController.create({name_product, price_product, discount_product, season_product, calification_product, type_product, stock_product, info_product, id_shop});
+        const {error, data, success} = await productController.create({name_product, price_product, discount_product, season_product, calification_product, type_product, stock_product, info_product, id_shop});
 
         
-        res.json({error, data});    
+        res.json({error, data, success});    
     } catch (err) {
         console.error("-> product_api_controller.js - create() - Error =", err);
         return res.status(500).json({ 
@@ -42,33 +42,9 @@ async function create(req, res) {
     }
 }
 
-async function update(req, res) {
-    try {
-        const {id_product, name_product, price_product, discount_product, season_product, calification_product, type_product, stock_product, info_product, id_shop  } = req.body;
-
-        if(!id_product || !name_product || !price_product || !discount_product || !season_product || !calification_product || !type_product || !stock_product || !info_product || !id_shop) {
-            return res.status(400).json({
-                error: "Todos los campos son obligatorios"
-            });
-        }
-        
-        const {error, data} = await productController.update(id_product, {name_product, price_product, discount_product, season_product, calification_product, type_product, stock_product, info_product, id_shop});   
-
-        res.json({error, data}); 
-    } catch (err) {
-        console.error("-> product_api_controller.js - update() - Error =", err);
-        return res.status(500).json({ 
-            error: "Error al actualizar un producto", 
-            data: data
-        });
-    }
-
-    res.json({error, data});
-}
-
 async function getById(req, res) {
     try {
-        const id_product = req.body.id_product;
+        const id_product = req.params.id_product;
 
         if (!id_product) {  
             console.error('-> product_api_controller.js - getById() - Error = El parámetro id_product es obligatorio');
@@ -77,9 +53,9 @@ async function getById(req, res) {
             });
         }
 
-        const {error, data} = await productController.getById(id_product);
-        
-        res.json({error, data});
+        const {error, data, success} = await productController.getById(id_product);
+
+        res.json({error, data, success});
     } catch (err) {
         console.error("-> product_api_controller.js - getById() - Error =", err);
         return res.status(500).json({ 
@@ -87,6 +63,30 @@ async function getById(req, res) {
             data: data
         });
     }
+}
+
+async function update(req, res) {
+    try {
+        const {id_product, name_product, price_product, discount_product, season_product, calification_product, type_product, stock_product, info_product, id_shop  } = req.body;
+
+        if(id_product === undefined|| name_product === undefined || price_product === undefined || discount_product === undefined || season_product === undefined || calification_product === undefined || type_product === undefined || stock_product === undefined || info_product === undefined || id_shop === undefined) {
+            return res.status(400).json({
+                error: "Todos los campos son obligatorios"
+            });
+        }
+        
+        const {error, data, success} = await productController.update(id_product, {name_product, price_product, discount_product, season_product, calification_product, type_product, stock_product, info_product, id_shop});   
+
+        res.json({error, data, success}); 
+    } catch (err) {
+        console.error("-> product_api_controller.js - update() - Error =", err);
+        return res.status(500).json({ 
+            error: "Error al actualizar un producto", 
+            data: data
+        });
+    }
+
+    // res.json({error, data});
 }
 
 async function removeById(req, res) {
@@ -100,9 +100,9 @@ async function removeById(req, res) {
             });
         }
 
-        const {error, data} = await productController.removeById(id_product);
+        const {error, data, success} = await productController.removeById(id_product);
         
-        res.json({error, data});    
+        res.json({error, data, success});    
     } catch (err) {
         console.error("-> product_api_controller.js - removeById() - Error =", err);
         return res.status(500).json({ 
@@ -123,9 +123,9 @@ async function getByShopId(req, res) {
             });
         }
 
-        const {error, data} = await productController.getByShopId(id_shop);
+        const {error, data, success} = await productController.getByShopId(id_shop);
 
-        res.json({error, data});    
+        res.json({error, data, success});    
     } catch (err) {
         console.error("-> product_api_controller.js - getByShopId() - Error =", err);
         return res.status(500).json({ 
@@ -144,8 +144,9 @@ async function getByType(req, res) {
         });
     }
     
-    const {error, data} = await productController.getByType(type_product);
-    res.json({error, data});
+    const {error, data, success} = await productController.getByType(type_product);
+
+    res.json({error, data, success});
 }
 
 async function getOnSale(req, res) {
@@ -159,8 +160,9 @@ async function getOnSale(req, res) {
             });
         }
 
-        const {error, data} = await productController.getOnSale();
-        res.json({error, data});    
+        const {error, data, success} = await productController.getOnSale();
+        
+        res.json({error, data, success});    
     } catch (err) {
         console.error("-> product_api_controller.js - getOnSale() - Error =", err);
         return res.status(500).json({ 
