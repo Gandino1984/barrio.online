@@ -17,7 +17,7 @@ async function create(req, res) {
     try {
         const {name_product, price_product, discount_product, season_product, calification_product, type_product, stock_product, info_product, id_shop } = req.body;
 
-        if(!name_product || !price_product || !discount_product || !season_product || !calification_product || !type_product || !stock_product || !info_product || !id_shop) {
+        if (name_product === undefined || price_product === undefined || discount_product === undefined || season_product === undefined || calification_product === undefined || type_product === undefined || stock_product === undefined || info_product === undefined || id_shop === undefined) {
             return res.status(400).json({
                 error: "Todos los campos son obligatorios"
             });
@@ -30,6 +30,7 @@ async function create(req, res) {
         }
 
         const {error, data} = await productController.create({name_product, price_product, discount_product, season_product, calification_product, type_product, stock_product, info_product, id_shop});
+
         
         res.json({error, data});    
     } catch (err) {

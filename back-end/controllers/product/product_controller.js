@@ -40,11 +40,11 @@ async function create(productData) {
     try {
         const product = await product_model.create(productData);
 
-        console.log("Created product:", product);
+        console.log("-> product_controller.js - create() - Created product:", product);
         
         return { data: product };
     } catch (err) {
-        console.error("Error in create:", err);
+        console.error("-> product_controller.js - create() - Error = ", err);
         return { error: err.message };
     }
 }   
