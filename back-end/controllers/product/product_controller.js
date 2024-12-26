@@ -60,12 +60,12 @@ async function update(id, productData) {
         }
         // Only update fields that were provided
         if (name_product) product.name_product = name_product;
-        if (price_product) product.price_product = price_product;
-        if (discount_product) product.discount_product = discount_product;
+        if (price_product >= 0) product.price_product = price_product;
+        if (discount_product >= 0) product.discount_product = discount_product;
         if (season_product) product.season_product = season_product;
-        if (calification_product) product.calification_product = calification_product;
+        if (calification_product >= 0) product.calification_product = calification_product;
         if (type_product) product.type_product = type_product;
-        if (stock_product) product.stock_product = stock_product;
+        if (stock_product >=0) product.stock_product = stock_product;
         if (info_product) product.info_product = info_product;
         if (id_shop) product.id_shop = id_shop;
         
@@ -85,7 +85,6 @@ async function removeById(id_product) {
         const product = await product_model.findByPk(id_product);
 
         if (!product) {
-            console.log("Producto no encontrado con id = ", id_product);
             return { error: "Producto no encontrado" };
         }
 
@@ -94,7 +93,7 @@ async function removeById(id_product) {
         return { 
             data:  id_product,
             success: "Producto eliminado"
-            };
+        };
     } catch (err) {
         console.error("-> product_controller.js - removeById() - Error = ", err);
         return { error: err.message };
@@ -107,8 +106,11 @@ async function getByShopId(id_shop) {
             where: { id_shop: id_shop }
         });
 
-        console.log("-> product_controller.js - getByShopId() - products de tienda = ", id_shop, products);
-        
+        if (!products || products.length === 0) {
+            return { data: [], 
+                success: "No hay productos en la tienda"};
+        }
+
         return { data: products,
             success: "Productos encontrados"
          };
@@ -120,11 +122,11 @@ async function getByShopId(id_shop) {
 
 async function getByType(type_product) {
     try {
-        const productTypes = await product_model.findAll({
-            attributes: [type_product],
-            group: [type_product],
+        const products = await product_model.findAll({
+            where: { type_product: type_product }
         });
-        return { data: productTypes.map((type) => type[type_product]),
+
+        return { data: products,
             success: "Productos por tipo encontrados"
          };
     } catch (err) {
@@ -136,15 +138,12 @@ async function getByType(type_product) {
 async function getOnSale() {
     try {
         const products = await product_model.findAll({
-            // discount_product
             where: { discount_product: {[Op.gt]:0} }
         });
 
         if (!products || products.length === 0) {
             return { message: "No hay productos en oferta", data: products };
         }
-
-        console.log("-> product_controller.js - getOnSale() - products = ", products);
         
         return { data: products,
             success: "Productos en oferta encontrados"

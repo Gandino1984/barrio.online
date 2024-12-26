@@ -114,7 +114,7 @@ async function removeById(req, res) {
 
 async function getByShopId(req, res) {
     try {
-        const { id_shop } = req.body;
+        const { id_shop } = req.params;
 
         if (!id_shop) {
             console.error('-> product_api_controller.js - getByShopId() - Error = El id de la tienda es obligatorio');
@@ -136,30 +136,29 @@ async function getByShopId(req, res) {
 }
 
 async function getByType(req, res) {
-    const type_product = req.body.type_product;
-    
-    if (!type_product) {
-        return res.status(400).json({
-            error: "El tipo de producto es obligatorio"
-        });
-    }
-    
-    const {error, data, success} = await productController.getByType(type_product);
-
-    res.json({error, data, success});
-}
-
-async function getOnSale(req, res) {
     try {
-        const discount_product = req.body.discount_product;
-
-        if (!discount_product) {
-            console.error('-> product_api_controller.js - getOnSale() - Error = El parámetro discount_product es obligatorio');
-            return res.status(400).json({ 
-                error: 'El parámetro discount_product es obligatorio', 
+        const {type_product} = req.params;
+        
+        if (!type_product){
+            return res.status(400).json({
+                error: "El tipo de producto es obligatorio"
             });
         }
+        
+        const {error, data, success} = await productController.getByType(type_product);
+        
+        res.json({error, data, success});
+    } catch (err) {
+        console.error("-> product_api_controller.js - getByType() - Error =", err);
+        return res.status(500).json({ 
+            error: "Error al obtener los productos por tipo", 
+            data: data
+        });
+    }
+}
 
+async function getOnSale(req, res) {    
+    try {
         const {error, data, success} = await productController.getOnSale();
         
         res.json({error, data, success});    

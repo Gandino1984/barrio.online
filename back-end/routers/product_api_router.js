@@ -14,10 +14,10 @@ router.patch("/update", productApiController.update);
 
 router.delete("/remove-by-id/:id_product", productApiController.removeById);
 
-router.post("/by-shop-id", productApiController.getByShopId);
+router.get("/by-shop-id/:id_shop", productApiController.getByShopId);   
 
-router.get("/by-type", productApiController.getByType);
+router.get("/by-type/:type_product", productApiController.getByType);
 
-router.post("/on-sale", productApiController.getOnSale);
+router.get("/on-sale", productApiController.getOnSale);
 
 export default router;

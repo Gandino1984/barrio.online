@@ -29,19 +29,21 @@ async function create(shopData) {
 
         if (existingShop) {
             console.error("Ya existe una tienda con ese nombre");
-            return res.status(400).json({ 
+            return { 
                 error: "Ya existe una tienda con ese nombre", 
-                data: null 
-            });
+                data: data 
+            };
         }
 
         // If no existing shop, proceed with creation
         const shop = await shop_model.create(shopData);
         
-        return res.status(200).json({ data: shop });
+        return { data: shop, 
+            success: "Tienda creada"
+        };
     } catch (err) {
         console.error("-> shop_controller.js - create() - Error al crear la tienda =", err);
-        return res.status(500).json({ error: err.message });
+        return { error: err.message };
     }
 }
 
