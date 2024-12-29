@@ -7,11 +7,14 @@ export const ShopsListBySellerFunctions = () => {
     setSelectedShop,
     setShops,
     setShowShopCreationForm,
+    setShowProductManagement,
+    showProductManagement
   } = useContext(AppContext);
 
 
   const handleSelectShop = (shop) => {
     setSelectedShop(shop);
+    // show product management, hide shop list, and hide shop creation form    
   };
 
   const handleAddShop = () => {
