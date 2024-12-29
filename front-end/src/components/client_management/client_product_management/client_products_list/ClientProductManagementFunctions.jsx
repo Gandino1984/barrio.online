@@ -1,7 +1,7 @@
 import React from 'react';
 import { useContext } from 'react';
-import axiosInstance from '../../../utils/axiosConfig.js';
-import AppContext from '../../../src/app_context/AppContext.js';
+import axiosInstance from '../../../../../utils/axiosConfig.js';
+import AppContext from '../../../../app_context/AppContext.js';
 
 const ProductManagementFunctions = () => {
   
@@ -50,7 +50,6 @@ const ProductManagementFunctions = () => {
   };
 
   async function fetchProductsByShop(){
-    setLoading(true);
     try {
       if (!selectedShop || !selectedShop.id_shop) {
         console.warn('No shop selected');
@@ -67,9 +66,7 @@ const ProductManagementFunctions = () => {
       setError(err.message);
       console.error('Error fetching products:', err);
       setProducts([]);
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   async function fetchProductTypes() {

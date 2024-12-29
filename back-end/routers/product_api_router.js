@@ -4,10 +4,20 @@ import productApiController from "../controllers/product/product_api_controller.
 
 const router = Router();
 
-router.post("/by-shop-id", productApiController.getByShopId);
+router.get("/", productApiController.getAll);
 
-router.get("/by-type", productApiController.getByType);
+router.post("/create", productApiController.create);
 
-router.post("/on-sale", productApiController.getOnSale);
+router.get("/by-id/:id_product", productApiController.getById);
+
+router.patch("/update", productApiController.update);
+
+router.delete("/remove-by-id/:id_product", productApiController.removeById);
+
+router.get("/by-shop-id/:id_shop", productApiController.getByShopId);   
+
+router.get("/by-type/:type_product", productApiController.getByType);
+
+router.get("/on-sale", productApiController.getOnSale);
 
 export default router;

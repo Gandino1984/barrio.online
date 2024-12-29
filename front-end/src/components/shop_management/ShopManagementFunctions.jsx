@@ -6,9 +6,7 @@ export const ShopManagementFunctions = () => {
   const {
     currentUser,
     setShops,
-    setLoading,
     setError,
-    setIsAddingShop,
     setSelectedShop,
     setshowShopManagement
   } = useContext(AppContext);
@@ -21,26 +19,22 @@ export const ShopManagementFunctions = () => {
     }
 
     try {
-      setLoading(true);
       const response = await axiosInstance.post('/shop/by-user-id', {
         id_user: currentUser.id
       });
 
       if (response.data.error) {
+        setError(prevError => ({ ...prevError, shopError: "Error al obtener las tiendas del usuario" }));
         throw new Error(response.data.error);
       }
 
       const userShops = response.data.data || [];
-      console.log('Fetched shops:', userShops);
       
       setShops(userShops);
     } catch (err) {
       console.error('Error fetching shops:', err);
-      setError(err.response?.data?.error || 'Error fetching shops');
-      setShops([]);
-    } finally {
-      setLoading(false);
-    }
+      setError(prevError => ({ ...prevError, shopError: "Error al obtener las tiendas del usuario" }));
+    } 
   };
 
   const handleBack = () => {

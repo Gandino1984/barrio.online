@@ -56,11 +56,28 @@ async function getById(req, res) {
 }
 
 async function create(req, res) {
-    const { name_shop, location_shop, type_shop, subtype_shop, id_user, calification_shop, image_shop } = req.body;
+  try {
+    const { name_shop, location_shop, type_shop, subtype_shop, calification_shop, image_shop, id_user } = req.body;
+
+    if(name_shop === undefined || location_shop === undefined || type_shop === undefined || subtype_shop === undefined  || calification_shop === undefined || id_user === undefined || image_shop === undefined){
+      console.error('-> shop_api_controller.js - create() - Error = Todos los campos son obligatorios');
+      console.log(req.body);
+      return res.status(400).json({
+            error: 'Todos los campos son obligatorios',
+        });
+    }
     
-    const {error, data} = await shopController.create({name_shop, location_shop, type_shop, subtype_shop, id_user, calification_shop, image_shop});
+    const {error, data, success} = await shopController.create({name_shop, location_shop, type_shop, subtype_shop, id_user, calification_shop, image_shop});
     
-    res.json({error, data});
+    res.json({error, data, success});
+  } catch (err) {
+    console.error("-> shop_api_controller.js - create() - Error =", err);
+    return res.status(500).json({ 
+      error: "Error al crear la tienda",
+      details: err.message 
+    });
+    
+  }
 }
 
 async function update(req, res) {

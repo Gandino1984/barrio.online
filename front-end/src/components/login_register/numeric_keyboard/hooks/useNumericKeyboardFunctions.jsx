@@ -37,15 +37,6 @@ export const useNumericKeyboardFunctions = (value, onChange, onPasswordComplete,
         }
     };
 
-    // const handleBackspace = (e) => {
-    //     e.preventDefault();
-    //     if (displayedPassword.length > 0) {
-    //       const newValue = displayedPassword.slice(0, -1);
-    //       setDisplayedPassword(newValue);
-    //       onChange(newValue);
-    //     }
-    // };
-
     const handleBackspace = (e) => {
         e.preventDefault();
         if (value.length > 0) {
@@ -65,7 +56,7 @@ export const useNumericKeyboardFunctions = (value, onChange, onPasswordComplete,
         }
     };
 
- 
+
     const handleClear = (isLogin) => () => {
         if (!isLogin) {
             if (showPasswordRepeat) {

@@ -11,7 +11,7 @@ export const ShopCreationFormFunctions = () => {
         setIsLoggingIn, 
         newShop, 
         setNewShop,
-        setError,
+        setError, error,
         setIsAddingShop 
     } = useContext(AppContext);
 
@@ -41,6 +41,7 @@ export const ShopCreationFormFunctions = () => {
             const response = await axiosInstance.post('/shop/create', shopDataToCreate);
         
             if (response.data.error) {
+                setError(prevError => ({ ...prevError, databaseError: "Error al crear la tienda" }));
                 throw new Error(response.data.error);
             }
     
@@ -54,7 +55,8 @@ export const ShopCreationFormFunctions = () => {
                 subtype_shop: '',
                 location_shop: '',
                 id_user: '',
-                calificacion_shop: ''
+                calificaction_shop: 0,
+                image_shop: ''
             });
     
             // Update UI state
@@ -63,7 +65,6 @@ export const ShopCreationFormFunctions = () => {
             setshowShopManagement(true);
     
         } catch (err) {
-            setError(err.message || 'Error al crear la tienda');
             console.error('Error al crear la tienda:', err);
         }
     };

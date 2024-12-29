@@ -3,9 +3,9 @@ import styles from './TopBar.module.css';
 import { TopBarFunctions } from './TopBarFunctions.jsx';
 import { ArrowLeft } from 'lucide-react';
 import { LogOut } from 'lucide-react';
-import AppContext from '../../../src/app_context/AppContext.js';
-import ErrorCard from '../error_card/ErrorCard.jsx';
-import UserInfoCard from '../user_info_card/UserInfoCard.jsx';
+import AppContext from '../../app_context/AppContext.js';
+import ErrorCard from './error_card/ErrorCard.jsx';
+import UserInfoCard from './user_info_card/UserInfoCard.jsx';
 
 function TopBar() {
     const {
