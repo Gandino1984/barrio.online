@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopsListBySeller.module.css';
 import { ShopsListBySellerFunctions } from './ShopsListBySellerFunctions.jsx';
@@ -7,7 +7,8 @@ import { Plus, Eraser } from 'lucide-react';
 
 const ShopsListBySeller = () => {
   const { 
-    shops, setShops, 
+    shops, setShops,
+    setSelectedShop, selectedShop, 
     currentUser
   } = useContext(AppContext);
 
@@ -17,6 +18,12 @@ const ShopsListBySeller = () => {
       handleAddShop
     } = ShopsListBySellerFunctions();
 
+    useEffect(() => {
+      console.log('-> ShopsListBySeller.jsx - currentUser = ', currentUser);
+      console.log('-> ShopsListBySeller.jsx - selectedShop = ', selectedShop);
+    }, [currentUser, selectedShop]);
+
+    
 
   return (
     <div className={styles.container}>

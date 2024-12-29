@@ -29,11 +29,11 @@ export const ShopManagementFunctions = () => {
       }
 
       const userShops = response.data.data || [];
-      console.log('Fetched shops:', userShops);
       
       setShops(userShops);
     } catch (err) {
       console.error('Error fetching shops:', err);
+      setError(prevError => ({ ...prevError, shopError: "Error al obtener las tiendas del usuario" }));
     } 
   };
 

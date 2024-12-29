@@ -1,8 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopsByType.module.css';
-import ProductsList from '../../product_management/ProductsList.jsx'; 
-import { ShopsByTypeFunctions } from './hooks/ShopsByTypeFunctions.jsx';
+import ClientProductsList from '../../product_management/client_products_list/ClientProductsList.jsx'; 
+import { ShopsByTypeFunctions } from './ShopsByTypeFunctions.jsx';
 
 const ShopsByType = () => {
   const { 
@@ -31,7 +31,7 @@ const ShopsByType = () => {
   return (
     <div className={styles.container}>
         {selectedShop ? (
-          <ProductsList />
+          <ClientProductsList />
         ) : (
           <div>
             {!Array.isArray(shops) || shops.length === 0 ? (

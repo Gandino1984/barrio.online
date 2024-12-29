@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import { LoginRegisterFunctions } from './hooks/LoginRegisterFunctions.jsx';
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
-import UserManagement from "../../user_management/UserManagement.jsx";
+import ClientManagement from "../../client_management/ClientManagement.jsx";
 import styles from './LoginRegisterForm.module.css';
 import ShopManagement from "../../shop_management/ShopManagement.jsx";
 
@@ -42,7 +42,7 @@ const LoginRegisterForm = () => {
     } else {
         return (
           <>
-            <UserManagement/>
+            <ClientManagement/>
         </>
         );
     }

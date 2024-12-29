@@ -23,6 +23,13 @@ export const AppContextProvider = ({ children }) => {
     }
     return null;
   });
+
+  //initializes isLoggingIn with the negation of currentUser, 
+  const [isLoggingIn, setIsLoggingIn] = useState(() => !currentUser);
+  // initializes showShopManagement with the boolean value of currentUser.
+  const [showShopManagement, setshowShopManagement] = useState(() => !!currentUser);  
+
+
   const [username, setUsername] = useState(() => currentUser?.username || '');
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
@@ -42,8 +49,6 @@ export const AppContextProvider = ({ children }) => {
     shopError: ''
   });
 
-  const [isLoggingIn, setIsLoggingIn] = useState(() => !currentUser);
-  const [showShopManagement, setshowShopManagement] = useState(() => !!currentUser);  
 
   // Function to check and clear expired user data
   const checkAndClearUserData = () => {

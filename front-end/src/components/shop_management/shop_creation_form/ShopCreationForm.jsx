@@ -18,9 +18,7 @@ const ShopCreationForm = () => {
   const shopTypes = Object.keys(shopTypesAndSubtypes);
 
   // Get subtypes based on selected shop type
-  const subtypes = newShop.type_shop 
-    ? shopTypesAndSubtypes[newShop.type_shop] 
-    : [];
+  const subtypes = newShop.type_shop ? shopTypesAndSubtypes[newShop.type_shop] : [];
 
   return (
     <div className={styles.container}>
