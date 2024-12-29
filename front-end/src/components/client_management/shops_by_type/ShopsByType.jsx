@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopsByType.module.css';
-import ClientProductsList from '../../product_management/client_products_list/ClientProductsList.jsx'; 
+import ClientProductsList from '../client_product_management/client_products_list/ClientProductsList.jsx'; 
 import { ShopsByTypeFunctions } from './ShopsByTypeFunctions.jsx';
 
 const ShopsByType = () => {

@@ -23,8 +23,6 @@ const ShopsListBySeller = () => {
       console.log('-> ShopsListBySeller.jsx - selectedShop = ', selectedShop);
     }, [currentUser, selectedShop]);
 
-    
-
   return (
     <div className={styles.container}>
         <div className={styles.headerContainer}>

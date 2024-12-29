@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import AppContext from '../../../src/app_context/AppContext.js';
+import AppContext from '../../../app_context/AppContext.js';
 import styles from './UserInfoCard.module.css';
 import { SquareUserRound } from 'lucide-react';
 
