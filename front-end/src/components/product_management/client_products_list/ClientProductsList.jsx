@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './ProductsList.module.css';
 import ProductManagementFunctions from '../ProductManagementFunctions.jsx';
-import FiltersForProducts from '../filters_for_products/FiltersForProducts.jsx';
+import FiltersForProducts from '../filters_for_client_products/FiltersForProducts.jsx';
 
 const ClientProductsList = () => {
   const {

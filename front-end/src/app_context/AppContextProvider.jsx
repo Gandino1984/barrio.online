@@ -27,7 +27,8 @@ export const AppContextProvider = ({ children }) => {
   //initializes isLoggingIn with the negation of currentUser, 
   const [isLoggingIn, setIsLoggingIn] = useState(() => !currentUser);
   // initializes showShopManagement with the boolean value of currentUser.
-  const [showShopManagement, setshowShopManagement] = useState(() => !!currentUser);  
+  const [showShopManagement, setshowShopManagement] = useState(() => !!currentUser);
+  const [showProductManagement, setshowProductManagement] = useState(false);
 
 
   const [username, setUsername] = useState(() => currentUser?.username || '');
