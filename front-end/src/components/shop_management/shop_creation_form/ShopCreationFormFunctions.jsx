@@ -55,7 +55,8 @@ export const ShopCreationFormFunctions = () => {
                 subtype_shop: '',
                 location_shop: '',
                 id_user: '',
-                calificacion_shop: ''
+                calificaction_shop: 0,
+                image_shop: ''
             });
     
             // Update UI state

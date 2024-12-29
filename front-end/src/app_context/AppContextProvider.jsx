@@ -128,7 +128,8 @@ export const AppContextProvider = ({ children }) => {
     subtype_shop: '',
     location_shop: '',
     id_user: '',
-    calificacion_shop: ''
+    calification_shop: 0, 
+    image_shop: ''
   })
   const [selectedShop, setSelectedShop] = useState(null);
   const [shopType, setShopType] = useState('');

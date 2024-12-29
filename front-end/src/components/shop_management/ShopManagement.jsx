@@ -8,11 +8,7 @@ import styles from './ShopManagement.module.css';
 const ShopManagement = () => {
   const { 
     currentUser, 
-    shops, 
-    loading,  
-    error, setError,
-    showShopCreationForm, setShowShopCreationForm,
-    setIsAddingShop
+    showShopCreationForm
   } = useContext(AppContext);
 
   const {
