@@ -1,5 +1,6 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import AppContext from '../../../../app_context/AppContext';
+import axiosInstance from '../../../../../utils/axiosConfig';
 
 const ProductCreationFormFunctions = () => {
   const { 
@@ -8,6 +9,15 @@ const ProductCreationFormFunctions = () => {
     setShowErrorCard, newProductData, 
     products, setProducts 
   } = useContext(AppContext);
+
+  useEffect(() => {
+    if (selectedShop) {
+      setNewProductData(prev => ({
+        ...prev,
+        id_shop: selectedShop.id_shop
+      }));
+    }
+  }, [selectedShop, setNewProductData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,6 +37,10 @@ const ProductCreationFormFunctions = () => {
 
   const validateProductData = (newProductData) => {
     try {
+      if (!newProductData.id_shop) {
+        setError(prevError => ({ ...prevError, productError: "Debe seleccionar una tienda"}));
+        throw new Error("Debe seleccionar una tienda");
+      }
       if (!newProductData.name_product) {
         setError(prevError => ({ ...prevError, productError: "El nombre de producto es requerido"}));
         throw new Error("El nombre de producto es requerido");
@@ -43,9 +57,11 @@ const ProductCreationFormFunctions = () => {
         setError(prevError => ({ ...prevError, productError: "El Stock no puede ser negativo"}));
         throw new Error("El Stock no puede ser negativo");
       }
+      return true;
     } catch (err) {
       console.error('Error validating product data:', err);
       setError(prevError => ({ ...prevError, productError: "Error al validar los datos del producto" }));
+      return false;
     }
   };
 
@@ -59,7 +75,7 @@ const ProductCreationFormFunctions = () => {
       type_product: '',
       stock_product: 0,
       info_product: '',
-      id_shop: selectedShop?.id_shop || ''
+      id_shop: selectedShop?.id_shop || ''  // Maintain the selected shop's ID
     });
     setError(prevError => ({
       ...prevError,
@@ -71,6 +87,8 @@ const ProductCreationFormFunctions = () => {
     e.preventDefault();
     try {
       if (!validateProductData(newProductData)) return;
+
+      console.log('newProductData', newProductData);
 
       const response = await axiosInstance.post('/product/create', newProductData);
 
