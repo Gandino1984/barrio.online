@@ -28,7 +28,7 @@ export const AppContextProvider = ({ children }) => {
   const [isLoggingIn, setIsLoggingIn] = useState(() => !currentUser);
   // initializes showShopManagement with the boolean value of currentUser.
   const [showShopManagement, setshowShopManagement] = useState(() => !!currentUser);
-  const [showProductManagement, setshowProductManagement] = useState(false);
+  const [showProductManagement, setShowProductManagement] = useState(false);
 
 
   const [username, setUsername] = useState(() => currentUser?.username || '');
@@ -47,9 +47,9 @@ export const AppContextProvider = ({ children }) => {
     userlocationError: '',
     userTypeError: '',
     databaseResponseError: '',
-    shopError: ''
+    shopError: '',
+    productError: '',
   });
-
 
   // Function to check and clear expired user data
   const checkAndClearUserData = () => {
@@ -77,6 +77,8 @@ export const AppContextProvider = ({ children }) => {
       userlocationError: '',
       userTypeError: '',
       databaseResponseError: '',
+      shopError: '',
+      productError: '',
     });
     setShowErrorCard(false);
   };
@@ -118,15 +120,10 @@ export const AppContextProvider = ({ children }) => {
   const [showRepeatPasswordMessage, setShowRepeatPasswordMessage] = useState(false);
  
   const [isAddingShop, setIsAddingShop] = useState(false);
+
   const [selectedShopType, setSelectedShopType] = useState(null);
   const [showShopCreationForm, setShowShopCreationForm] = useState(false);
-  const [ipError, setIpError] = useState('');
   const [ip, setIp] = useState('');
-
-  const [usernameError, setUsernameError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [userlocationError, setUserlocationError] = useState('');
-  const [userTypeError, setUserTypeError] = useState('');
   
   const [newShop, setNewShop] = useState({
     name_shop: '',
@@ -137,6 +134,7 @@ export const AppContextProvider = ({ children }) => {
     calification_shop: 0, 
     image_shop: ''
   })
+
   const [selectedShop, setSelectedShop] = useState(null);
   const [shopType, setShopType] = useState('');
   const [shops, setShops] = useState([]);
@@ -161,15 +159,29 @@ export const AppContextProvider = ({ children }) => {
     'Servicios': ['Autónomo', 'Técnico', 'Fotografía', 'Arte', 'Limpieza', 'Pintura', 'Varios'],
     'Taller': ['Pintura', 'Escultura', 'Ilustración', 'Diseno', 'Mecánico', 'Electrodoméstico', 'Varios']
   });
+
+  const [newProductData, setNewProductData] = useState({
+    name_product: '',
+    price_product: '',
+    discount_product: 0,
+    season_product: 'Todo el Año',
+    calification_product: 0,
+    type_product: '',
+    stock_product: 0,
+    info_product: '',
+    id_shop: ''
+  });
   
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+
   const [filters, setFilters] = useState({
-    temporada: null,
-    tipo: null,
-    oferta: null,
-    calificacion: null,
+    temporada: '',
+    tipo: '',
+    oferta: '',
+    calificacion: 0,
   });
+
   const [filterOptions, setFilterOptions] = useState({
     temporada: {
       label: 'Temporada',
@@ -177,7 +189,7 @@ export const AppContextProvider = ({ children }) => {
     },
     tipo: {
       label: 'Tipo',
-      options: ['Todos'],
+      options: ['Vegetariano', 'Vegano', 'Sin gluten', 'Kosher', 'Sin lactosa'],
     },
     oferta: {
       label: 'Oferta',
@@ -185,7 +197,7 @@ export const AppContextProvider = ({ children }) => {
     },
     calificacion: {
       label: 'Calificación',
-      options: ['1', '2', '3', '4', '5'], 
+      options: ['0', '1', '2', '3', '4', '5'], 
     },
   });
 
@@ -219,24 +231,21 @@ export const AppContextProvider = ({ children }) => {
     selectedShopType, setSelectedShopType,
     showShopCreationForm, setShowShopCreationForm,
     products, setProducts,
-    usernameError, setUsernameError,
-    ipError, setIpError,
     error, setError,
     filterOptions, setFilterOptions,
     filters, setFilters,
     filteredProducts, setFilteredProducts,
     shopTypes, setShopTypes,
-    passwordError, setPasswordError,
     ip, setIp,
     checkAndClearUserData,
     userlocation, setUserlocation,
-    userlocationError, setUserlocationError,
     newShop, setNewShop,
     shopTypesAndSubtypes, setShopTypesAndSubtypes,
-    userTypeError, setUserTypeError,
     showErrorCard, setShowErrorCard,
     showRepeatPasswordMessage,
-    setShowRepeatPasswordMessage, clearError
+    setShowRepeatPasswordMessage, clearError,
+    showProductManagement, setShowProductManagement,
+    newProductData, setNewProductData
   };
 
   return (

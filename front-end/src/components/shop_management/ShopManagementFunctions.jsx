@@ -8,17 +8,18 @@ export const ShopManagementFunctions = () => {
     setShops,
     setError,
     setSelectedShop,
-    setshowShopManagement
+    setshowShopManagement, 
+    setShowProductManagement
   } = useContext(AppContext);
 
   const fetchUserShops = async () => {
-    if (!currentUser?.id) {
-      console.log('No current user ID available');
-      setShops([]);
-      return;
-    }
-
     try {
+      if (!currentUser?.id) {
+        setError(prevError => ({ ...prevError, userError: "No hay usuarios logueados" }));
+        setShops([]);
+        throw new Error('No hay usuarios logueados');      
+      }
+
       const response = await axiosInstance.post('/shop/by-user-id', {
         id_user: currentUser.id
       });
@@ -39,10 +40,13 @@ export const ShopManagementFunctions = () => {
 
   const handleBack = () => {
     setshowShopManagement(false);
+    setShowProductManagement(false);
+    setSelectedShop(null);
   };
 
   const handleSelectShop = (shop) => {
     setSelectedShop(shop);
+    setShowProductManagement(true);
   };
 
   return {

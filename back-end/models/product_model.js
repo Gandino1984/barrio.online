@@ -48,10 +48,10 @@ const product_model = sequelize.define("product", {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
     },
-    // id_provider: { 
-    //     type: DataTypes.INTEGER.UNSIGNED,
-    //     allowNull: false,
-    // },
+    image_product: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+    }
 }, {
     timestamps: false,
     freezeTableName: true
