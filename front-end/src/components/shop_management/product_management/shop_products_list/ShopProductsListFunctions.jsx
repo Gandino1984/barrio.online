@@ -40,31 +40,14 @@ const ShopProductsListFunctions = () => {
         setProducts([]);
         return;
       }
-
-      const response = await axiosInstance.post('/product/by-shop-id', { 
-        id_shop: selectedShop.id_shop 
-      });
-
-      if (response.data.error) {
-        setError(response.data.error);
-        return;
-      }
-
+      const response = await axiosInstance.get(`/product/by-shop-id/${selectedShop.id_shop}`);
       const fetchedProducts = response.data.data || [];
       console.log(`Fetched ${fetchedProducts.length} products for shop ${selectedShop.name_shop}`);
-      
       setProducts(fetchedProducts);
-      const filteredProducts = filterProducts(fetchedProducts, filters);
-      setFilteredProducts(filteredProducts);
-      
     } catch (err) {
-      setError(prevError => ({
-        ...prevError,
-        databaseError: "Error al obtener los productos"
-      }));
       console.error('Error fetching products:', err);
       setProducts([]);
-    }
+    } 
   };
 
   const fetchProductTypes = async () => {

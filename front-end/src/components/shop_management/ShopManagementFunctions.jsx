@@ -24,7 +24,7 @@ export const ShopManagementFunctions = () => {
       });
 
       if (response.data.error) {
-        setError(prevError => ({ ...prevError, shopError: "Error al obtener las tiendas del usuario" }));
+        setError(prevError => ({ ...prevError, shopError: response.data.error }));
         throw new Error(response.data.error);
       }
 

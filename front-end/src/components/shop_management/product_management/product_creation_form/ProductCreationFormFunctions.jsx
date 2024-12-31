@@ -76,7 +76,7 @@ const ProductCreationFormFunctions = () => {
       type_product: '',
       stock_product: 0,
       info_product: '',
-      id_shop: selectedShop?.id_shop || ''  // Maintain the selected shop's ID
+      id_shop: selectedShop?.id_shop || ''
     });
     setError(prevError => ({
       ...prevError,
@@ -122,10 +122,7 @@ const ProductCreationFormFunctions = () => {
 
   const fetchUpdatedProducts = async () => {
     try {
-      const response = await axiosInstance.post('/product/by-shop-id', { 
-        id_shop: selectedShop.id_shop 
-      });
-      
+      const response = await axiosInstance.get(`/product/by-shop-id/${selectedShop.id_shop}`);
       if (response.data.data) {
         setProducts(response.data.data);
       }
