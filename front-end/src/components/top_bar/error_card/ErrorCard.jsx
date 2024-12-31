@@ -36,13 +36,13 @@ const ErrorCard = () => {
     showErrorCard && (
       <div className={styles.container}>
         <CircleX color="red" size={24} />
-        <ul className={styles.errorList}>
+        <div className={styles.errorList}>
           {Object.keys(error).map((errorKey) => (
-            <li key={errorKey}>
+            <div className={styles.errorItem} key={errorKey}>
               {error[errorKey]}
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     )
   );

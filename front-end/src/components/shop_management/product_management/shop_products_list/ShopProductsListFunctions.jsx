@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import axiosInstance from '../../../../../utils/axiosConfig';
 import AppContext from '../../../../app_context/AppContext';
 
-const ShopProductListFunctions = () => {
+const ShopProductsListFunctions = () => {
   const { 
     setProducts, 
     setError,
@@ -84,4 +84,4 @@ const ShopProductListFunctions = () => {
   };
 };
 
-export default ShopProductListFunctions;
+export default ShopProductsListFunctions;

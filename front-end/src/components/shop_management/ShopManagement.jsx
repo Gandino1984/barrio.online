@@ -24,7 +24,7 @@ const ShopManagement = () => {
 
   // Determine what to render based on the current state
   const renderComponent = () => {
-    if (showProductManagement && selectedShop) {
+    if (selectedShop) {  // Changed this condition to only check for selectedShop
       return <ProductManagement />;
     }
     if (showShopCreationForm) {

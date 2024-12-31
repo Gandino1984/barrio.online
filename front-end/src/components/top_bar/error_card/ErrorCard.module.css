@@ -7,15 +7,17 @@
 .errorList{
     display: flex;
     align-items: center;
-    justify-content: left;
-    list-style-type: none;
-    color: red;
+    justify-content: center;
+    /* list-style-type: none; */
+    flex-direction: column;
+    
 }
 
-.errorList li{
-    display: flex;
+.errorItem{
+    display: block;
     align-items:center;
-    justify-content:left;
+    justify-content:center;
     line-height: .9rem;
     font-size: .9rem;
+    color: red;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import AppContext from '../../../../app_context/AppContext';
-import ShopProductListFunctions from './ShopProductListFunctions';
-import FiltersForProducts from '../filters_for_client_products/FiltersForProducts';
+import ShopProductListFunctions from './ShopProductsListFunctions.jsx';
+import FiltersForProducts from '../../../client_management/client_product_management/filters_for_client_products/FiltersForProducts.jsx';
 
 const ShopProductList = () => {
   const {
@@ -21,8 +21,14 @@ const ShopProductList = () => {
 
   const [filteredProductsCount, setFilteredProductsCount] = useState(0);
 
+   // fetch products when component mounts or products change
+   useEffect(() => {
+    if (selectedShop?.id_shop) {
+      fetchProductsByShop();
+    }
+  }, [selectedShop, products.length]);
+
   useEffect(() => {
-    // Reset filters when a new shop is selected
     setFilters({
       temporada: null,
       tipo: null,

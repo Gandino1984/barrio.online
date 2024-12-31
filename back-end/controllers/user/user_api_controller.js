@@ -28,7 +28,7 @@ async function login(req, res) {
     const { name_user, pass_user} = req.body;
     try {
         if(!name_user || !pass_user){
-            return res.status(400).json({ 
+            res.status(400).json({ 
                 error: 'Los parámetros name_user, pass_user son obligatorios', 
                 requestBody: req.body 
             });
@@ -38,7 +38,7 @@ async function login(req, res) {
 
         res.json({error, data});
     } catch (error) {
-        res.status(500).json({ error: 'Error al iniciar sesión', details: error.message });
+        res.status(500).json({ error: 'Error al iniciar sesión' });
     }
  
 }
@@ -47,7 +47,7 @@ async function register(req, res) {
     let {name_user, pass_user, location_user, type_user, image_user } = req.body;
     try{
         if(!name_user || !pass_user || !location_user || !type_user){
-            return res.status(400).json({ 
+            res.status(400).json({ 
                 error: 'Los parámetros name_user, pass_user, location_user y type_user son obligatorios', 
                 requestBody: req.body 
             });
@@ -79,7 +79,7 @@ async function removeById(req, res) {
         const id_user = req.params.id_user;
 
         if (!id_user) {
-            return res.status(400).json({ error: 'El ID del usuario es obligatorio' });
+            res.status(400).json({ error: 'El ID del usuario es obligatorio' });
         }
 
         const { error, data } = await userController.removeById(id_user);

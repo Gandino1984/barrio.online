@@ -63,7 +63,7 @@ const ProductManagementFunctions = () => {
       console.log(`Fetched ${fetchedProducts.length} products for shop ${selectedShop.name_shop}`);
       setProducts(fetchedProducts);
     } catch (err) {
-      setError(err.message);
+      // setError(err.message);
       console.error('Error fetching products:', err);
       setProducts([]);
     } 

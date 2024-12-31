@@ -7,7 +7,7 @@ async function getAll(req, res) {
   }  
   catch (err) {
     console.error("-> shop_api_controller.js - getAll() - Error =", err);
-    return res.status(500).json({ 
+    res.status(500).json({ 
       error: "Error al obtener todas las tiendas", 
       data: data
     });
@@ -20,7 +20,7 @@ async function getTypesOfShops(req, res) {
     res.json({error, data});
   }catch (err) {
     console.error("-> shop_api_controller.js - getTypesOfShops() - Error =", err);
-    return res.status(500).json({ 
+    res.status(500).json({ 
       error: "Error al obtener todos los tipos de tiendas",
       data: data
     });
@@ -33,7 +33,7 @@ async function getByType(req, res) {
 
     if (!type_shop) {
         console.error('-> shop_api_controller.js - getByType() - Error = El parámetro type_shop es obligatorio');
-        return res.status(400).json({ 
+        res.status(400).json({ 
             error: 'El parámetro type_shop es obligatorio', 
         });
     }
@@ -43,7 +43,7 @@ async function getByType(req, res) {
     res.json({error, data});
   }catch (err) {
     console.error("-> shop_api_controller.js - getByType() - Error =", err);
-    return res.status(500).json({ 
+    res.status(500).json({ 
       error: "Error al obtener las tiendas por tipo" 
     });
   }
@@ -62,7 +62,7 @@ async function create(req, res) {
     if(name_shop === undefined || location_shop === undefined || type_shop === undefined || subtype_shop === undefined  || calification_shop === undefined || id_user === undefined || image_shop === undefined){
       console.error('-> shop_api_controller.js - create() - Error = Todos los campos son obligatorios');
       console.log(req.body);
-      return res.status(400).json({
+      res.status(400).json({
             error: 'Todos los campos son obligatorios',
         });
     }
@@ -72,7 +72,7 @@ async function create(req, res) {
     res.json({error, data, success});
   } catch (err) {
     console.error("-> shop_api_controller.js - create() - Error =", err);
-    return res.status(500).json({ 
+    res.status(500).json({ 
       error: "Error al crear la tienda",
       details: err.message 
     });
@@ -93,7 +93,7 @@ async function removeById(req, res) {
       const  id_shop  = req.params.id_shop;
 
       if (!id_shop) {
-        return res.status(400).json({ 
+        res.status(400).json({ 
           error: 'El ID de la tienda es obligatorio', 
         });
       }
@@ -103,7 +103,7 @@ async function removeById(req, res) {
       res.json({ data, error });
     } catch (err) {
       console.error("-> shop_api_controller.js - removeById() - Error =", err);
-      return res.status(500).json({ 
+      res.status(500).json({ 
         error: "Error al eliminar la tienda",
         details: err.message 
       });
@@ -116,7 +116,7 @@ const getByUserId = async (req, res) => {
         
         if (!id_user) {
             console.error('-> shop_api_controller.js - getByUserId() - Error = User ID is required');
-            return res.status(400).json({
+            res.status(400).json({
                 error: 'El ID de usuario es obligatorio',
                 success: false
             });
@@ -128,7 +128,7 @@ const getByUserId = async (req, res) => {
         res.json({error, data});
     } catch (err) {
         console.error('-> Error al obtener las tiendas del usuario = ', err);
-        return res.status(500).json({
+        res.status(500).json({
             error: 'Error al obtener las tiendas del usuario',
         });
     }

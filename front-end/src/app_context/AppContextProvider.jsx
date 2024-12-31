@@ -54,7 +54,9 @@ export const AppContextProvider = ({ children }) => {
   // Function to check and clear expired user data
   const checkAndClearUserData = () => {
     const storedUserData = localStorage.getItem('currentUser');
+
     setCurrentUser(storedUserData);
+    
     if (storedUserData) {
       const { timestamp } = JSON.parse(storedUserData);
       const currentTime = new Date().getTime();
@@ -189,7 +191,7 @@ export const AppContextProvider = ({ children }) => {
     },
     tipo: {
       label: 'Tipo',
-      options: ['Vegetariano', 'Vegano', 'Sin gluten', 'Kosher', 'Sin lactosa'],
+      options: ['Regular', 'Vegetariano', 'Vegano', 'Sin gluten', 'Kosher', 'Sin lactosa'],
     },
     oferta: {
       label: 'Oferta',

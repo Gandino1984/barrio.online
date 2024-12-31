@@ -14,11 +14,10 @@ export const ShopManagementFunctions = () => {
 
   const fetchUserShops = async () => {
     try {
-      if (!currentUser?.id) {
-        setError(prevError => ({ ...prevError, userError: "No hay usuarios logueados" }));
-        setShops([]);
-        throw new Error('No hay usuarios logueados');      
-      }
+      // if (!currentUser?.id) {
+      //   setShops([]);
+      //   throw new Error('No hay usuarios logueados');      
+      // }
 
       const response = await axiosInstance.post('/shop/by-user-id', {
         id_user: currentUser.id
@@ -34,7 +33,6 @@ export const ShopManagementFunctions = () => {
       setShops(userShops);
     } catch (err) {
       console.error('Error fetching shops:', err);
-      setError(prevError => ({ ...prevError, shopError: "Error al obtener las tiendas del usuario" }));
     } 
   };
 

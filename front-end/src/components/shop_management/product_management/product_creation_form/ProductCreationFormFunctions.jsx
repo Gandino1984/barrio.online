@@ -7,7 +7,8 @@ const ProductCreationFormFunctions = () => {
     setNewProductData,
     selectedShop, setError, 
     setShowErrorCard, newProductData, 
-    products, setProducts 
+    products, setProducts,
+    setShowProductManagement 
   } = useContext(AppContext);
 
   useEffect(() => {
@@ -88,8 +89,6 @@ const ProductCreationFormFunctions = () => {
     try {
       if (!validateProductData(newProductData)) return;
 
-      console.log('newProductData', newProductData);
-
       const response = await axiosInstance.post('/product/create', newProductData);
 
       if (response.data.error) {
@@ -102,9 +101,14 @@ const ProductCreationFormFunctions = () => {
       }
 
       if (response.data.data) {
-        setProducts([...products, response.data.data]);
+        // Add the new product to the products array
+        setProducts(prevProducts => [...prevProducts, response.data.data]);
+        
+        // Reset the form
         resetNewProductData();
-        return products;
+        
+        // Switch to product list view
+        setShowProductManagement(false);
       }
     } catch (err) {
       setError(prevError => ({
@@ -116,11 +120,26 @@ const ProductCreationFormFunctions = () => {
     }
   };
 
+  const fetchUpdatedProducts = async () => {
+    try {
+      const response = await axiosInstance.post('/product/by-shop-id', { 
+        id_shop: selectedShop.id_shop 
+      });
+      
+      if (response.data.data) {
+        setProducts(response.data.data);
+      }
+    } catch (err) {
+      console.error('Error fetching updated products:', err);
+    }
+  };
+
   return {
     handleChange,
     handleNumericInputChange,
     handleSubmit,
-    resetNewProductData
+    resetNewProductData,
+    fetchUpdatedProducts
   };
 };
 
