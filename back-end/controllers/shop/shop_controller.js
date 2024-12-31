@@ -14,7 +14,7 @@ async function getAll() {
         return { data: shops };
     } catch (err) {
         console.error("-> shop_controller.js - getAll() -Error = ", err);
-        return { error: err.message };
+        return { error: "Error al obtener todas las tiendas" };
     }
 }
 
@@ -43,11 +43,9 @@ async function create(shopData) {
         };
     } catch (err) {
         console.error("-> shop_controller.js - create() - Error al crear la tienda =", err);
-        return { error: err.message };
+        return { error: "Error al crear la tienda" };
     }
 }
-
-// get by shop id??
 
 async function getByType(shopType) {
     try {
@@ -64,7 +62,7 @@ async function getByType(shopType) {
     
     } catch (err) {
         console.error("-> shop_controller.js - getByType() - Error = ", err);
-        return { error: err.message };
+        return { error: "Error al obtener las tiendas por tipo" };
     }
 }
 
@@ -85,7 +83,7 @@ async function update(id, shopData) {
         return { data: shop };
     } catch (err) {
         console.error("Error al actualizar la tienda =", err);
-        return { error: err.message };
+        return { error: "Error al actualizar la tienda" };
     }
 }
 
@@ -104,7 +102,7 @@ async function getByUserId(id) {
         return { data: shops };
     } catch (err) {
         console.error("-> shop_controller.js - getByUserId() - Error = ", err);
-        return { error: err.message };
+        return { error: "Error al obtener las tiendas del usuario" };
     }
 }
 
@@ -130,10 +128,7 @@ async function removeById(id_shop) {
         };
     } catch (err) {
       console.error("-> shop_controller.js - removeById() - Error = ", err);
-      return { 
-        error: "Error al borrar el negocio",
-        details: err.message
-       };
+      return { error: "Error al borrar la tienda" };
     }
 }
 
@@ -146,7 +141,7 @@ async function getTypesOfShops() {
       return { data: shopTypes.map((type) => type.type_shop) };
     } catch (err) {
       console.error('Error al obtener todos los tipos de tiendas', err);
-      return { error: err.message };
+      return { error: 'Error al obtener todos los tipos de tiendas' };
     }
 }
 

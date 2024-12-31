@@ -5,13 +5,19 @@
    gap: .2rem; 
 }
 .errorList{
-    list-style-type: none;
-    border-radius: 5px;
-    color: red;
-    padding: .2rem .3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* list-style-type: none; */
+    flex-direction: column;
+    
 }
 
-.errorList li{
+.errorItem{
+    display: block;
+    align-items:center;
+    justify-content:center;
     line-height: .9rem;
     font-size: .9rem;
+    color: red;
 }

@@ -4,7 +4,6 @@ import styles from './ShopsListBySeller.module.css';
 import { ShopsListBySellerFunctions } from './ShopsListBySellerFunctions.jsx';
 import { Plus, Eraser } from 'lucide-react';
 
-
 const ShopsListBySeller = () => {
   const { 
     shops, setShops,

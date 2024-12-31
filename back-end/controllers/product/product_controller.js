@@ -14,7 +14,7 @@ async function getAll() {
         };
     } catch (err) {
         console.error("-> product_controller.js - getAll() -Error =", err);
-        return { error: err.message };
+        return { error: "No hay productos registrados" };
     }
 }
 
@@ -27,7 +27,7 @@ async function create(productData) {
          };
     } catch (err) {
         console.error("-> product_controller.js - create() - Error = ", err);
-        return { error: err.message };
+        return { error: "El Producto no pudo ser creado"};
     }
 }
 
@@ -45,7 +45,7 @@ async function getById(id) {
         };
     } catch (err) {
         console.error("-> product_controller.js - getById() - Error = ", err);
-        return { error: err.message };
+        return { error: "Producto no encontrado" };
     }
 }
 
@@ -58,7 +58,7 @@ async function update(id, productData) {
             console.log("-> product_controller.js - update() - Producto no encontrado con id:", id);
             return { error: "Producto no encontrado" };
         }
-        // Only update fields that were provided
+
         if (name_product) product.name_product = name_product;
         if (price_product >= 0) product.price_product = price_product;
         if (discount_product >= 0) product.discount_product = discount_product;
@@ -76,7 +76,7 @@ async function update(id, productData) {
         };
     } catch (err) {
         console.error("-> product_controller.js - update() - Error =", err);
-        return { error: err.message };
+        return { error: "Producto no actualizado" };
     }
 }
 
@@ -96,7 +96,7 @@ async function removeById(id_product) {
         };
     } catch (err) {
         console.error("-> product_controller.js - removeById() - Error = ", err);
-        return { error: err.message };
+        return { error: "Producto no eliminado" };
     }
 }
 
@@ -116,7 +116,7 @@ async function getByShopId(id_shop) {
          };
     } catch (err) {
         console.error("-> product_controller.js - getByShopId() - Error = ", err);
-        return { error: err.message };
+        return { error: "Productos no encontrados" };
     }
 }
 
@@ -131,7 +131,7 @@ async function getByType(type_product) {
          };
     } catch (err) {
         console.error("-> product_controller.js - getByType() - Error = ", err);
-        return { error: err.message };
+        return { error: "Productos por tipo no encontrados" };
     }
 }
 
@@ -150,7 +150,7 @@ async function getOnSale() {
          };
     } catch (err) {
         console.error("-> product_controller.js - getOnSale() - Error = ", err);
-        return { error: err.message };
+        return { error: "Productos en oferta encontrados" };
     }
 }
 

@@ -47,15 +47,14 @@ async function getAll() {
         console.log("-> user_controller.js - getAll() - Retrieved users = ", users);
         
         if (!users || users.length === 0) {
-            return { error: "No hay usuarios registrados", data: [] };
+            return { error: "No hay usuarios registrados"};
         }
         
         return { data: users };
     } catch (err) {
         console.error("-> user_controller.js - getAll() = ", err);
         return { 
-            error: "Error obteniendo los usuarios",
-            details: err.message 
+            error: "Error obteniendo los usuarios", 
         };
     }
 }
@@ -71,9 +70,7 @@ async function getById(id) {
         console.log("-> user_controller.js - getById() - Retrieved user = ", user);
 
         if (!user) {
-            return { 
-                error: "Usuario no encontrado"
-            };
+            return { error: "Usuario no encontrado" };
         }   
         return { data: user };
     } catch (err) {
@@ -311,8 +308,7 @@ async function update(id, userData) {
     } catch (error) {
         console.error("Error in update:", error);
         return { 
-            error: "Error de actualización",
-            details: error.message 
+            error: "Error de actualización"
         };
     }
 }

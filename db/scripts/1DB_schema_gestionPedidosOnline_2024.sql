@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`product` (
   `stock_product` INT NOT NULL DEFAULT 0,
   `info_product` TEXT,
   `id_shop` INT UNSIGNED NOT NULL,
+  `image_product` VARCHAR(255) NULL,
   -- `id_provider` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_product`),
   UNIQUE INDEX `id_product_UNIQUE` (`id_product` ASC) VISIBLE,
