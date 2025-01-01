@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: .5rem;
+  margin-top: 1.5rem;
 }
 
 .header{
@@ -36,7 +36,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: .5rem;
+  margin-top: .3rem;
   gap: .5rem;
 }
 
@@ -82,19 +82,9 @@
   }
   
   .passwordLabel {
-    min-height: 24px; /* Para evitar saltos en el layout */
+    min-height: 25px;
     display: block;
   }
-  
-  .radioOption input[type="radio"] {
-    margin-right: .3rem;
-    cursor: pointer;
-  }
-  
-  .radioOption label {
-    cursor: pointer;
-    font-size: 1rem;
-  } 
 
   .inputError{
     border: 2px solid red;

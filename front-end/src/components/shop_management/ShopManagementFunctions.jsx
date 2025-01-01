@@ -14,10 +14,10 @@ export const ShopManagementFunctions = () => {
 
   const fetchUserShops = async () => {
     try {
-      // if (!currentUser?.id) {
-      //   setShops([]);
-      //   throw new Error('No hay usuarios logueados');      
-      // }
+      if (!currentUser?.id) {
+        setShops([]);
+        throw new Error('No hay usuarios logueados');      
+      }
 
       const response = await axiosInstance.post('/shop/by-user-id', {
         id_user: currentUser.id

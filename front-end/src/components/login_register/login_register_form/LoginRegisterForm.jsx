@@ -87,7 +87,7 @@ const LoginRegisterForm = () => {
                             value={userlocation}
                             onChange={handleUserLocationChange}
                             className={userlocationError ? styles.inputError : ''}
-                            placeholder={userType === 'seller' ? 'Dirección de vendedor. Ej: Matiko, 7, 7a izq' : 'Dirección de cliente. Ej: Matiko, 7, 7a izq'}
+                            placeholder={userType === 'seller' ? 'Dirección de vendedor:' : 'Dirección de cliente:'}
                             required />
                         </div>
                       

@@ -2,15 +2,18 @@
    display: flex;
    align-items: center;
    justify-content: center;
+   position: absolute;
+   top: 1rem;
+   padding: .3rem .5rem;
    gap: .2rem; 
+   background-color: rgb(255, 244, 244);
+   border-radius: 6px;
 }
 .errorList{
     display: flex;
     align-items: center;
     justify-content: center;
-    /* list-style-type: none; */
     flex-direction: column;
-    
 }
 
 .errorItem{
