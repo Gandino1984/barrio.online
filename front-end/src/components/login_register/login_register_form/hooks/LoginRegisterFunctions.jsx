@@ -167,8 +167,8 @@ export const LoginRegisterFunctions = () => {
                     setIsAddingShop(false);
                 }
             } catch (error) {
-                // setError(prevError => ({ ...prevError, databaseResponseError: "Error al obtener las tiendas del usuario" }));
-                console.error('-> handleLoginResponse() - El usuario no tiene tiendas:', error);
+                // setError(prevError => ({ ...prevError, databaseResponseError: "Error al obtener los negocios del usuario" }));
+                console.error('-> handleLoginResponse() - El usuario no tiene negocios:', error);
                 setIsAddingShop(true);
                 setshowShopManagement(false);
             }
@@ -222,7 +222,7 @@ export const LoginRegisterFunctions = () => {
         });
 
         if (userDetailsResponse.data.error || !userDetailsResponse.data.data) {
-          setError(prevError => ({ ...prevError, databaseResponseError: "Error al iniciar sesión: nombre de usuario o contraseña incorrectos" }));
+          setError(prevError => ({ ...prevError, databaseResponseError: "Nombre de usuario o contraseña incorrectos" }));
           throw new Error(userDetailsResponse.data.error);
         }
 

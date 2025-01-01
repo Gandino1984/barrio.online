@@ -4,7 +4,7 @@ Este es un sistema open-source para la gestión de pedidos y reservas online. Di
 
 ## Descripción
 
-Este proyecto proporciona una plataforma completa para manejar los pedidos y/o reservas en línea que reciben los negocios locales en el distrito de Uribarri (Distrito 02) de Bilbao. Cuenta con componentes divididos de frontend, backend y DB, diseñados para agilizar las operaciones entre clientes, tiendas y proveedores de servicios o productos.
+Este proyecto proporciona una plataforma completa para manejar los pedidos y/o reservas en línea que reciben los negocios locales en el distrito de Uribarri (Distrito 02) de Bilbao. Cuenta con componentes divididos de frontend, backend y DB, diseñados para agilizar las operaciones entre clientes, negocios y proveedores de servicios o productos.
 
 ## Stack Tecnológico
 ### Backend
@@ -25,7 +25,7 @@ Este proyecto proporciona una plataforma completa para manejar los pedidos y/o r
 El sistema utiliza una base de datos MySQL con las siguientes entidades principales:
 - Usuarios
 - Productos
-- Tiendas
+- negocios
 - Proveedores
 - Pedidos
 - Ventas
@@ -36,12 +36,12 @@ El sistema utiliza una base de datos MySQL con las siguientes entidades principa
 
 - Autenticación y autorización de usuarios
 - Gestión de productos
-- Perfiles y gestión de tiendas
+- Perfiles y gestión de negocios
 - Gestión de relaciones con proveedores
 - Procesamiento de pedidos
 - Seguimiento de ventas
 - Manejo de productos estacionales
-- Sistema de calificación para productos y tiendas
+- Sistema de calificación para productos y negocios
 - Servicios basados en ubicación
 
 ## Requisitos Previos
@@ -116,7 +116,7 @@ La aplicación proporciona los siguientes endpoints API principales:
 
 - `/user` - Endpoints de gestión de usuarios
 - `/product` - Endpoints de gestión de productos
-- `/shop` - Endpoints de gestión de tiendas
+- `/shop` - Endpoints de gestión de negocios
 - `/provider` - Endpoints de gestión de proveedores
 
 ## Contribución

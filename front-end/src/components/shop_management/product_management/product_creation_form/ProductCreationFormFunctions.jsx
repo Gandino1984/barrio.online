@@ -39,8 +39,8 @@ const ProductCreationFormFunctions = () => {
   const validateProductData = (newProductData) => {
     try {
       if (!newProductData.id_shop) {
-        setError(prevError => ({ ...prevError, productError: "Debe seleccionar una tienda"}));
-        throw new Error("Debe seleccionar una tienda");
+        setError(prevError => ({ ...prevError, productError: "Debe seleccionar una negocio"}));
+        throw new Error("Debe seleccionar una negocio");
       }
       if (!newProductData.name_product) {
         setError(prevError => ({ ...prevError, productError: "El nombre de producto es requerido"}));

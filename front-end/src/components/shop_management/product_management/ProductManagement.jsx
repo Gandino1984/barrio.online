@@ -20,7 +20,7 @@ function ProductManagement() {
   }, [selectedShop]);
 
   return (
-    <div className={styles.productManagementContainer}>
+    <div className={styles.container}>
       {showProductManagement ? (
         <ProductCreationForm />
       ) : (

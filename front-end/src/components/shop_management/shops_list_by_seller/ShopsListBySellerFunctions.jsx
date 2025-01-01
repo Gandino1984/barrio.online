@@ -27,7 +27,7 @@ export const ShopsListBySellerFunctions = () => {
       const response = await axiosInstance.delete(`/shop/remove-by-id/${id_shop}`); 
       
       if (response.data.error) {
-        setError(prevError => ({ ...prevError, shopError: "Error al borrar la tienda" }));
+        setError(prevError => ({ ...prevError, shopError: "Error al borrar el negocio" }));
         throw new Error(response.data.error);
       }
   

@@ -8,7 +8,7 @@ async function getAll(req, res) {
   catch (err) {
     console.error("-> shop_api_controller.js - getAll() - Error =", err);
     res.status(500).json({ 
-      error: "Error al obtener todas las tiendas", 
+      error: "Error al obtener todos los negocios", 
       data: data
     });
   }
@@ -21,7 +21,7 @@ async function getTypesOfShops(req, res) {
   }catch (err) {
     console.error("-> shop_api_controller.js - getTypesOfShops() - Error =", err);
     res.status(500).json({ 
-      error: "Error al obtener todos los tipos de tiendas",
+      error: "Error al obtener todos los tipos de negocios",
       data: data
     });
   }    
@@ -44,7 +44,7 @@ async function getByType(req, res) {
   }catch (err) {
     console.error("-> shop_api_controller.js - getByType() - Error =", err);
     res.status(500).json({ 
-      error: "Error al obtener las tiendas por tipo" 
+      error: "Error al obtener los negocios por tipo" 
     });
   }
 }
@@ -73,7 +73,7 @@ async function create(req, res) {
   } catch (err) {
     console.error("-> shop_api_controller.js - create() - Error =", err);
     res.status(500).json({ 
-      error: "Error al crear la tienda",
+      error: "Error al crear el negocio",
       details: err.message 
     });
     
@@ -94,7 +94,7 @@ async function removeById(req, res) {
 
       if (!id_shop) {
         res.status(400).json({ 
-          error: 'El ID de la tienda es obligatorio', 
+          error: 'El ID del negocio es obligatorio', 
         });
       }
       
@@ -104,7 +104,7 @@ async function removeById(req, res) {
     } catch (err) {
       console.error("-> shop_api_controller.js - removeById() - Error =", err);
       res.status(500).json({ 
-        error: "Error al eliminar la tienda",
+        error: "Error al eliminar el negocio",
         details: err.message 
       });
     }
@@ -127,9 +127,9 @@ const getByUserId = async (req, res) => {
    
         res.json({error, data});
     } catch (err) {
-        console.error('-> Error al obtener las tiendas del usuario = ', err);
+        console.error('-> Error al obtener los negocios del usuario = ', err);
         res.status(500).json({
-            error: 'Error al obtener las tiendas del usuario',
+            error: 'Error al obtener los negocios del usuario',
         });
     }
 };

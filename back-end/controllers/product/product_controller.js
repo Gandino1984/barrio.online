@@ -108,7 +108,7 @@ async function getByShopId(id_shop) {
 
         if (!products || products.length === 0) {
             return { data: [], 
-                success: "No hay productos en la tienda"};
+                success: "No hay productos en el negocio"};
         }
 
         return { data: products,

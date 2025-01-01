@@ -17,7 +17,7 @@ export const ClientManagementFunctions = () => {
     try {
       const response = await axiosInstance.get('/shop/types-of-shops');
       if(response.data.error) {
-        setError(prevError => ({ ...prevError, shopError: "Error al obtener los tipos de tiendas" }));
+        setError(prevError => ({ ...prevError, shopError: "Error al obtener los tipos de negocios" }));
         throw new Error(response.data.error);
       }
       setShopTypes(response.data.data || []); // Adjust based on your actual response structure
