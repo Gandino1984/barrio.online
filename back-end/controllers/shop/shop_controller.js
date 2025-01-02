@@ -1,5 +1,6 @@
 import shop_model from "../../models/shop_model.js";
 import user_model from "../../models/user_model.js";
+import productController from "../product/product_controller.js";
 
 async function getAll() {
     try {
@@ -147,7 +148,6 @@ async function removeByIdWithProducts(id_shop) {
             };
         }
 
-        // Begin transaction
         const transaction = await shop_model.sequelize.transaction();
 
         try {
@@ -178,7 +178,9 @@ async function removeByIdWithProducts(id_shop) {
 
     } catch (err) {
         console.error("-> shop_controller.js - removeByIdWithProducts() - Error = ", err);
-        return { error: "Error al borrar el comercio y sus productos" };
+        return { error: "Error al borrar el comercio y sus productos",
+            details: err.message
+         };
     }
 }
 
