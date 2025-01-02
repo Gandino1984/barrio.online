@@ -6,15 +6,15 @@ async function getAll() {
         const shops = await shop_model.findAll();
 
         if (!shops || shops.length === 0) {
-            return { error: "No hay negocios registrados", data: [] };
+            return { error: "No hay comercios registrados", data: [] };
         }
 
-        console.log("-> shop_controller.js - getAll() - negocios encontrados = ", shops);
+        console.log("-> shop_controller.js - getAll() - comercios encontrados = ", shops);
 
         return { data: shops };
     } catch (err) {
         console.error("-> shop_controller.js - getAll() -Error = ", err);
-        return { error: "Error al obtener todos los negocios" };
+        return { error: "Error al obtener todos los comercios" };
     }
 }
 
@@ -28,9 +28,9 @@ async function create(shopData) {
         });
 
         if (existingShop) {
-            console.error("Ya existe una negocio con ese nombre");
+            console.error("Ya existe una comercio con ese nombre");
             return { 
-                error: "Ya existe una negocio con ese nombre", 
+                error: "Ya existe una comercio con ese nombre", 
                 data: data 
             };
         }
@@ -39,11 +39,11 @@ async function create(shopData) {
         const shop = await shop_model.create(shopData);
         
         return { data: shop, 
-            success: "negocio creado"
+            success: "comercio creado"
         };
     } catch (err) {
-        console.error("-> shop_controller.js - create() - Error al crear el negocio =", err);
-        return { error: "Error al crear el negocio" };
+        console.error("-> shop_controller.js - create() - Error al crear el comercio =", err);
+        return { error: "Error al crear el comercio" };
     }
 }
 
@@ -54,15 +54,15 @@ async function getByType(shopType) {
         });
 
         if (shops.length === 0) {
-            console.warn(`No hay negocios registrados de tipo =  ${shopType}`);
-            return { error: "No hay negocios registrados de este tipo" }
+            console.warn(`No hay comercios registrados de tipo =  ${shopType}`);
+            return { error: "No hay comercios registrados de este tipo" }
              }
 
         return { data: shops };
     
     } catch (err) {
         console.error("-> shop_controller.js - getByType() - Error = ", err);
-        return { error: "Error al obtener los negocios por tipo" };
+        return { error: "Error al obtener los comercios por tipo" };
     }
 }
 
@@ -82,8 +82,8 @@ async function update(id, shopData) {
         console.log("Updated shop:", shop);
         return { data: shop };
     } catch (err) {
-        console.error("Error al actualizar el negocio =", err);
-        return { error: "Error al actualizar el negocio" };
+        console.error("Error al actualizar el comercio =", err);
+        return { error: "Error al actualizar el comercio" };
     }
 }
 
@@ -97,26 +97,26 @@ async function getByUserId(id) {
         
         if (shops.length === 0) {
             console.log(`-> shop_controller.js - getByUserId() - No shops found for user ID: ${id}`);
-            return { error: "No se encontraron negocios para este usuario" };
+            return { error: "No se encontraron comercios para este usuario" };
         }
         return { data: shops };
     } catch (err) {
         console.error("-> shop_controller.js - getByUserId() - Error = ", err);
-        return { error: "Error al obtener los negocios del usuario" };
+        return { error: "Error al obtener los comercios del usuario" };
     }
 }
 
 async function removeById(id_shop) {
     try {
         if (!id_shop) {
-            return { error: "Negocio no encontrado" };
+            return { error: "comercio no encontrado" };
         }
 
         const shop = await shop_model.findByPk(id_shop);
         
         if (!shop) {
             return { 
-                error: "Negocio no encontrado",
+                error: "comercio no encontrado",
             };
         }
    
@@ -124,11 +124,61 @@ async function removeById(id_shop) {
 
       return { 
         data:  id_shop,
-        message: "El negocio se ha borrado correctamente" 
+        message: "El comercio se ha borrado correctamente" 
         };
     } catch (err) {
       console.error("-> shop_controller.js - removeById() - Error = ", err);
-      return { error: "Error al borrar el negocio" };
+      return { error: "Error al borrar el comercio" };
+    }
+}
+
+async function removeByIdWithProducts(id_shop) {
+    try {
+        if (!id_shop) {
+            return { error: "ID de comercio no proporcionado" };
+        }
+
+        // First check if the shop exists
+        const shop = await shop_model.findByPk(id_shop);
+        
+        if (!shop) {
+            return { 
+                error: "Comercio no encontrado"
+            };
+        }
+
+        // Begin transaction
+        const transaction = await shop_model.sequelize.transaction();
+
+        try {
+            // First remove all products using the product controller
+            const productResult = await productController.removeByShopId(id_shop, transaction);
+            
+            if (productResult.error) {
+                await transaction.rollback();
+                return { error: productResult.error };
+            }
+
+            // Then remove the shop
+            await shop.destroy({ transaction });
+
+            // If we get here, commit the transaction
+            await transaction.commit();
+
+            return { 
+                data: id_shop,
+                message: "El comercio y sus productos se han borrado correctamente",
+                productsRemoved: productResult.count
+            };
+
+        } catch (err) {
+            await transaction.rollback();
+            throw err;
+        }
+
+    } catch (err) {
+        console.error("-> shop_controller.js - removeByIdWithProducts() - Error = ", err);
+        return { error: "Error al borrar el comercio y sus productos" };
     }
 }
 
@@ -140,8 +190,8 @@ async function getTypesOfShops() {
       });
       return { data: shopTypes.map((type) => type.type_shop) };
     } catch (err) {
-      console.error('Error al obtener todos los tipos de negocios', err);
-      return { error: 'Error al obtener todos los tipos de negocios' };
+      console.error('Error al obtener todos los tipos de comercios', err);
+      return { error: 'Error al obtener todos los tipos de comercios' };
     }
 }
 
@@ -149,6 +199,7 @@ export { getAll,
     create, 
     update, 
     removeById, 
+    removeByIdWithProducts,
     getByType, 
     getByUserId, 
     getTypesOfShops }
@@ -156,7 +207,8 @@ export { getAll,
 export default { getAll, 
     create, 
     update, 
-    removeById, 
+    removeById,
+    removeByIdWithProducts, 
     getByType, 
     getByUserId, 
     getTypesOfShops }

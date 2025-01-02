@@ -17,14 +17,14 @@ export const ClientManagementFunctions = () => {
     try {
       const response = await axiosInstance.get('/shop/types-of-shops');
       if(response.data.error) {
-        setError(prevError => ({ ...prevError, shopError: "Error al obtener los tipos de negocios" }));
+        setError(prevError => ({ ...prevError, shopError: "Error al obtener los tipos de comercios" }));
         throw new Error(response.data.error);
       }
       setShopTypes(response.data.data || []); // Adjust based on your actual response structure
     } catch (error) {
       console.error('-> ClientManagementFunctions.jsx - fetchShopTypes() - Error = ', error);
       setShopTypes([]);
-      setError('Error al obtener los tipos de negocio');
+      setError('Error al obtener los tipos de comercio');
     }
   };
 

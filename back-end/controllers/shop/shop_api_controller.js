@@ -1,4 +1,5 @@
 import shopController from "./shop_controller.js";
+import productController from "../product/product_controller.js";
 
 async function getAll(req, res) {
   try{
@@ -8,7 +9,7 @@ async function getAll(req, res) {
   catch (err) {
     console.error("-> shop_api_controller.js - getAll() - Error =", err);
     res.status(500).json({ 
-      error: "Error al obtener todos los negocios", 
+      error: "Error al obtener todos los comercios", 
       data: data
     });
   }
@@ -21,7 +22,7 @@ async function getTypesOfShops(req, res) {
   }catch (err) {
     console.error("-> shop_api_controller.js - getTypesOfShops() - Error =", err);
     res.status(500).json({ 
-      error: "Error al obtener todos los tipos de negocios",
+      error: "Error al obtener todos los tipos de comercios",
       data: data
     });
   }    
@@ -44,7 +45,7 @@ async function getByType(req, res) {
   }catch (err) {
     console.error("-> shop_api_controller.js - getByType() - Error =", err);
     res.status(500).json({ 
-      error: "Error al obtener los negocios por tipo" 
+      error: "Error al obtener los comercios por tipo" 
     });
   }
 }
@@ -73,7 +74,7 @@ async function create(req, res) {
   } catch (err) {
     console.error("-> shop_api_controller.js - create() - Error =", err);
     res.status(500).json({ 
-      error: "Error al crear el negocio",
+      error: "Error al crear el comercio",
       details: err.message 
     });
     
@@ -94,7 +95,7 @@ async function removeById(req, res) {
 
       if (!id_shop) {
         res.status(400).json({ 
-          error: 'El ID del negocio es obligatorio', 
+          error: 'El ID del comercio es obligatorio', 
         });
       }
       
@@ -104,11 +105,38 @@ async function removeById(req, res) {
     } catch (err) {
       console.error("-> shop_api_controller.js - removeById() - Error =", err);
       res.status(500).json({ 
-        error: "Error al eliminar el negocio",
+        error: "Error al eliminar el comercio",
         details: err.message 
       });
     }
   }
+
+async function removeByIdWithProducts(req, res) {
+    try {
+        const id_shop = req.params.id_shop;
+        
+        if (!id_shop) {
+            res.status(400).json({ 
+                error: 'El ID del comercio es obligatorio'
+            });
+            return;
+        }
+
+        const { error, data, success } = await shopController.removeByIdWithProducts(id_shop);
+
+        if (error) {
+            res.status(400).json({ error });
+            return;
+        }
+
+        res.json({ data, success });
+    } catch (err) {
+        console.error("-> shop_api_controller.js - removeByIdWithProducts() - Error =", err);
+        res.status(500).json({ 
+            error: "Error al eliminar el comercio y sus productos",
+        });
+    }
+}
 
 const getByUserId = async (req, res) => {
     try {
@@ -127,9 +155,9 @@ const getByUserId = async (req, res) => {
    
         res.json({error, data});
     } catch (err) {
-        console.error('-> Error al obtener los negocios del usuario = ', err);
+        console.error('-> Error al obtener los comercios del usuario = ', err);
         res.status(500).json({
-            error: 'Error al obtener los negocios del usuario',
+            error: 'Error al obtener los comercios del usuario',
         });
     }
 };
@@ -140,6 +168,7 @@ export {
     create,
     update,
     removeById,
+    removeByIdWithProducts,
     getByType,
     getByUserId,
     getTypesOfShops
@@ -151,6 +180,7 @@ export default {
     create,
     update,
     removeById,
+    removeByIdWithProducts,
     getByType,
     getByUserId,
     getTypesOfShops 

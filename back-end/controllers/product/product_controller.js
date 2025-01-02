@@ -100,6 +100,33 @@ async function removeById(id_product) {
     }
 }
 
+async function removeByShopId(id_shop, transaction) {
+    try {
+        // Find all products for this shop first to get the count
+        const products = await product_model.findAll({
+            where: { id_shop: id_shop }
+        });
+
+        if (products.length === 0) {
+            return { count: 0 };
+        }
+
+        // Remove all products for this shop
+        await product_model.destroy({
+            where: { id_shop: id_shop },
+            transaction
+        });
+
+        return { 
+            count: products.length,
+            success: `Se eliminaron ${products.length} productos del comercio`
+        };
+    } catch (err) {
+        console.error("-> product_controller.js - removeByShopId() - Error = ", err);
+        return { error: "Error al eliminar los productos del comercio" };
+    }
+}
+
 async function getByShopId(id_shop) {
     try {
         const products = await product_model.findAll({
@@ -108,7 +135,7 @@ async function getByShopId(id_shop) {
 
         if (!products || products.length === 0) {
             return { data: [], 
-                success: "No hay productos en el negocio"};
+                success: "No hay productos en el comercio"};
         }
 
         return { data: products,
@@ -154,6 +181,6 @@ async function getOnSale() {
     }
 }
 
-export { getAll, getById, create, update, removeById, getByShopId, getByType, getOnSale}
+export { getAll, getById, create, update, removeById, removeByShopId, getByShopId, getByType, getOnSale}
 
-export default { getAll, getById, create, update, removeById, getByShopId, getByType, getOnSale }
+export default { getAll, getById, create, update, removeById, removeByShopId, getByShopId, getByType, getOnSale }

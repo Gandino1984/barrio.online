@@ -33,7 +33,7 @@ async function initializeDatabase() {
     // Synchronize models with database
     await sequelize.sync({ alter: true });
 
-    console.log('******* SEQUELIZE: La base de datos ha sido sincronizada con el modelo ********');
+    console.log('-> SEQUELIZE: La base de datos ha sido sincronizada con el modelo');
   
   } catch (error) {
     console.error('!!! SEQUELIZE: Error en la sincronización de la base de datos = ', error);

@@ -86,7 +86,7 @@ const ClientProductsList = () => {
 
         <div className={styles.productsListHeader}>
             <h2 className="text-2xl font-bold text-center flex-1 pr-10">
-                Productos del negocio
+                Productos del comercio
             </h2>
             <p>
                 Productos mostrados: {filteredProductsCount}

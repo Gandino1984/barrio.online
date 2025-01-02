@@ -28,7 +28,7 @@ export const ShopsByTypeFunctions = () => {
       return;
     }
 
-    console.log('-> ShopsByTypeFunctions.jsx - fetchShopsByType() - Buscando negocios del tipo = ', shopType);
+    console.log('-> ShopsByTypeFunctions.jsx - fetchShopsByType() - Buscando comercios del tipo = ', shopType);
     
     try {
 
@@ -51,13 +51,13 @@ export const ShopsByTypeFunctions = () => {
       });
       
       if (response.data.error) {
-        setError(prevError => ({ ...prevError, shopError: "Error al obtener la lista de negocios por tipo" }));
+        setError(prevError => ({ ...prevError, shopError: "Error al obtener la lista de comercios por tipo" }));
         throw new Error(response.data.error);
       }
 
       const shopsData = response.data.data;
       if (!Array.isArray(shopsData)) {
-        setError(prevError => ({ ...prevError, shopError: "La respuesta del servidor no contiene una lista válida de negocios por tipo" }));
+        setError(prevError => ({ ...prevError, shopError: "La respuesta del servidor no contiene una lista válida de comercios por tipo" }));
         throw new Error('Invalid shops data received');
       }
 

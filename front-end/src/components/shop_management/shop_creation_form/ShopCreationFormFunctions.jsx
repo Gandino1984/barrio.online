@@ -41,7 +41,7 @@ export const ShopCreationFormFunctions = () => {
             const response = await axiosInstance.post('/shop/create', shopDataToCreate);
         
             if (response.data.error) {
-                setError(prevError => ({ ...prevError, databaseError: "Error al crear el negocio" }));
+                setError(prevError => ({ ...prevError, databaseError: "Error al crear el comercio" }));
                 throw new Error(response.data.error);
             }
     
@@ -65,7 +65,7 @@ export const ShopCreationFormFunctions = () => {
             setshowShopManagement(true);
     
         } catch (err) {
-            console.error('Error al crear el negocio:', err);
+            console.error('Error al crear el comercio:', err);
         }
     };
 

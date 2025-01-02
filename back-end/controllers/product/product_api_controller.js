@@ -117,7 +117,7 @@ async function getByShopId(req, res) {
         const { id_shop } = req.params;
 
         if (!id_shop) {
-            console.error('-> product_api_controller.js - getByShopId() - Error = El id del negocio es obligatorio');
+            console.error('-> product_api_controller.js - getByShopId() - Error = El id del comercio es obligatorio');
             res.status(400).json({ 
                 error: 'El parámetro id_shop es obligatorio', 
             });
@@ -129,7 +129,7 @@ async function getByShopId(req, res) {
     } catch (err) {
         console.error("-> product_api_controller.js - getByShopId() - Error =", err);
         res.status(500).json({ 
-            error: "Error al obtener los productos del negocio", 
+            error: "Error al obtener los productos del comercio", 
             data: data
         });
     }

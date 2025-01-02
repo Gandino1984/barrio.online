@@ -24,14 +24,14 @@ const ShopCreationForm = () => {
     <div className={styles.container}>
         <div className={styles.header}>   
             <h2 className={styles.headerTitle}>
-                Crear un negocio
+                Crear un comercio
             </h2>
         </div>
       <form onSubmit={handleAddShop} className={styles.form}>
         <div className={styles.formField}>
           <input
             type="text"
-            placeholder='Nombre del negocio:'
+            placeholder='Nombre del comercio:'
             value={newShop.name_shop}
             onChange={(e) => setNewShop({...newShop, name_shop: e.target.value})}
             className={styles.input}
@@ -81,7 +81,7 @@ const ShopCreationForm = () => {
         <div className={styles.formField}>
           <input
             type="text"
-            placeholder='Dirección del negocio:'
+            placeholder='Dirección del comercio:'
             value={newShop.location_shop}
             onChange={(e) => setNewShop({...newShop, location_shop: e.target.value})}
             className={styles.input}

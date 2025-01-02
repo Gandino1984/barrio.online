@@ -19,6 +19,8 @@ router.patch("/update", shopApiController.update);
 
 router.delete("/remove-by-id/:id_shop", shopApiController.removeById);
 
+router.delete("/remove-by-id/with-products/:id_shop", shopApiController.removeByIdWithProducts);
+
 router.patch("/update", shopApiController.update);
 
 export default router;

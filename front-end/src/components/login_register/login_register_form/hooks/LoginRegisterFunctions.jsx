@@ -167,8 +167,8 @@ export const LoginRegisterFunctions = () => {
                     setIsAddingShop(false);
                 }
             } catch (error) {
-                // setError(prevError => ({ ...prevError, databaseResponseError: "Error al obtener los negocios del usuario" }));
-                console.error('-> handleLoginResponse() - El usuario no tiene negocios:', error);
+                // setError(prevError => ({ ...prevError, databaseResponseError: "Error al obtener los comercios del usuario" }));
+                console.error('-> handleLoginResponse() - El usuario no tiene comercios:', error);
                 setIsAddingShop(true);
                 setshowShopManagement(false);
             }

@@ -27,7 +27,7 @@ const ShopsListBySeller = () => {
         <div className={styles.headerContainer}>
               <div className={styles.header}>
                   <h2 className={styles.title}>
-                      Mis Negocios
+                      Mis comercios
                   </h2>
                   <button 
                       onClick={handleAddShop}
@@ -41,7 +41,7 @@ const ShopsListBySeller = () => {
 
         {shops.length === 0 ? (
           <div className={styles.messageNoShops}>
-              No tienes negocios registrados. ¡Agrega uno para comenzar!
+              No tienes comercios registrados. ¡Agrega uno para comenzar!
           </div>
         ) : (
           <div className={styles.list}>

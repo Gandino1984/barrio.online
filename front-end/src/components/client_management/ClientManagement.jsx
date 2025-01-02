@@ -26,7 +26,7 @@ const ClientManagement = () => {
     <div className={styles.container}>
         <div className={styles.header}>
             <h2 className={styles.title}>
-                Selecciona el tipo de negocio
+                Selecciona el tipo de comercio
             </h2>
         </div>
         <div className={styles.buttonsContainer}>
