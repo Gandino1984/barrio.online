@@ -5,8 +5,9 @@
     justify-content: center;
     flex-direction: column;
     gap: .5rem;
-    padding: 0rem 1rem;
+    padding: 1rem 1rem;
 }
+
 .numericKeyboardInput{
     display: flex;
     align-items: center;
@@ -19,7 +20,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--hovered-button);
     transition: all .2s ease;
+    padding-bottom: .3rem;
 }
 
 .key{
@@ -33,4 +36,23 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    gap: .3rem;
+}
+
+.row button{
+    cursor: pointer;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    padding: .8rem 1rem;
+    user-select: none;
+    margin: .2rem;
+    background-color: var(--active-button);
+}
+
+.row button:hover{
+    font-weight: 600;
+    color: white;
+    background-color: var(--hovered-button);
+    transition: all .15s ease;
 }

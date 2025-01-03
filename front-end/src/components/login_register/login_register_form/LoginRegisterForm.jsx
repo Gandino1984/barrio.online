@@ -108,6 +108,7 @@ const LoginRegisterForm = () => {
                         error={!!usernameError || !!passwordError}
                       />
                   </div>
+                  
                   <div className={styles.formActions}>
                       <button
                         type="submit"

@@ -34,7 +34,6 @@ const UserInfoCard = () => {
   return (
     <div className={styles.userInfoCard}>
       <p>¡Te damos la bienvenida, {userData.username}!</p>
-      <SquareUserRound size={24} />
     </div>
   );
 };

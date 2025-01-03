@@ -10,11 +10,23 @@
     background-color: white;
 }
 
-.logoutButton{
+.logoutButton, .backButton{
+    cursor:  pointer;
+    outline: none;
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 5px;
+    border-radius: 6px;
     gap: .5rem;
     font-size: .8rem;
+    background-color: var(--active-button);
+    padding: .3rem .5rem;
+}
+
+.logoutButton:hover, .backButton:hover{
+    transition: all .15s ease;
+    color: white;
+    font-weight: 600;
+    background-color: var(--hovered-button);
 }

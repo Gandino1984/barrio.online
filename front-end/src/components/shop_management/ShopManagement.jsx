@@ -11,7 +11,6 @@ const ShopManagement = () => {
     currentUser, 
     showShopCreationForm,
     selectedShop,
-    showProductManagement
   } = useContext(AppContext);
 
   const {
@@ -22,9 +21,9 @@ const ShopManagement = () => {
     fetchUserShops();
   }, [currentUser]);
 
-  // Determine what to render based on the current state
+
   const renderComponent = () => {
-    if (selectedShop) {  // Changed this condition to only check for selectedShop
+    if (selectedShop) {  
       return <ProductManagement />;
     }
     if (showShopCreationForm) {
@@ -34,7 +33,7 @@ const ShopManagement = () => {
   };
 
   return (
-    <div className={styles.shopManagementContainer}>
+    <div className={styles.container}>
       {renderComponent()}
     </div>
   );

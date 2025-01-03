@@ -26,14 +26,15 @@ const ShopsListBySeller = () => {
     <div className={styles.container}>
         <div className={styles.headerContainer}>
               <div className={styles.header}>
-                  <h2 className={styles.title}>
-                      Mis comercios
-                  </h2>
+                    <p className={styles.title}>
+                        Mis comercios
+                    </p>
+                  
                   <button 
                       onClick={handleAddShop}
                       className={styles.addButton}
                   >
-                      <Plus size={24} />
+                      <Plus size={16} />
                       Agregar
                   </button>
               </div>
@@ -67,7 +68,7 @@ const ShopsListBySeller = () => {
                         }}
                         className={styles.deleteButton}
                       >
-                          <Eraser size={24} />
+                          <Eraser size={16} />
                           Eliminar
                       </button>
                   </div>

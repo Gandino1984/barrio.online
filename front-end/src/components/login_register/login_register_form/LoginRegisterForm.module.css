@@ -1,10 +1,10 @@
 .container{
-  width: 100vw;
+  /* width: 100vw; */
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 1.5rem;
+  margin-top: 4rem;
 }
 
 .header{
@@ -28,8 +28,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* gap: 1rem; */
+  gap: 1rem;
 }
+.formActions button{
+  cursor: pointer;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  padding: .5rem;
+  background-color: var(--active-button);
+}
+
+.formActions button:hover{
+  font-weight: 600;
+  color: white;
+  background-color: var(--hovered-button);
+  transition: all 0.15s ease;
+}
+
 
 .formField{
   display: flex;
@@ -52,9 +68,15 @@
     padding-bottom: .5rem;
     /* gap: 0.5rem; */
   }
+
+  ::placeholder {
+    color: lightgrey;
+    opacity: 1; 
+  }
     
   input[type="text"] {
     /* outline: none; */
+    color: var(--hovered-button);
     border: 2px solid #d1d5db;
     padding: .5rem;
     cursor: pointer;

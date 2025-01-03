@@ -145,7 +145,7 @@ export const AppContextProvider = ({ children }) => {
   const [shopTypesAndSubtypes, setShopTypesAndSubtypes] = useState({
     'Artesanía': ['Accesorios', 'Complementos', 'Varios'],
     'Bienestar': ['Peluquería', 'Fisioterapia', 'Osteopatía','Perfumería', 'Parafarmacia', 'Yoga', 'Varios'],
-    'Consultoría': ['Técnica', 'Digital', 'Formativa', 'Varios'],
+    'Consultoría': ['Técnica', 'Digital', 'Formativa', 'Gestión cultural', 'Varios'],
     'Comida': [
       'Fruteria', 'Carniceria', 'Asador', 'Pescaderia', 'Panaderia', 
       'Local', 'Peruana', 'China', 'Japonesa', 'Italiana', 
@@ -155,10 +155,10 @@ export const AppContextProvider = ({ children }) => {
       'Librería', 'Curso', 'Clase Particular', 'Asesoría', 'Charla', 
       'Presentación', 'Clase Grupal', 'Investigación', 'Varios'
     ],
-    'Especializado': ['Vinoteca', 'Diseño', 'Estudio', 'Editorial', 'Tabaco', 'Arte', 'Estanco', 'Varios'],
+    'Especializado': ['Ilustración', 'Programación', 'Desarrollo web', 'Vinoteca', 'Diseño gráfico', 'Estudio', 'Editorial', 'Tabaco', 'Arte', 'Estanco', 'Autoescuela', 'Varios'],
     'Entretenimiento': ['Teatro', 'Música', 'Danza', 'Escape Room', 'Varios'],
     'Ropa': ['Infantil', 'Adulto', 'Hombre', 'Mujer', 'No binario' , 'Niño', 'Niña', 'Lencería', 'Alquiler', 'Boda', 'Varios'],
-    'Servicios': ['Autónomo', 'Técnico', 'Fotografía', 'Arte', 'Limpieza', 'Pintura', 'Varios'],
+    'Servicios': ['Autónomo', 'Técnico', 'Fotografía', 'Arte', 'Limpieza', 'Cuidados geriátricos', 'Pintura', 'Dibujo', 'construcción', 'Varios'],
     'Taller': ['Pintura', 'Escultura', 'Ilustración', 'Diseno', 'Mecánico', 'Electrodoméstico', 'Varios']
   });
 

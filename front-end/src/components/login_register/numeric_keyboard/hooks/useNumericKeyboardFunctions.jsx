@@ -9,19 +9,6 @@ export const useNumericKeyboardFunctions = (value, onChange, onPasswordComplete,
         isLoggingIn        
     } = useContext(AppContext);
 
-    // const handleKeyClick = (num, e) => {
-    //     e.preventDefault();
-    //     if (displayedPassword.length < MAX_PASSWORD_LENGTH) {
-    //         const newValue = displayedPassword + num;
-    //         setDisplayedPassword(newValue);
-    //         onChange(newValue);
-            
-    //         if (newValue.length === MAX_PASSWORD_LENGTH) {
-    //             onPasswordComplete();
-    //         }
-    //     }
-    // };
-
     const handleKeyClick = (num, e) => {
         e.preventDefault();
         if (value.length < MAX_PASSWORD_LENGTH) {

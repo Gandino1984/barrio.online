@@ -24,7 +24,9 @@ export const ShopsListBySellerFunctions = () => {
 
   const handleDeleteShop = async (id_shop) => {
     try {
-      const response = await axiosInstance.delete(`/shop/remove-by-id/${id_shop}`); 
+      alert('¿Seguro que deseas borrar el comercio? Esto borrará todos los productos asociados a este comercio...');
+
+      const response = await axiosInstance.delete(`/shop/remove-by-id/with-products/${id_shop}`); 
       
       if (response.data.error) {
         setError(prevError => ({ ...prevError, shopError: "Error al borrar el comercio" }));

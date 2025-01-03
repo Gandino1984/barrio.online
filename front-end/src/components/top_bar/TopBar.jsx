@@ -21,7 +21,6 @@ function TopBar() {
     } = TopBarFunctions();
 
     console.log('-> TopBar.jsx - selectedShop = ', selectedShop);
-    console.log('-> TopBar.jsx - showShopCreationForm = ', showShopCreationForm);
 
     return (
       <div className={styles.container}>
@@ -32,7 +31,7 @@ function TopBar() {
               className={styles.backButton}
               onClick={handleBack}
             >
-              <ArrowLeft size={24} />
+              <ArrowLeft size={16} />
             </button>
           )}
 
@@ -43,7 +42,7 @@ function TopBar() {
             className={styles.logoutButton} 
             onClick={clearUserSession}
           >
-              <LogOut size={24}/>
+              <LogOut size={16}/>
               Cerrar
           </button>
       </div>

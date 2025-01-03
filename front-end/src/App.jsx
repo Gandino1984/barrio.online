@@ -7,7 +7,7 @@ import TopBar from "./components/top_bar/TopBar.jsx";
 function App() {
 
   return (
-      <AppContextProvider>
+      <AppContextProvider className="mainContainer">
         <TopBar />
         <LoginRegisterForm />
       </AppContextProvider>

@@ -10,11 +10,11 @@ const NumericKeyboard = ({
   value, 
   onChange, 
   showMaskedPassword = true, 
-  onPasswordComplete, 
-  error = false 
+  onPasswordComplete   
 }) => {
 
-  const {
+  const { 
+    setError, error,
     MAX_PASSWORD_LENGTH,
     displayedPassword,
     setDisplayedPassword,
@@ -54,8 +54,8 @@ const NumericKeyboard = ({
   const {
     handleKeyClick,
     handleBackspace,
-    handleClearPassword,
-    handleClear
+    // handleClearPassword,
+    // handleClear
   } = useNumericKeyboardFunctions(value, onChange, onPasswordComplete);
 
   const handleBackspaceClick = (event) => {
@@ -68,7 +68,7 @@ const NumericKeyboard = ({
 
   return (
       <div className={styles.container}>
-            <div className={`${styles.passwordDisplay} ${error ? 'text-red-500' : ''}`}>
+            <div className={styles.passwordDisplay}>
                 {displayedPassword}
             </div>
 
@@ -117,7 +117,7 @@ const NumericKeyboard = ({
                         className={`${styles.key} ${styles.clear}`} 
                         onClick={(e) => handleBackspaceClick(e)}
                       >
-                            <Delete size={24} />
+                            <Delete size={16} />
                       </button>
                   </div>
             </div>

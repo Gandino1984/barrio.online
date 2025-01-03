@@ -3,7 +3,9 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width: 100vw;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 6px;
 }
 
 .header{
@@ -12,7 +14,25 @@
     justify-content: center;
     width: 100%;
     gap: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.list{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    flex-direction: column;
+    /* width: 100%; */
+    gap: .5rem;
+}
+
+.title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 .shop{
@@ -20,10 +40,9 @@
     user-select: none;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    /* width: 100%; */
+    justify-content: space-around    ;
     gap: 1rem;
-    /* margin-bottom: 1rem; */
+    padding: .3rem .3rem .3rem .3rem;
     transition: all .2s ease;
 }
 
@@ -41,8 +60,21 @@
 }
 
 .addButton, .deleteButton{
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: .3rem .5rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: var(--active-button);
     gap: .5rem;
+}
+
+.addButton:hover, .deleteButton:hover{
+    transition: all .2s ease;
+    color: white;
+    font-weight: 600;
+    background-color: var(--hovered-button);
 }

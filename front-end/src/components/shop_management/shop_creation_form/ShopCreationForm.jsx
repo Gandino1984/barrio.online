@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopCreationForm.module.css';
-import { ShopCreationFormFunctions } from './ShopCreationFormFunctions.jsx'
+import { ShopCreationFormFunctions } from './ShopCreationFormFunctions.jsx';
+import { Plus } from 'lucide-react';
 
 const ShopCreationForm = () => {
   const { 
@@ -92,7 +93,8 @@ const ShopCreationForm = () => {
           type="submit" 
           className={styles.saveButton}
         >
-          CREAR
+          <Plus size={16} />
+          Crear
         </button>
       </form>
     </div>
