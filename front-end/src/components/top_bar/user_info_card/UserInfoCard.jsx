@@ -27,13 +27,10 @@ const UserInfoCard = () => {
   }
 
   const userData = typeof currentUser === 'string' ? JSON.parse(currentUser) : currentUser;
-  
-  console.log('Current user type:', typeof currentUser);
-  console.log('Current user value:', currentUser);
 
   return (
     <div className={styles.userInfoCard}>
-      <p>¡Te damos la bienvenida, {userData.username}!</p>
+      <p>¡Te damos la bienvenida, <span>{userData.username}</span>!</p>
     </div>
   );
 };

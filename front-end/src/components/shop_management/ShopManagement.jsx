@@ -11,6 +11,7 @@ const ShopManagement = () => {
     currentUser, 
     showShopCreationForm,
     selectedShop,
+    setShowShopCreationForm
   } = useContext(AppContext);
 
   const {
@@ -19,6 +20,7 @@ const ShopManagement = () => {
 
   useEffect(() => {
     fetchUserShops();
+    setShowShopCreationForm(false);
   }, [currentUser]);
 
 

@@ -45,10 +45,7 @@ export const ShopCreationFormFunctions = () => {
                 throw new Error(response.data.error);
             }
     
-            // Fetch updated shops list after successful creation
-            await fetchUserShops();
-    
-            // Reset form state
+            // Reset form state first
             setNewShop({
                 name_shop: '',
                 type_shop: '',
@@ -58,10 +55,15 @@ export const ShopCreationFormFunctions = () => {
                 calificaction_shop: 0,
                 image_shop: ''
             });
-    
-            // Update UI state
+            
+            // Update UI state in this specific order
             setIsAddingShop(false);
             setShowShopCreationForm(false);
+            
+            // Fetch updated shops list after state reset
+            await fetchUserShops();
+            
+            // Finally show management view
             setshowShopManagement(true);
     
         } catch (err) {

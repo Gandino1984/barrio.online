@@ -144,7 +144,7 @@ export const AppContextProvider = ({ children }) => {
 
   const [shopTypesAndSubtypes, setShopTypesAndSubtypes] = useState({
     'Artesanía': ['Accesorios', 'Complementos', 'Varios'],
-    'Bienestar': ['Peluquería', 'Fisioterapia', 'Osteopatía','Perfumería', 'Parafarmacia', 'Yoga', 'Varios'],
+    'Bienestar': ['Peluquería', 'Fisioterapia', 'Osteopatía','Perfumería', 'Parafarmacia', 'Yoga', 'Danza', 'Surf', 'Varios'],
     'Consultoría': ['Técnica', 'Digital', 'Formativa', 'Gestión cultural', 'Varios'],
     'Comida': [
       'Fruteria', 'Carniceria', 'Asador', 'Pescaderia', 'Panaderia', 
@@ -152,13 +152,13 @@ export const AppContextProvider = ({ children }) => {
       'Turca', 'Kebab', 'Restaurante', 'Varios'
     ],
     'Educativo': [
-      'Librería', 'Curso', 'Clase Particular', 'Asesoría', 'Charla', 
+      'Librería', 'Curso', 'Clase Particular', 'Clases de música', 'Clases de pintura', 'Asesoría', 'Charla', 
       'Presentación', 'Clase Grupal', 'Investigación', 'Varios'
     ],
-    'Especializado': ['Ilustración', 'Programación', 'Desarrollo web', 'Vinoteca', 'Diseño gráfico', 'Estudio', 'Editorial', 'Tabaco', 'Arte', 'Estanco', 'Autoescuela', 'Varios'],
+    'Especializado': ['Ilustración', 'Programación', 'Desarrollo web', 'Vinoteca', 'Diseño gráfico', 'Estudio de arte', 'Editorial', 'Tabaco', 'Arte', 'Estanco', 'Autoescuela', 'Varios'],
     'Entretenimiento': ['Teatro', 'Música', 'Danza', 'Escape Room', 'Varios'],
     'Ropa': ['Infantil', 'Adulto', 'Hombre', 'Mujer', 'No binario' , 'Niño', 'Niña', 'Lencería', 'Alquiler', 'Boda', 'Varios'],
-    'Servicios': ['Autónomo', 'Técnico', 'Fotografía', 'Arte', 'Limpieza', 'Cuidados geriátricos', 'Pintura', 'Dibujo', 'construcción', 'Varios'],
+    'Servicios': ['Autónomo', 'Técnico', 'Fotografía', 'Arte', 'Limpieza', 'Cuidados geriátricos', 'Pintura', 'Fontanería', 'Electricidad', 'Dibujo', 'Construcción', 'Paseo de mascotas',  'Varios'],
     'Taller': ['Pintura', 'Escultura', 'Ilustración', 'Diseno', 'Mecánico', 'Electrodoméstico', 'Varios']
   });
 
@@ -191,7 +191,7 @@ export const AppContextProvider = ({ children }) => {
     },
     tipo: {
       label: 'Tipo',
-      options: ['Regular', 'Vegetariano', 'Vegano', 'Sin gluten', 'Kosher', 'Sin lactosa'],
+      options: ['Ropa', 'Comida', 'Bebida', 'Accesorios', 'Complementos', 'No clasificado', 'Regular', 'Vegetariano', 'Vegano', 'Sin gluten', 'Kosher', 'Sin lactosa'],
     },
     oferta: {
       label: 'Oferta',
