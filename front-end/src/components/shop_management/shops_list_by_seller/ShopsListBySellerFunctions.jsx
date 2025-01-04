@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axiosInstance from '../../../../utils/axiosConfig.js';
 import AppContext from '../../../app_context/AppContext.js';
 
@@ -8,7 +8,11 @@ export const ShopsListBySellerFunctions = () => {
     setShops,
     setShowShopCreationForm,
     setShowProductManagement,
-    setError
+    setError,
+    setIsModalOpen,
+    setModalMessage,
+    isAccepted,
+    setIsAccepted
   } = useContext(AppContext);
 
   const handleSelectShop = (shop) => {
@@ -22,21 +26,37 @@ export const ShopsListBySellerFunctions = () => {
     setShowProductManagement(false);
   };
 
-  const handleDeleteShop = async (id_shop) => {
-    try {
-      alert('¿Seguro que deseas borrar el comercio? Esto borrará todos los productos asociados a este comercio...');
+  // Keep track of the shop to be deleted
+  const [shopToDelete, setShopToDelete] = useState(null);
 
-      const response = await axiosInstance.delete(`/shop/remove-by-id/with-products/${id_shop}`); 
+  // Watch for modal confirmation
+  useEffect(() => {
+    const deleteShop = async () => {
+      if (isAccepted && shopToDelete) {
+        try {
+          const response = await axiosInstance.delete(`/shop/remove-by-id/with-products/${shopToDelete}`);
+          
+          if (response.data.error) {
+            setError(prevError => ({ ...prevError, shopError: "Error al borrar el comercio" }));
+            throw new Error(response.data.error);
+          }
       
-      if (response.data.error) {
-        setError(prevError => ({ ...prevError, shopError: "Error al borrar el comercio" }));
-        throw new Error(response.data.error);
+          setShops(existingShops => existingShops.filter(shop => shop.id_shop !== shopToDelete));
+          setShopToDelete(null); // Clear the shop to delete
+          setIsAccepted(false); // Reset the accepted state
+        } catch (err) {
+          console.error('Error deleting shop:', err);
+        }
       }
-  
-      setShops(existingShops => existingShops.filter(shop => shop.id_shop !== id_shop));
-    } catch (err) {
-      console.error('Error deleting shop:', err);
-    }
+    };
+
+    deleteShop();
+  }, [isAccepted, shopToDelete]);
+
+  const handleDeleteShop = (id_shop) => {
+    setShopToDelete(id_shop);
+    setModalMessage("Esta acción eliminará permanentemente el comercio y todos los productos asociados a él. ¿Deseas continuar?");
+    setIsModalOpen(true);
   };
 
   return {

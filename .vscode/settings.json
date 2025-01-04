@@ -91,6 +91,10 @@
         {
             "path": "uribarri.online/db/",
             "color": "foldercustomization.AnsiColor12"
+        },
+        {
+            "path": "uribarri.online/front-end/src/components/confirmation_modal/",
+            "color": "foldercustomization.AnsiColor214"
         }
     ]
 }

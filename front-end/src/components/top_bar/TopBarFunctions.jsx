@@ -8,7 +8,7 @@ export const TopBarFunctions = () => {
         setPassword, setPasswordRepeat,
         setShowPasswordLabel, setKeyboardKey, 
         setshowShopManagement, setDisplayedPassword, 
-        setUserType, logout, setUsernameError,
+        setUserType, logout,
         showShopManagement, setShowShopCreationForm,
         showShopCreationForm, selectedShop, setSelectedShop,
         setCurrentUser, setShops, setSelectedShopType, 
@@ -41,7 +41,6 @@ export const TopBarFunctions = () => {
         setKeyboardKey((prev) => prev + 1);
         setIsLoggingIn(true);
         setshowShopManagement(false);
-        setUsernameError('');
         setUserType('');
         logout();
         setUsername('');
@@ -52,7 +51,6 @@ export const TopBarFunctions = () => {
         setKeyboardKey((prev) => prev + 1);
         setIsLoggingIn(true);
         setshowShopManagement(false);
-        setUsernameError('');
         setCurrentUser(null); 
         localStorage.removeItem('currentUser'); 
         // setShops([]);

@@ -30,6 +30,10 @@ export const AppContextProvider = ({ children }) => {
   const [showShopManagement, setshowShopManagement] = useState(() => !!currentUser);
   const [showProductManagement, setShowProductManagement] = useState(false);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAccepted, setIsAccepted] = useState(false);
+  const [isDeclined, setIsDeclined] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
   const [username, setUsername] = useState(() => currentUser?.username || '');
   const [password, setPassword] = useState('');
@@ -191,7 +195,7 @@ export const AppContextProvider = ({ children }) => {
     },
     tipo: {
       label: 'Tipo',
-      options: ['Ropa', 'Comida', 'Bebida', 'Accesorios', 'Complementos', 'No clasificado', 'Regular', 'Vegetariano', 'Vegano', 'Sin gluten', 'Kosher', 'Sin lactosa'],
+      options: ['Ropa', 'Comida', 'Bebida', 'Accesorio', 'Complemento', 'Servicio', 'No clasificado', 'Regular', 'Vegetariano', 'Vegano', 'Sin gluten', 'Kosher', 'Sin lactosa', 'varios'],
     },
     oferta: {
       label: 'Oferta',
@@ -247,7 +251,11 @@ export const AppContextProvider = ({ children }) => {
     showRepeatPasswordMessage,
     setShowRepeatPasswordMessage, clearError,
     showProductManagement, setShowProductManagement,
-    newProductData, setNewProductData
+    newProductData, setNewProductData,
+    isModalOpen, setIsModalOpen,
+    isAccepted, setIsAccepted,
+    isDeclined, setIsDeclined,
+    modalMessage, setModalMessage,
   };
 
   return (

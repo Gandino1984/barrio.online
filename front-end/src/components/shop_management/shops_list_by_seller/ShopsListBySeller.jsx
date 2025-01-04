@@ -3,11 +3,12 @@ import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopsListBySeller.module.css';
 import { ShopsListBySellerFunctions } from './ShopsListBySellerFunctions.jsx';
 import { Plus, Eraser } from 'lucide-react';
+import ConfirmationModal from '../../confirmation_modal/ConfirmationModal.jsx';
 
 const ShopsListBySeller = () => {
   const { 
-    shops, setShops,
-    setSelectedShop, selectedShop, 
+    shops, 
+    selectedShop, 
     currentUser
   } = useContext(AppContext);
 
@@ -24,6 +25,7 @@ const ShopsListBySeller = () => {
 
   return (
     <div className={styles.container}>
+        <ConfirmationModal />
         <div className={styles.headerContainer}>
               <div className={styles.header}>
                     <p className={styles.title}>

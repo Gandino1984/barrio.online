@@ -1,0 +1,138 @@
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modalBackdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(3px);
+  }
+  
+  .modalContainer {
+    position: relative;
+    width: 100%;
+    max-width: 28rem;
+    margin: 0 1rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .closeButton {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 1rem;
+    right: 1rem;
+    padding: .2rem .2rem;
+    background-color: var(--active-button);
+    border-radius: 6px;
+    transition: all 0.15s ease;
+  }
+  
+  .closeButton:hover {
+    font-weight: 600;
+    color: white;
+    background-color: var(--hovered-button);
+  }
+  
+  .modalContent {
+    padding: 1.5rem;
+  }
+  
+  .warningIconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  
+  .warningIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    padding: .4rem;
+    border-radius: 16px;
+    color: #d97706;
+    background-color: #fef3c7;
+  }
+  
+  .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #d97706;
+  }
+  
+  .messageContainer {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.5rem;
+  }
+  
+  .message {
+    font-size: 1rem;
+    color: #6b7280;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .cancelButton {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    padding: .3rem .5rem;
+    font-size: 1rem;
+    background-color: white;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+  }
+  
+  .cancelButton:hover {
+    font-weight: 600;
+    color: white;
+    background-color: var(--hovered-button);
+  }
+ 
+  
+  .continueButton {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    padding: .3rem .5rem;
+    font-size: 1rem;
+    /* font-weight: 500; */
+    color: white;
+    background-color: #db2b2b;
+    /* border: 1px solid transparent; */
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+  
+  .continueButton:hover {
+    font-weight: 600;
+    background-color: #b91c1c;
+  }
+  
