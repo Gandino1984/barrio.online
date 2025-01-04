@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
-import { useNumericKeyboardFunctions } from './hooks/useNumericKeyboardFunctions.jsx';
+import { useNumericKeyboardFunctions } from './useNumericKeyboardFunctions.jsx';
 import { Delete, RotateCcw } from 'lucide-react';
 import styles from './NumericKeyboard.module.css';
 import { Banana, Apple, Bean, Beef, Carrot, Beer, Croissant, Drill, Dog, Fish, Drumstick, Gift, Gem, Ham, Palette, Printer, Wrench, Car, Scissors, HeartPulse, BookMarked, Mouse, Cpu, Laptop, Smile, ChefHat, Laugh, Lollipop, Cake, Pizza, ShoppingBasket, Speaker, Amphora, ConciergeBell, Flower, Baby, Shirt, Watch, Sandwich } from 'lucide-react';
@@ -15,15 +15,12 @@ const NumericKeyboard = ({
 
   const { 
     setError, error,
-    MAX_PASSWORD_LENGTH,
     displayedPassword,
     setDisplayedPassword,
     isLoggingIn,
     password,
     passwordRepeat,
     showPasswordRepeat,
-    setUsernameError,
-    setPasswordError
   } = useContext(AppContext);
 
   const icons = [Banana, Apple, Bean, Beef, Carrot, Beer, Croissant, Drill, Dog, Fish, Drumstick, Gift, Gem, Ham, Palette, Printer, Wrench, Car, Scissors, HeartPulse, BookMarked, Mouse, Cpu, Laptop, Smile, ChefHat, Laugh, Lollipop, Cake, Pizza, ShoppingBasket, Speaker, Amphora, ConciergeBell, Flower, Baby, Shirt, Watch, Sandwich];
@@ -61,8 +58,7 @@ const NumericKeyboard = ({
   const handleBackspaceClick = (event) => {
     handleBackspace(event);
     if (error) {
-      setUsernameError('');
-      setPasswordError('');
+      setError(prevError => ({ ...prevError, passwordError: "" }));
     }
   };
 

@@ -1,12 +1,10 @@
 import { useContext } from 'react';
-import AppContext from '../../../../app_context/AppContext.js';
+import AppContext from '../../../app_context/AppContext.js';
 
 export const useNumericKeyboardFunctions = (value, onChange, onPasswordComplete, onClear) => {
     const {
-        MAX_PASSWORD_LENGTH,
-        // displayedPassword, 
-        setDisplayedPassword,
-        isLoggingIn        
+        MAX_PASSWORD_LENGTH, 
+        setDisplayedPassword,    
     } = useContext(AppContext);
 
     const handleKeyClick = (num, e) => {
