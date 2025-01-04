@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import AppContext from '../../app_context/AppContext.js';
 
 export const TopBarFunctions = () => {
-
     const {
         setIsLoggingIn, setUsername, 
         setPassword, setPasswordRepeat,
@@ -12,7 +11,7 @@ export const TopBarFunctions = () => {
         showShopManagement, setShowShopCreationForm,
         showShopCreationForm, selectedShop, setSelectedShop,
         setCurrentUser, setShops, setSelectedShopType, 
-        setError 
+        setError, setShowProductManagement
     } = useContext(AppContext);
 
     const handleBack = () => {
@@ -32,33 +31,38 @@ export const TopBarFunctions = () => {
     };
 
     const clearUserSession = () => {
-        logout();
+        // Clear user-related state
+        setCurrentUser(null);
         setUsername('');
         setPassword('');
         setPasswordRepeat('');
         setDisplayedPassword('');
         setShowPasswordLabel(true);
-        setKeyboardKey((prev) => prev + 1);
-        setIsLoggingIn(true);
-        setshowShopManagement(false);
         setUserType('');
-        logout();
-        setUsername('');
-        setPassword('');
-        setPasswordRepeat('');
-        setDisplayedPassword('');
-        setShowPasswordLabel(true);
-        setKeyboardKey((prev) => prev + 1);
-        setIsLoggingIn(true);
+        
+        // Clear shop-related state
+        setSelectedShop(null);
+        setShowShopCreationForm(false);
         setshowShopManagement(false);
-        setCurrentUser(null); 
-        localStorage.removeItem('currentUser'); 
-        // setShops([]);
-        setSelectedShopType(null);  
+        setShowProductManagement(false);
+        setShops([]);
+        setSelectedShopType(null);
+        
+        // Reset to login state
+        setIsLoggingIn(true);
+        
+        // Increment keyboard key to reset numeric keyboard
+        setKeyboardKey((prev) => prev + 1);
+        
+        // Clear localStorage
+        localStorage.removeItem('currentUser');
+        
+        // Call logout function
+        logout();
     };
 
     return {
         handleBack,
         clearUserSession
-  };
+    };
 };

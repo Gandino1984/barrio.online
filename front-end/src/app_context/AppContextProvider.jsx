@@ -148,22 +148,23 @@ export const AppContextProvider = ({ children }) => {
 
   const [shopTypesAndSubtypes, setShopTypesAndSubtypes] = useState({
     'Artesanía': ['Accesorios', 'Complementos', 'Varios'],
-    'Bienestar': ['Peluquería', 'Fisioterapia', 'Osteopatía','Perfumería', 'Parafarmacia', 'Yoga', 'Danza', 'Surf', 'Varios'],
-    'Consultoría': ['Técnica', 'Digital', 'Formativa', 'Gestión cultural', 'Varios'],
+    'Bienestar': ['Odontología', 'Estética', 'Peluquería', 'Fisioterapia', 'Podología', 'Osteopatía','Perfumería', 'Parafarmacia', 'Yoga', 'Danza', 'Surf', 'Txiki park', 'Varios'],
+    'Consultoría': ['Técnica', 'Digital','Inmobiliaria', 'Formativa', 'Gestión cultural', 'Varios'],
     'Comida': [
-      'Fruteria', 'Carniceria', 'Asador', 'Pescaderia', 'Panaderia', 
+      'Fruteria', 'Carniceria', 'Asador', 'Pescaderia', 'Panaderia', 'Charcuteria', 
       'Local', 'Peruana', 'China', 'Japonesa', 'Italiana', 
       'Turca', 'Kebab', 'Restaurante', 'Varios'
     ],
     'Educativo': [
-      'Librería', 'Curso', 'Clase Particular', 'Clases de música', 'Clases de pintura', 'Asesoría', 'Charla', 
+      'Librería', 'Curso','Costura','Alta costura', 'Clase Particular', 'Clases de música', 'Clases de pintura', 'Asesoría', 'Charla', 
       'Presentación', 'Clase Grupal', 'Investigación', 'Varios'
     ],
-    'Especializado': ['Ilustración', 'Programación', 'Desarrollo web', 'Vinoteca', 'Diseño gráfico', 'Estudio de arte', 'Editorial', 'Tabaco', 'Arte', 'Estanco', 'Autoescuela', 'Varios'],
-    'Entretenimiento': ['Teatro', 'Música', 'Danza', 'Escape Room', 'Varios'],
+    'Especializado': ['Ilustración', 'Joyería', 'Prensa', 'Golosinas', 'Programación', 'Tattoo shop', 'Desarrollo web', 'Vinoteca', 'Diseño gráfico', 'Estudio de arte', 'Editorial', 'Tabaco', 'Arte', 'Estanco', 'Autoescuela', 'Papelería', 'Peluquería canina', 'Locutorio', 'Lavandería', 'Zapatería', 'Dietética y nutrición', 'Varios'],
+    'Entretenimiento': ['Teatro', 'Música', 'Danza', 'Escape Room', 'Juguetería', 'Varios'],
     'Ropa': ['Infantil', 'Adulto', 'Hombre', 'Mujer', 'No binario' , 'Niño', 'Niña', 'Lencería', 'Alquiler', 'Boda', 'Varios'],
-    'Servicios': ['Autónomo', 'Técnico', 'Fotografía', 'Arte', 'Limpieza', 'Cuidados geriátricos', 'Pintura', 'Fontanería', 'Electricidad', 'Dibujo', 'Construcción', 'Paseo de mascotas',  'Varios'],
-    'Taller': ['Pintura', 'Escultura', 'Ilustración', 'Diseno', 'Mecánico', 'Electrodoméstico', 'Varios']
+    'Servicios': ['Autónomo', 'Catering', 'Técnico', 'Interiorismo', 'Fotografía', 'Arte', 'Limpieza', 'Cuidados geriátricos', 'Pintura', 'Fontanería', 'Electricidad', 'Dibujo', 'Construcción', 'Paseo de mascotas', 'Limpieza de coches',  'Varios'],
+    'Taller': ['Pintura', 'Escultura', 'Ilustración', 'Diseno', 'Mecánico', 'Electrodoméstico', 'Varios'],
+    'Técnico': ['Albañilería', 'Carpintería', 'Calefacción', 'Cerrajería', 'Plomería', 'Fontanería', 'Electricidad', 'Electrónica', 'Repuestos', 'Repuestos de coche', 'Repuestos de moto', 'Accesorios de coche', 'Accesorios de moto', 'Varios'],
   });
 
   const [newProductData, setNewProductData] = useState({
