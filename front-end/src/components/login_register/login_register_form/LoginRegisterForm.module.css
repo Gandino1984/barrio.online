@@ -34,11 +34,15 @@
   gap: 1rem;
 }
 .formActions button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   border: none;
   outline: none;
   border-radius: 6px;
   padding: .5rem;
+  gap: .5rem;
   background-color: var(--active-button);
 }
 

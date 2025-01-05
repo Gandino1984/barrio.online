@@ -25,7 +25,7 @@ const ErrorCard = () => {
       
       const timer = setTimeout(() => {
         setShowErrorCard(false);
-      }, 6000);
+      }, 5000);
 
       return () => clearTimeout(timer); 
     }

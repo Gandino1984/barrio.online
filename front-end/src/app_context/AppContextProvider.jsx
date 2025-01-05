@@ -103,6 +103,7 @@ export const AppContextProvider = ({ children }) => {
   
     setIsLoggingIn(false);
     setshowShopManagement(true);
+    clearError();
   };
 
   const logout = () => {

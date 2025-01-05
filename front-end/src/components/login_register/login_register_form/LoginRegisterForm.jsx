@@ -5,6 +5,7 @@ import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
 import ClientManagement from "../../client_management/ClientManagement.jsx";
 import styles from './LoginRegisterForm.module.css';
 import ShopManagement from "../../shop_management/ShopManagement.jsx";
+import { DoorOpen } from 'lucide-react';
 
 
 const LoginRegisterForm = () => {
@@ -115,6 +116,7 @@ const LoginRegisterForm = () => {
                         className={`${styles.submitButton} ${isButtonDisabled() ? styles.inactive : styles.active}`}
                         disabled={isButtonDisabled()}
                       >
+                          <DoorOpen size={16} />
                           {isLoggingIn ? 'Entrar' : 'Crear cuenta'}
                       </button>
                       <button type="button" className={styles.toggleButton} onClick={toggleForm}>

@@ -56,6 +56,16 @@ export const TopBarFunctions = () => {
         
         // Clear localStorage
         localStorage.removeItem('currentUser');
+
+        setError({
+            userError: '',
+            passwordError: '',
+            passwordRepeatError: '',
+            ipError: '',
+            userlocationError: '',
+            userTypeError: '',
+            databaseResponseError: ''
+        });
         
         // Call logout function
         logout();
