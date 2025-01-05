@@ -5,7 +5,7 @@
     justify-content: center;
     flex-direction: column;
     gap: .5rem;
-    padding: .5rem 1rem;
+    padding: .4rem 0rem 1rem 0rem;
 }
 
 .numericKeyboardInput{
@@ -13,18 +13,17 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    /* width: 40%; */
 }
 
 .passwordDisplay{
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 1.7rem;
-    height: 1.7rem;
+    min-height: 1.4rem;
+    height: 1.5rem;
+    font-size: 1.5rem;
     gap: .1rem;
     color: var(--hovered-button);
-    padding-bottom: .1rem;
     overflow: hidden;
 }
 .keyboard{
@@ -47,11 +46,15 @@
 }
 
 .row button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     border: none;
     outline: none;
+    font-size: 1rem;
     border-radius: 6px;
-    padding: .8rem 1rem;
+    padding: .6rem .8rem;
     user-select: none;
     margin: .2rem;
     background-color: var(--active-button);
