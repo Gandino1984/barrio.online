@@ -4,7 +4,7 @@
     justify-content: center;
     flex-direction: column;
     background-color: white;
-    padding: 2rem;
+    padding: 1rem;
     border-radius: 6px;
 }
 
@@ -41,21 +41,22 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+    width: 100%;
     gap: 1rem;
-    padding: .3rem .3rem .3rem .3rem;
+    border-radius: 5px;
+    padding: .3rem .4rem .3rem .4rem;
     transition: all .2s ease;
 }
 
 .shop:hover{
-    background-color: #f3f4f6;
+    background-color: var(--active-button);
 }
 
 .shopInfo{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     gap: 1rem;
-    padding-top: .5rem;
 }
 
 .addButton, .deleteButton{
@@ -72,8 +73,8 @@
 }
 
 .addButton:hover, .deleteButton:hover{
-    transition: all .2s ease;
+    transition: all .15s ease;
+    transform: scale(1.1);
     color: white;
-    font-weight: 600;
     background-color: var(--hovered-button);
 }

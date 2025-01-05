@@ -15,7 +15,6 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    /* width: 100%; */
 }
 
 .form{
@@ -23,7 +22,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 1rem;
+    gap: .7rem;
     /* width: 100%; */
 }
 
@@ -31,23 +30,23 @@
     border-radius: 5px;
 }
 
-.saveButton{
+.createButton{
     display: flex;
     align-items: center;
     justify-content: center;
     outline: none;
     border: none;
     background-color: var(--active-button);
-    padding: .5rem 1rem;
+    padding: .3rem .5rem;
     border-radius: 6px;
     cursor: pointer;
     gap: .5rem;
-    transition: all .2s ease;
+    transition: all .15s ease;
 }
 
-.saveButton:hover{
+.createButton:hover{
     color: white;
-    font-weight: 600;
     transition: all .2s ease;
     background-color: var(--hovered-button);
+    transform: scale(1.1);
 }

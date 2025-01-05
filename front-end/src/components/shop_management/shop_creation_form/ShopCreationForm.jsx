@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopCreationForm.module.css';
 import { ShopCreationFormFunctions } from './ShopCreationFormFunctions.jsx';
-import { Plus, PackagePlus } from 'lucide-react';
+import { Plus, PackagePlus, Box } from 'lucide-react';
 
 
 const ShopCreationForm = () => {
@@ -25,9 +25,9 @@ const ShopCreationForm = () => {
   return (
     <div className={styles.container}>
         <div className={styles.header}>   
-            <h2 className={styles.headerTitle}>
+            <h3 className={styles.headerTitle}>
                 Crear un comercio
-            </h2>
+            </h3>
         </div>
       <form onSubmit={handleAddShop} className={styles.form}>
         <div className={styles.formField}>
@@ -92,10 +92,10 @@ const ShopCreationForm = () => {
         </div>
         <button 
           type="submit" 
-          className={styles.saveButton}
+          className={styles.createButton}
         >
           Crear
-          <PackagePlus size={17} />
+          <Box size={17} />
         </button>
       </form>
     </div>

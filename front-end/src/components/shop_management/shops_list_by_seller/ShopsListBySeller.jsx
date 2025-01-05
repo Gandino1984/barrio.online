@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './ShopsListBySeller.module.css';
 import { ShopsListBySellerFunctions } from './ShopsListBySellerFunctions.jsx';
-import { Plus, Eraser } from 'lucide-react';
+import { Plus, Eraser, PackagePlus, Box } from 'lucide-react';
 import ConfirmationModal from '../../confirmation_modal/ConfirmationModal.jsx';
 
 const ShopsListBySeller = () => {
@@ -36,8 +36,8 @@ const ShopsListBySeller = () => {
                       onClick={handleAddShop}
                       className={styles.addButton}
                   >
-                      <Plus size={16} />
-                      Agregar
+                      Crear Nuevo
+                      <Box size={16} />
                   </button>
               </div>
         </div>
@@ -70,8 +70,8 @@ const ShopsListBySeller = () => {
                         }}
                         className={styles.deleteButton}
                       >
-                          <Eraser size={16} />
                           Eliminar
+                          <Eraser size={16} />
                       </button>
                   </div>
                 </div>

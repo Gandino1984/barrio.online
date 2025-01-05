@@ -12,7 +12,7 @@
 
 .logoutButton, .backButton{
     position: relative;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -22,14 +22,13 @@
     min-width: max-content;
     border-radius: 6px;
     padding: .4rem;
-    gap: 1rem;
+    gap: .5rem;
     background-color: var(--active-button);
-    transform: scale(1.1);
 }
 
 .logoutButton:hover, .backButton:hover{
     transition: all .15s ease;
     color: white;
-    /* font-weight: 600; */
+    transform: scale(1.1);
     background-color: var(--hovered-button);
 }

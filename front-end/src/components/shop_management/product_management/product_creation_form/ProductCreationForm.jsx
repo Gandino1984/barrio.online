@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import ProductCreationFormFunctions from './ProductCreationFormFunctions';
 import AppContext from '../../../../app_context/AppContext';
 import styles from './ProductCreationForm.module.css';
+import { CirclePlus, ScrollText, PackagePlus } from 'lucide-react';
 
 const ProductCreationForm = () => {
   const {
@@ -14,22 +15,28 @@ const ProductCreationForm = () => {
   const { 
     newProductData: productData,
     filterOptions,
-    selectedShop
   } = useContext(AppContext);
 
   return (
     <div className={styles.container}>
-        <h2 className={styles.formTitle}>
-          Crear Nuevo Producto
-        </h2>
+        <div className={styles.formField}>
+          <button type="submit" className={styles.submitButton}>
+            Ver Lista de Productos
+            <ScrollText size={20}/>
+          </button>
+        </div>
+
+        <h3 className={styles.formTitle}>
+          ¿O quieres crear un nuevo producto?
+        </h3>
         
         <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.formField}>
-              <label htmlFor="name_product">Nombre del Producto</label>
               <input
                 type="text"
                 id="name_product"
                 name="name_product"
+                placeholder='Nombre del Producto:'
                 value={productData.name_product}
                 onChange={handleChange}
                 required
@@ -43,15 +50,12 @@ const ProductCreationForm = () => {
                 id="price_product"
                 name="price_product"
                 value={productData.price_product}
+                placeholder='0.00'
                 onChange={handleNumericInputChange}
-                step="0.01"
+                step="0.1"
                 min="0"
                 required
               />
-            </div>
-
-            <div className={styles.formField}>
-              <label htmlFor="type_product">Tipo de Producto</label>
               <select
                 id="type_product"
                 name="type_product"
@@ -59,7 +63,7 @@ const ProductCreationForm = () => {
                 onChange={handleChange}
                 required
               >
-                <option value="">Seleccionar tipo</option>
+                <option value="">Tipo:</option>
                 {filterOptions.tipo.options.map(type => (
                   <option key={type} value={type}>
                     {type}
@@ -69,7 +73,6 @@ const ProductCreationForm = () => {
             </div>
 
             <div className={styles.formField}>
-              <label htmlFor="season_product">Temporada</label>
               <select
                 id="season_product"
                 name="season_product"
@@ -92,12 +95,11 @@ const ProductCreationForm = () => {
                 name="discount_product"
                 value={productData.discount_product}
                 onChange={handleNumericInputChange}
+                step="1"
                 min="0"
                 max="100"
               />
-            </div>
 
-            <div className={styles.formField}>
               <label htmlFor="stock_product">Stock</label>
               <input
                 type="number"
@@ -111,19 +113,21 @@ const ProductCreationForm = () => {
             </div>
 
             <div className={styles.formField}>
-              <label htmlFor="info_product">Información Adicional</label>
+              <label htmlFor="info_product">Más información</label>
               <textarea
                 id="info_product"
                 name="info_product"
                 value={productData.info_product}
                 onChange={handleChange}
                 rows="4"
+                width="100%"
               />
             </div>
 
             <div className={styles.formField}>
               <button type="submit" className={styles.submitButton}>
                 Crear Producto
+                <PackagePlus size={16}/>
               </button>
             </div>
         </form>

@@ -21,7 +21,11 @@
   flex-direction: column;
   background-color: white;
   border-radius: 6px;
-  padding: .5rem 1.5rem;
+  padding: .7rem 1.5rem;
+}
+
+.formTitle{
+  padding-bottom: .5rem;
 }
 
 .formActions{
@@ -32,7 +36,7 @@
 }
 .formActions button{
   position: relative;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -42,14 +46,14 @@
   font-size: .8rem;
   border-radius: 6px;
   padding: .4rem;
-  gap: 1rem;
+  gap: .5rem;
   background-color: var(--active-button);
-  transform: scale(1.1);
 }
 
 .formActions button:hover{
   /* font-weight: 600; */
   color: white;
+  transform: scale(1.1);
   background-color: var(--hovered-button);
   transition: all 0.15s ease;
 }
@@ -92,6 +96,26 @@
     border-radius: 5px;
     margin-bottom: .3rem;
   }
+
+  input[type="number"] {
+    width: 3rem;
+    border-radius: 5px;
+    width: auto;
+    border: 2px solid #d1d5db;
+    padding: .3rem .3rem .3rem .3rem;
+    font-size: .9rem;
+    font-weight: 500;
+}
+
+input[type="textarea"] {
+  height: 2rem;
+  border-radius: 5px;
+  width: auto;
+  border: 2px solid #d1d5db;
+  padding: .3rem .3rem .3rem .3rem;
+  font-size: .9rem;
+  font-weight: 500;
+}
   
   .validText {
     color: #16a34a;
