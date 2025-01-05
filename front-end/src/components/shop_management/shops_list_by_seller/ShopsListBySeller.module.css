@@ -1,4 +1,4 @@
-.container{
+.container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -6,60 +6,66 @@
     background-color: white;
     padding: 1rem;
     border-radius: 6px;
-}
-
-.header{
+    margin: 0 auto;
+  }
+  
+  .header {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     gap: 2rem;
     margin-bottom: 2rem;
-}
-
-.list{
+  }
+  
+  .list {
     display: flex;
-    align-items:center;
+    align-items: center;
     justify-content: center;
     flex-direction: column;
-    /* width: 100%; */
     gap: .5rem;
-}
-
-.title{
+  }
+  
+  .title {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     font-size: 1.5em;
     font-weight: bold;
-}
-
-.shop{
+  }
+  
+  .shop {
     cursor: pointer;
     user-select: none;
     display: flex;
     align-items: center;
     justify-content: space-around;
+    background-color: var(--main-bg-gray);
     width: 100%;
     gap: 1rem;
     border-radius: 5px;
     padding: .3rem .4rem .3rem .4rem;
     transition: all .2s ease;
-}
-
-.shop:hover{
+  }
+  
+  .shop:hover {
     background-color: var(--active-button);
-}
-
-.shopInfo{
+  }
+  
+  .shopInfo {
     display: flex;
     align-items: center;
     justify-content: space-around;
     gap: 1rem;
-}
+  }
 
-.addButton, .deleteButton{
+  .shopInfo p{
+    font-size: .9rem;
+  }
+  
+  .addButton,
+  .deleteButton {
     outline: none;
     border: none;
     cursor: pointer;
@@ -70,11 +76,51 @@
     justify-content: center;
     background-color: var(--active-button);
     gap: .5rem;
-}
-
-.addButton:hover, .deleteButton:hover{
+  }
+  
+  .addButton:hover,
+  .deleteButton:hover {
     transition: all .15s ease;
     transform: scale(1.1);
     color: white;
     background-color: var(--hovered-button);
-}
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      width: 80%;
+    }
+
+    .list{
+        width: 100%;
+    }
+
+    .header {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+  
+    .shop {
+   
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+    }
+  
+    .shopInfo {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .shopInfo p{
+        font-size: .8rem;
+        text-align: center;
+      }
+    
+    .shopActions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
