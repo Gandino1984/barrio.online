@@ -15,12 +15,21 @@ const ProductCreationForm = () => {
   const { 
     newProductData: productData,
     filterOptions,
+    setShowProductManagement
   } = useContext(AppContext);
+
+  const handleViewProductList = () => {
+    setShowProductManagement(false);
+  };
 
   return (
     <div className={styles.container}>
         <div className={styles.formField}>
-          <button type="submit" className={styles.submitButton}>
+          <button 
+            type="button" 
+            className={styles.submitButton}
+            onClick={handleViewProductList}
+          >
             Ver Lista de Productos
             <ScrollText size={20}/>
           </button>
@@ -63,7 +72,7 @@ const ProductCreationForm = () => {
                 onChange={handleChange}
                 required
               >
-                <option value="">Tipo:</option>
+                <option value="" disabled>Tipo:</option>
                 {filterOptions.tipo.options.map(type => (
                   <option key={type} value={type}>
                     {type}
@@ -79,6 +88,7 @@ const ProductCreationForm = () => {
                 value={productData.season_product}
                 onChange={handleChange}
               >
+                <option value="" disabled>Temporada:</option>
                 {filterOptions.temporada.options.map(season => (
                   <option key={season} value={season}>
                     {season}

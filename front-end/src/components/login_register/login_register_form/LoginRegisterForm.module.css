@@ -157,7 +157,6 @@ input[type="textarea"] {
     font-size: .8rem;
   }
 
-  /* *********** */
   /* Custom Select Styling */
 select {
   appearance: none;
@@ -178,6 +177,22 @@ select {
   background-size: 1em;
 }
 
+/* Style for the placeholder option */
+select option[value=""] {
+  color: #9ca3af;  /* Gray color for the disabled placeholder */
+}
+
+/* Style for regular options */
+select option:not([value=""]) {
+  color: var(--active-button);
+}
+
+/* Style for selected option */
+select option:checked {
+  color: var(--hovered-button);
+  background-color: #f3f4f6;
+}
+
 /* Hover state */
 select:hover {
   border-color: var(--hovered-button);
@@ -186,8 +201,8 @@ select:hover {
 /* Focus state */
 select:focus {
   outline: none;
-  border-color: var(--active-button);
-  box-shadow: 0 0 0 2px rgba(var(--active-button-rgb), 0.1);
+  border-color: var(--hovered-button);
+  box-shadow: 0 0 0 1px var(--hovered-button);
 }
 
 /* Disabled state */
@@ -196,16 +211,6 @@ select:disabled {
   color: #9ca3af;
   cursor: not-allowed;
   border-color: #d1d5db;
-}
-
-/* Style for options */
-select option {
-  padding: 0.5rem;
-  color: var(--hovered-button);
-}
-
-select option:disabled {
-  color: #9ca3af;
 }
 
 /* Error state */

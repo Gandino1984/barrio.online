@@ -8,7 +8,6 @@
     border-radius: 6px;
     padding: .5rem 1rem;
     margin-top: .5rem;
-    /* max-width: 800px; */
     margin-left: auto;
     margin-right: auto;
 }
@@ -24,19 +23,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* flex-wrap:wrap;.formField input,
-.formField select,
-.formField textarea {
-    flex: 1 1 200px;
-    min-width: 0;
-    border-radius: 5px;
-    border: 2px solid #d1d5db;
-    padding: 0.3rem;
-    font-size: 0.9rem;
-    font-weight: 500;
-} */
     gap: 1rem;
     margin-bottom: .5rem;
+    /* flex-wrap: wrap; */
 }
 
 .formField input,
@@ -49,6 +38,10 @@
     padding: 0.3rem;
     font-size: 0.9rem;
     font-weight: 500;
+}
+
+.formField textarea {
+    flex: 1 1 100%;
 }
 
 .formField button{
@@ -73,12 +66,56 @@
     background-color: var(--hovered-button);
 }
 
-input[type="textarea"] {
-    border-radius: 5px;
-    border: 2px solid #d1d5db;
-    padding: .3rem .3rem .3rem .3rem;
-    font-size: .9rem;
-    font-weight: 500;
-  }
+/* Media queries for responsive design */
+@media screen and (max-width: 768px) {
+    .formField {
+        flex-direction: column;
+        align-items: stretch;
+    }
 
+    .formField input,
+    .formField select {
+        flex: 1 1 100%;
+        margin: 0.25rem 0;
+    }
 
+    /* Center and adjust label positioning */
+    .formField label {
+        margin-top: 0.5rem;
+        margin-bottom: 0.25rem;
+        text-align: center;
+        width: 100%;
+    }
+
+    /* Make buttons full width on mobile */
+    .formField button {
+        width: 100%;
+    }
+
+    /* Add more spacing between form fields on mobile */
+    .formField {
+        margin-bottom: .7rem;
+    }
+
+    /* Ensure container has proper padding on mobile */
+    .container {
+        padding: 1rem;
+    }
+}
+
+/* Additional breakpoint for very small screens */
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 0.75rem;
+    }
+
+    .formField {
+        gap: 0.3rem;
+    }
+    
+    /* Maintain centered labels on very small screens */
+    .formField label {
+        text-align: center;
+        width: 100%;
+    }
+}
