@@ -50,20 +50,9 @@ const ShopProductsListFunctions = () => {
     } 
   };
 
-  const fetchProductTypes = async () => {
-    try {
-      const response = await axiosInstance.get('/product/by-type');
-      return response.data.data || [];
-    } catch (error) {
-      console.error('Error fetching product types:', error);
-      return [];
-    }
-  };
-
   return {
     filterProducts,
-    fetchProductsByShop,
-    fetchProductTypes
+    fetchProductsByShop
   };
 };
 

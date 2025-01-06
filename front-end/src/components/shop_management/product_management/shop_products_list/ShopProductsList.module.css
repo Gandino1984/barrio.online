@@ -1,0 +1,170 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+}
+
+.shopInfo {
+    width: 100%;
+    max-width: 72rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+.shopInfoHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.shopName {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.shopLocation {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.listHeader {
+    width: 100%;
+    max-width: 72rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.listHeaderTop {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.listTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.productsCount {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.addButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--active-button);
+    /* color: white; */
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.addButton:hover {
+    color: white;
+    background-color: var(--hovered-button);
+    transform: scale(1.05);
+}
+
+.tableContainer {
+    width: 100%;
+    max-width: 72rem;
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.tableHeader {
+    background-color: #f9fafb;
+}
+
+.tableHeaderCell {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #666;
+}
+
+.tableRow {
+    border-top: 1px solid #f0f0f0;
+    transition: background-color 0.15s ease;
+}
+
+.tableRow:hover {
+    background-color: #f9fafb;
+}
+
+.tableCell {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+}
+
+.noProducts {
+    color: #666;
+}
+
+.actionsCell {
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: flex-start;
+}
+
+.actionButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    background-color: transparent;
+}
+
+.actionButton:hover {
+    transform: scale(1.1);
+}
+
+.updateButton:hover {
+    color: var(--hovered-button);
+}
+
+.deleteButton:hover {
+    color: #dc2626;
+}
+
+.selectButton {
+    color: #666;
+}
+
+.selectButton.selected {
+    color: var(--active-button);
+}
+
+.selectButton:hover {
+    color: var(--hovered-button);
+}
