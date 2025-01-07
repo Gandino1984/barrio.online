@@ -172,7 +172,7 @@ export const AppContextProvider = ({ children }) => {
     name_product: '',
     price_product: '',
     discount_product: 0,
-    season_product: 'Todo el Año',
+    season_product: '',
     calification_product: 0,
     type_product: '',
     stock_product: 0,
@@ -182,6 +182,7 @@ export const AppContextProvider = ({ children }) => {
   
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState(new Set());
 
   const [filters, setFilters] = useState({
     temporada: '',
@@ -197,11 +198,11 @@ export const AppContextProvider = ({ children }) => {
     },
     tipo: {
       label: 'Tipo',
-      options: ['Ropa', 'Comida', 'Bebida', 'Accesorio', 'Complemento', 'Servicio', 'No clasificado', 'Regular', 'Vegetariano', 'Vegano', 'Sin gluten', 'Kosher', 'Sin lactosa', 'varios'],
+      options: ['Ropa', 'Comida', 'Bebida', 'Accesorio', 'Complemento', 'Servicio', 'No Clasificado', 'Regular', 'Vegetariano', 'Vegano', 'Sin gluten', 'Kosher', 'Sin lactosa', 'Varios'],
     },
     oferta: {
       label: 'Oferta',
-      options: ['Descuento'], 
+      options: ['Descuento', 'Sin Descuento'], 
     },
     calificacion: {
       label: 'Calificación',
@@ -258,6 +259,7 @@ export const AppContextProvider = ({ children }) => {
     isAccepted, setIsAccepted,
     isDeclined, setIsDeclined,
     modalMessage, setModalMessage,
+    selectedProducts, setSelectedProducts
   };
 
   return (
