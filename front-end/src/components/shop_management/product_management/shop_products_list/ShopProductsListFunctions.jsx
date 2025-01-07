@@ -36,16 +36,21 @@ const ShopProductsListFunctions = () => {
   const fetchProductsByShop = async () => {
     try {
       if (!selectedShop?.id_shop) {
-        console.warn('No shop selected');
+        console.error('-> ShopProductsListFunctions.jsx - fetchProductsByShop - No hay comercio seleccionado');
+        setError(prevError => ({ ...prevError, shopError: "No hay comercio seleccionado" }));
         setProducts([]);
         return;
       }
       const response = await axiosInstance.get(`/product/by-shop-id/${selectedShop.id_shop}`);
+
       const fetchedProducts = response.data.data || [];
+      
       console.log(`Fetched ${fetchedProducts.length} products for shop ${selectedShop.name_shop}`);
+      
       setProducts(fetchedProducts);
     } catch (err) {
       console.error('Error fetching products:', err);
+      setError(prevError => ({ ...prevError, databaseResponseError: "Hubo un error al buscar los productos del comercio" }));
       setProducts([]);
     } 
   };

@@ -2,23 +2,21 @@ import React, { useEffect, useContext, useState } from 'react';
 import AppContext from '../../../../app_context/AppContext';
 import ShopProductListFunctions from './ShopProductsListFunctions.jsx';
 import FiltersForProducts from '../../../client_management/client_product_management/filters_for_client_products/FiltersForProducts.jsx';
-import { PackagePlus, Pencil, Trash2, CheckCircle } from 'lucide-react';
+import { PackagePlus, Pencil, Trash2, CheckCircle, ImagePlus } from 'lucide-react';
 import styles from './ShopProductsList.module.css';
 
 const ShopProductList = () => {
   const {
     products,
     selectedShop,
-    filters,
-    setFilters,
-    filteredProducts,
-    setFilteredProducts,
-    setShowProductManagement
+    filters, setFilters,
+    filteredProducts, setFilteredProducts,
+    setShowProductManagement,
+    selectedProducts, setSelectedProducts
   } = useContext(AppContext);
 
   const { filterProducts, fetchProductsByShop} = ShopProductListFunctions();
   const [filteredProductsCount, setFilteredProductsCount] = useState(0);
-  const [selectedProducts, setSelectedProducts] = useState(new Set());
 
   // fetch products when component mounts or products change
   useEffect(() => {
@@ -29,17 +27,17 @@ const ShopProductList = () => {
 
   useEffect(() => {
     setFilters({
-      temporada: null,
-      tipo: null,
-      oferta: null,
-      calificacion: null,
+      temporada: '',
+      tipo: '',
+      oferta: '',
+      calificacion: 0,
     });
 
     if (selectedShop?.id_shop) {
-      console.log("Fetching products for shop:", selectedShop.name_shop);
+      console.log("-> Buscando productos de la tienda = ", selectedShop.name_shop);
       fetchProductsByShop();
     } else {
-      console.warn("No shop selected or invalid shop ID");
+      console.error("-> No hay tienda seleccionada para buscar productos");
       setFilteredProducts([]);
     }
   }, [selectedShop]);
@@ -100,7 +98,7 @@ const ShopProductList = () => {
             onClick={handleAddProduct}
             className={styles.addButton}
           >
-            Añadir Producto
+            Nuevo Producto
             <PackagePlus size={17}/>
           </button>
         </div>
@@ -164,6 +162,16 @@ const ShopProductList = () => {
                       title="Seleccionar producto"
                     >
                       <CheckCircle size={18} />
+                    </button>
+                    <button 
+                      onClick={() => handleUploadProductImage(product.id_product)}
+                      className={`${styles.actionButton} ${
+                        selectedProducts.has(product.id_product) ? styles.selected : ''
+                      }`}
+                      title="Subir imagen de producto"
+                    >
+                      <ImagePlus size={18} />
+                      
                     </button>
                   </td>
                 </tr>
