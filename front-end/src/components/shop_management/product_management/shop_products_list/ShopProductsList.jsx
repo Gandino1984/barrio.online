@@ -15,10 +15,9 @@ const ShopProductList = () => {
     selectedProducts, setSelectedProducts
   } = useContext(AppContext);
 
-  const { filterProducts, fetchProductsByShop} = ShopProductListFunctions();
+  const { filterProducts, fetchProductsByShop } = ShopProductListFunctions();
   const [filteredProductsCount, setFilteredProductsCount] = useState(0);
 
-  // fetch products when component mounts or products change
   useEffect(() => {
     if (selectedShop?.id_shop) {
       fetchProductsByShop();
@@ -58,12 +57,10 @@ const ShopProductList = () => {
   };
 
   const handleUpdateProduct = (productId) => {
-    // TODO: Implement update product functionality
     console.log('Update product:', productId);
   };
 
   const handleDeleteProduct = (productId) => {
-    // TODO: Implement delete product functionality
     console.log('Delete product:', productId);
   };
 
@@ -77,6 +74,16 @@ const ShopProductList = () => {
       }
       return newSelected;
     });
+  };
+
+  const handleBulkDelete = () => {
+    // TODO: Implement bulk delete functionality
+    console.log('Deleting products:', Array.from(selectedProducts));
+  };
+
+  const handleBulkUpdate = () => {
+    // TODO: Implement bulk update functionality
+    console.log('Updating products:', Array.from(selectedProducts));
   };
 
   return (
@@ -94,15 +101,38 @@ const ShopProductList = () => {
       <div className={styles.listHeader}>
         <div className={styles.listHeaderTop}>
           <h2 className={styles.listTitle}>Lista de Productos</h2>
-          <button 
-            onClick={handleAddProduct}
-            className={styles.addButton}
-          >
-            Nuevo Producto
-            <PackagePlus size={17}/>
-          </button>
+          <div className={styles.buttonGroup}>
+            <button 
+              onClick={handleAddProduct}
+              className={styles.actionButton}
+            >
+              <PackagePlus size={17}/>
+              <span className={styles.buttonText}>Añadir Producto</span>
+            </button>
+            
+            <button 
+              onClick={handleBulkDelete}
+              className={`${styles.actionButton} ${styles.deleteButton}`}
+              disabled={selectedProducts.size === 0}
+            >
+              <Trash2 size={17}/>
+              <span className={styles.buttonText}>Borrar Productos</span>
+            </button>
+
+            <button 
+              onClick={handleBulkUpdate}
+              className={`${styles.actionButton} ${styles.updateButton}`}
+              disabled={selectedProducts.size === 0}
+            >
+              <Pencil size={17}/>
+              <span className={styles.buttonText}>Actualizar Productos</span>
+            </button>
+          </div>
         </div>
-        <p className={styles.productsCount}>Productos mostrados: {filteredProductsCount}</p>
+        <p className={styles.productsCount}>
+          Productos mostrados: {filteredProductsCount} 
+          {selectedProducts.size > 0 && ` | Seleccionados: ${selectedProducts.size}`}
+        </p>
       </div>
 
       <FiltersForProducts />
@@ -127,8 +157,8 @@ const ShopProductList = () => {
             <tbody>
               {filteredProducts.map((product) => (
                 <tr 
-                  key={product.id_product}
-                  className={styles.tableRow}
+                key={product.id_product}
+                className={`${styles.tableRow} ${selectedProducts.has(product.id_product) ? styles.selected : ''}`}
                 >
                   <td className={styles.tableCell}>{product.name_product}</td>
                   <td className={styles.tableCell}>${product.price_product}</td>
@@ -165,13 +195,10 @@ const ShopProductList = () => {
                     </button>
                     <button 
                       onClick={() => handleUploadProductImage(product.id_product)}
-                      className={`${styles.actionButton} ${
-                        selectedProducts.has(product.id_product) ? styles.selected : ''
-                      }`}
+                      className={`${styles.actionButton}`}
                       title="Subir imagen de producto"
                     >
                       <ImagePlus size={18} />
-                      
                     </button>
                   </td>
                 </tr>
