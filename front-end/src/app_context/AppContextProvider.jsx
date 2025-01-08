@@ -29,6 +29,10 @@ export const AppContextProvider = ({ children }) => {
   // initializes showShopManagement with the boolean value of currentUser.
   const [showShopManagement, setshowShopManagement] = useState(() => !!currentUser);
   const [showProductManagement, setShowProductManagement] = useState(false);
+  const [isAddingShop, setIsAddingShop] = useState(false);
+  const [showShopCreationForm, setShowShopCreationForm] = useState(false);
+  const [isUpdatingProduct, setIsUpdatingProduct] = useState(false);
+
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAccepted, setIsAccepted] = useState(false);
@@ -126,10 +130,8 @@ export const AppContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [showRepeatPasswordMessage, setShowRepeatPasswordMessage] = useState(false);
  
-  const [isAddingShop, setIsAddingShop] = useState(false);
-
   const [selectedShopType, setSelectedShopType] = useState(null);
-  const [showShopCreationForm, setShowShopCreationForm] = useState(false);
+  
   const [ip, setIp] = useState('');
   
   const [newShop, setNewShop] = useState({
@@ -183,6 +185,7 @@ export const AppContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState(new Set());
+  const [selectedProductToUpdate, setSelectedProductToUpdate] = useState(null);
 
   const [filters, setFilters] = useState({
     temporada: '',
@@ -259,7 +262,9 @@ export const AppContextProvider = ({ children }) => {
     isAccepted, setIsAccepted,
     isDeclined, setIsDeclined,
     modalMessage, setModalMessage,
-    selectedProducts, setSelectedProducts
+    selectedProducts, setSelectedProducts,
+    isUpdatingProduct, setIsUpdatingProduct,
+    selectedProductToUpdate, setSelectedProductToUpdate
   };
 
   return (
