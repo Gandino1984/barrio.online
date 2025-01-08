@@ -4,25 +4,68 @@ import ShopProductListFunctions from './ShopProductsListFunctions.jsx';
 import FiltersForProducts from '../../../client_management/client_product_management/filters_for_client_products/FiltersForProducts.jsx';
 import { PackagePlus, Pencil, Trash2, CheckCircle, ImagePlus } from 'lucide-react';
 import styles from './ShopProductsList.module.css';
+import ProductCreationFormFunctions from '../product_creation_form/ProductCreationFormFunctions.jsx';
 
 const ShopProductList = () => {
   const {
+    currentUser,
     products,
     selectedShop,
     filters, setFilters,
     filteredProducts, setFilteredProducts,
     setShowProductManagement,
-    selectedProducts, setSelectedProducts
+    selectedProducts, setSelectedProducts,
+    setSelectedProductToUpdate,
+    setIsUpdatingProduct 
   } = useContext(AppContext);
 
+  const { resetNewProductData } = ProductCreationFormFunctions();
+
   const { filterProducts, fetchProductsByShop } = ShopProductListFunctions();
+  
   const [filteredProductsCount, setFilteredProductsCount] = useState(0);
 
   useEffect(() => {
+    let intervalId;
+    
     if (selectedShop?.id_shop) {
+      // Initial fetch
       fetchProductsByShop();
+      
+      // Set up polling every 30 seconds
+      intervalId = setInterval(() => {
+        fetchProductsByShop();
+      }, 30000);
     }
-  }, [selectedShop, products.length]);
+
+    // Cleanup interval on unmount or shop change
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [selectedShop]); 
+
+  
+  useEffect(() => {
+    // Reset product-related state on login/logout
+    if (!currentUser) {
+      setNewProductData({
+        name_product: '',
+        price_product: '',
+        discount_product: 0,
+        season_product: '',
+        calification_product: 0,
+        type_product: '',
+        stock_product: 0,
+        info_product: '',
+        id_shop: ''
+      });
+      setSelectedProductToUpdate(null);
+      setIsUpdatingProduct(false);
+      setShowProductManagement(false);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     setFilters({
@@ -56,8 +99,18 @@ const ShopProductList = () => {
     setShowProductManagement(true);
   };
 
+
   const handleUpdateProduct = (productId) => {
-    console.log('Update product:', productId);
+    const productToUpdate = products.find(p => p.id_product === productId);
+    if (productToUpdate) {
+      console.log('Setting up product for update:', productToUpdate);
+      // Reset form first
+      resetNewProductData();
+      // Then set the product and update mode
+      setSelectedProductToUpdate(productToUpdate);
+      setIsUpdatingProduct(true);
+      setShowProductManagement(true);
+    }
   };
 
   const handleDeleteProduct = (productId) => {

@@ -8,14 +8,30 @@ import styles from './ProductManagement.module.css';
 function ProductManagement() {
   const { 
     selectedShop, 
-    showProductManagement
+    showProductManagement,
+    setIsUpdatingProduct,
+    setSelectedProductToUpdate,
+    setNewProductData
   } = useContext(AppContext);
   
   const { fetchProductsByShop } = ProductManagementFunctions();
 
   useEffect(() => {
+    // Reset product management state when changing shops
     if (selectedShop) {
-      fetchProductsByShop();
+      setIsUpdatingProduct(false);
+      setSelectedProductToUpdate(null);
+      setNewProductData({
+        name_product: '',
+        price_product: '',
+        discount_product: 0,
+        season_product: '',
+        calification_product: 0,
+        type_product: '',
+        stock_product: 0,
+        info_product: '',
+        id_shop: selectedShop.id_shop
+      });
     }
   }, [selectedShop]);
 

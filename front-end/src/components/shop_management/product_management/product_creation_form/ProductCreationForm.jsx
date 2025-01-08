@@ -1,25 +1,54 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import ProductCreationFormFunctions from './ProductCreationFormFunctions';
 import AppContext from '../../../../app_context/AppContext';
 import styles from './ProductCreationForm.module.css';
-import { CirclePlus, ScrollText, PackagePlus } from 'lucide-react';
+import { CirclePlus, ScrollText, PackagePlus, Save } from 'lucide-react';
 
 const ProductCreationForm = () => {
   const {
     handleChange,
     handleNumericInputChange,
     resetNewProductData,
-    handleSubmit
+    handleSubmit,
+    handleUpdate
   } = ProductCreationFormFunctions();
 
   const { 
     newProductData: productData,
     filterOptions,
-    setShowProductManagement
+    setShowProductManagement,
+    isUpdatingProduct,
+    selectedProductToUpdate
   } = useContext(AppContext);
+
+  useEffect(() => {
+    if (isUpdatingProduct && selectedProductToUpdate) {
+      Object.keys(selectedProductToUpdate).forEach(key => {
+        if (key in productData) {
+          handleChange({
+            target: {
+              name: key,
+              value: selectedProductToUpdate[key]
+            }
+          });
+        }
+      });
+    } else {
+      resetNewProductData();
+    }
+  }, [isUpdatingProduct, selectedProductToUpdate]);
 
   const handleViewProductList = () => {
     setShowProductManagement(false);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (isUpdatingProduct) {
+      handleUpdate(e);
+    } else {
+      handleSubmit(e);
+    }
   };
 
   return (
@@ -36,10 +65,10 @@ const ProductCreationForm = () => {
         </div>
 
         <h3 className={styles.formTitle}>
-          ¿O quieres crear un nuevo producto?
+          {isUpdatingProduct ? 'Actualizar Producto' : '¿O quieres crear un nuevo producto?'}
         </h3>
         
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form onSubmit={handleFormSubmit} className={styles.form}>
             <div className={styles.formField}>
               <input
                 type="text"
@@ -135,10 +164,22 @@ const ProductCreationForm = () => {
             </div>
 
             <div className={styles.formField}>
-              <button type="submit" className={styles.submitButton}>
-                Crear Producto
-                <PackagePlus size={16}/>
-              </button>
+                <button 
+                  type="submit" 
+                  className={styles.submitButton}
+                >
+                  {isUpdatingProduct ? (
+                    <>
+                      Actualizar Producto
+                      <Save size={16}/>
+                    </>
+                  ) : (
+                    <>
+                      Crear Producto
+                      <PackagePlus size={16}/>
+                    </>
+                  )}
+                </button>
             </div>
         </form>
     </div>

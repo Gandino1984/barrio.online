@@ -8,7 +8,10 @@ const ProductCreationFormFunctions = () => {
     selectedShop, setError, 
     setShowErrorCard, newProductData, 
     products, setProducts,
-    setShowProductManagement 
+    setShowProductManagement,
+    selectedProductToUpdate,
+    setIsUpdatingProduct,
+    setSelectedProductToUpdate
   } = useContext(AppContext);
 
   useEffect(() => {
@@ -82,6 +85,8 @@ const ProductCreationFormFunctions = () => {
       ...prevError,
       productError: '',
     }));
+    setIsUpdatingProduct(false);
+    setSelectedProductToUpdate(null);
   };
 
   const handleSubmit = async (e) => {
@@ -101,13 +106,8 @@ const ProductCreationFormFunctions = () => {
       }
 
       if (response.data.data) {
-        // Add the new product to the products array
         setProducts(prevProducts => [...prevProducts, response.data.data]);
-        
-        // Reset the form
         resetNewProductData();
-        
-        // Switch to product list view
         setShowProductManagement(false);
       }
     } catch (err) {
@@ -120,14 +120,68 @@ const ProductCreationFormFunctions = () => {
     }
   };
 
-  const fetchUpdatedProducts = async () => {
+  const handleUpdate = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axiosInstance.get(`/product/by-shop-id/${selectedShop.id_shop}`);
+      if (!validateProductData(newProductData)) return;
+  
+      const productId = selectedProductToUpdate.id_product;
+      
+      if (!productId) {
+        throw new Error('No product ID found for update');
+      }
+  
+      const updateData = {
+        id_product: productId,
+        name_product: newProductData.name_product,
+        price_product: newProductData.price_product,
+        discount_product: newProductData.discount_product,
+        season_product: newProductData.season_product,
+        calification_product: newProductData.calification_product,
+        type_product: newProductData.type_product,
+        stock_product: newProductData.stock_product,
+        info_product: newProductData.info_product,
+        id_shop: newProductData.id_shop
+      };
+  
+      const response = await axiosInstance.patch('/product/update', updateData);
+  
+      if (!response.data) {
+        throw new Error('No response data received');
+      }
+  
+      if (response.data.error) {
+        setError(prevError => ({
+          ...prevError,
+          databaseResponseError: response.data.error
+        }));
+        setShowErrorCard(true);
+        return;
+      }
+  
       if (response.data.data) {
-        setProducts(response.data.data);
+        // Update local products list
+        setProducts(prevProducts => 
+          prevProducts.map(product => 
+            product.id_product === productId 
+              ? response.data.data 
+              : product
+          )
+        );
+        
+        // Reset form and navigation
+        resetNewProductData();
+        setShowProductManagement(false);
+        setIsUpdatingProduct(false);
+        setSelectedProductToUpdate(null);
       }
     } catch (err) {
-      console.error('Error fetching updated products:', err);
+      setError(prevError => ({
+        ...prevError,
+        databaseResponseError: err.message || 'Error al actualizar el producto'
+      }));
+      setShowErrorCard(true);
+      console.error('Error updating product:', err);
     }
   };
 
@@ -135,8 +189,8 @@ const ProductCreationFormFunctions = () => {
     handleChange,
     handleNumericInputChange,
     handleSubmit,
-    resetNewProductData,
-    fetchUpdatedProducts
+    handleUpdate,
+    resetNewProductData
   };
 };
 
