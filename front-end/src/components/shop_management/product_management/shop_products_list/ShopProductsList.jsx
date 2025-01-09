@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import AppContext from '../../../../app_context/AppContext';
 import ShopProductListFunctions from './ShopProductsListFunctions.jsx';
-import FiltersForProducts from '../../../client_management/client_product_management/filters_for_client_products/FiltersForProducts.jsx';
+import FiltersForProducts from '../../../filters_for_products/FiltersForProducts.jsx';
 import { PackagePlus, Pencil, Trash2, CheckCircle, ImagePlus } from 'lucide-react';
 import styles from './ShopProductsList.module.css';
 import ProductCreationFormFunctions from '../product_creation_form/ProductCreationFormFunctions.jsx';

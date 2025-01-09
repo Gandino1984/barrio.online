@@ -1,6 +1,6 @@
 import React from 'react';
 import { useContext } from 'react';
-import AppContext from '../../../../app_context/AppContext.js';
+import AppContext from '../../app_context/AppContext.js';
 import styles from './FiltersForProducts.module.css';
 
 const FiltersForProducts = () => {
