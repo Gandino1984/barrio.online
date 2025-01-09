@@ -8,7 +8,8 @@ const ShopProductsListFunctions = () => {
     setError,
     selectedShop, 
     setFilteredProducts,
-    filters
+    filters,
+    setShowErrorCard
   } = useContext(AppContext);
 
   const filterProducts = (products, filters) => {
@@ -55,9 +56,35 @@ const ShopProductsListFunctions = () => {
     } 
   };
 
+  const deleteProduct = async (productId) => {
+    try {
+      const response = await axiosInstance.delete(`/product/remove-by-id/${productId}`);
+      
+      if (response.data.success) {
+        return { success: true, message: response.data.success };
+      } else {
+        setError(prevError => ({ 
+          ...prevError, 
+          productError: response.data.error || "Error al eliminar el producto" 
+        }));
+        setShowErrorCard(true);
+        return { success: false, message: response.data.error };
+      }
+    } catch (err) {
+      console.error('Error deleting product:', err);
+      setError(prevError => ({ 
+        ...prevError, 
+        productError: "Error al eliminar el producto" 
+      }));
+      setShowErrorCard(true);
+      return { success: false, message: "Error al eliminar el producto" };
+    }
+  };
+
   return {
     filterProducts,
-    fetchProductsByShop
+    fetchProductsByShop,
+    deleteProduct
   };
 };
 

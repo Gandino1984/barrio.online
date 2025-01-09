@@ -1,7 +1,7 @@
 .modalOverlay {
     position: fixed;
     inset: 0;
-    z-index: 50;
+    z-index: 99999;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,6 +12,7 @@
     inset: 0;
     background-color: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(3px);
+    pointer-events: none;
   }
   
   .modalContainer {
