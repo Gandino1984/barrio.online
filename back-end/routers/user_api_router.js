@@ -2,6 +2,7 @@ import { Router } from "express";
 import userApiController from "../controllers/user/user_api_controller.js";
 import IpRegistry from '../../back-end/models/ip_registry_model.js'; 
 import dotenv from 'dotenv';
+import multer from 'multer';
 
 dotenv.config();
 
@@ -10,6 +11,12 @@ const router = Router();
 const MAX_REGISTRATIONS = parseInt(process.env.MAX_REGISTRATIONS) || 2;
 
 const RESET_HOURS = parseInt(process.env.RESET_HOURS) || 24;
+
+const upload = multer({
+    limits: {
+        fileSize: 2 * 1024 * 1024 // 2MB limit
+    }
+});
 
 router.get('/ip/check', async (req, res) => {
     const userIp = req.socket.remoteAddress;
@@ -117,5 +124,29 @@ router.post('/register', async (req, res) => {
 
 router.post("/details", userApiController.getByUserName);
 
+router.post("/upload-profile-image", upload.single('profileImage'), async (req, res) => {
+    try {
+        const file = req.file;
+
+        // Log incoming request details
+        console.log('Received file:', {
+            originalName: file.originalname,
+            size: file.size,
+            mimetype: file.mimetype,
+        });
+
+        if (!file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
+        // Call the user controller to handle the image processing
+        const result = await userApiController.uploadProfileImage(req, res);
+        
+        res.status(200).json({ message: 'Image uploaded successfully', data: result });
+    } catch (error) {
+        console.error('Error processing image:', error);
+        res.status(500).json({ error: 'Error al procesar la imagen' });
+    }
+});
 
 export default router;

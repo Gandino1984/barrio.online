@@ -1,4 +1,4 @@
-.container{
+.container {
     width: 100vw;
     display: flex;
     align-items: center;
@@ -6,11 +6,12 @@
     padding: .7rem 2rem;
     position: fixed;
     top: 0;
-    /* margin-bottom: 2rem; */
     background-color: white;
+    z-index: 100;
+    margin-bottom: 5rem;
 }
 
-.logoutButton, .backButton{
+.logoutButton, .backButton {
     position: relative;
     display: flex;
     align-items: center;
@@ -26,9 +27,22 @@
     background-color: var(--active-button);
 }
 
-.logoutButton:hover, .backButton:hover{
+.logoutButton:hover, .backButton:hover {
     transition: all .15s ease;
     color: white;
     transform: scale(1.1);
     background-color: var(--hovered-button);
+}
+
+/* Responsive styles */
+@media (max-width: 640px) {
+    .container {
+        padding: .5rem 1rem;
+    }
+
+    .logoutButton, .backButton {
+        font-size: .7rem;
+        padding: .3rem;
+        gap: .3rem;
+    }
 }

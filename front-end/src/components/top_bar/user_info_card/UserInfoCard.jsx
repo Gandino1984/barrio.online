@@ -1,38 +1,74 @@
 import React, { useContext, useEffect } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
+import { ProfileImageUploadFunctions } from './ProfileImageUploadFunctions.jsx';
+import { SquareUserRound, Camera } from 'lucide-react';
 import styles from './UserInfoCard.module.css';
-import { SquareUserRound } from 'lucide-react';
 
 const UserInfoCard = () => {
+    const { 
+        currentUser,
+        isUploading,
+        error
+    } = useContext(AppContext);
+    
+    const { handleImageUpload } = ProfileImageUploadFunctions();
 
-  const { currentUser, setCurrentUser } = useContext(AppContext);
-
-  useEffect(() => {
-    if (currentUser) {
-
-      const userData = typeof currentUser === 'string' ? JSON.parse(currentUser) : currentUser;
-  
-      localStorage.setItem('currentUser', JSON.stringify(userData));
-
-      setCurrentUser(userData);
-
-      console.log('-> UserInfoCard.jsx - currentUser = ', userData);
-    } else {
-      localStorage.removeItem('currentUser');
+    if (!currentUser) {
+        return <div className={styles.message}>¡Te damos la bienvenida! Inicia sesión</div>;
     }
-  }, [currentUser, setCurrentUser]);
 
-  if (!currentUser) {
-    return <div className={styles.message}>¡Te damos la bienvenida! Inicia sesión</div>;
-  }
+    const userData = typeof currentUser === 'string' ? JSON.parse(currentUser) : currentUser;
 
-  const userData = typeof currentUser === 'string' ? JSON.parse(currentUser) : currentUser;
+    console.log('User data:', userData); // Log user data to check imageUrl
+    console.log('Image URL:', userData.imageUrl); // Log the image URL
 
-  return (
-    <div className={styles.userInfoCard}>
-      <p>¡Te damos la bienvenida, <span>{userData.username}</span>!</p>
-    </div>
-  );
+    useEffect(() => {
+        if (!isUploading) {
+            console.log('User data after upload:', userData); // Log user data after upload
+            console.log('Image URL after upload:', userData.imageUrl); // Log the image URL after upload
+        }
+    }, [isUploading, userData]);
+
+    return (
+        <div className={styles.userInfoCard}>
+            <div className={styles.profileImageContainer}>
+                {userData.imageUrl ? (
+                    <img 
+                        src={userData.imageUrl}
+                        alt="Profile"
+                        className={styles.profileImage}
+                    />
+                ) : (
+                    <img 
+                        src="https://via.placeholder.com/100" 
+                        alt="Placeholder"
+                        className={styles.profileImage}
+                    />
+                )}
+                <label className={`${styles.uploadButton} ${isUploading ? styles.uploading : ''}`}> 
+                    <input
+                        type="file"
+                        className={styles.uploadInput}
+                        onChange={handleImageUpload}
+                        accept="image/jpeg,image/png,image/gif,image/webp"
+                        disabled={isUploading}
+                    />
+                    <Camera size={16} />
+                </label>
+            </div>
+            <p>¡Te damos la bienvenida, <span>{userData.username}</span>!</p>
+            {error?.imageError && (
+                <div className={styles.errorMessage}>
+                    {error.imageError}
+                </div>
+            )}
+            {isUploading && (
+                <div className={styles.uploadingMessage}>
+                    Subiendo imagen...
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default UserInfoCard;

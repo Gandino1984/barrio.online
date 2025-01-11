@@ -1,5 +1,7 @@
 import user_model from "../../models/user_model.js";
 import bcrypt from "bcrypt";
+import { promises as fs } from 'fs';
+import { join } from 'path';
 
 const validateUserData = (userData) => {
     console.log("-> user_controller.js - validateUserData() - userData = ", userData);
@@ -344,6 +346,76 @@ async function removeById(id_user) {
     }
 }
 
+async function saveProfileImage(userId, imageBuffer) {
+    try {
+        const filename = `user_${userId}_${Date.now()}.webp`;
+
+        const uploadPath = join(process.cwd(), 'public', 'uploads', 'profiles');
+        
+        const fullPath = join(uploadPath, filename);
+
+        await fs.mkdir(uploadPath, { recursive: true });
+
+        await fs.writeFile(fullPath, imageBuffer);
+
+        const user = await user_model.findByPk(userId);
+
+        if (!user) {
+            console.error('-> user_controller.js - saveProfileImage() - Error saving profile image: User not found');
+            return { error: 'Usuario no encontrado' };
+        }
+
+        // Remove old profile image if exists
+        if (user.image_user) {
+            const oldImagePath = join(process.cwd(), 'public', user.image_user);
+
+            await fs.unlink(oldImagePath).catch(() => {});
+        }
+
+        user.image_user = `/uploads/profiles/${filename}`;
+        await user.save();
+
+        return { 
+            data: { imageUrl: user.image_user },
+            message: 'Imagen de perfil actualizada correctamente'
+        };
+    } catch (err) {
+        console.error('-> user_controller.js - saveProfileImage() - Error saving profile image:', err);
+        return { 
+            error: 'Error al guardar la imagen de perfil', 
+        };
+    }
+}
+
+async function uploadProfileImage(file, userId) {
+    try {
+        console.log('-> uploadProfileImage() - file = ', file);
+        if (!file || !file.buffer || file.buffer.length === 0) {
+            throw new Error('No file buffer found');
+        }
+
+        const uploadPath = join(__dirname, 'uploads', `${userId}-${file.originalname}`);
+
+        // Ensure the uploads directory exists
+        await fs.mkdir(join(uploadPath, '..'), { recursive: true });
+
+        // Log the buffer size
+        console.log('Buffer size:', file.buffer.length);
+
+        // Save the file to the specified path
+        await fs.writeFile(uploadPath, file.buffer);
+
+        // Log success
+        console.log('Image saved successfully:', uploadPath);
+
+        // Return success message or any additional data if needed
+        return { message: 'Image saved successfully', filePath: uploadPath };
+    } catch (error) {
+        console.error('Error saving image:', error);
+        throw new Error('Error processing image: ' + error.message);
+    }
+}
+
 export { 
     getAll, 
     getById, 
@@ -352,7 +424,9 @@ export {
     removeById, 
     login, 
     register,
-    getByUserName 
+    getByUserName,
+    uploadProfileImage,
+    saveProfileImage
 };
 
 export default { 
@@ -363,5 +437,7 @@ export default {
     removeById, 
     login, 
     register,
-    getByUserName 
+    getByUserName,
+    uploadProfileImage,
+    saveProfileImage
 };

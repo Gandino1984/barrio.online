@@ -1,5 +1,8 @@
 import userController from "./user_controller.js";
 import bcrypt from 'bcrypt';
+import sharp from 'sharp';
+import fs from 'fs/promises';
+import path from 'path';
 
 async function getAll(req, res) {
     const {error, data} = await userController.getAll();
@@ -90,6 +93,31 @@ async function removeById(req, res) {
     }
 }
 
+async function uploadProfileImage(req, res) {
+    try {
+        if (!req.file) {
+            console.error('-> user_api_controller.js - uploadProfileImage() - No se ha proporcionado ninguna imagen');
+            return res.status(400).json({ error: 'No se ha proporcionado ninguna imagen' });
+        }
+
+        const userId = req.body.userId;
+        const imageBuffer = req.file.buffer;
+
+        const result = await userController.saveProfileImage(userId, imageBuffer);
+        
+        if (result.error) {
+            return res.status(400).json(result);
+        }
+        
+        return res.json(result);
+    } catch (err) {
+        console.error('Error in uploadProfileImage:', err);
+        return res.status(500).json({ 
+            error: 'Error al procesar la imagen'
+        });
+    }
+}
+
 export {
     getAll,
     getById,
@@ -98,7 +126,8 @@ export {
     removeById,
     login,
     register,
-    getByUserName
+    getByUserName,
+    uploadProfileImage
 }
 
 export default {
@@ -109,5 +138,6 @@ export default {
     removeById,
     login,
     register,
-    getByUserName
+    getByUserName,
+    uploadProfileImage
 }
