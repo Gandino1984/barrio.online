@@ -134,90 +134,35 @@ export const ProfileImageUploadFunctions = () => {
         const formData = new FormData();
         formData.append('profileImage', compressedFile);
         formData.append('userId', userData.id_user);
-<<<<<<< HEAD
-    
-        // Create custom axios instance with specific timeout
-=======
-
->>>>>>> e080c1a (dev16 rebase)
         const customAxiosInstance = axiosInstance.create({
             timeout: 15000 // 15 seconds timeout
         });
 
         try {
-<<<<<<< HEAD
             // First attempt with shorter timeout
-=======
->>>>>>> e080c1a (dev16 rebase)
             const response = await customAxiosInstance.post('/user/upload-profile-image', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },
-<<<<<<< HEAD
-                onUploadProgress: (progressEvent) => {
-                    const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                    console.log(`Upload Progress: ${percentCompleted}%`);
-                }
-            });
-
-            if (!response.data) {
-                throw new Error('No se recibió respuesta del servidor');
-            }
-
-            if (response.data.error) {
-                throw new Error(response.data.error);
-            }
-
-            return response;
-
-        } catch (error) {
-            // Handle specific error types
-            if (error.code === 'ECONNABORTED') {
-                throw new Error('La conexión ha tardado demasiado. Por favor, intente con una imagen más pequeña o verifique su conexión.');
-            }
-            
-            if (error.response?.status === 413) {
-                throw new Error('La imagen es demasiado grande. Por favor, seleccione una imagen más pequeña.');
-            }
-
-            const errorMessage = error.response?.data?.message || error.message;
-            throw new Error(`Error al procesar la imagen: ${errorMessage}`);
-=======
             });
             return response;
         } catch (error) {
             console.error('Error in image upload:', error);
             console.error('Error details:', error.response ? error.response.data : error.message);
             throw new Error('Error al procesar la imagen: ' + (error.response ? JSON.stringify(error.response.data) : error.message));
->>>>>>> e080c1a (dev16 rebase)
         }
     };
 
     const handleImageUpload = async (event) => {
         setError(prevError => ({ ...prevError, imageError: '' }));
         
-<<<<<<< HEAD
         try {
             const file = event.target.files[0];
-=======
-        const file = event.target.files[0];
-        console.log('Uploading image:', file);
-
-        if (!file) {
-            console.error('No file selected');
-            return;
-        }
-
-        try {
->>>>>>> e080c1a (dev16 rebase)
             validateImage(file);
             setIsUploading(true);
 
             const response = await processImage(file);
-<<<<<<< HEAD
-=======
             console.log('Upload successful:', response.data);
->>>>>>> e080c1a (dev16 rebase)
 
             if (response.data?.data?.imageUrl) {
                 const updatedUserData = {

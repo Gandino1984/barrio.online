@@ -19,19 +19,6 @@ const UserInfoCard = () => {
 
     const userData = typeof currentUser === 'string' ? JSON.parse(currentUser) : currentUser;
 
-<<<<<<< HEAD
-=======
-    console.log('User data:', userData); // Log user data to check imageUrl
-    console.log('Image URL:', userData.imageUrl); // Log the image URL
-
-    useEffect(() => {
-        if (!isUploading) {
-            console.log('User data after upload:', userData); // Log user data after upload
-            console.log('Image URL after upload:', userData.imageUrl); // Log the image URL after upload
-        }
-    }, [isUploading, userData]);
-
->>>>>>> e080c1a (dev16 rebase)
     return (
         <div className={styles.userInfoCard}>
             <div className={styles.profileImageContainer}>
@@ -42,19 +29,9 @@ const UserInfoCard = () => {
                         className={styles.profileImage}
                     />
                 ) : (
-<<<<<<< HEAD
                     <SquareUserRound className={styles.defaultIcon} />
                 )}
                 <label className={`${styles.uploadButton} ${isUploading ? styles.uploading : ''}`}>
-=======
-                    <img 
-                        src="https://via.placeholder.com/100" 
-                        alt="Placeholder"
-                        className={styles.profileImage}
-                    />
-                )}
-                <label className={`${styles.uploadButton} ${isUploading ? styles.uploading : ''}`}> 
->>>>>>> e080c1a (dev16 rebase)
                     <input
                         type="file"
                         className={styles.uploadInput}
