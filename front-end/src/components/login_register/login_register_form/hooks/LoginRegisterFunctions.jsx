@@ -275,14 +275,14 @@ export const LoginRegisterFunctions = () => {
   
         await handleRegistrationResponse(response);
   
-        // Reset key states after successful registration
-        setPassword('');
-        setPasswordRepeat('');
-        setDisplayedPassword('');
-        setShowPasswordRepeat(false);
-        setUserType('');
+        // // Reset key states after successful registration
+        // setPassword('');
+        // setPasswordRepeat('');
+        // setDisplayedPassword('');
+        // setShowPasswordRepeat(false);
+        // setUserType('');
   
-        toggleForm();
+        // toggleForm();
     } catch (err) {
       console.error('-> LoginRegisterFunctions.jsx - handleRegistration() - Error = ', err);
       setError(prevError => ({ ...prevError, userError: "Error al registrar el usuario" }));
