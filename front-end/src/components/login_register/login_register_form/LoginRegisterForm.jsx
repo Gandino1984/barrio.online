@@ -15,7 +15,13 @@ const LoginRegisterForm = () => {
     showShopManagement, passwordError,
     password, passwordRepeat, showPasswordRepeat,
     keyboardKey, userlocation, userlocationError,
-    showRepeatPasswordMessage
+    showRepeatPasswordMessage,
+    setShowRepeatPasswordMessage,
+    setShowPasswordRepeat,
+    setPassword,
+    setPasswordRepeat,
+    setDisplayedPassword,
+    setKeyboardKey
   } = useContext(AppContext);
 
   const {
@@ -30,6 +36,18 @@ const LoginRegisterForm = () => {
   console.log('-> LoginRegisterForm.jsx - isLoggingIn state = ', isLoggingIn);
   
   console.log('-> LoginRegisterForm.jsx - showShopManagement state = ', showShopManagement); 
+
+  useEffect(() => {
+    // Reset form state when not logging in (registration scenario)
+    if (!isLoggingIn) {
+      setShowRepeatPasswordMessage(false);
+      setShowPasswordRepeat(false);
+      setPassword('');
+      setPasswordRepeat('');
+      setDisplayedPassword('');
+      setKeyboardKey(prev => prev + 1);
+    }
+  }, [isLoggingIn]);
   
   if (showShopManagement || currentUser) {
     console.log('-> LoginRegisterForm.jsx - userType = ', userType);

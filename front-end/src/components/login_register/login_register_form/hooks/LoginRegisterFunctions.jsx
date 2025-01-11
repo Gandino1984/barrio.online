@@ -281,7 +281,6 @@ export const LoginRegisterFunctions = () => {
         // setDisplayedPassword('');
         // setShowPasswordRepeat(false);
         // setUserType('');
-  
         // toggleForm();
     } catch (err) {
       console.error('-> LoginRegisterFunctions.jsx - handleRegistration() - Error = ', err);
