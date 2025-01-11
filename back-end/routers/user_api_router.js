@@ -117,5 +117,6 @@ router.post('/register', async (req, res) => {
 
 router.post("/details", userApiController.getByUserName);
 
+router.post("/upload-profile-image", userApiController.uploadProfileImage);
 
 export default router;

@@ -57,6 +57,7 @@ export const AppContextProvider = ({ children }) => {
     databaseResponseError: '',
     shopError: '',
     productError: '',
+    imageError: ''
   });
 
   // Function to check and clear expired user data
@@ -213,6 +214,8 @@ export const AppContextProvider = ({ children }) => {
     },
   });
 
+  const [isUploading, setIsUploading] = useState(false);
+
     // Check for expired user data on component mount
     useEffect(() => {
       checkAndClearUserData();
@@ -264,7 +267,8 @@ export const AppContextProvider = ({ children }) => {
     modalMessage, setModalMessage,
     selectedProducts, setSelectedProducts,
     isUpdatingProduct, setIsUpdatingProduct,
-    selectedProductToUpdate, setSelectedProductToUpdate
+    selectedProductToUpdate, setSelectedProductToUpdate,
+    isUploading, setIsUploading
   };
 
   return (

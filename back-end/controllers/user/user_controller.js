@@ -344,6 +344,47 @@ async function removeById(id_user) {
     }
 }
 
+async function saveProfileImage(userId, imageBuffer) {
+    try {
+        const filename = `user_${userId}_${Date.now()}.webp`;
+
+        const uploadPath = path.join(process.cwd(), 'public', 'uploads', 'profiles');
+        
+        const fullPath = path.join(uploadPath, filename);
+
+        await fs.mkdir(uploadPath, { recursive: true });
+
+        await fs.writeFile(fullPath, imageBuffer);
+
+        const user = await user_model.findByPk(userId);
+
+        if (!user) {
+            console.error('-> user_controller.js - saveProfileImage() - Error saving profile image: User not found');
+            return { error: 'Usuario no encontrado' };
+        }
+
+        // Remove old profile image if exists
+        if (user.image_user) {
+            const oldImagePath = path.join(process.cwd(), 'public', user.image_user);
+
+            await fs.unlink(oldImagePath).catch(() => {});
+        }
+
+        user.image_user = `/uploads/profiles/${filename}`;
+        await user.save();
+
+        return { 
+            data: { imageUrl: user.image_user },
+            message: 'Imagen de perfil actualizada correctamente'
+        };
+    } catch (err) {
+        console.error('-> user_controller.js - saveProfileImage() - Error saving profile image:', err);
+        return { 
+            error: 'Error al guardar la imagen de perfil', 
+        };
+    }
+}
+
 export { 
     getAll, 
     getById, 

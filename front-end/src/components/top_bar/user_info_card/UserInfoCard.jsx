@@ -1,37 +1,46 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
+import { ProfileImageUploadFunctions } from '../../login_register/login_register_form/hooks/ProfileImageUploadFunctions.jsx';
+import { SquareUserRound, Camera } from 'lucide-react';
 import styles from './UserInfoCard.module.css';
-import { SquareUserRound } from 'lucide-react';
 
 const UserInfoCard = () => {
-
-  const { currentUser, setCurrentUser } = useContext(AppContext);
-
-  useEffect(() => {
-    if (currentUser) {
-
-      const userData = typeof currentUser === 'string' ? JSON.parse(currentUser) : currentUser;
-  
-      localStorage.setItem('currentUser', JSON.stringify(userData));
-
-      setCurrentUser(userData);
-
-      console.log('-> UserInfoCard.jsx - currentUser = ', userData);
-    } else {
-      localStorage.removeItem('currentUser');
-    }
-  }, [currentUser, setCurrentUser]);
+  const { currentUser, 
+    isUploading
+   } = useContext(AppContext);
+  const { handleImageUpload } = ProfileImageUploadFunctions();
 
   if (!currentUser) {
-    return <div className={styles.message}>¡Te damos la bienvenida! Inicia sesión</div>;
+      return <div className={styles.message}>¡Te damos la bienvenida! Inicia sesión</div>;
   }
 
   const userData = typeof currentUser === 'string' ? JSON.parse(currentUser) : currentUser;
 
   return (
-    <div className={styles.userInfoCard}>
-      <p>¡Te damos la bienvenida, <span>{userData.username}</span>!</p>
-    </div>
+      <div className={styles.userInfoCard}>
+          <div className={styles.profileImageContainer}>
+              {userData.imageUrl ? (
+                  <img 
+                      src={userData.imageUrl}
+                      alt="Profile"
+                      className={styles.profileImage}
+                  />
+              ) : (
+                  <SquareUserRound className={styles.defaultIcon} />
+              )}
+              <label className={styles.uploadButton}>
+                  <input
+                      type="file"
+                      className={styles.uploadInput}
+                      onChange={handleImageUpload}
+                      accept="image/*"
+                      disabled={isUploading}
+                  />
+                  <Camera size={16} />
+              </label>
+          </div>
+          <p>¡Te damos la bienvenida, <span>{userData.username}</span>!</p>
+      </div>
   );
 };
 

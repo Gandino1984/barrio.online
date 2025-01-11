@@ -4,6 +4,8 @@ import { useUsernameValidation } from './useUsernameValidation.jsx';
 import { useIPValidation } from './useIpValidation.jsx';
 import axiosInstance from '../../../../../utils/axiosConfig.js';
 
+import {ProfileImageUploadFunctions} from './ProfileImageUploadFunctions.jsx';
+
 export const LoginRegisterFunctions = () => {
   const {
     isLoggingIn, setIsLoggingIn, username, 
