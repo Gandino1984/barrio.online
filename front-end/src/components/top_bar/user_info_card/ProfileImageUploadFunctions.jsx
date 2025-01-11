@@ -11,7 +11,11 @@ export const ProfileImageUploadFunctions = () => {
     } = useContext(AppContext);
 
     const validateImage = (file) => {
+<<<<<<< HEAD
         const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+=======
+        const allowedTypes = ['image/jpeg','image/jpg', 'image/png', 'image/gif', 'image/webp'];
+>>>>>>> e080c1a (dev16 rebase)
         const maxSize = 1 * 1024 * 1024; // Reduced to 1MB for faster upload
 
         if (!file) {
@@ -29,22 +33,35 @@ export const ProfileImageUploadFunctions = () => {
         return true;
     };
 
+<<<<<<< HEAD
     const compressImage = async (file) => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
+=======
+    const compressImage = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+>>>>>>> e080c1a (dev16 rebase)
             reader.onload = (event) => {
                 const img = new Image();
                 img.src = event.target.result;
                 img.onload = () => {
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
+<<<<<<< HEAD
                     
                     // Reduce maximum dimension to 600px for faster upload
                     let width = img.width;
                     let height = img.height;
                     const maxDimension = 600;
                     
+=======
+                    const maxDimension = 600;
+                    let width = img.width;
+                    let height = img.height;
+
+>>>>>>> e080c1a (dev16 rebase)
                     if (width > height && width > maxDimension) {
                         height = (height * maxDimension) / width;
                         width = maxDimension;
@@ -52,6 +69,7 @@ export const ProfileImageUploadFunctions = () => {
                         width = (width * maxDimension) / height;
                         height = maxDimension;
                     }
+<<<<<<< HEAD
                     
                     canvas.width = width;
                     canvas.height = height;
@@ -71,6 +89,24 @@ export const ProfileImageUploadFunctions = () => {
                 img.onerror = reject;
             };
             reader.onerror = reject;
+=======
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+                    canvas.toBlob((blob) => {
+                        if (blob) {
+                            resolve(blob);
+                        } else {
+                            reject(new Error('Error al comprimir la imagen')); 
+                        }
+                    }, 'image/jpeg', 0.8);
+                };
+                img.onerror = (error) => reject(new Error('Error al cargar la imagen: ' + error));
+            };
+            reader.onerror = (error) => reject(new Error('Error al leer el archivo: ' + error));
+            reader.readAsDataURL(file);
+>>>>>>> e080c1a (dev16 rebase)
         });
     };
 
@@ -78,27 +114,46 @@ export const ProfileImageUploadFunctions = () => {
         const userData = typeof currentUser === 'string' 
             ? JSON.parse(currentUser) 
             : currentUser;
+<<<<<<< HEAD
     
         if (!userData?.id_user) {
             throw new Error('Usuario no identificado. Por favor, inicie sesión nuevamente.');
         }
     
+=======
+
+        if (!userData?.id_user) {
+            throw new Error('Usuario no identificado. Por favor, inicie sesión nuevamente.');
+        }
+
+        // Log image details before processing
+        console.log('Uploading image:', { name: file.name, size: file.size, type: file.type });
+
+>>>>>>> e080c1a (dev16 rebase)
         const compressedFile = await compressImage(file);
         const formData = new FormData();
         formData.append('profileImage', compressedFile);
         formData.append('userId', userData.id_user);
+<<<<<<< HEAD
     
         // Create custom axios instance with specific timeout
+=======
+
+>>>>>>> e080c1a (dev16 rebase)
         const customAxiosInstance = axiosInstance.create({
             timeout: 15000 // 15 seconds timeout
         });
 
         try {
+<<<<<<< HEAD
             // First attempt with shorter timeout
+=======
+>>>>>>> e080c1a (dev16 rebase)
             const response = await customAxiosInstance.post('/user/upload-profile-image', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },
+<<<<<<< HEAD
                 onUploadProgress: (progressEvent) => {
                     const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                     console.log(`Upload Progress: ${percentCompleted}%`);
@@ -127,18 +182,42 @@ export const ProfileImageUploadFunctions = () => {
 
             const errorMessage = error.response?.data?.message || error.message;
             throw new Error(`Error al procesar la imagen: ${errorMessage}`);
+=======
+            });
+            return response;
+        } catch (error) {
+            console.error('Error in image upload:', error);
+            console.error('Error details:', error.response ? error.response.data : error.message);
+            throw new Error('Error al procesar la imagen: ' + (error.response ? JSON.stringify(error.response.data) : error.message));
+>>>>>>> e080c1a (dev16 rebase)
         }
     };
 
     const handleImageUpload = async (event) => {
         setError(prevError => ({ ...prevError, imageError: '' }));
         
+<<<<<<< HEAD
         try {
             const file = event.target.files[0];
+=======
+        const file = event.target.files[0];
+        console.log('Uploading image:', file);
+
+        if (!file) {
+            console.error('No file selected');
+            return;
+        }
+
+        try {
+>>>>>>> e080c1a (dev16 rebase)
             validateImage(file);
             setIsUploading(true);
 
             const response = await processImage(file);
+<<<<<<< HEAD
+=======
+            console.log('Upload successful:', response.data);
+>>>>>>> e080c1a (dev16 rebase)
 
             if (response.data?.data?.imageUrl) {
                 const updatedUserData = {

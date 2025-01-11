@@ -153,6 +153,7 @@ export const LoginRegisterFunctions = () => {
 };
 
   const handleRegistrationResponse = async (response) => {
+    console.log('Registration response:', response);
     try {
       if (!response.data) {
           setError(prevError => ({ ...prevError, databaseResponseError: "No se recibió respuesta del servidor" }));
@@ -164,6 +165,7 @@ export const LoginRegisterFunctions = () => {
       }
 
       const userData = response.data.data;
+      console.log('User data from registration response:', userData);
       
       if (!userData || !userData.id_user) {
           setError(prevError => ({ ...prevError, userError: "Datos de usuario incompletos" }));

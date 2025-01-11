@@ -124,6 +124,33 @@ router.post('/register', async (req, res) => {
 
 router.post("/details", userApiController.getByUserName);
 
+<<<<<<< HEAD
 router.post("/upload-profile-image", upload.single('profileImage'), userApiController.uploadProfileImage);
+=======
+router.post("/upload-profile-image", upload.single('profileImage'), async (req, res) => {
+    try {
+        const file = req.file;
+
+        // Log incoming request details
+        console.log('Received file:', {
+            originalName: file.originalname,
+            size: file.size,
+            mimetype: file.mimetype,
+        });
+
+        if (!file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
+        // Call the user controller to handle the image processing
+        const result = await userApiController.uploadProfileImage(req, res);
+        
+        res.status(200).json({ message: 'Image uploaded successfully', data: result });
+    } catch (error) {
+        console.error('Error processing image:', error);
+        res.status(500).json({ error: 'Error al procesar la imagen' });
+    }
+});
+>>>>>>> e080c1a (dev16 rebase)
 
 export default router;

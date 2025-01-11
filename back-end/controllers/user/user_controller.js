@@ -1,5 +1,7 @@
 import user_model from "../../models/user_model.js";
 import bcrypt from "bcrypt";
+import { promises as fs } from 'fs';
+import { join } from 'path';
 
 const validateUserData = (userData) => {
     console.log("-> user_controller.js - validateUserData() - userData = ", userData);
@@ -348,9 +350,15 @@ async function saveProfileImage(userId, imageBuffer) {
     try {
         const filename = `user_${userId}_${Date.now()}.webp`;
 
+<<<<<<< HEAD
         const uploadPath = path.join(process.cwd(), 'public', 'uploads', 'profiles');
         
         const fullPath = path.join(uploadPath, filename);
+=======
+        const uploadPath = join(process.cwd(), 'public', 'uploads', 'profiles');
+        
+        const fullPath = join(uploadPath, filename);
+>>>>>>> e080c1a (dev16 rebase)
 
         await fs.mkdir(uploadPath, { recursive: true });
 
@@ -365,7 +373,11 @@ async function saveProfileImage(userId, imageBuffer) {
 
         // Remove old profile image if exists
         if (user.image_user) {
+<<<<<<< HEAD
             const oldImagePath = path.join(process.cwd(), 'public', user.image_user);
+=======
+            const oldImagePath = join(process.cwd(), 'public', user.image_user);
+>>>>>>> e080c1a (dev16 rebase)
 
             await fs.unlink(oldImagePath).catch(() => {});
         }
@@ -385,6 +397,38 @@ async function saveProfileImage(userId, imageBuffer) {
     }
 }
 
+<<<<<<< HEAD
+=======
+async function uploadProfileImage(file, userId) {
+    try {
+        console.log('-> uploadProfileImage() - file = ', file);
+        if (!file || !file.buffer || file.buffer.length === 0) {
+            throw new Error('No file buffer found');
+        }
+
+        const uploadPath = join(__dirname, 'uploads', `${userId}-${file.originalname}`);
+
+        // Ensure the uploads directory exists
+        await fs.mkdir(join(uploadPath, '..'), { recursive: true });
+
+        // Log the buffer size
+        console.log('Buffer size:', file.buffer.length);
+
+        // Save the file to the specified path
+        await fs.writeFile(uploadPath, file.buffer);
+
+        // Log success
+        console.log('Image saved successfully:', uploadPath);
+
+        // Return success message or any additional data if needed
+        return { message: 'Image saved successfully', filePath: uploadPath };
+    } catch (error) {
+        console.error('Error saving image:', error);
+        throw new Error('Error processing image: ' + error.message);
+    }
+}
+
+>>>>>>> e080c1a (dev16 rebase)
 export { 
     getAll, 
     getById, 
@@ -393,7 +437,9 @@ export {
     removeById, 
     login, 
     register,
-    getByUserName 
+    getByUserName,
+    uploadProfileImage,
+    saveProfileImage
 };
 
 export default { 
@@ -404,5 +450,7 @@ export default {
     removeById, 
     login, 
     register,
-    getByUserName 
+    getByUserName,
+    uploadProfileImage,
+    saveProfileImage
 };

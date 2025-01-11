@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { X, MessageCircleWarning } from 'lucide-react';
 import AppContext from '../../app_context/AppContext.js';
 import styles from './ConfirmationModal.module.css';
@@ -17,25 +17,22 @@ const ConfirmationModal = () => {
     setIsAccepted(true);
     setIsDeclined(false);
     setIsModalOpen(false);
+    clearError();
   };
 
   const handleDecline = () => {
     setIsDeclined(true);
     setIsAccepted(false);
     setIsModalOpen(false);
-  };
-
-  // Close modal if clicked outside
-  const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) {
-      handleDecline();
-    }
+    clearError();
   };
 
   if (!isModalOpen) return null;
 
   return (
-    <div className={styles.modalOverlay} onClick={handleOverlayClick}>
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalBackdrop} />
+      
       <div className={styles.modalContainer}>
         <button
           onClick={handleDecline}

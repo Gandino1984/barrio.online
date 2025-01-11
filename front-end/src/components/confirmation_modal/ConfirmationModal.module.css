@@ -1,4 +1,8 @@
 .modalOverlay {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 9940e2a (reset)
   position: fixed;
   inset: 0;
   z-index: 99999;
@@ -142,8 +146,30 @@
   .modalOverlay {
       padding: 0.5rem;
       align-items: flex-end;
+<<<<<<< HEAD
   }
 
+=======
+  }
+
+=======
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modalBackdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(3px);
+  }
+  
+>>>>>>> parent of 850483d (added Eliminar(single) Producto to ShopProductsList)
+>>>>>>> 9940e2a (reset)
   .modalContainer {
       margin: 0;
       border-radius: 1rem 1rem 0 0;
