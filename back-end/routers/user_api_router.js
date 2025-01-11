@@ -2,6 +2,7 @@ import { Router } from "express";
 import userApiController from "../controllers/user/user_api_controller.js";
 import IpRegistry from '../../back-end/models/ip_registry_model.js'; 
 import dotenv from 'dotenv';
+import multer from 'multer';
 
 dotenv.config();
 
@@ -10,6 +11,12 @@ const router = Router();
 const MAX_REGISTRATIONS = parseInt(process.env.MAX_REGISTRATIONS) || 2;
 
 const RESET_HOURS = parseInt(process.env.RESET_HOURS) || 24;
+
+const upload = multer({
+    limits: {
+        fileSize: 2 * 1024 * 1024 // 2MB limit
+    }
+});
 
 router.get('/ip/check', async (req, res) => {
     const userIp = req.socket.remoteAddress;
@@ -117,6 +124,6 @@ router.post('/register', async (req, res) => {
 
 router.post("/details", userApiController.getByUserName);
 
-router.post("/upload-profile-image", userApiController.uploadProfileImage);
+router.post("/upload-profile-image", upload.single('profileImage'), userApiController.uploadProfileImage);
 
 export default router;

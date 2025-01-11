@@ -6,7 +6,7 @@ import ClientManagement from "../../client_management/ClientManagement.jsx";
 import styles from './LoginRegisterForm.module.css';
 import ShopManagement from "../../shop_management/ShopManagement.jsx";
 import { DoorOpen } from 'lucide-react';
-import { ProfileImageUploadFunctions } from '../login_register_form/hooks/ProfileImageUploadFunctions.jsx';
+
 
 const LoginRegisterForm = () => {
   const {
@@ -33,9 +33,6 @@ const LoginRegisterForm = () => {
     handleUserLocationChange,
   } = LoginRegisterFunctions();
 
-  const {
-    handleImageUpload
-  } = ProfileImageUploadFunctions();
   
 
   

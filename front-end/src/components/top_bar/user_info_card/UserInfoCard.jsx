@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
-import { ProfileImageUploadFunctions } from '../../login_register/login_register_form/hooks/ProfileImageUploadFunctions.jsx';
+import { ProfileImageUploadFunctions } from './ProfileImageUploadFunctions.jsx';
 import { SquareUserRound, Camera } from 'lucide-react';
 import styles from './UserInfoCard.module.css';
 

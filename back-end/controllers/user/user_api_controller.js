@@ -96,26 +96,25 @@ async function removeById(req, res) {
 async function uploadProfileImage(req, res) {
     try {
         if (!req.file) {
-            return { error: 'No se ha proporcionado ninguna imagen' };
+            console.error('-> user_api_controller.js - uploadProfileImage() - No se ha proporcionado ninguna imagen');
+            return res.status(400).json({ error: 'No se ha proporcionado ninguna imagen' });
         }
 
         const userId = req.body.userId;
         const imageBuffer = req.file.buffer;
 
-        // Process image with sharp
-        const processedImageBuffer = await sharp(imageBuffer)
-            .resize(50, 50, { fit: 'cover', position: 'center' })
-            .webp({ quality: 80 })
-            .toBuffer();
-
-        const result = await userController.saveProfileImage(userId, processedImageBuffer);
-        return result;
-    } catch (error) {
-        console.error('Error in uploadProfileImage:', error);
-        return { 
-            error: 'Error al procesar la imagen',
-            details: error.message 
-        };
+        const result = await userController.saveProfileImage(userId, imageBuffer);
+        
+        if (result.error) {
+            return res.status(400).json(result);
+        }
+        
+        return res.json(result);
+    } catch (err) {
+        console.error('Error in uploadProfileImage:', err);
+        return res.status(500).json({ 
+            error: 'Error al procesar la imagen'
+        });
     }
 }
 

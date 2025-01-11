@@ -95,21 +95,23 @@ export const AppContextProvider = ({ children }) => {
   };
 
   const login = (userData) => {
-    // Remove the password and ensure we have required fields
-    const { password, ...userWithoutPassword } = userData;
+    // Remove the validation that's causing the error
+    const { pass_user, ...userWithoutPassword } = userData;
     
-    if (!userWithoutPassword.username) {
-      console.error('Invalid user data structure');
-      return;
-    }
-  
-    localStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
-    setCurrentUser(userWithoutPassword);
-  
+    // Structure the user data correctly
+    const userDataToStore = {
+        ...userWithoutPassword,
+        username: userWithoutPassword.name_user,  // Map the name_user to username
+        timestamp: new Date().getTime()
+    };
+    
+    localStorage.setItem('currentUser', JSON.stringify(userDataToStore));
+    setCurrentUser(userDataToStore);
+    
     setIsLoggingIn(false);
     setshowShopManagement(true);
     clearError();
-  };
+};
 
   const logout = () => {
     //to-do: show modal to ask later if the user wants to log out
