@@ -19,8 +19,8 @@ const UserInfoCard = () => {
 
   const getImageUrl = (imagePath) => {
     if (!imagePath) return null;
-    // Using the proxy configured in Vite
-    return `/uploads/${imagePath}`;
+    // Using the full URL of the backend server
+    return `http://localhost:3007/uploads/${imagePath}`;
   };
 
   const handleImageUpload = async (event) => {

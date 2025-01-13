@@ -10,25 +10,19 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
-
 dotenv.config();
 
 const app = express();
-
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST','PATCH', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
-
-app.options('*', cors());
 
 app.use(cors({
   origin: 'http://localhost:5173', 
   credentials: true
 }));
 
+app.use((req, res, next) => {
+  res.header('Cross-Origin-Resource-Policy', 'cross-origin');
+  next();
+});
 
 // Middlewares
 app.use(express.static("public"));
