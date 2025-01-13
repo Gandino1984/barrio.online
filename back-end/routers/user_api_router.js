@@ -3,6 +3,12 @@ import userApiController from "../controllers/user/user_api_controller.js";
 import IpRegistry from '../../back-end/models/ip_registry_model.js'; 
 import dotenv from 'dotenv';
 
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+
+import { uploadProfileImage } from '../routers/uploadMiddleware.js';
+
 dotenv.config();
 
 const router = Router();
@@ -116,6 +122,8 @@ router.post('/register', async (req, res) => {
 });
 
 router.post("/details", userApiController.getByUserName);
+
+router.post('/upload-profile-image', uploadProfileImage, userApiController.updateProfileImage);
 
 
 export default router;

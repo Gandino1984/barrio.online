@@ -1,10 +1,16 @@
 import express from 'express'; 
 import dotenv from 'dotenv';
 import cors from 'cors';
-
 import sequelize from './config/sequelize.js';
-// import setupAssociations from './models/associations.js'; 
 import router from './routers/main_router.js';
+
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
 
 dotenv.config();
 
@@ -24,19 +30,18 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Database Initialization
 async function initializeDatabase() {
   try {
-    // Setup model associations
-    // setupAssociations();
-
     // Synchronize models with database
     await sequelize.sync({ alter: true });
 
     console.log('-> SEQUELIZE: La base de datos ha sido sincronizada con el modelo');
   
-  } catch (error) {
-    console.error('!!! SEQUELIZE: Error en la sincronización de la base de datos = ', error);
+  } catch (err) {
+    console.error('!!! SEQUELIZE: Error en la sincronización de la base de datos = ', err);
     process.exit(1);
   }
 }

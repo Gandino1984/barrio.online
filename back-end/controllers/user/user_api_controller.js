@@ -90,6 +90,40 @@ async function removeById(req, res) {
     }
 }
 
+async function updateProfileImage(req, res) {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
+        const { name_user } = req.body;
+        if (!name_user) {
+            return res.status(400).json({ error: 'Username is required' });
+        }
+
+        // Create a URL-friendly path for the frontend
+        const relativePath = `users/${name_user}/${path.basename(req.file.path)}`;
+
+        const { error, data } = await userController.updateProfileImage(name_user, relativePath);
+        
+        if (error) {
+            return res.status(400).json({ error });
+        }
+
+        res.json({ 
+            data: {
+                image_user: relativePath
+            }
+        });
+    } catch (err) {
+        console.error('Error in uploadProfileImage:', err);
+        res.status(500).json({ 
+            error: 'Error uploading profile image',
+            details: err.message 
+        });
+    }
+}
+
 export {
     getAll,
     getById,
@@ -98,7 +132,8 @@ export {
     removeById,
     login,
     register,
-    getByUserName
+    getByUserName,
+    updateProfileImage
 }
 
 export default {
@@ -109,5 +144,6 @@ export default {
     removeById,
     login,
     register,
-    getByUserName
+    getByUserName,
+    updateProfileImage
 }

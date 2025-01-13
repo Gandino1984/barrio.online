@@ -1,5 +1,8 @@
+import { console } from "inspector";
 import user_model from "../../models/user_model.js";
 import bcrypt from "bcrypt";
+import fs from 'fs';  
+import path from 'path'; 
 
 const validateUserData = (userData) => {
     console.log("-> user_controller.js - validateUserData() - userData = ", userData);
@@ -344,6 +347,37 @@ async function removeById(id_user) {
     }
 }
 
+async function updateProfileImage(userName, imagePath) {
+    try {
+        const user = await user_model.findOne({
+            where: { name_user: userName }
+        });
+        
+        if (!user) {
+            return {
+                error: "Usuario no encontrado"
+            };
+        }
+
+        // Extract just the filename from the full path
+        const relativePath = path.relative(process.cwd(), imagePath);
+
+        // Update user with new image path
+        await user.update({ image_user: relativePath });
+
+        return {
+            data: { image_user: relativePath },
+            message: "Imagen de perfil actualizada correctamente"
+        };
+    } catch (err) {
+        console.error("Error updating profile image:", err);
+        return {
+            error: "Error al actualizar la imagen de perfil",
+            details: err.message
+        };
+    }
+}
+
 export { 
     getAll, 
     getById, 
@@ -352,7 +386,8 @@ export {
     removeById, 
     login, 
     register,
-    getByUserName 
+    getByUserName,
+    updateProfileImage 
 };
 
 export default { 
@@ -363,5 +398,6 @@ export default {
     removeById, 
     login, 
     register,
-    getByUserName 
+    getByUserName,
+    updateProfileImage 
 };
