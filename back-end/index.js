@@ -24,6 +24,11 @@ app.use(cors({
 
 app.options('*', cors());
 
+app.use(cors({
+  origin: 'http://localhost:5173', 
+  credentials: true
+}));
+
 
 // Middlewares
 app.use(express.static("public"));

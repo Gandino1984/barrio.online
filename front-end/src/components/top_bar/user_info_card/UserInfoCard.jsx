@@ -9,10 +9,9 @@ const UserInfoCard = () => {
   const [uploading, setUploading] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  const handleImageError = () => {
-    console.log('Image failed to load:', currentUser?.image_user);
-    setImageError(true);
-  };
+  useEffect(() => {
+    console.log('-> UserInfoCard.jsx - currentUser:', currentUser); 
+  }, [currentUser]);
 
   const handleImageLoad = () => {
     setImageError(false);
@@ -20,46 +19,52 @@ const UserInfoCard = () => {
 
   const getImageUrl = (imagePath) => {
     if (!imagePath) return null;
+    // Using the proxy configured in Vite
     return `/uploads/${imagePath}`;
   };
 
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
-    
-    if (file.size > 2 * 1024 * 1024) {
-      alert('El archivo no puede ser mayor a 2MB');
-      return;
+
+    console.log('Current User:', currentUser); // Log current user data
+    console.log('Username:', currentUser.username); // Log username to check if it's defined
+
+    // Check if currentUser is defined
+    if (!currentUser || !currentUser.username) {
+        console.error('Current user or username is not defined');
+        return;
     }
-  
-    const formData = new FormData();
-    formData.append('profileImage', file);
-    formData.append('name_user', currentUser.username);
-  
+
     setUploading(true);
+    const formData = new FormData();
+    formData.append('name_user', currentUser.username); 
+    formData.append('profileImage', file); 
+
+    // Log FormData content
+    for (let pair of formData.entries()) {
+        console.log(pair[0]+ ': ' + pair[1]);
+    }
+
     try {
       const response = await axios.post('/user/upload-profile-image', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          'Content-Type': 'multipart/form-data', 
+        },
       });
-  
-      if (response.data.error) {
-        alert('Error al subir la imagen: ' + response.data.error);
-        return;
-      }
-  
+      
       if (response.data.data) {
-        const updatedUser = {
-            ...currentUser,
-            image_user: response.data.data.image_user
-        };
-        setCurrentUser(updatedUser);
-        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-    }
-  
-    } catch (err) {
-      alert('Error al subir la imagen: ' + (err.response?.data?.error || err.message));
+        setCurrentUser(prev => ({
+          ...prev,
+          image_user: response.data.data.image_user
+        }));
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      // You might want to show this error to the user
+      if (error.response?.data?.error) {
+        console.error('Server error:', error.response.data.error);
+      }
     } finally {
       setUploading(false);
     }
@@ -77,7 +82,7 @@ const UserInfoCard = () => {
             src={getImageUrl(currentUser.image_user)}
             alt="Profile" 
             className={styles.profileImage}
-            onError={handleImageError}
+            // onError={handleImageError}
             onLoad={handleImageLoad}
           />
         ) : (
@@ -89,6 +94,7 @@ const UserInfoCard = () => {
           onChange={handleImageUpload}
           style={{ display: 'none' }}
           id="profile-image-input"
+          disabled={uploading}
         />
         <label 
           htmlFor="profile-image-input"

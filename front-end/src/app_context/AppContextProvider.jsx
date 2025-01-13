@@ -57,6 +57,7 @@ export const AppContextProvider = ({ children }) => {
     databaseResponseError: '',
     shopError: '',
     productError: '',
+    imageError: ''
   });
 
   // Function to check and clear expired user data
@@ -89,6 +90,7 @@ export const AppContextProvider = ({ children }) => {
       databaseResponseError: '',
       shopError: '',
       productError: '',
+      imageError: ''
     });
     setShowErrorCard(false);
   };
