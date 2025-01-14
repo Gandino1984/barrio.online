@@ -359,10 +359,10 @@ async function updateProfileImage(userName, imagePath) {
             };
         }
 
-        // Extract just the filename from the full path
-        const relativePath = path.relative(process.cwd(), imagePath);
+        // Make sure this matches your actual file structure
+        const relativePath = path.join('users', userName, path.basename(imagePath));
+        console.log('Saving path to database:', relativePath);
 
-        // Update user with new image path
         await user.update({ image_user: relativePath });
 
         return {

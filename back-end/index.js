@@ -14,9 +14,15 @@ dotenv.config();
 
 const app = express();
 
+// Middlewares
+app.use(express.static("public"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(cors({
   origin: 'http://localhost:5173', 
-  credentials: true
+  credentials: true,
+  exposedHeaders: ['Content-Disposition']
 }));
 
 app.use((req, res, next) => {
@@ -24,19 +30,24 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middlewares
-app.use(express.static("public"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use('/uploads', (req, res, next) => {
+//   res.header('Cross-Origin-Resource-Policy', 'cross-origin');
+//   next();
+// }, express.static(path.join(__dirname, 'uploads')));
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', (req, res, next) => {
+  console.log('Attempting to serve:', req.url);
+  console.log('Full path:', path.join('/home/german/Escritorio/Github repositories/uribarri.online/uploads', req.url));
+  res.header('Cross-Origin-Resource-Policy', 'cross-origin');
+  next();
+}, express.static('/home/german/Escritorio/Github repositories/uribarri.online/uploads'));
 
 // Database Initialization
 async function initializeDatabase() {
   try {
     // Synchronize models with database
     await sequelize.sync({ alter: true });
-
+    console.log('*******************************************************************');
     console.log('-> SEQUELIZE: La base de datos ha sido sincronizada con el modelo');
   
   } catch (err) {
