@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from './UserInfoCard.module.css';
 import { SquareUserRound, Camera } from 'lucide-react';
-import axios from 'axios';
+import axiosInstance from '../../../../utils/axiosConfig.js';
 
 const UserInfoCard = () => {
   const { currentUser, setCurrentUser } = useContext(AppContext);
@@ -28,23 +28,20 @@ const UserInfoCard = () => {
 
   const getImageUrl = (imagePath) => {
     if (!imagePath) {
-      console.log('No image path provided');
+      console.error('-> UserInfoCard.jsx - getImageUrl() - No hay path de imagen');
       return null;
     }
 
-    // Split the path into components
-    const pathComponents = imagePath.split('/');
-    
-    // Encode each component separately
-    const encodedPath = pathComponents
-      .map(component => encodeURIComponent(component))
-      .join('/');
-    
-    const fullUrl = `/uploads/${encodedPath}`;
+    // Remove any leading 'uploads/' from the path since it's included in the URL
+    const cleanPath = imagePath.replace(/^uploads\//, '');
+  
+    // Construct the full URL using the proxy path
+    const fullUrl = `/uploads/${cleanPath}`;
     console.log('Constructed URL:', fullUrl);
     return fullUrl;
-  };
-
+  }
+  
+    
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -63,7 +60,7 @@ const UserInfoCard = () => {
 
     try {
       console.log('Sending upload request...');
-      const response = await axios.post('/user/upload-profile-image', formData, {
+      const response = await axiosInstance.post('/user/upload-profile-image', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
