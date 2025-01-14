@@ -9,12 +9,28 @@ const UserInfoCard = () => {
   const [uploading, setUploading] = useState(false);
   const [imageError, setImageError] = useState(false);
 
+  // useEffect(() => {
+  //   if (currentUser?.image_user) {
+  //     const imageUrl = getImageUrl(currentUser.image_user);
+  //     console.log('Constructed image URL:', imageUrl);
+  //   }
+  // }, [currentUser]);
+
   useEffect(() => {
     if (currentUser?.image_user) {
-      const imageUrl = getImageUrl(currentUser.image_user);
-      console.log('Constructed image URL:', imageUrl);
+      // Pre-load image to check if it's accessible
+      const img = new Image();
+      img.src = getImageUrl(currentUser.image_user);
+      img.onload = () => {
+        setImageError(false);
+        console.log('Image loaded successfully');
+      };
+      img.onerror = (e) => {
+        setImageError(true);
+        console.error('Image failed to load:', img.src);
+      };
     }
-  }, [currentUser]);
+  }, [currentUser?.image_user]);
 
   const handleImageError = (e) => {
     console.error('Image failed to load:', e.target.src);
@@ -28,18 +44,15 @@ const UserInfoCard = () => {
 
   const getImageUrl = (imagePath) => {
     if (!imagePath) {
-      console.error('-> UserInfoCard.jsx - getImageUrl() - No hay path de imagen');
-      return null;
+        console.error('No hay path de imagen');
+        return null;
     }
-
-    // Remove any leading 'uploads/' from the path since it's included in the URL
-    const cleanPath = imagePath.replace(/^uploads\//, '');
-  
-    // Construct the full URL using the proxy path
-    const fullUrl = `/uploads/${cleanPath}`;
+    // Ensure the path starts with /uploads/
+    const normalizedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+    const fullUrl = `/uploads${normalizedPath}`;
     console.log('Constructed URL:', fullUrl);
     return fullUrl;
-  }
+};
   
     
   const handleImageUpload = async (event) => {

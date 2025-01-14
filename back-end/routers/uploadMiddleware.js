@@ -9,14 +9,19 @@ const storage = multer.diskStorage({
             return cb(new Error('Username is required'));
         }
 
+        // Sanitize username for filesystem - keep spaces as is
         const uploadDir = path.join(process.cwd(), 'uploads', 'users', req.body.name_user);
+        
+        // Log the directory being created
+        console.log('Creating upload directory:', uploadDir);
+        
         fs.mkdirSync(uploadDir, { recursive: true });
         cb(null, uploadDir);
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        const ext = path.extname(file.originalname);
-        cb(null, 'profile' + uniqueSuffix + ext);
+        const ext = path.extname(file.originalname).toLowerCase();
+        cb(null, `profile-${uniqueSuffix}${ext}`);
     }
 });
 
@@ -59,6 +64,9 @@ const uploadProfileImage = (req, res, next) => {
                 error: 'Se requiere el nombre de usuario'
             });
         }
+        
+        // Add the relative path to the request
+        req.file.relativePath = path.join('users', req.body.name_user, path.basename(req.file.path));
         
         next();
     });

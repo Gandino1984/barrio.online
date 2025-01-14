@@ -6,6 +6,7 @@ import router from './routers/main_router.js';
 
 import path from 'path';
 import { fileURLToPath } from 'url';
+import multer from 'multer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,22 +26,41 @@ app.use(cors({
   exposedHeaders: ['Content-Disposition']
 }));
 
-app.use((req, res, next) => {
-  res.header('Cross-Origin-Resource-Policy', 'cross-origin');
-  next();
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, 'uploads', 'users', req.body.name_user)); // Save to the user's folder
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Append timestamp to filename
+    }
 });
 
-// app.use('/uploads', (req, res, next) => {
-//   res.header('Cross-Origin-Resource-Policy', 'cross-origin');
-//   next();
-// }, express.static(path.join(__dirname, 'uploads')));
+const upload = multer({ storage });
 
+// Endpoint to handle file uploads
+app.post('/upload', upload.single('profileImage'), (req, res) => {
+    console.log(req.file); // Log file details
+    res.json({ message: 'File uploaded successfully', file: req.file });
+});
+
+// middleware to handle URL-encoded paths
 app.use('/uploads', (req, res, next) => {
-  console.log('Attempting to serve:', req.url);
-  console.log('Full path:', path.join('/home/german/Escritorio/Github repositories/uribarri.online/uploads', req.url));
-  res.header('Cross-Origin-Resource-Policy', 'cross-origin');
-  next();
-}, express.static('/home/german/Escritorio/Github repositories/uribarri.online/uploads'));
+  const filePath = decodeURIComponent(req.url);
+  console.log('Requested file path:', filePath);
+  // Remove leading slash if present
+  const cleanPath = filePath.startsWith('/') ? filePath.slice(1) : filePath;
+  const fullPath = path.join(__dirname, 'uploads', cleanPath);
+  console.log('Full file path:', fullPath);
+  
+  // Check if file exists
+  if (fs.existsSync(fullPath)) {
+      res.sendFile(fullPath);
+  } else {
+      console.log('File not found:', fullPath);
+      res.status(404).send('File not found');
+  }
+});
 
 // Database Initialization
 async function initializeDatabase() {

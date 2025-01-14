@@ -27,6 +27,8 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+      - uploads_data:/app/uploads 
 
 volumes:
   data:
+  uploads_data:  

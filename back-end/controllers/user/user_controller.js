@@ -358,8 +358,7 @@ async function updateProfileImage(userName, imagePath) {
                 error: "Usuario no encontrado"
             };
         }
-
-        // Make sure this matches your actual file structure
+        // Keep the original username with spaces in the path
         const relativePath = path.join('users', userName, path.basename(imagePath));
         console.log('Saving path to database:', relativePath);
 
