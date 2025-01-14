@@ -9,13 +9,6 @@ const UserInfoCard = () => {
   const [uploading, setUploading] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  // useEffect(() => {
-  //   if (currentUser?.image_user) {
-  //     const imageUrl = getImageUrl(currentUser.image_user);
-  //     console.log('Constructed image URL:', imageUrl);
-  //   }
-  // }, [currentUser]);
-
   useEffect(() => {
     if (currentUser?.image_user) {
       // Pre-load image to check if it's accessible
@@ -43,59 +36,47 @@ const UserInfoCard = () => {
   };
 
   const getImageUrl = (imagePath) => {
-    if (!imagePath) {
-        console.error('No hay path de imagen');
-        return null;
-    }
-    // Ensure the path starts with /uploads/
-    const normalizedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
-    const fullUrl = `/uploads${normalizedPath}`;
-    console.log('Constructed URL:', fullUrl);
-    return fullUrl;
+    if (!imagePath) return null;
+    // Remove any leading slashes
+    const cleanPath = imagePath.replace(/^\/+/, '');
+    return `/uploads/${cleanPath}`;
 };
   
     
-  const handleImageUpload = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+const handleImageUpload = async (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
 
-    console.log('Selected file:', file.name, 'Size:', file.size, 'Type:', file.type);
+  const formData = new FormData();
+  // Use the correct property from currentUser
+  formData.append('name_user', currentUser.name_user);  // Changed from username to name_user
+  formData.append('profileImage', file);
 
-    if (!currentUser?.username) {
-      console.error('Current user or username is not defined');
-      return;
-    }
-
-    setUploading(true);
-    const formData = new FormData();
-    formData.append('name_user', currentUser.username);
-    formData.append('profileImage', file);
-
-    try {
-      console.log('Sending upload request...');
+  try {
+      setUploading(true);
       const response = await axiosInstance.post('/user/upload-profile-image', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+          headers: {
+              'Content-Type': 'multipart/form-data',
+          },
       });
       
-      console.log('Upload response:', response.data);
-      
-      if (response.data.data) {
-        // Update the currentUser state with the new image path
-        setCurrentUser(prev => ({
-          ...prev,
-          image_user: response.data.data.image_user
-        }));
-        setImageError(false);
+      if (response.data.data?.image_user) {
+          // Update local storage as well as state
+          const updatedUser = {
+              ...currentUser,
+              image_user: response.data.data.image_user
+          };
+          localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+          setCurrentUser(updatedUser);
+          setImageError(false);
       }
-    } catch (error) {
-      console.error('Upload error:', error.response || error);
+  } catch (error) {
+      console.error('Upload error:', error);
       setImageError(true);
-    } finally {
+  } finally {
       setUploading(false);
-    }
-  };
+  }
+};
 
   if (!currentUser) {
     return <div className={styles.message}>¡Te damos la bienvenida! Inicia sesión</div>;

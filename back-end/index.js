@@ -5,6 +5,7 @@ import sequelize from './config/sequelize.js';
 import router from './routers/main_router.js';
 
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
 
@@ -16,7 +17,8 @@ dotenv.config();
 const app = express();
 
 // Middlewares
-app.use(express.static("public"));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -47,19 +49,8 @@ app.post('/upload', upload.single('profileImage'), (req, res) => {
 // middleware to handle URL-encoded paths
 app.use('/uploads', (req, res, next) => {
   const filePath = decodeURIComponent(req.url);
-  console.log('Requested file path:', filePath);
-  // Remove leading slash if present
-  const cleanPath = filePath.startsWith('/') ? filePath.slice(1) : filePath;
-  const fullPath = path.join(__dirname, 'uploads', cleanPath);
-  console.log('Full file path:', fullPath);
-  
-  // Check if file exists
-  if (fs.existsSync(fullPath)) {
-      res.sendFile(fullPath);
-  } else {
-      console.log('File not found:', fullPath);
-      res.status(404).send('File not found');
-  }
+  const fullPath = path.join(__dirname, 'uploads', filePath);
+  res.sendFile(fullPath);
 });
 
 // Database Initialization

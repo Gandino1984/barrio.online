@@ -358,14 +358,14 @@ async function updateProfileImage(userName, imagePath) {
                 error: "Usuario no encontrado"
             };
         }
-        // Keep the original username with spaces in the path
-        const relativePath = path.join('users', userName, path.basename(imagePath));
-        console.log('Saving path to database:', relativePath);
+        
+        // Use the imagePath parameter directly instead of trying to construct it
+        console.log('Saving path to database:', imagePath);
 
-        await user.update({ image_user: relativePath });
+        await user.update({ image_user: imagePath });
 
         return {
-            data: { image_user: relativePath },
+            data: { image_user: imagePath },
             message: "Imagen de perfil actualizada correctamente"
         };
     } catch (err) {

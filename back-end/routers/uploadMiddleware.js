@@ -8,13 +8,8 @@ const storage = multer.diskStorage({
         if (!req.body.name_user) {
             return cb(new Error('Username is required'));
         }
-
-        // Sanitize username for filesystem - keep spaces as is
+        
         const uploadDir = path.join(process.cwd(), 'uploads', 'users', req.body.name_user);
-        
-        // Log the directory being created
-        console.log('Creating upload directory:', uploadDir);
-        
         fs.mkdirSync(uploadDir, { recursive: true });
         cb(null, uploadDir);
     },
