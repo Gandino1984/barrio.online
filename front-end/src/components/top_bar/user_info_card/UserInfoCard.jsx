@@ -36,47 +36,64 @@ const UserInfoCard = () => {
   };
 
   const getImageUrl = (imagePath) => {
-    if (!imagePath) return null;
-    // Remove any leading slashes
-    const cleanPath = imagePath.replace(/^\/+/, '');
+    if (!imagePath && !currentUser?.imageUrl) return null;
+    // Remove any leading slashes and use the stored image path
+    const path = imagePath || currentUser.imageUrl;
+    const cleanPath = path.replace(/^\/+/, '');
     return `/uploads/${cleanPath}`;
-};
+  };
   
     
-const handleImageUpload = async (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const formData = new FormData();
-  // Use the correct property from currentUser
-  formData.append('name_user', currentUser.name_user);  // Changed from username to name_user
-  formData.append('profileImage', file);
-
-  try {
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+  
+    const formData = new FormData();
+    formData.append('name_user', currentUser.username);
+    formData.append('profileImage', file);
+  
+    try {
       setUploading(true);
+      console.log('Sending upload request:', {
+        url: '/user/upload-profile-image',
+        formData: {
+          name_user: formData.get('name_user'),
+          profileImage: formData.get('profileImage'),
+        },
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+  
       const response = await axiosInstance.post('/user/upload-profile-image', formData, {
-          headers: {
-              'Content-Type': 'multipart/form-data',
-          },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
       
+      console.log('Upload response:', response.data);
+  
       if (response.data.data?.image_user) {
-          // Update local storage as well as state
-          const updatedUser = {
-              ...currentUser,
-              image_user: response.data.data.image_user
-          };
-          localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-          setCurrentUser(updatedUser);
-          setImageError(false);
+        const updatedUser = {
+          ...currentUser,
+          image_user: response.data.data.image_user
+        };
+        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        setCurrentUser(updatedUser);
+        setImageError(false);
       }
-  } catch (error) {
-      console.error('Upload error:', error);
+    } catch (error) {
+      console.error('Upload error details:', {
+        error: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        currentUser: currentUser
+      });
       setImageError(true);
-  } finally {
+    } finally {
       setUploading(false);
-  }
-};
+    }
+  };
 
   if (!currentUser) {
     return <div className={styles.message}>¡Te damos la bienvenida! Inicia sesión</div>;
@@ -85,9 +102,9 @@ const handleImageUpload = async (event) => {
   return (
     <div className={styles.userInfoCard}>
       <div className={styles.profileSection}>
-        {!imageError && currentUser.image_user ? (
+      {!imageError && (currentUser.imageUrl || currentUser.image_user) ? (
           <img 
-            src={getImageUrl(currentUser.image_user)}
+            src={getImageUrl(currentUser.imageUrl || currentUser.image_user)}
             alt={`Profile of ${currentUser.username}`}
             className={styles.profileImage}
             onError={handleImageError}

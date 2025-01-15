@@ -10,13 +10,23 @@ const storage = multer.diskStorage({
         }
         
         const uploadDir = path.join(process.cwd(), 'uploads', 'users', req.body.name_user);
-        fs.mkdirSync(uploadDir, { recursive: true });
-        cb(null, uploadDir);
+        console.log('Creating upload directory:', uploadDir); // Debug log
+        
+        try {
+            fs.mkdirSync(uploadDir, { recursive: true });
+            console.log('Directory created successfully'); // Debug log
+            cb(null, uploadDir);
+        } catch (error) {
+            console.error('Error creating directory:', error); // Debug log
+            cb(error);
+        }
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
         const ext = path.extname(file.originalname).toLowerCase();
-        cb(null, `profile-${uniqueSuffix}${ext}`);
+        const filename = `profile-${uniqueSuffix}${ext}`;
+        console.log('Generated filename:', filename); // Debug log
+        cb(null, filename);
     }
 });
 
@@ -37,28 +47,52 @@ const upload = multer({
 
 // Middleware for handling profile image uploads
 const uploadProfileImage = (req, res, next) => {
+    console.log('Upload request received:', {
+        body: req.body,
+        files: req.files,
+        file: req.file,
+        headers: req.headers
+    });
+
+    if (!req.body.name_user) {
+        console.log('Name user not found in request body:', req.body);
+        return res.status(400).json({
+            error: 'Username is required'
+        });
+    }
+
     upload.single('profileImage')(req, res, function(err) {
+        console.log('Multer callback:', {
+            error: err,
+            file: req.file,
+            body: req.body
+        });
+
         if (err instanceof multer.MulterError) {
+            console.error('Multer error:', err);
             return res.status(400).json({
                 error: 'Error al subir el archivo: ' + err.message
             });
         } else if (err) {
+            console.error('Non-multer error:', err);
             return res.status(400).json({
                 error: err.message
             });
         }
         
         if (!req.file) {
+            console.error('No file in request');
             return res.status(400).json({
                 error: 'No se ha subido ningún archivo'
             });
         }
-        
-        if (!req.body.name_user) {
-            return res.status(400).json({
-                error: 'Se requiere el nombre de usuario'
-            });
-        }
+
+        // Log successful file upload
+        console.log('File successfully processed:', {
+            file: req.file,
+            body: req.body,
+            relativePath: path.join('users', req.body.name_user, path.basename(req.file.path))
+        });
         
         // Add the relative path to the request
         req.file.relativePath = path.join('users', req.body.name_user, path.basename(req.file.path));
