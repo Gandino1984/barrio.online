@@ -4,15 +4,15 @@
 
 ### Frontend (React)
 
-1. **User Input**: The user enters their username and password in the login form in `LoginRegisterForm.jsx`.
+1. **User Input**: The user enters their name_user and password in the login form in `LoginRegisterForm.jsx`.
 
 2. **Form Submission**: When the user submits the form, the `handleFormSubmit` function from `LoginRegisterFunctions.jsx` is called.
 
-3. **Username Validation**: The `validateUsername` function is called to clean and validate the username.
+3. **Username Validation**: The `validateUsername` function is called to clean and validate the name_user.
 
 4. **Login Request**: If the form is valid, the `handleLogin` function is called. This function sends a POST request to the `/user/details` endpoint to fetch user details.
 
-5. **Fetch User Details**: The `handleLogin` function sends a POST request to the `/user/login` endpoint with the cleaned username and password.
+5. **Fetch User Details**: The `handleLogin` function sends a POST request to the `/user/login` endpoint with the cleaned name_user and password.
 
 6. **Handle Login Response**: The `handleLoginResponse` function processes the response from the server. If the login is successful, it normalizes the user data and calls the `login` function from `AppContextProvider.jsx`.
 
@@ -20,7 +20,7 @@
 
 1. **Login Endpoint**: The `/user/login` endpoint in `user_api_router.js` calls the `login` function in `user_api_controller.js`.
 
-2. **User Validation**: The `login` function in `user_controller.js` validates the username and password. It checks if the user exists and if the password is correct using bcrypt.
+2. **User Validation**: The `login` function in `user_controller.js` validates the name_user and password. It checks if the user exists and if the password is correct using bcrypt.
 
 3. **Response**: If the login is successful, the server responds with the user data (excluding the password).
 

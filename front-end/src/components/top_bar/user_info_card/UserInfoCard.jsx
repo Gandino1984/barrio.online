@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import AppContext from '../../../app_context/AppContext.js';
 import styles from './UserInfoCard.module.css';
-import { SquareUserRound, Camera } from 'lucide-react';
+import { Camera } from 'lucide-react';
+import { SquareUserRound } from 'lucide-react';
 import axiosInstance from '../../../../utils/axiosConfig.js';
+import  AppContext  from '../../../app_context/AppContext.js';
 
 const UserInfoCard = () => {
   const { currentUser, setCurrentUser } = useContext(AppContext);
@@ -10,69 +11,34 @@ const UserInfoCard = () => {
   const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
-    if (currentUser?.image_user) {
-      // Pre-load image to check if it's accessible
-      const img = new Image();
-      img.src = getImageUrl(currentUser.image_user);
-      img.onload = () => {
-        setImageError(false);
-        console.log('Image loaded successfully');
-      };
-      img.onerror = (e) => {
-        setImageError(true);
-        console.error('Image failed to load:', img.src);
-      };
+    // Debug logs
+    console.log('UserInfoCard - Current user state:', currentUser);
+    console.log('UserInfoCard - localStorage data:', localStorage.getItem('currentUser'));
+    try {
+      const parsedLocalStorage = JSON.parse(localStorage.getItem('currentUser'));
+      console.log('UserInfoCard - Parsed localStorage:', parsedLocalStorage);
+    } catch (e) {
+      console.log('UserInfoCard - Error parsing localStorage:', e);
     }
-  }, [currentUser?.image_user]);
+  }, [currentUser]);
 
-  const handleImageError = (e) => {
-    console.error('Image failed to load:', e.target.src);
-    setImageError(true);
-  };
-
-  const handleImageLoad = () => {
-    console.log('Image loaded successfully');
-    setImageError(false);
-  };
-
-  const getImageUrl = (imagePath) => {
-    if (!imagePath && !currentUser?.imageUrl) return null;
-    // Remove any leading slashes and use the stored image path
-    const path = imagePath || currentUser.imageUrl;
-    const cleanPath = path.replace(/^\/+/, '');
-    return `/uploads/${cleanPath}`;
-  };
-  
-    
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
-  
+
+    if (!currentUser || !currentUser.name_user) {
+      console.error('No user data available:', currentUser);
+      return;
+    }
+
     const formData = new FormData();
-    formData.append('name_user', currentUser.username);
+    formData.append('name_user', currentUser.name_user);
     formData.append('profileImage', file);
-  
+
     try {
       setUploading(true);
-      console.log('Sending upload request:', {
-        url: '/user/upload-profile-image',
-        formData: {
-          name_user: formData.get('name_user'),
-          profileImage: formData.get('profileImage'),
-        },
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-  
-      const response = await axiosInstance.post('/user/upload-profile-image', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      
-      console.log('Upload response:', response.data);
-  
+      const response = await axiosInstance.post('/user/upload-profile-image', formData);
+
       if (response.data.data?.image_user) {
         const updatedUser = {
           ...currentUser,
@@ -83,54 +49,50 @@ const UserInfoCard = () => {
         setImageError(false);
       }
     } catch (error) {
-      console.error('Upload error details:', {
-        error: error.message,
-        response: error.response?.data,
-        status: error.response?.status,
-        currentUser: currentUser
-      });
+      console.error('Upload error:', error);
       setImageError(true);
     } finally {
       setUploading(false);
     }
   };
 
-  if (!currentUser) {
-    return <div className={styles.message}>¡Te damos la bienvenida! Inicia sesión</div>;
-  }
-
   return (
     <div className={styles.userInfoCard}>
-      <div className={styles.profileSection}>
-      {!imageError && (currentUser.imageUrl || currentUser.image_user) ? (
-          <img 
-            src={getImageUrl(currentUser.imageUrl || currentUser.image_user)}
-            alt={`Profile of ${currentUser.username}`}
-            className={styles.profileImage}
-            onError={handleImageError}
-            onLoad={handleImageLoad}
-          />
-        ) : (
-          <SquareUserRound size={40} />
-        )}
-        <input
-          type="file"
-          accept="image/jpeg,image/png,image/jpg"
-          onChange={handleImageUpload}
-          style={{ display: 'none' }}
-          id="profile-image-input"
-          disabled={uploading}
-        />
-        <label 
-          htmlFor="profile-image-input"
-          className={styles.uploadButton}
-          style={{ cursor: uploading ? 'wait' : 'pointer' }}
-        >
-          <Camera size={16} />
-        </label>
-      </div>
-      <p>¡Te damos la bienvenida, <span>{currentUser.username}</span>!</p>
-      {uploading && <p className={styles.uploadStatus}>Subiendo imagen...</p>}
+      {!currentUser ? (
+        <div className={styles.message}>¡Te damos la bienvenida! Inicia sesión</div>
+      ) : (
+        <>
+          <div className={styles.profileSection}>
+            {!imageError && currentUser.image_user ? (
+              <img 
+                src={currentUser.image_user}
+                alt={`Profile of ${currentUser.name_user}`}
+                className={styles.profileImage}
+                onError={() => setImageError(true)}
+              />
+            ) : (
+              <SquareUserRound size={40} />
+            )}
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/jpg"
+              onChange={handleImageUpload}
+              style={{ display: 'none' }}
+              id="profile-image-input"
+              disabled={uploading}
+            />
+            <label 
+              htmlFor="profile-image-input"
+              className={styles.uploadButton}
+              style={{ cursor: uploading ? 'wait' : 'pointer' }}
+            >
+              <Camera size={16} />
+            </label>
+          </div>
+          <p>¡Te damos la bienvenida, <span>{currentUser?.name_user || 'Usuaria'}</span>!</p>
+          {uploading && <p className={styles.uploadStatus}>Subiendo imagen...</p>}
+        </>
+      )}
     </div>
   );
 };

@@ -6,16 +6,16 @@ import axiosInstance from '../../../../../utils/axiosConfig.js';
 
 export const LoginRegisterFunctions = () => {
   const {
-    isLoggingIn, setIsLoggingIn, username, 
-    setUsername, password, setPassword,
+    isLoggingIn, setIsLoggingIn, name_user, 
+    setNameUser, password, setPassword,
     passwordRepeat, showPasswordRepeat, setPasswordRepeat,
     setShowPasswordRepeat, setShowPasswordLabel, 
     setKeyboardKey, setshowShopManagement, 
-    setDisplayedPassword, userType, 
+    setDisplayedPassword, type_user, 
     setUserType, currentUser, 
     login, logout, setIsAddingShop, 
     setShops, setError, 
-    userlocation, setUserlocation,
+    location_user, setLocationUser,
     setShowRepeatPasswordMessage
   } = useContext(AppContext);
 
@@ -27,13 +27,13 @@ export const LoginRegisterFunctions = () => {
     const handleUsernameChange = (e) => {
         const rawUsername = e.target.value;
         console.log('-> LOGIN: Username rawValue= ', rawUsername);
-        setUsername(rawUsername);
+        setNameUser(rawUsername);
       };
     
       const handleUserLocationChange = (ev) => {
       const location = ev.target.value;
-      console.log('-> REGISTER: userlocation value= ', location);
-      setUserlocation(location);
+      console.log('-> REGISTER: location_user value= ', location);
+      setLocationUser(location);
     };
 
     const handlePasswordComplete = (isLogin) => () => {
@@ -75,7 +75,7 @@ export const LoginRegisterFunctions = () => {
 
     const clearUserSession = () => {
       logout();
-      setUsername('');
+      setNameUser('');
       setPassword('');
       setPasswordRepeat('');
       setDisplayedPassword('');
@@ -105,7 +105,7 @@ export const LoginRegisterFunctions = () => {
 
   const handleUserTypeChange = (e) => {
       setUserType(e.target.value);
-      if(userType) {
+      if(type_user) {
           setIsLoggingIn(false);
       }
   };
@@ -138,9 +138,9 @@ export const LoginRegisterFunctions = () => {
         // Normalize user data structure using the server-provided user type
         const normalizedUserData = {
           id: userData.id_user, 
-          username: userData.name_user,
+          name_user: userData.name_user,
           password: password,
-          userType: userData.type_user,
+          type_user: userData.type_user,
           location: userData.location_user 
         };
   
@@ -200,9 +200,9 @@ export const LoginRegisterFunctions = () => {
       }
       const normalizedUserData = {
           id: userData.id_user,
-          username: userData.name_user,
+          name_user: userData.name_user,
           password: password,
-          userType: userType,
+          type_user: type_user,
       };
 
       login(normalizedUserData);
@@ -229,7 +229,7 @@ export const LoginRegisterFunctions = () => {
         const type = userDetailsResponse.data.data.type_user;
 
         if (!type) {
-          console.error('-> LoginRegisterFunctions.jsx - handleLogin() - User type not found for username = ', cleanedUsername);
+          console.error('-> LoginRegisterFunctions.jsx - handleLogin() - User type not found for name_user = ', cleanedUsername);
           return;
         }
 
@@ -260,12 +260,12 @@ export const LoginRegisterFunctions = () => {
       }
     };
 
-  const handleRegistration = async (cleanedUsername, password, userType, userLocation) => {
+  const handleRegistration = async (cleanedUsername, password, type_user, userLocation) => {
     try {    
       const registrationData = {
             name_user: cleanedUsername,
             pass_user: password,
-            type_user: userType,
+            type_user: type_user,
             location_user: userLocation
         };
   
@@ -308,7 +308,7 @@ export const LoginRegisterFunctions = () => {
         }
     
         // Username validation
-        const { isValid, cleanedUsername, errors } = validateUsername(username);
+        const { isValid, cleanedUsername, errors } = validateUsername(name_user);
 
         if (!isValid) {
           console.error('-> LoginRegisterFunctions.jsx - handleFormSubmit() - Error en el nombre de usuario');
@@ -331,14 +331,14 @@ export const LoginRegisterFunctions = () => {
         ///////// Handle login or registration /////////
 
         if (isLoggingIn) {
-          console.log('-> Iniciando sesión', { cleanedUsername, userType });
+          console.log('-> Iniciando sesión', { cleanedUsername, type_user });
 
           await handleLogin(cleanedUsername, password);
         
         } else {
-          console.log('-> Registrando usuario', { cleanedUsername, userType });
+          console.log('-> Registrando usuario', { cleanedUsername, type_user });
 
-          await handleRegistration(cleanedUsername, password, userType, userlocation);
+          await handleRegistration(cleanedUsername, password, type_user, location_user);
           
         }
       } catch (err) {
@@ -354,7 +354,7 @@ export const LoginRegisterFunctions = () => {
     };
 
     const isButtonDisabled = () => {
-        const { isValid } = validateUsername(username);
+        const { isValid } = validateUsername(name_user);
 
         if (!isValid) return true;
 
@@ -365,7 +365,7 @@ export const LoginRegisterFunctions = () => {
         return password.length !== 4 || 
                 passwordRepeat.length !== 4 || 
                 password !== passwordRepeat || 
-                userType === '';
+                type_user === '';
         }
     };
 
