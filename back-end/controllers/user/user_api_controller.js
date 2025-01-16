@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import path from 'path';
 import express from 'express';
 import multer from 'multer';
+import user_model from "../../models/user_model.js";
 
 const upload = multer({ dest: 'uploads/' });
 
@@ -95,44 +96,35 @@ async function removeById(req, res) {
     }
 }
 
-async function updateProfileImage(req, res) {
+async function updateProfileImage(userName, imagePath) {
     try {
-        console.log('Incoming request body:', req.body);
-        console.log('Uploaded file details:', req.file);
-        if (!req.file) {
-            return res.status(400).json({ error: 'No file uploaded' });
+        console.log('Updating profile image with:', { userName, imagePath });
+        
+        const user = await user_model.findOne({
+            where: { name_user: userName }
+        });
+        
+        if (!user) {
+            return {
+                error: "Usuario no encontrado"
+            };
         }
 
-        const { name_user } = req.body;
-        if (!name_user) {
-            return res.status(400).json({ error: 'Username is required' });
-        }
+        // Update the user's image path in the database
+        await user.update({ image_user: imagePath });
 
-        // Create a URL-friendly path for the frontend
-        const relativePath = `users/${name_user}/${path.basename(req.file.path)}`;
-        console.log('Relative path for uploaded image:', relativePath);
-        console.log('File metadata:', req.file);
-        console.log('File buffer:', req.file.buffer);
-        console.log('File size:', req.file.size);
-        console.log('File mimetype:', req.file.mimetype);
-
-        const { error, data } = await userController.updateProfileImage(name_user, relativePath);
-        if (error) {
-            console.error('Error updating profile image in userController:', error);
-            return res.status(400).json({ error });
-        }
-
-        res.json({ 
+        return {
             data: {
-                image_user: relativePath
-            }
-        });
+                image_user: imagePath
+            },
+            message: "Imagen de perfil actualizada correctamente"
+        };
     } catch (err) {
-        console.error('Error in uploadProfileImage:', err);
-        res.status(500).json({ 
-            error: 'Error uploading profile image',
-            details: err.message 
-        });
+        console.error("Error updating profile image:", err);
+        return {
+            error: "Error al actualizar la imagen de perfil",
+            details: err.message
+        };
     }
 }
 

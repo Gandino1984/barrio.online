@@ -27,34 +27,45 @@ const UserInfoCard = () => {
     if (!file) return;
 
     if (!currentUser || !currentUser.name_user) {
-      console.error('No user data available:', currentUser);
-      return;
+        console.error('No user data available:', currentUser);
+        return;
     }
 
     const formData = new FormData();
     formData.append('name_user', currentUser.name_user);
     formData.append('profileImage', file);
 
-    try {
-      setUploading(true);
-      const response = await axiosInstance.post('/user/upload-profile-image', formData);
+    console.log('Uploading with data:', {
+        name_user: currentUser.name_user,
+        file: file
+    });
 
-      if (response.data.data?.image_user) {
-        const updatedUser = {
-          ...currentUser,
-          image_user: response.data.data.image_user
-        };
-        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-        setCurrentUser(updatedUser);
-        setImageError(false);
-      }
+    try {
+        setUploading(true);
+        const response = await axiosInstance.post('/user/upload-profile-image', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        console.log('Upload response:', response);
+
+        if (response.data.data?.image_user) {
+            const updatedUser = {
+                ...currentUser,
+                image_user: response.data.data.image_user
+            };
+            localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+            setCurrentUser(updatedUser);
+            setImageError(false);
+        }
     } catch (error) {
-      console.error('Upload error:', error);
-      setImageError(true);
+        console.error('Upload error:', error.response?.data || error);
+        setImageError(true);
     } finally {
-      setUploading(false);
+        setUploading(false);
     }
-  };
+};
 
   return (
     <div className={styles.userInfoCard}>

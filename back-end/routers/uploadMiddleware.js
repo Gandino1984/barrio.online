@@ -1,36 +1,30 @@
+// uploadMiddleware.js
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
 
-// Configure multer storage
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Create initial storage configuration
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        if (!req.body.name_user) {
-            return cb(new Error('Username is required'));
-        }
-        
-        const uploadDir = path.join(process.cwd(), 'uploads', 'users', req.body.name_user);
-        console.log('Creating upload directory:', uploadDir); // Debug log
-        
+    destination: async function (req, file, cb) {
+        const tempDir = path.join(__dirname, '..', 'uploads', 'temp');
         try {
-            fs.mkdirSync(uploadDir, { recursive: true });
-            console.log('Directory created successfully'); // Debug log
-            cb(null, uploadDir);
+            await fs.promises.mkdir(tempDir, { recursive: true });
+            cb(null, tempDir);
         } catch (error) {
-            console.error('Error creating directory:', error); // Debug log
             cb(error);
         }
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        const ext = path.extname(file.originalname).toLowerCase();
-        const filename = `profile-${uniqueSuffix}${ext}`;
-        console.log('Generated filename:', filename); // Debug log
-        cb(null, filename);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
     }
 });
 
-// Create multer instance
+// Set up multer with temporary storage
 const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
@@ -45,29 +39,11 @@ const upload = multer({
     }
 });
 
-// Middleware for handling profile image uploads
-const uploadProfileImage = (req, res, next) => {
-    console.log('Upload request received:', {
-        body: req.body,
-        files: req.files,
-        file: req.file,
-        headers: req.headers
-    });
-
-    if (!req.body.name_user) {
-        console.log('Name user not found in request body:', req.body);
-        return res.status(400).json({
-            error: 'Username is required'
-        });
-    }
-
-    upload.single('profileImage')(req, res, function(err) {
-        console.log('Multer callback:', {
-            error: err,
-            file: req.file,
-            body: req.body
-        });
-
+// Middleware to handle the upload and move file to correct location
+const uploadProfileImage = async (req, res, next) => {
+    console.log('Starting upload middleware');
+    
+    upload.single('profileImage')(req, res, async function(err) {
         if (err instanceof multer.MulterError) {
             console.error('Multer error:', err);
             return res.status(400).json({
@@ -79,25 +55,40 @@ const uploadProfileImage = (req, res, next) => {
                 error: err.message
             });
         }
-        
-        if (!req.file) {
-            console.error('No file in request');
-            return res.status(400).json({
-                error: 'No se ha subido ningún archivo'
+
+        try {
+            if (!req.file) {
+                return res.status(400).json({
+                    error: 'No se ha subido ningún archivo'
+                });
+            }
+    
+            const userDir = path.join(__dirname, '..', 'uploads', 'users', req.body.name_user);
+            await fs.promises.mkdir(userDir, { recursive: true });
+    
+            const newPath = path.join(userDir, req.file.filename);
+            await fs.promises.rename(req.file.path, newPath);
+    
+            // Update the path to be relative to the uploads directory
+            req.file.path = path.relative(path.join(__dirname, '..', 'uploads'), newPath);
+            req.file.destination = path.relative(path.join(__dirname, '..', 'uploads'), userDir);
+    
+            next();
+        } catch (error) {
+            console.error('Error in upload middleware:', error);
+            // Clean up temp file if it exists
+            if (req.file && req.file.path) {
+                try {
+                    await fs.promises.unlink(req.file.path);
+                } catch (cleanupError) {
+                    console.error('Error cleaning up temp file:', cleanupError);
+                }
+            }
+            return res.status(500).json({
+                error: 'Error al procesar la carga',
+                details: error.message
             });
         }
-
-        // Log successful file upload
-        console.log('File successfully processed:', {
-            file: req.file,
-            body: req.body,
-            relativePath: path.join('users', req.body.name_user, path.basename(req.file.path))
-        });
-        
-        // Add the relative path to the request
-        req.file.relativePath = path.join('users', req.body.name_user, path.basename(req.file.path));
-        
-        next();
     });
 };
 

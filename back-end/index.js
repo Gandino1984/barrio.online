@@ -5,6 +5,7 @@ import sequelize from './config/sequelize.js';
 import router from './routers/main_router.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs/promises';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,6 +13,21 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 
 const app = express();
+const PORT = process.env.APP_PORT || 3007; // Ensure consistent port
+
+// Ensure uploads directories exist
+async function ensureUploadsDirectory() {
+    const uploadsPath = path.join(__dirname, 'uploads');
+    try {
+        await fs.mkdir(uploadsPath, { recursive: true });
+        await fs.mkdir(path.join(uploadsPath, 'users'), { recursive: true });
+        await fs.mkdir(path.join(uploadsPath, 'temp'), { recursive: true });
+        console.log('Upload directories created successfully');
+    } catch (error) {
+        console.error('Error creating uploads directories:', error);
+        throw error;
+    }
+}
 
 // Middlewares
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -27,6 +43,7 @@ app.use(cors({
 // Database Initialization
 async function initializeDatabase() {
   try {
+    await ensureUploadsDirectory();
     await sequelize.sync({ alter: true });
     console.log('*******************************************************************');
     console.log('-> SEQUELIZE: La base de datos ha sido sincronizada con el modelo');
@@ -41,6 +58,6 @@ initializeDatabase().then(() => {
   app.use("/", router);
 
   app.listen(3000, () => {
-    console.log(`SERVIDOR EN EL PUERTO = ${process.env.APP_PORT}`)
+    console.log(`SERVIDOR EN EL PUERTO = ${PORT}`);
   });
 });
