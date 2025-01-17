@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
-import styles from './ErrorCard.module.css';
+import styles from '../../../../../public/css/ErrorCard.module.css';
 import { CircleX } from 'lucide-react';
 
 const ErrorCard = () => {

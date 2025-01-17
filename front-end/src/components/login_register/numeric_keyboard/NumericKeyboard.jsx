@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import { useNumericKeyboardFunctions } from './useNumericKeyboardFunctions.jsx';
 import { Delete, RotateCcw } from 'lucide-react';
-import styles from './NumericKeyboard.module.css';
+import styles from '../../../../../public/css/NumericKeyboard.module.css';
 import { Banana, Apple, Bean, Beef, Carrot, Beer, Croissant, Drill, Dog, Fish, Drumstick, Gift, Gem, Ham, Palette, Printer, Wrench, Car, Scissors, HeartPulse, BookMarked, Mouse, Cpu, Laptop, Smile, ChefHat, Laugh, Lollipop, Cake, Pizza, ShoppingBasket, Speaker, Amphora, ConciergeBell, Flower, Baby, Shirt, Watch, Sandwich } from 'lucide-react';
 
 const NumericKeyboard = ({ 

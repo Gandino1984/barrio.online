@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styles from './UserInfoCard.module.css';
+import styles from '../../../../../public/css/UserInfoCard.module.css';
 import { Camera } from 'lucide-react';
 import { SquareUserRound } from 'lucide-react';
 import axiosInstance from '../../../../utils/axiosConfig.js';

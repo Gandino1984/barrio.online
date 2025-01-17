@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { X, MessageCircleWarning } from 'lucide-react';
 import AppContext from '../../app_context/AppContext.js';
-import styles from './ConfirmationModal.module.css';
+import styles from '../../../../public/css/ConfirmationModal.module.css';
 
 const ConfirmationModal = () => {
   const { 

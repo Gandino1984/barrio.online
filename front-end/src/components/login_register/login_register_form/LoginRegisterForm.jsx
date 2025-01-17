@@ -3,7 +3,7 @@ import AppContext from '../../../app_context/AppContext.js';
 import { LoginRegisterFunctions } from './hooks/LoginRegisterFunctions.jsx';
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
 import ClientManagement from "../../client_management/ClientManagement.jsx";
-import styles from './LoginRegisterForm.module.css';
+import styles from '../../../../../public/css/LoginRegisterForm.module.css';
 import ShopManagement from "../../shop_management/ShopManagement.jsx";
 import { DoorOpen } from 'lucide-react';
 

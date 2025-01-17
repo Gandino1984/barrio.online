@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import ProductCreationFormFunctions from './ProductCreationFormFunctions';
 import AppContext from '../../../../app_context/AppContext';
-import styles from './ProductCreationForm.module.css';
+import styles from '../../../../../../public/css/ProductCreationForm.module.css';
 import { CirclePlus, ScrollText, PackagePlus, Save } from 'lucide-react';
 
 const ProductCreationForm = () => {

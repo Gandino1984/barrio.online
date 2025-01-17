@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
-import styles from './ShopCreationForm.module.css';
+import styles from '../../../../../public/css/ShopCreationForm.module.css';
 import { ShopCreationFormFunctions } from './ShopCreationFormFunctions.jsx';
 import { Plus, PackagePlus, Box } from 'lucide-react';
 

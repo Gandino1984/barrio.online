@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import styles from './TopBar.module.css';
+import styles from '../../../../public/css/TopBar.module.css';
 import { TopBarFunctions } from './TopBarFunctions.jsx';
 import { ArrowLeft } from 'lucide-react';
 import { LogOut, DoorClosed } from 'lucide-react';

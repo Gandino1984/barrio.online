@@ -4,7 +4,7 @@ import ShopsListBySeller from './shops_list_by_seller/ShopsListBySeller.jsx';
 import ShopCreationForm from './shop_creation_form/ShopCreationForm.jsx';
 import ProductManagement from './product_management/ProductManagement.jsx';
 import { ShopManagementFunctions } from './ShopManagementFunctions.jsx';
-import styles from './ShopManagement.module.css';
+import styles from '../../../../public/css/ShopManagement.module.css';
 
 const ShopManagement = () => {
   const { 
