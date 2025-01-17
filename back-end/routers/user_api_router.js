@@ -131,8 +131,8 @@ router.post('/upload-profile-image', uploadProfileImage, async (req, res) => {
             });
         }
 
-        // Use the relative path for the database and URL
-        const relativePath = req.file.path.replace(/\\/g, '/'); // Convert Windows paths to URL format if needed
+        // The path should now be relative to the public directory
+        const relativePath = req.file.path;
         
         const result = await userApiController.updateProfileImage(req.body.name_user, relativePath);
         
@@ -144,7 +144,7 @@ router.post('/upload-profile-image', uploadProfileImage, async (req, res) => {
             ...result,
             data: {
                 ...result.data,
-                image_user: `/uploads/${relativePath}` // Ensure the path starts with /uploads/
+                image_user: `/${relativePath}` // Path relative to public directory
             }
         });
     } catch (error) {

@@ -1,4 +1,3 @@
-// uploadMiddleware.js
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
@@ -7,24 +6,39 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Create initial storage configuration
+// Configure storage
 const storage = multer.diskStorage({
     destination: async function (req, file, cb) {
-        const tempDir = path.join(__dirname, '..', 'uploads', 'temp');
+        // Path to public uploads directory
+        const uploadsDir = path.join(__dirname, '..', '..', 'public', 'images', 'uploads');
+        
         try {
-            await fs.promises.mkdir(tempDir, { recursive: true });
-            cb(null, tempDir);
+            // Create the uploads directory if it doesn't exist
+            await fs.promises.mkdir(uploadsDir, { recursive: true });
+            
+            const usersDir = path.join(uploadsDir, 'users');
+            // Create the users directory if it doesn't exist
+            await fs.promises.mkdir(usersDir, { recursive: true });
+            
+            if (req.body.name_user) {
+                const userDir = path.join(usersDir, req.body.name_user);
+                // Create the user-specific directory if it doesn't exist
+                await fs.promises.mkdir(userDir, { recursive: true });
+                cb(null, userDir);
+            } else {
+                cb(new Error('Usuario no especificado'));
+            }
         } catch (error) {
             cb(error);
         }
     },
     filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
+        // Use 'profile' as filename to ensure only one profile image per user
+        const ext = path.extname(file.originalname);
+        cb(null, 'profile' + ext);
     }
 });
 
-// Set up multer with temporary storage
 const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
@@ -39,7 +53,6 @@ const upload = multer({
     }
 });
 
-// Middleware to handle the upload and move file to correct location
 const uploadProfileImage = async (req, res, next) => {
     console.log('Starting upload middleware');
     
@@ -57,31 +70,24 @@ const uploadProfileImage = async (req, res, next) => {
         }
 
         try {
-            if (!req.file) {
+            if (!req.file || !req.body.name_user) {
                 return res.status(400).json({
-                    error: 'No se ha subido ningún archivo'
+                    error: 'Faltan campos requeridos'
                 });
             }
-    
-            const userDir = path.join(__dirname, '..', 'uploads', 'users', req.body.name_user);
-            await fs.promises.mkdir(userDir, { recursive: true });
-    
-            const newPath = path.join(userDir, req.file.filename);
-            await fs.promises.rename(req.file.path, newPath);
-    
-            // Update the path to be relative to the uploads directory
-            req.file.path = path.relative(path.join(__dirname, '..', 'uploads'), newPath);
-            req.file.destination = path.relative(path.join(__dirname, '..', 'uploads'), userDir);
-    
+
+            // Set the public URL path for the image
+            const relativePath = path.join('images', 'uploads', 'users', req.body.name_user, path.basename(req.file.path));
+            req.file.path = relativePath.replace(/\\/g, '/');
+
             next();
         } catch (error) {
             console.error('Error in upload middleware:', error);
-            // Clean up temp file if it exists
-            if (req.file && req.file.path) {
+            if (req.file) {
                 try {
                     await fs.promises.unlink(req.file.path);
                 } catch (cleanupError) {
-                    console.error('Error cleaning up temp file:', cleanupError);
+                    console.error('Error cleaning up file:', cleanupError);
                 }
             }
             return res.status(500).json({

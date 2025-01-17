@@ -3,69 +3,68 @@ import styles from '../../../../../public/css/UserInfoCard.module.css';
 import { Camera } from 'lucide-react';
 import { SquareUserRound } from 'lucide-react';
 import axiosInstance from '../../../../utils/axiosConfig.js';
-import  AppContext  from '../../../app_context/AppContext.js';
+import AppContext from '../../../app_context/AppContext.js';
 
 const UserInfoCard = () => {
   const { currentUser, setCurrentUser } = useContext(AppContext);
   const [uploading, setUploading] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  useEffect(() => {
-    // Debug logs
-    console.log('UserInfoCard - Current user state:', currentUser);
-    console.log('UserInfoCard - localStorage data:', localStorage.getItem('currentUser'));
-    try {
-      const parsedLocalStorage = JSON.parse(localStorage.getItem('currentUser'));
-      console.log('UserInfoCard - Parsed localStorage:', parsedLocalStorage);
-    } catch (e) {
-      console.log('UserInfoCard - Error parsing localStorage:', e);
-    }
-  }, [currentUser]);
-
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
     if (!currentUser || !currentUser.name_user) {
-        console.error('No user data available:', currentUser);
-        return;
+      console.error('No user data available:', currentUser);
+      return;
     }
 
     const formData = new FormData();
     formData.append('name_user', currentUser.name_user);
     formData.append('profileImage', file);
 
-    console.log('Uploading with data:', {
-        name_user: currentUser.name_user,
-        file: file
-    });
-
     try {
-        setUploading(true);
-        const response = await axiosInstance.post('/user/upload-profile-image', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+      setUploading(true);
+      const response = await axiosInstance.post('/user/upload-profile-image', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-        console.log('Upload response:', response);
-
-        if (response.data.data?.image_user) {
-            const updatedUser = {
-                ...currentUser,
-                image_user: response.data.data.image_user
-            };
-            localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-            setCurrentUser(updatedUser);
-            setImageError(false);
-        }
+      if (response.data.data?.image_user) {
+        const updatedUser = {
+          ...currentUser,
+          image_user: response.data.data.image_user
+        };
+        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        setCurrentUser(updatedUser);
+        setImageError(false);
+      }
     } catch (error) {
-        console.error('Upload error:', error.response?.data || error);
-        setImageError(true);
+      console.error('Upload error:', error.response?.data || error);
+      setImageError(true);
     } finally {
-        setUploading(false);
+      setUploading(false);
     }
-};
+  };
+
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+    
+    // Remove any double slashes and ensure proper path
+    const cleanPath = imagePath.replace(/\/+/g, '/');
+    
+    // If using axiosInstance base URL
+    const baseUrl = axiosInstance.defaults.baseURL || '';
+    return `${baseUrl}${cleanPath}`;
+  };
+
+  // Add useEffect to log the image URL for debugging
+  useEffect(() => {
+    if (currentUser?.image_user) {
+      console.log('Image URL:', getImageUrl(currentUser.image_user));
+    }
+  }, [currentUser?.image_user]);
 
   return (
     <div className={styles.userInfoCard}>
@@ -76,10 +75,13 @@ const UserInfoCard = () => {
           <div className={styles.profileSection}>
             {!imageError && currentUser.image_user ? (
               <img 
-                src={currentUser.image_user}
+                src={getImageUrl(currentUser.image_user)}
                 alt={`Profile of ${currentUser.name_user}`}
                 className={styles.profileImage}
-                onError={() => setImageError(true)}
+                onError={(e) => {
+                  console.error('Image load error:', e);
+                  setImageError(true);
+                }}
               />
             ) : (
               <SquareUserRound size={40} />

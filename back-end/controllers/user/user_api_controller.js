@@ -1,11 +1,7 @@
 import userController from "./user_controller.js";
 import bcrypt from 'bcrypt';
-import path from 'path';
-import express from 'express';
-import multer from 'multer';
 import user_model from "../../models/user_model.js";
 
-const upload = multer({ dest: 'uploads/' });
 
 async function getAll(req, res) {
     const {error, data} = await userController.getAll();

@@ -134,3 +134,6 @@ db/scripts/2DB_data_gestionPedidosOnline_2024.sql
 
 uploads/*
 !uploads/.gitkeep
+
+public/images/uploads/**
+!public/images/uploads/.gitkeep

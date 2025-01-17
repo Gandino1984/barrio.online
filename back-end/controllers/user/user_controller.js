@@ -1,8 +1,7 @@
 import { console } from "inspector";
 import user_model from "../../models/user_model.js";
 import bcrypt from "bcrypt";
-import fs from 'fs';  
-import path from 'path'; 
+
 
 const validateUserData = (userData) => {
     console.log("-> user_controller.js - validateUserData() - userData = ", userData);
@@ -150,7 +149,6 @@ async function create(userData) {
 }
 
 async function login(userData) {
-
     console.log("-> user_controller.js - login() - userData = ", userData);
     
     try {
@@ -167,9 +165,6 @@ async function login(userData) {
             }; 
         }
 
-        // Find user: we need the hashed password and to retrieve the user_type
-        // to add it to the currentUser login data so the app knows what
-        // type of user is trying to log in
         const user = await user_model.findOne({ 
             where: { name_user: userData.name_user } 
         });
@@ -180,11 +175,8 @@ async function login(userData) {
             };
         }
 
-        // Password comparisson: userData.pass_user is the one from the 
-        // request(form/unhashed data) user.pass_user is the hashed one
         const isPasswordValid = await bcrypt.compare(userData.pass_user, user.pass_user);
 
-        // Password check
         if (!isPasswordValid) {
             console.log('-> user_controller.js - login() - Contraseña incorrecta');
             return { 
@@ -192,13 +184,16 @@ async function login(userData) {
             };
         }
 
-        // Return user data without sensitive information
+        // Return user data including image_user
         const userResponse = {
             id_user: user.id_user,
             name_user: user.name_user,
             type_user: user.type_user,
-            location_user: user.location_user
+            location_user: user.location_user,
+            image_user: user.image_user  // Added this line
         };
+
+        console.log('-> login() - User response:', userResponse);  // Add this log
 
         return {
             data: userResponse,
@@ -359,9 +354,7 @@ async function updateProfileImage(userName, imagePath) {
             };
         }
         
-        // Use the imagePath parameter directly instead of trying to construct it
-        console.log('Saving path to database:', imagePath);
-
+        // Store the path relative to the public directory
         await user.update({ image_user: imagePath });
 
         return {
