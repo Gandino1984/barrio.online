@@ -6,9 +6,9 @@ import AppContext from '../../../app_context/AppContext.js';
 import { UserInfoCardFunctions } from './UserInfoCardFunctions.jsx';
 
 const UserInfoCard = () => {
-  const { currentUser, setCurrentUser,
-    imageError, setImageError,
-    uploading, setUploading
+  const { currentUser,
+    uploading,
+    setError, clearError 
    } = useContext(AppContext);
 
   const {
@@ -16,11 +16,9 @@ const UserInfoCard = () => {
     getImageUrl
   } = UserInfoCardFunctions();
   
-
   useEffect(() => {
-    // Reset image error when currentUser changes
     if (currentUser?.image_user) {
-      setImageError(false);
+      clearError();
     }
   }, [currentUser]);
 
@@ -42,9 +40,8 @@ const UserInfoCard = () => {
                 src={getImageUrl(currentUser.image_user)}
                 alt={`Image of ${currentUser.name_user}`}
                 className={styles.profileImage}
-                onError={(e) => {
-                  console.error('Image load error:', e);
-                  setImageError(true);
+                onError={() => {
+                  setError(prevError => ({ ...prevError, imageError: "Error al cargar la imagen" }));
                 }}
               />
             ) : (
