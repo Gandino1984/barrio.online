@@ -7,15 +7,16 @@
 
 Sistema de gestión de pedidos y reservas online para comercios locales del Distrito 02 de Bilbao.
 
+El proyecto es una aplicación web estructurada con una arquitectura full-stack, utilizando una combinación de tecnologías tanto para el front-end como para el back-end. El front-end está construido con React.js y Vite. El backend está estructurado con Node.js, utilizando Express para enrutamiento y controladores, e interactúa con una base de datos a través de modelos. El proyecto utiliza Docker para la contenedorización, estructurado a través de un archivo `Dockerfile` y un archivo `docker-compose.yml`. El `Dockerfile` comienza con la imagen base `node:22.9.0` , establece el directorio de trabajo en `/app` e instala las dependencias desde `package.json`. Expone el puerto `3000` y ejecuta el servidor back-end usando `node back-end/index.js`. El `docker-compose.yml` define dos servicios: una base de datos MySQL y la aplicación back-end. El servicio de base de datos utiliza la imagen `mysql:8.0` , con variables de entorno para credenciales y configuraciones de almacenamiento persistente.
+
 ## 🌟 Características Principales
 
 - Gestión de productos y servicios
 - Sistema de reservas en tiempo real
-- Panel de administración para comercios
+- Panel de administración para comercios y compradores
 - Gestión de inventario
-- Analíticas y reportes
 - Sistema de notificaciones
-- Integración con mapas
+- Integración con mapas(no implementado)
 
 ## 🛠️ Stack Tecnológico
 
@@ -24,24 +25,17 @@ Sistema de gestión de pedidos y reservas online para comercios locales del Dist
 - MySQL + Sequelize ORM
 - Sistema de autenticación con bcrypt
 - API RESTful
-- Gestión de sesiones
+- Multer para subir archivos
+- Gestión de sesiones (localStorage)
 
 ### Frontend
 - React 18+
 - Vite como bundler
 - Axios para peticiones HTTP
-- Gestión de estado moderna
 - Componentes reutilizables
 
 ### Infraestructura
 - Docker + Docker Compose
 - Variables de entorno
 - CORS configurado
-- Logs y monitorización
-
-## 📦 Instalación
-
-1. Clonar el repositorio:
-```bash
-git clone https://github.com/Gandino1984/uribarri.online.git
-cd uribarri.online
+- Logs para monitorización

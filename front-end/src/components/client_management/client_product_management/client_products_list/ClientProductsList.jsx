@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import AppContext from '../../../../app_context/AppContext.js';
-import styles from './ProductsList.module.css';
+// import styles from '../../../../../../public/css/';
 import ClientProductManagementFunctions from './ClientProductManagementFunctions.jsx';
 import FiltersForProducts from '../../../filters_for_products/FiltersForProducts.jsx';
 

@@ -8,16 +8,27 @@ export const AppContextProvider = ({ children }) => {
     if (storedUserData) {
       try {
         const parsedData = JSON.parse(storedUserData);
+        console.log('AppContextProvider - Parsed stored user data:', parsedData);
         
-        if (!parsedData || typeof parsedData !== 'object' || !parsedData.username) {
-          console.error('-> AppContextProvider.jsx - Estrucutra de datos de usuario inválida');
+        // Only remove if critically invalid
+        if (!parsedData || typeof parsedData !== 'object') {
+          console.error('Critical: Invalid user data structure');
           localStorage.removeItem('currentUser');
           return null;
         }
-        return parsedData;
+        
+        // Log warning but don't remove if just missing name_user
+        if (!parsedData.name_user) {
+          console.warn('Warning: User data missing name_user field');
+        }
+        
+        // Include image_user in the state
+        return {
+          ...parsedData,
+          image_user: parsedData.image_user || null // Ensure image_user is included
+        };
       } catch (err) {
-        console.error('-> AppContextProvider.jsx - Error = ', err);
-        localStorage.removeItem('currentUser');
+        console.error('Error parsing stored user data:', err);
         return null;
       }
     }
@@ -26,12 +37,14 @@ export const AppContextProvider = ({ children }) => {
 
   //initializes isLoggingIn with the negation of currentUser, 
   const [isLoggingIn, setIsLoggingIn] = useState(() => !currentUser);
+  
   // initializes showShopManagement with the boolean value of currentUser.
   const [showShopManagement, setshowShopManagement] = useState(() => !!currentUser);
   const [showProductManagement, setShowProductManagement] = useState(false);
   const [isAddingShop, setIsAddingShop] = useState(false);
   const [showShopCreationForm, setShowShopCreationForm] = useState(false);
   const [isUpdatingProduct, setIsUpdatingProduct] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,11 +52,11 @@ export const AppContextProvider = ({ children }) => {
   const [isDeclined, setIsDeclined] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
 
-  const [username, setUsername] = useState(() => currentUser?.username || '');
+  const [name_user, setNameUser] = useState(() => currentUser?.name_user || '');
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
-  const [userType, setUserType] = useState(() => currentUser?.userType || '');
-  const [userlocation, setUserlocation] = useState(() => currentUser?.userlocation || '');
+  const [type_user, setUserType] = useState(() => currentUser?.type_user || '');
+  const [location_user, setLocationUser] = useState(() => currentUser?.location_user || '');
 
   const [showErrorCard, setShowErrorCard] = useState(false);
 
@@ -57,24 +70,40 @@ export const AppContextProvider = ({ children }) => {
     databaseResponseError: '',
     shopError: '',
     productError: '',
+    imageError: ''
   });
+
+  const [imageError, setImageError] = useState(false);
 
   // Function to check and clear expired user data
   const checkAndClearUserData = () => {
     const storedUserData = localStorage.getItem('currentUser');
-
-    setCurrentUser(storedUserData);
     
     if (storedUserData) {
-      const { timestamp } = JSON.parse(storedUserData);
-      const currentTime = new Date().getTime();
-      const NINE_DAYS_IN_MS = 9 * 24 * 60 * 60 * 1000;
-
-      if (currentTime - timestamp > NINE_DAYS_IN_MS) {
-        // Clear both localStorage and state if 9 days have passed
+      try {
+        const parsedData = JSON.parse(storedUserData);
+        const currentTime = new Date().getTime();
+        const NINE_DAYS_IN_MS = 9 * 24 * 60 * 60 * 1000;
+  
+        if (currentTime - parsedData.timestamp > NINE_DAYS_IN_MS) {
+          // Clear both localStorage and state if 9 days have passed
+          localStorage.removeItem('currentUser');
+          setCurrentUser(null);
+        } else {
+          // Set the parsed user data if not expired
+          setCurrentUser(parsedData);
+          // Also update other relevant user states
+          setNameUser(parsedData.name_user || '');
+          setUserType(parsedData.type_user || '');
+          setLocationUser(parsedData.location_user || '');
+        }
+      } catch (err) {
+        console.error('Error parsing stored user data:', err);
         localStorage.removeItem('currentUser');
         setCurrentUser(null);
       }
+    } else {
+      setCurrentUser(null);
     }
   };
 
@@ -89,22 +118,27 @@ export const AppContextProvider = ({ children }) => {
       databaseResponseError: '',
       shopError: '',
       productError: '',
+      imageError: ''
     });
     setShowErrorCard(false);
   };
 
   const login = (userData) => {
-    // Remove the password and ensure we have required fields
-    const { password, ...userWithoutPassword } = userData;
+    // Remove only the password field
+    const { pass_user, ...userWithoutPassword } = userData;
     
-    if (!userWithoutPassword.username) {
-      console.error('Invalid user data structure');
-      return;
-    }
-  
-    localStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
+    // Preserve all other user data including image_user
+    const userDataWithTimestamp = {
+      ...userWithoutPassword,
+      timestamp: new Date().getTime()
+    };
+    
+    // Store complete user data in localStorage
+    localStorage.setItem('currentUser', JSON.stringify(userDataWithTimestamp));
+    
+    // Update state with complete user data
     setCurrentUser(userWithoutPassword);
-  
+    setNameUser(userWithoutPassword.name_user);
     setIsLoggingIn(false);
     setshowShopManagement(true);
     clearError();
@@ -220,12 +254,12 @@ export const AppContextProvider = ({ children }) => {
 
   const value = {
     isLoggingIn, setIsLoggingIn,
-    username, setUsername,
+    name_user, setNameUser,
     password, setPassword,
     passwordRepeat, setPasswordRepeat,
     MAX_PASSWORD_LENGTH,
     databaseResponse, setDatabaseResponse,
-    userType, setUserType,
+    type_user, setUserType,
     shopType, setShopType,
     showShopManagement, setshowShopManagement,
     showPasswordRepeat, setShowPasswordRepeat,
@@ -250,7 +284,7 @@ export const AppContextProvider = ({ children }) => {
     shopTypes, setShopTypes,
     ip, setIp,
     checkAndClearUserData,
-    userlocation, setUserlocation,
+    location_user, setLocationUser,
     newShop, setNewShop,
     shopTypesAndSubtypes, setShopTypesAndSubtypes,
     showErrorCard, setShowErrorCard,
@@ -264,7 +298,9 @@ export const AppContextProvider = ({ children }) => {
     modalMessage, setModalMessage,
     selectedProducts, setSelectedProducts,
     isUpdatingProduct, setIsUpdatingProduct,
-    selectedProductToUpdate, setSelectedProductToUpdate
+    selectedProductToUpdate, setSelectedProductToUpdate,
+    imageError, setImageError,
+    uploading, setUploading
   };
 
   return (

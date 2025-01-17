@@ -3,6 +3,12 @@ import userApiController from "../controllers/user/user_api_controller.js";
 import IpRegistry from '../../back-end/models/ip_registry_model.js'; 
 import dotenv from 'dotenv';
 
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+
+import { uploadProfileImage } from '../routers/uploadMiddleware.js';
+
 dotenv.config();
 
 const router = Router();
@@ -116,6 +122,41 @@ router.post('/register', async (req, res) => {
 });
 
 router.post("/details", userApiController.getByUserName);
+
+router.post('/upload-profile-image', uploadProfileImage, async (req, res) => {
+    try {
+        if (!req.file || !req.body.name_user) {
+            return res.status(400).json({ 
+                error: 'Faltan campos requeridos' 
+            });
+        }
+
+        // Construct the path relative to the public directory
+        const relativePath = path.join('images', 'uploads', 'users', req.body.name_user, path.basename(req.file.path))
+            .split(path.sep)
+            .join('/');
+        
+        const result = await userApiController.updateProfileImage(req.body.name_user, relativePath);
+        
+        if (result.error) {
+            return res.status(400).json(result);
+        }
+
+        return res.json({
+            ...result,
+            data: {
+                ...result.data,
+                image_user: relativePath // Return the clean relative path
+            }
+        });
+    } catch (error) {
+        console.error('Error handling upload:', error);
+        return res.status(500).json({ 
+            error: 'Error en la carga de la imagen de perfil',
+            details: error.message 
+        });
+    }
+});
 
 
 export default router;

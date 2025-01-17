@@ -3,7 +3,7 @@ import AppContext from '../../app_context/AppContext.js';
 
 export const TopBarFunctions = () => {
     const {
-        setIsLoggingIn, setUsername, 
+        setIsLoggingIn, setNameUser, 
         setPassword, setPasswordRepeat,
         setShowPasswordLabel, setKeyboardKey, 
         setshowShopManagement, setDisplayedPassword, 
@@ -33,7 +33,7 @@ export const TopBarFunctions = () => {
     const clearUserSession = () => {
         // Clear user-related state
         setCurrentUser(null);
-        setUsername('');
+        setNameUser('');
         setPassword('');
         setPasswordRepeat('');
         setDisplayedPassword('');

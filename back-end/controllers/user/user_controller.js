@@ -1,5 +1,7 @@
+import { console } from "inspector";
 import user_model from "../../models/user_model.js";
 import bcrypt from "bcrypt";
+
 
 const validateUserData = (userData) => {
     console.log("-> user_controller.js - validateUserData() - userData = ", userData);
@@ -147,7 +149,6 @@ async function create(userData) {
 }
 
 async function login(userData) {
-
     console.log("-> user_controller.js - login() - userData = ", userData);
     
     try {
@@ -164,9 +165,6 @@ async function login(userData) {
             }; 
         }
 
-        // Find user: we need the hashed password and to retrieve the user_type
-        // to add it to the currentUser login data so the app knows what
-        // type of user is trying to log in
         const user = await user_model.findOne({ 
             where: { name_user: userData.name_user } 
         });
@@ -177,25 +175,25 @@ async function login(userData) {
             };
         }
 
-        // Password comparisson: userData.pass_user is the one from the 
-        // request(form/unhashed data) user.pass_user is the hashed one
         const isPasswordValid = await bcrypt.compare(userData.pass_user, user.pass_user);
 
-        // Password check
         if (!isPasswordValid) {
-            console.log('-> user_controller.js - login() - Contraseña incorrecta');
+            console.error('-> user_controller.js - login() - Contraseña incorrecta');
             return { 
                 error: "Contraseña incorrecta"
             };
         }
 
-        // Return user data without sensitive information
+        // Return user data including image_user
         const userResponse = {
             id_user: user.id_user,
             name_user: user.name_user,
             type_user: user.type_user,
-            location_user: user.location_user
+            location_user: user.location_user,
+            image_user: user.image_user 
         };
+
+        console.log('-> login() - User response:', userResponse); 
 
         return {
             data: userResponse,
@@ -203,10 +201,9 @@ async function login(userData) {
         };
 
     } catch (err) {
-        console.error("-> Error al iniciar sesión =", err);
+        console.error("-> user_controller.js - login() - Error al iniciar sesión =", err);
         return {
-            error: "Error al iniciar sesión",
-            details: err.message        
+            error: "Error al iniciar sesión"
         }; 
     }
 }
@@ -344,6 +341,34 @@ async function removeById(id_user) {
     }
 }
 
+async function updateProfileImage(userName, imagePath) {
+    try {
+        const user = await user_model.findOne({
+            where: { name_user: userName }
+        });
+        
+        if (!user) {
+            return {
+                error: "Usuario no encontrado"
+            };
+        }
+        
+        // Store the path relative to the public directory
+        await user.update({ image_user: imagePath });
+
+        return {
+            data: { image_user: imagePath },
+            message: "Imagen de perfil actualizada correctamente"
+        };
+    } catch (err) {
+        console.error("Error updating profile image:", err);
+        return {
+            error: "Error al actualizar la imagen de perfil",
+            details: err.message
+        };
+    }
+}
+
 export { 
     getAll, 
     getById, 
@@ -352,7 +377,8 @@ export {
     removeById, 
     login, 
     register,
-    getByUserName 
+    getByUserName,
+    updateProfileImage 
 };
 
 export default { 
@@ -363,5 +389,6 @@ export default {
     removeById, 
     login, 
     register,
-    getByUserName 
+    getByUserName,
+    updateProfileImage 
 };

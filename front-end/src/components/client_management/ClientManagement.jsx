@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import AppContext from '../../app_context/AppContext.js';
 import ShopTypeButton from './ShopTypeButton.jsx';
 import ShopsByType from './shops_by_type/ShopsByType.jsx'; 
-import styles from './ClientManagement.module.css';
+import styles from '../../../../public/css/ClientManagement.module.css';
 import { ClientManagementFunctions } from './ClientManagementFunctions.jsx';
 
 const ClientManagement = () => {

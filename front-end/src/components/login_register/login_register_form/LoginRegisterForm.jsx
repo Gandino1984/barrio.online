@@ -3,18 +3,18 @@ import AppContext from '../../../app_context/AppContext.js';
 import { LoginRegisterFunctions } from './hooks/LoginRegisterFunctions.jsx';
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
 import ClientManagement from "../../client_management/ClientManagement.jsx";
-import styles from './LoginRegisterForm.module.css';
+import styles from '../../../../../public/css/LoginRegisterForm.module.css';
 import ShopManagement from "../../shop_management/ShopManagement.jsx";
 import { DoorOpen } from 'lucide-react';
 
 
 const LoginRegisterForm = () => {
   const {
-    username, currentUser, usernameError,
-    isLoggingIn, userType, 
+    name_user, currentUser, usernameError,
+    isLoggingIn, type_user, 
     showShopManagement, passwordError,
     password, passwordRepeat, showPasswordRepeat,
-    keyboardKey, userlocation, userlocationError,
+    keyboardKey, location_user, userlocationError,
     showRepeatPasswordMessage
   } = useContext(AppContext);
 
@@ -32,9 +32,9 @@ const LoginRegisterForm = () => {
   console.log('-> LoginRegisterForm.jsx - showShopManagement state = ', showShopManagement); 
   
   if (showShopManagement || currentUser) {
-    console.log('-> LoginRegisterForm.jsx - userType = ', userType);
+    console.log('-> LoginRegisterForm.jsx - type_user = ', type_user);
 
-    if (userType === 'seller') {
+    if (type_user === 'seller') {
         return (
           <>
             <ShopManagement/>
@@ -58,12 +58,12 @@ const LoginRegisterForm = () => {
               <form onSubmit={handleFormSubmit} className={styles.formContent}>
                   <div className={styles.formField}>
                       <input
-                          id="username"
+                          id="name_user"
                           type="text"
-                          value={username}
+                          value={name_user}
                           onChange={handleUsernameChange}
                           className={usernameError ? styles.inputError : ''}
-                          placeholder={userType === 'seller' ? 'Nombre de vendedor:' : 'Nombre de cliente:'}
+                          placeholder={type_user === 'seller' ? 'Nombre de vendedor:' : 'Nombre de cliente:'}
                           required
                       />
                   </div>
@@ -71,7 +71,7 @@ const LoginRegisterForm = () => {
                       // Render the user type radio buttons for registration
                       <div className={styles.formField }>
                           <div className={styles.radioOptions}>
-                              <select value={userType} 
+                              <select value={type_user} 
                               onChange={handleUserTypeChange}
                               required
                               >
@@ -83,12 +83,12 @@ const LoginRegisterForm = () => {
                           </div>
                           
                           <input
-                            id="userlocation"
+                            id="location_user"
                             type="text"
-                            value={userlocation}
+                            value={location_user}
                             onChange={handleUserLocationChange}
                             className={userlocationError ? styles.inputError : ''}
-                            placeholder={userType === 'seller' ? 'Dirección de vendedor:' : 'Dirección de cliente:'}
+                            placeholder={type_user === 'seller' ? 'Dirección de vendedor:' : 'Dirección de cliente:'}
                             required />
                         </div>
                       
