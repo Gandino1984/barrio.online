@@ -54,8 +54,6 @@ export const UserInfoCardFunctions = () => {
             console.log('-> UserInfoCardFunctions - handleImageUpload() - Local Storage = ', localStorage.getItem('currentUser')); 
             
             setCurrentUser(updatedUser);
-            
-            clearError();
             }
         } catch (err) {
             console.error('-> UserInfoCardFunctions - handleImageUpload() - Upload error = ', err.response?.data || err);
@@ -83,8 +81,6 @@ export const UserInfoCardFunctions = () => {
         const imageUrl = `${baseUrl}/${cleanPath}`.replace(/([^:]\/)(\/)+/g, "$1");
         
         console.log('-> UserInfoCardFunctions - getImageUrl() - URL construida de la imagen = ', imageUrl); 
-
-        clearError();
         return imageUrl;
       };
 

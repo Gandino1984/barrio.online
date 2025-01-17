@@ -5,7 +5,6 @@ import sequelize from './config/sequelize.js';
 import router from './routers/main_router.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
-// import fs from 'fs/promises';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -37,6 +36,7 @@ const PORT = process.env.APP_PORT || 3007;
 // }
 
 // Middlewares
+
 // Serve static files from the public directory at project root
 app.use('/images', express.static(path.join(__dirname, '..', 'public', 'images')));
 

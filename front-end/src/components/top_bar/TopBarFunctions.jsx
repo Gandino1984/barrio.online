@@ -11,7 +11,7 @@ export const TopBarFunctions = () => {
         showShopManagement, setShowShopCreationForm,
         showShopCreationForm, selectedShop, setSelectedShop,
         setCurrentUser, setShops, setSelectedShopType, 
-        setError, setShowProductManagement
+        setError, setShowProductManagement, currentUser
     } = useContext(AppContext);
 
     const handleBack = () => {
@@ -31,14 +31,16 @@ export const TopBarFunctions = () => {
     };
 
     const clearUserSession = () => {
-        // Clear user-related state
-        setCurrentUser(null);
-        setNameUser('');
-        setPassword('');
-        setPasswordRepeat('');
-        setDisplayedPassword('');
-        setShowPasswordLabel(true);
-        setUserType('');
+        // Only clear the user session if currentUser is not already null
+        if (currentUser) {
+            setCurrentUser(null);
+            setNameUser('');
+            setPassword('');
+            setPasswordRepeat('');
+            setDisplayedPassword('');
+            setShowPasswordLabel(true);
+            setUserType('');
+        }
         
         // Clear shop-related state
         setSelectedShop(null);

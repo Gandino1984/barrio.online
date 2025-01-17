@@ -15,18 +15,6 @@ const UserInfoCard = () => {
     handleImageUpload,
     getImageUrl
   } = UserInfoCardFunctions();
-  
-  useEffect(() => {
-    if (currentUser?.image_user) {
-      clearError();
-    }
-  }, [currentUser]);
-
-  useEffect(() => {
-    if (currentUser?.image_user) {
-      console.log('-> UserInfoCard - Path actual de imagen = ', currentUser.image_user);
-    }
-  }, [currentUser?.image_user]);
 
   return (
     <div className={styles.userInfoCard}>
@@ -35,7 +23,7 @@ const UserInfoCard = () => {
       ) : (
         <>
           <div className={styles.profileSection}>
-            {currentUser ? (
+            {currentUser?.image_user ? (
               <img
                 src={getImageUrl(currentUser.image_user)}
                 alt={`Image of ${currentUser.name_user}`}
