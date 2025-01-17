@@ -44,6 +44,7 @@ export const AppContextProvider = ({ children }) => {
   const [isAddingShop, setIsAddingShop] = useState(false);
   const [showShopCreationForm, setShowShopCreationForm] = useState(false);
   const [isUpdatingProduct, setIsUpdatingProduct] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -71,6 +72,8 @@ export const AppContextProvider = ({ children }) => {
     productError: '',
     imageError: ''
   });
+
+  const [imageError, setImageError] = useState(false);
 
   // Function to check and clear expired user data
   const checkAndClearUserData = () => {
@@ -295,7 +298,9 @@ export const AppContextProvider = ({ children }) => {
     modalMessage, setModalMessage,
     selectedProducts, setSelectedProducts,
     isUpdatingProduct, setIsUpdatingProduct,
-    selectedProductToUpdate, setSelectedProductToUpdate
+    selectedProductToUpdate, setSelectedProductToUpdate,
+    imageError, setImageError,
+    uploading, setUploading
   };
 
   return (

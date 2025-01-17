@@ -2,13 +2,20 @@ import React, { useContext, useEffect, useState } from 'react';
 import styles from '../../../../../public/css/UserInfoCard.module.css';
 import { Camera } from 'lucide-react';
 import { SquareUserRound } from 'lucide-react';
-import axiosInstance from '../../../../utils/axiosConfig.js';
 import AppContext from '../../../app_context/AppContext.js';
+import { UserInfoCardFunctions } from './UserInfoCardFunctions.jsx';
 
 const UserInfoCard = () => {
-  const { currentUser, setCurrentUser } = useContext(AppContext);
-  const [uploading, setUploading] = useState(false);
-  const [imageError, setImageError] = useState(false);
+  const { currentUser, setCurrentUser,
+    imageError, setImageError,
+    uploading, setUploading
+   } = useContext(AppContext);
+
+  const {
+    handleImageUpload,
+    getImageUrl
+  } = UserInfoCardFunctions();
+  
 
   useEffect(() => {
     // Reset image error when currentUser changes
@@ -17,65 +24,9 @@ const UserInfoCard = () => {
     }
   }, [currentUser]);
 
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return null;
-    
-    // Remove any leading slashes and ensure proper path
-    const cleanPath = imagePath.replace(/^\/+/, '');
-    
-    // If using axiosInstance base URL
-    const baseUrl = axiosInstance.defaults.baseURL || '';
-    const imageUrl = `${baseUrl}/${cleanPath}`.replace(/([^:]\/)(\/)+/g, "$1");
-    
-    console.log('Constructed Image URL:', imageUrl); // Log the URL for debugging
-    return imageUrl;
-  };
-
-  const handleImageUpload = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    if (!currentUser || !currentUser.name_user) {
-      console.error('No user data available:', currentUser);
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('name_user', currentUser.name_user);
-    formData.append('profileImage', file);
-
-    try {
-      setUploading(true);
-      const response = await axiosInstance.post('/user/upload-profile-image', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      if (response.data.data?.image_user) {
-        const updatedUser = {
-          ...currentUser,
-          image_user: response.data.data.image_user
-        };
-        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-        console.log('Updated User Data:', updatedUser); // Log the updated user data
-        console.log('Local Storage Content:', localStorage.getItem('currentUser')); // Log local storage content
-        setCurrentUser(updatedUser);
-        setImageError(false);
-      }
-    } catch (error) {
-      console.error('Upload error:', error.response?.data || error);
-      setImageError(true);
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  // Add debug logging
   useEffect(() => {
     if (currentUser?.image_user) {
-      console.log('Current image path:', currentUser.image_user);
-      console.log('Constructed image URL:', getImageUrl(currentUser.image_user));
+      console.log('-> UserInfoCard - Path actual de imagen = ', currentUser.image_user);
     }
   }, [currentUser?.image_user]);
 
