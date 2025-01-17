@@ -1,0 +1,68 @@
+.container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: .5rem;
+    padding: .4rem 0rem 1rem 0rem;
+}
+
+.numericKeyboardInput{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.passwordDisplay{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 1.4rem;
+    height: 1.5rem;
+    font-size: 1.5rem;
+    gap: .1rem;
+    color: var(--hovered-button);
+    overflow: hidden;
+}
+.keyboard{
+    position: relative;
+    width: 100%;
+}
+
+.key{
+    user-select: none;
+    margin: .2rem;
+    background-color: rgb(234, 234, 234);
+}
+
+.row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: .3rem;
+}
+
+.row button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    border-radius: 6px;
+    padding: .6rem .8rem;
+    user-select: none;
+    margin: .2rem;
+    background-color: var(--active-button);
+}
+
+.row button:hover{
+    font-weight: 600;
+    color: white;
+    background-color: var(--hovered-button);
+    transition: all .15s ease;
+}
