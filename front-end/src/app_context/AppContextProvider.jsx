@@ -22,7 +22,11 @@ export const AppContextProvider = ({ children }) => {
           console.warn('Warning: User data missing name_user field');
         }
         
-        return parsedData;
+        // Include image_user in the state
+        return {
+          ...parsedData,
+          image_user: parsedData.image_user || null // Ensure image_user is included
+        };
       } catch (err) {
         console.error('Error parsing stored user data:', err);
         return null;
@@ -33,6 +37,7 @@ export const AppContextProvider = ({ children }) => {
 
   //initializes isLoggingIn with the negation of currentUser, 
   const [isLoggingIn, setIsLoggingIn] = useState(() => !currentUser);
+  
   // initializes showShopManagement with the boolean value of currentUser.
   const [showShopManagement, setshowShopManagement] = useState(() => !!currentUser);
   const [showProductManagement, setShowProductManagement] = useState(false);
@@ -116,15 +121,21 @@ export const AppContextProvider = ({ children }) => {
   };
 
   const login = (userData) => {
-    // Remove the password and ensure we have required fields
+    // Remove only the password field
     const { pass_user, ...userWithoutPassword } = userData;
+    
+    // Preserve all other user data including image_user
     const userDataWithTimestamp = {
       ...userWithoutPassword,
       timestamp: new Date().getTime()
     };
+    
+    // Store complete user data in localStorage
     localStorage.setItem('currentUser', JSON.stringify(userDataWithTimestamp));
+    
+    // Update state with complete user data
     setCurrentUser(userWithoutPassword);
-    setNameUser(userWithoutPassword.name_user); // Update name_user state
+    setNameUser(userWithoutPassword.name_user);
     setIsLoggingIn(false);
     setshowShopManagement(true);
     clearError();

@@ -6,7 +6,8 @@
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
 
 Sistema de gestión de pedidos y reservas online para comercios locales del Distrito 02 de Bilbao.
-La app está configurada con un frontend hecho con React.js, un backend con Node.js y una base de datos MySQL, backend y DB dentro de contenedores de Docker. El backend depende del servicio de base de datos, lo que garantiza el orden de inicio adecuado, y ambos servicios utilizan variables de entorno para su configuración, lo que permite una implementación flexible.
+
+El proyecto es una aplicación web estructurada con una arquitectura full-stack, utilizando una combinación de tecnologías tanto para el front-end como para el back-end. El front-end está construido con React.js y Vite. El backend está estructurado con Node.js, utilizando Express para enrutamiento y controladores, e interactúa con una base de datos a través de modelos. El proyecto utiliza Docker para la contenedorización, estructurado a través de un archivo `Dockerfile` y un archivo `docker-compose.yml`. El `Dockerfile` comienza con la imagen base `node:22.9.0` , establece el directorio de trabajo en `/app` e instala las dependencias desde `package.json`. Expone el puerto `3000` y ejecuta el servidor back-end usando `node back-end/index.js`. El `docker-compose.yml` define dos servicios: una base de datos MySQL y la aplicación back-end. El servicio de base de datos utiliza la imagen `mysql:8.0` , con variables de entorno para credenciales y configuraciones de almacenamiento persistente.
 
 ## 🌟 Características Principales
 
@@ -24,18 +25,17 @@ La app está configurada con un frontend hecho con React.js, un backend con Node
 - MySQL + Sequelize ORM
 - Sistema de autenticación con bcrypt
 - API RESTful
-- Gestión de sesiones
+- Multer para subir archivos
+- Gestión de sesiones (localStorage)
 
 ### Frontend
 - React 18+
 - Vite como bundler
 - Axios para peticiones HTTP
-- Gestión de estado moderna
 - Componentes reutilizables
 
 ### Infraestructura
 - Docker + Docker Compose
 - Variables de entorno
 - CORS configurado
-- Multer para subir archivos
-- Logs y monitorización
+- Logs para monitorización

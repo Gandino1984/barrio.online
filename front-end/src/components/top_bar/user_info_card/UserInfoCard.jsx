@@ -10,6 +10,27 @@ const UserInfoCard = () => {
   const [uploading, setUploading] = useState(false);
   const [imageError, setImageError] = useState(false);
 
+  useEffect(() => {
+    // Reset image error when currentUser changes
+    if (currentUser?.image_user) {
+      setImageError(false);
+    }
+  }, [currentUser]);
+
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+    
+    // Remove any leading slashes and ensure proper path
+    const cleanPath = imagePath.replace(/^\/+/, '');
+    
+    // If using axiosInstance base URL
+    const baseUrl = axiosInstance.defaults.baseURL || '';
+    const imageUrl = `${baseUrl}/${cleanPath}`.replace(/([^:]\/)(\/)+/g, "$1");
+    
+    console.log('Constructed Image URL:', imageUrl); // Log the URL for debugging
+    return imageUrl;
+  };
+
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -37,6 +58,8 @@ const UserInfoCard = () => {
           image_user: response.data.data.image_user
         };
         localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        console.log('Updated User Data:', updatedUser); // Log the updated user data
+        console.log('Local Storage Content:', localStorage.getItem('currentUser')); // Log local storage content
         setCurrentUser(updatedUser);
         setImageError(false);
       }
@@ -48,21 +71,11 @@ const UserInfoCard = () => {
     }
   };
 
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return null;
-    
-    // Remove any double slashes and ensure proper path
-    const cleanPath = imagePath.replace(/\/+/g, '/');
-    
-    // If using axiosInstance base URL
-    const baseUrl = axiosInstance.defaults.baseURL || '';
-    return `${baseUrl}${cleanPath}`;
-  };
-
-  // Add useEffect to log the image URL for debugging
+  // Add debug logging
   useEffect(() => {
     if (currentUser?.image_user) {
-      console.log('Image URL:', getImageUrl(currentUser.image_user));
+      console.log('Current image path:', currentUser.image_user);
+      console.log('Constructed image URL:', getImageUrl(currentUser.image_user));
     }
   }, [currentUser?.image_user]);
 
@@ -73,10 +86,10 @@ const UserInfoCard = () => {
       ) : (
         <>
           <div className={styles.profileSection}>
-            {!imageError && currentUser.image_user ? (
-              <img 
+            {currentUser ? (
+              <img
                 src={getImageUrl(currentUser.image_user)}
-                alt={`Profile of ${currentUser.name_user}`}
+                alt={`Image of ${currentUser.name_user}`}
                 className={styles.profileImage}
                 onError={(e) => {
                   console.error('Image load error:', e);

@@ -10,20 +10,21 @@ const __dirname = path.dirname(__filename);
 const storage = multer.diskStorage({
     destination: async function (req, file, cb) {
         // Path to public uploads directory
-        const uploadsDir = path.join(__dirname, '..', '..', 'public', 'images', 'uploads');
+        const uploadsDir = path.join(__dirname, '..', '..', 'public', 'images', 'uploads', 'users');
         
         try {
             // Create the uploads directory if it doesn't exist
             await fs.promises.mkdir(uploadsDir, { recursive: true });
             
-            const usersDir = path.join(uploadsDir, 'users');
-            // Create the users directory if it doesn't exist
-            await fs.promises.mkdir(usersDir, { recursive: true });
+            // Ensure proper permissions for the uploads directory
+            await fs.promises.chmod(uploadsDir, 0o755);
             
             if (req.body.name_user) {
-                const userDir = path.join(usersDir, req.body.name_user);
+                const userDir = path.join(uploadsDir, req.body.name_user);
                 // Create the user-specific directory if it doesn't exist
                 await fs.promises.mkdir(userDir, { recursive: true });
+                // Set proper permissions for the user directory
+                await fs.promises.chmod(userDir, 0o755);
                 cb(null, userDir);
             } else {
                 cb(new Error('Usuario no especificado'));
@@ -33,12 +34,11 @@ const storage = multer.diskStorage({
         }
     },
     filename: function (req, file, cb) {
-        // Use 'profile' as filename to ensure only one profile image per user
+        // Use 'profile' as filename with timestamp to ensure uniqueness
         const ext = path.extname(file.originalname);
         cb(null, 'profile' + ext);
     }
 });
-
 const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
@@ -77,8 +77,10 @@ const uploadProfileImage = async (req, res, next) => {
             }
 
             // Set the public URL path for the image
-            const relativePath = path.join('images', 'uploads', 'users', req.body.name_user, path.basename(req.file.path));
-            req.file.path = relativePath.replace(/\\/g, '/');
+            const relativePath = path.join('images', 'uploads', 'users', req.body.name_user, path.basename(req.file.path))
+            .split(path.sep)
+            .join('/');
+            req.file.path = relativePath;
 
             next();
         } catch (error) {

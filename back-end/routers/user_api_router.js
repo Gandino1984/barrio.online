@@ -131,8 +131,10 @@ router.post('/upload-profile-image', uploadProfileImage, async (req, res) => {
             });
         }
 
-        // The path should now be relative to the public directory
-        const relativePath = req.file.path;
+        // Construct the path relative to the public directory
+        const relativePath = path.join('images', 'uploads', 'users', req.body.name_user, path.basename(req.file.path))
+            .split(path.sep)
+            .join('/');
         
         const result = await userApiController.updateProfileImage(req.body.name_user, relativePath);
         
@@ -144,7 +146,7 @@ router.post('/upload-profile-image', uploadProfileImage, async (req, res) => {
             ...result,
             data: {
                 ...result.data,
-                image_user: `/${relativePath}` // Path relative to public directory
+                image_user: relativePath // Return the clean relative path
             }
         });
     } catch (error) {

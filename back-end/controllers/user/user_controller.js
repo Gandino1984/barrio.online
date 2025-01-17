@@ -178,7 +178,7 @@ async function login(userData) {
         const isPasswordValid = await bcrypt.compare(userData.pass_user, user.pass_user);
 
         if (!isPasswordValid) {
-            console.log('-> user_controller.js - login() - Contraseña incorrecta');
+            console.error('-> user_controller.js - login() - Contraseña incorrecta');
             return { 
                 error: "Contraseña incorrecta"
             };
@@ -190,10 +190,10 @@ async function login(userData) {
             name_user: user.name_user,
             type_user: user.type_user,
             location_user: user.location_user,
-            image_user: user.image_user  // Added this line
+            image_user: user.image_user 
         };
 
-        console.log('-> login() - User response:', userResponse);  // Add this log
+        console.log('-> login() - User response:', userResponse); 
 
         return {
             data: userResponse,
@@ -201,10 +201,9 @@ async function login(userData) {
         };
 
     } catch (err) {
-        console.error("-> Error al iniciar sesión =", err);
+        console.error("-> user_controller.js - login() - Error al iniciar sesión =", err);
         return {
-            error: "Error al iniciar sesión",
-            details: err.message        
+            error: "Error al iniciar sesión"
         }; 
     }
 }
