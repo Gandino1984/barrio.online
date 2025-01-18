@@ -7,7 +7,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-import { uploadProfileImage } from '../routers/uploadMiddleware.js';
+import { uploadProfileImage } from '../middleware/uploadMiddleware.js';
 
 dotenv.config();
 
