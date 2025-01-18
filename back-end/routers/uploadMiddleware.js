@@ -39,12 +39,13 @@ const storage = multer.diskStorage({
         cb(null, 'profile' + ext);
     }
 });
+
 const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
-        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
         if (!allowedTypes.includes(file.mimetype)) {
-            return cb(new Error('Solo se permiten archivos de imagen (jpeg, jpg, png)'), false);
+            return cb(new Error('Solo se permiten archivos de imagen (jpeg, jpg, png, webp)'), false);
         }
         cb(null, true);
     },
@@ -54,25 +55,25 @@ const upload = multer({
 });
 
 const uploadProfileImage = async (req, res, next) => {
-    console.log('Starting upload middleware');
+    console.log('-> uploadMiddleware - uploadProfileImage() - Iniciando upload middleware');
     
     upload.single('profileImage')(req, res, async function(err) {
         if (err instanceof multer.MulterError) {
-            console.error('Multer error:', err);
+            console.error('-> uploadMiddleware - uploadProfileImage() - Multer error:', err);
             return res.status(400).json({
-                error: 'Error al subir el archivo: ' + err.message
+                error: 'Error al subir el archivo'
             });
         } else if (err) {
-            console.error('Non-multer error:', err);
+            console.error('-> uploadMiddleware - uploadProfileImage() - Non-multer error:', err);
             return res.status(400).json({
-                error: err.message
+                error: 'Error al subir el archivo de imagen'
             });
         }
 
         try {
             if (!req.file || !req.body.name_user) {
                 return res.status(400).json({
-                    error: 'Faltan campos requeridos'
+                    error: 'Faltan algunos datos para la carga de la imagen de perfil'
                 });
             }
 
@@ -83,18 +84,17 @@ const uploadProfileImage = async (req, res, next) => {
             req.file.path = relativePath;
 
             next();
-        } catch (error) {
-            console.error('Error in upload middleware:', error);
+        } catch (err) {
+            console.error('-> uploadMiddleware - uploadProfileImage() - Error en el proceso del upload middleware = ', err);
             if (req.file) {
                 try {
                     await fs.promises.unlink(req.file.path);
                 } catch (cleanupError) {
-                    console.error('Error cleaning up file:', cleanupError);
+                    console.error('-> uploadMiddleware - uploadProfileImage() - Error en la limpieza del path de archivo = ', cleanupError);
                 }
             }
             return res.status(500).json({
-                error: 'Error al procesar la carga',
-                details: error.message
+                error: 'Error al procesar la carga de la imagen de perfil',
             });
         }
     });
