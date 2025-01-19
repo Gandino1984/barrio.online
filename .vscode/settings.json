@@ -94,7 +94,11 @@
         },
         {
             "path": "uribarri.online/front-end/src/components/confirmation_modal/",
-            "color": "foldercustomization.AnsiColor214"
+            "color": "foldercustomization.AnsiColor69"
+        },
+        {
+            "path": "uribarri.online/front-end/src/components/shop_management/product_management/",
+            "color": "foldercustomization.AnsiColor136"
         }
     ]
 }

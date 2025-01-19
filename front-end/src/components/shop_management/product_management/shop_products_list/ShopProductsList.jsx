@@ -3,7 +3,7 @@ import AppContext from '../../../../app_context/AppContext';
 import ShopProductListFunctions from './ShopProductsListFunctions.jsx';
 import FiltersForProducts from '../../../filters_for_products/FiltersForProducts.jsx';
 import { PackagePlus, Pencil, Trash2, CheckCircle, ImagePlus } from 'lucide-react';
-import styles from './ShopProductsList.module.css';
+import styles from '../../../../../../public/css/ShopProductsList.module.css';
 import ProductCreationFormFunctions from '../product_creation_form/ProductCreationFormFunctions.jsx';
 import ConfirmationModal from '../../../confirmation_modal/ConfirmationModal.jsx';
 
@@ -29,8 +29,10 @@ const ShopProductList = () => {
   } = useContext(AppContext);
 
   const [productToDelete, setProductToDelete] = useState(null);
+
   const { resetNewProductData } = ProductCreationFormFunctions();
-  const { filterProducts, fetchProductsByShop, deleteProduct } = ShopProductListFunctions();
+  
+  const { filterProducts, fetchProductsByShop, deleteProduct, bulkDeleteProducts, confirmBulkDelete } = ShopProductListFunctions();
 
   // Fetch products when shop changes
   useEffect(() => {
@@ -50,13 +52,16 @@ const ShopProductList = () => {
     }
   }, [products, filters]);
 
-  // Handle deletion confirmation
-  useEffect(() => {
-    const handleConfirmedDelete = async () => {
-      if (isAccepted && productToDelete) {
+// Handle deletion confirmation
+useEffect(() => {
+  const handleConfirmedDelete = async () => {
+    if (isAccepted) {
+      if (productToDelete) {
+        // Single product deletion
         console.log('Deleting product:', productToDelete);
         try {
           const result = await deleteProduct(productToDelete);
+
           console.log('Delete result:', result);
           if (result.success) {
             await fetchProductsByShop();
@@ -64,16 +69,21 @@ const ShopProductList = () => {
         } catch (error) {
           console.error('Error deleting product:', error);
         } finally {
-          // Reset all states
           setProductToDelete(null);
           setIsAccepted(false);
           clearError();
         }
+      } else {
+        // Bulk deletion
+        await bulkDeleteProducts();
+        setIsAccepted(false);
+        clearError();
       }
-    };
+    }
+  };
 
-    handleConfirmedDelete();
-  }, [isAccepted, productToDelete]);
+  handleConfirmedDelete();
+}, [isAccepted, productToDelete]);
 
   // Handle deletion cancellation
   useEffect(() => {
@@ -91,6 +101,10 @@ const ShopProductList = () => {
     setIsModalOpen(true);
     setIsAccepted(false);
     setIsDeclined(false);
+  };
+
+  const handleBulkDelete = () => {
+    confirmBulkDelete();
   };
 
   const handleAddProduct = () => {
@@ -117,16 +131,6 @@ const ShopProductList = () => {
       }
       return newSelected;
     });
-  };
-
-  const handleBulkDelete = () => {
-    // TODO: Implement bulk delete functionality
-    console.log('Deleting products:', Array.from(selectedProducts));
-  };
-
-  const handleBulkUpdate = () => {
-    // TODO: Implement bulk update functionality
-    console.log('Updating products:', Array.from(selectedProducts));
   };
 
   const handleUploadProductImage = (productId) => {
@@ -169,7 +173,7 @@ const ShopProductList = () => {
             </button>
 
             <button 
-              onClick={handleBulkUpdate}
+              // onClick={handleBulkUpdate}
               className={`${styles.actionButton} ${styles.updateButton}`}
               disabled={selectedProducts.size === 0}
             >
@@ -199,6 +203,7 @@ const ShopProductList = () => {
                 <th className={styles.tableHeaderCell}>Descuento</th>
                 <th className={styles.tableHeaderCell}>Temporada</th>
                 <th className={styles.tableHeaderCell}>Tipo</th>
+                <th className={styles.tableHeaderCell}>Subtipo</th>
                 <th className={styles.tableHeaderCell}>Más Información</th>
                 <th className={styles.tableHeaderCell}>Acciones</th>
               </tr>
@@ -217,6 +222,7 @@ const ShopProductList = () => {
                   </td>
                   <td className={styles.tableCell}>{product.season_product}</td>
                   <td className={styles.tableCell}>{product.type_product}</td>
+                  <td className={styles.tableCell}>{product.subtype_product}</td>
                   <td className={styles.tableCell}>{product.info_product}</td>
                   <td className={styles.actionsCell}>
                     <button 

@@ -20,7 +20,20 @@ async function getAll() {
 
 async function create(productData) {
     try {
-        const product = await product_model.create(productData);
+        const { name_product, price_product, discount_product, season_product, calification_product, type_product, subtype_product, stock_product, info_product, id_shop} = productData;
+
+        const product = await product_model.create({
+            name_product,
+            price_product,
+            discount_product,
+            season_product,
+            calification_product,
+            type_product,
+            subtype_product,
+            stock_product,
+            info_product,
+            id_shop
+        });
         
         return { data: product,
             success: "Producto creado"
@@ -51,7 +64,7 @@ async function getById(id) {
 
 async function update(id, productData) {
     try {
-        const { name_product, price_product, discount_product, season_product, calification_product, type_product, stock_product, info_product, id_shop} = productData;
+        const { name_product, price_product, discount_product, season_product, calification_product, type_product, subtype_product, stock_product, info_product, id_shop} = productData;
 
         const product = await product_model.findByPk(id);
         if (!product) {
@@ -65,6 +78,7 @@ async function update(id, productData) {
         if (season_product) product.season_product = season_product;
         if (calification_product >= 0) product.calification_product = calification_product;
         if (type_product) product.type_product = type_product;
+        if (subtype_product) product.subtype_product = subtype_product;
         if (stock_product >=0) product.stock_product = stock_product;
         if (info_product) product.info_product = info_product;
         if (id_shop) product.id_shop = id_shop;

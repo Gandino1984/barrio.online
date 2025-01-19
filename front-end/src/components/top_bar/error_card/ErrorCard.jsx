@@ -8,38 +8,39 @@ const ErrorCard = () => {
     isLoggingIn,
     showShopManagement,
     showErrorCard, setShowErrorCard,
-    error, clearError
+    error, setError
   } = useContext(AppContext);
 
-  useEffect(() => {
-    if (!error) {
-      clearError();
-    }
-  }, [error]);
+  // Remove the initial useEffect that was clearing errors
 
   useEffect(() => {
-    if (!Object.values(error).some((error) => error)) {
+    // Only show error card if there are actual errors
+    const hasErrors = Object.values(error).some(err => err !== '');
+    
+    if (!hasErrors) {
       setShowErrorCard(false);
     } else {
       setShowErrorCard(true);
       
       const timer = setTimeout(() => {
         setShowErrorCard(false);
-      }, 5000);
+      }, 7000);
 
-      return () => clearTimeout(timer); 
+      return () => clearTimeout(timer);
     }
-  }, [isLoggingIn, showShopManagement, error
-  ]);
+  }, [error, setShowErrorCard]);
+
+  // Only render errors that actually have a message
+  const activeErrors = Object.entries(error).filter(([_, value]) => value !== '');
 
   return (
-    showErrorCard && (
+    showErrorCard && activeErrors.length > 0 && (
       <div className={styles.container}>
         <CircleX color="red" size={24} />
         <div className={styles.errorList}>
-          {Object.keys(error).map((errorKey) => (
-            <div className={styles.errorItem} key={errorKey}>
-              {error[errorKey]}
+          {activeErrors.map(([key, value]) => (
+            <div className={styles.errorItem} key={key}>
+              {value}
             </div>
           ))}
         </div>

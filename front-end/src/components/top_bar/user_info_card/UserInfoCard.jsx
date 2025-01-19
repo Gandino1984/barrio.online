@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styles from '../../../../../public/css/UserInfoCard.module.css';
 import { Camera } from 'lucide-react';
 import { SquareUserRound } from 'lucide-react';
@@ -6,27 +6,30 @@ import AppContext from '../../../app_context/AppContext.js';
 import { UserInfoCardFunctions } from './UserInfoCardFunctions.jsx';
 
 const UserInfoCard = () => {
-  const { currentUser,
+  const { 
+    currentUser,
     uploading,
-    setError, clearError 
-   } = useContext(AppContext);
+    setError, 
+    clearError 
+  } = useContext(AppContext);
 
   const {
     handleImageUpload,
     getImageUrl
   } = UserInfoCardFunctions();
-  
-  useEffect(() => {
-    if (currentUser?.image_user) {
-      clearError();
-    }
-  }, [currentUser]);
 
+  // Handle image errors in useEffect instead of during render
   useEffect(() => {
     if (currentUser?.image_user) {
-      console.log('-> UserInfoCard - Path actual de imagen = ', currentUser.image_user);
+      const imageUrl = getImageUrl(currentUser.image_user);
+      if (!imageUrl) {
+        setError(prevError => ({ 
+          ...prevError, 
+          imageError: "No se ha proporcionado una ruta de imagen" 
+        }));
+      }
     }
-  }, [currentUser?.image_user]);
+  }, [currentUser?.image_user, setError]);
 
   return (
     <div className={styles.userInfoCard}>
@@ -35,14 +38,23 @@ const UserInfoCard = () => {
       ) : (
         <>
           <div className={styles.profileSection}>
-            {currentUser ? (
+            {currentUser?.image_user ? (
               <img
                 src={getImageUrl(currentUser.image_user)}
                 alt={`Image of ${currentUser.name_user}`}
                 className={styles.profileImage}
                 onError={() => {
-                  setError(prevError => ({ ...prevError, imageError: "Error al cargar la imagen" }));
+                  setError(prevError => ({ 
+                    ...prevError, 
+                    imageError: "Error al cargar la imagen" 
+                  }));
                 }}
+                onLoad={() => {
+                  setError(prevError => ({
+                      ...prevError,
+                      imageError: ''
+                  }));
+              }}
               />
             ) : (
               <SquareUserRound size={40} />
