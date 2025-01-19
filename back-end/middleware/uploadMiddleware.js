@@ -2,7 +2,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import { validateImageMiddleware, SUPPORTED_IMAGE_TYPES } from '../../front-end/utils/imageValidationUtilities.js';
+import { validateImageMiddleware, SUPPORTED_IMAGE_TYPES } from '../utils/imageValidationUtilities.js';
 import { processUploadedImage } from '../../front-end/utils/imageConversionUtils.js';
 
 const __filename = fileURLToPath(import.meta.url);

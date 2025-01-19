@@ -1,5 +1,6 @@
 import sharp from 'sharp';
 import path from 'path';
+import fs from 'fs';
 
 export const convertToWebP = async (inputPath) => {
     try {
@@ -12,7 +13,7 @@ export const convertToWebP = async (inputPath) => {
         }
 
         await sharp(inputPath)
-            .webp({ quality: 80 }) // Adjust quality as needed
+            .webp({ quality: 50 }) // Adjust quality as needed
             .toFile(outputPath);
 
         return {
