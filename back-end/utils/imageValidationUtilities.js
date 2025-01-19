@@ -28,7 +28,7 @@ export const validateImage = async (filePath) => {
         // Get file size
         const stats = await fs.stat(filePath);
         if (stats.size > IMAGE_VALIDATION_CONFIG.maxSize) {
-            throw new Error('File size exceeds the maximum allowed size');
+            throw new Error('El tamaño máximo de imagen es 2MB');
         }
 
         return {
@@ -69,20 +69,19 @@ export const validateImageMiddleware = async (req, res, next) => {
         req.imageValidation = validationResult;
         next();
     } catch (error) {
-        console.error('Error in image validation middleware:', error);
+        console.error('-> imageValidation.js - validateImageMiddleware() - Error en la validación de la imagen = ', error);
         
         // Cleanup on error
         if (req.file) {
             try {
                 await fs.unlink(req.file.path);
             } catch (cleanupError) {
-                console.error('Error cleaning up file:', cleanupError);
+                console.error('-> imageValidation.js - validateImageMiddleware() - Error al limpiar el archivo = ', cleanupError);
             }
         }
 
         return res.status(500).json({
             error: 'Error al validar la imagen',
-            details: error.message
         });
     }
 };
