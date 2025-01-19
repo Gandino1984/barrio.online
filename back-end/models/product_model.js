@@ -35,6 +35,10 @@ const product_model = sequelize.define("product", {
         type: DataTypes.STRING(45),
         allowNull: false,
     },
+    subtype_product: {
+        type: DataTypes.STRING(45),
+        allowNull: false,
+    },
     stock_product: {
         type: DataTypes.INTEGER,
         allowNull: false,

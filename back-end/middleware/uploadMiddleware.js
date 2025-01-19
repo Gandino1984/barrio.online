@@ -3,11 +3,11 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { validateImageMiddleware, SUPPORTED_IMAGE_TYPES } from './imageValidationUtilities.js';
+import { processUploadedImage } from './imageConversionUtils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Storage configuration remains the same
 const storage = multer.diskStorage({
     destination: async function (req, file, cb) {
         const uploadsDir = path.join(__dirname, '..', '..', 'public', 'images', 'uploads', 'users');
@@ -29,12 +29,12 @@ const storage = multer.diskStorage({
         }
     },
     filename: function (req, file, cb) {
-        const ext = path.extname(file.originalname);
-        cb(null, 'profile' + ext);
+        // Use original name but always with .webp extension
+        const fileName = 'profile.webp';
+        cb(null, fileName);
     }
 });
 
-// Updated multer configuration with basic MIME type check
 const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
@@ -48,11 +48,9 @@ const upload = multer({
     }
 });
 
-// Enhanced upload middleware with deep validation
 const uploadProfileImage = async (req, res, next) => {
     console.log('-> uploadMiddleware - uploadProfileImage() - Iniciando upload middleware');
     
-    // Chain the middlewares
     upload.single('profileImage')(req, res, async function(err) {
         if (err instanceof multer.MulterError) {
             console.error('Multer error:', err);
@@ -68,8 +66,25 @@ const uploadProfileImage = async (req, res, next) => {
             });
         }
 
-        // Continue to deep validation middleware
-        validateImageMiddleware(req, res, next);
+        try {
+            if (!req.file) {
+                return res.status(400).json({
+                    error: 'No se ha proporcionado ningún archivo'
+                });
+            }
+
+            // Process and convert the image to WebP
+            req.file = await processUploadedImage(req.file);
+
+            // Continue to validation middleware
+            validateImageMiddleware(req, res, next);
+        } catch (error) {
+            console.error('Error processing image:', error);
+            return res.status(500).json({
+                error: 'Error al procesar la imagen',
+                details: error.message
+            });
+        }
     });
 };
 

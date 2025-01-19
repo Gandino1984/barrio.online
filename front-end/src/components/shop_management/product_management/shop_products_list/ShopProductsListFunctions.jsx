@@ -9,7 +9,11 @@ const ShopProductsListFunctions = () => {
     selectedShop, 
     setFilteredProducts,
     filters,
-    setShowErrorCard
+    setShowErrorCard,
+    selectedProducts,
+    setSelectedProducts,
+    setModalMessage,
+    setIsModalOpen
   } = useContext(AppContext);
 
   const filterProducts = (products, filters) => {
@@ -81,10 +85,81 @@ const ShopProductsListFunctions = () => {
     }
   };
 
+  // New function for bulk deletion
+  const bulkDeleteProducts = async () => {
+    if (selectedProducts.size === 0) {
+      setError(prevError => ({
+        ...prevError,
+        productError: "No hay productos seleccionados para eliminar"
+      }));
+      setShowErrorCard(true);
+      return false;
+    }
+
+    try {
+      let successCount = 0;
+      let failCount = 0;
+
+      // Delete products one by one
+      for (const productId of selectedProducts) {
+        const result = await deleteProduct(productId);
+        if (result.success) {
+          successCount++;
+        } else {
+          failCount++;
+        }
+      }
+
+      // Clear selected products after deletion
+      setSelectedProducts(new Set());
+
+      // Refresh the products list
+      await fetchProductsByShop();
+
+      // Show result message
+      const message = `${successCount} productos eliminados exitosamente${failCount > 0 ? `, ${failCount} fallos` : ''}`;
+      setError(prevError => ({
+        ...prevError,
+        productError: failCount > 0 ? message : ''
+      }));
+      
+      if (failCount > 0) {
+        setShowErrorCard(true);
+      }
+
+      return successCount > 0;
+    } catch (err) {
+      console.error('Error in bulk deletion:', err);
+      setError(prevError => ({
+        ...prevError,
+        productError: "Error al eliminar los productos seleccionados"
+      }));
+      setShowErrorCard(true);
+      return false;
+    }
+  };
+
+  // Function to confirm bulk deletion
+  const confirmBulkDelete = () => {
+    if (selectedProducts.size === 0) {
+      setError(prevError => ({
+        ...prevError,
+        productError: "No hay productos seleccionados para eliminar"
+      }));
+      setShowErrorCard(true);
+      return;
+    }
+
+    setModalMessage(`¿Estás seguro que deseas eliminar ${selectedProducts.size} producto${selectedProducts.size > 1 ? 's' : ''}?`);
+    setIsModalOpen(true);
+  };
+
   return {
     filterProducts,
     fetchProductsByShop,
-    deleteProduct
+    deleteProduct,
+    bulkDeleteProducts,
+    confirmBulkDelete
   };
 };
 

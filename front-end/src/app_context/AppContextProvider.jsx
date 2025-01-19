@@ -198,7 +198,7 @@ export const AppContextProvider = ({ children }) => {
     ],
     'Especializado': ['Ilustración', 'Joyería', 'Prensa', 'Golosinas', 'Programación', 'Tattoo shop', 'Desarrollo web', 'Vinoteca', 'Diseño gráfico', 'Estudio de arte', 'Editorial', 'Tabaco', 'Arte', 'Estanco', 'Autoescuela', 'Papelería', 'Peluquería canina', 'Locutorio', 'Lavandería', 'Zapatería', 'Dietética y nutrición', 'Varios'],
     'Entretenimiento': ['Teatro', 'Música', 'Danza', 'Escape Room', 'Juguetería', 'Varios'],
-    'Ropa': ['Infantil', 'Adulto', 'Hombre', 'Mujer', 'No binario' , 'Niño', 'Niña', 'Lencería', 'Alquiler', 'Boda', 'Varios'],
+    'Ropa': ['Abrigo, Accesorios, Calcetines, Calzado, Camiseta, Chaqueta, Falda, Lencería, Pantalón, Pantaloneta, Pijama, Ropa de deporte, Ropa de maternidad, Ropa de trabajo, Vestido, Varios'],
     'Servicios': ['Autónomo', 'Catering', 'Técnico', 'Interiorismo', 'Fotografía', 'Arte', 'Limpieza', 'Cuidados geriátricos', 'Pintura', 'Fontanería', 'Electricidad', 'Dibujo', 'Construcción', 'Paseo de mascotas', 'Limpieza de coches',  'Varios'],
     'Taller': ['Pintura', 'Escultura', 'Ilustración', 'Diseno', 'Mecánico', 'Electrodoméstico', 'Varios'],
     'Técnico': ['Albañilería', 'Carpintería', 'Calefacción', 'Cerrajería', 'Plomería', 'Fontanería', 'Electricidad', 'Electrónica', 'Repuestos', 'Repuestos de coche', 'Repuestos de moto', 'Accesorios de coche', 'Accesorios de moto', 'Varios'],
@@ -211,12 +211,30 @@ export const AppContextProvider = ({ children }) => {
     season_product: '',
     calification_product: 0,
     type_product: '',
+    subtype_product: '',
     stock_product: 0,
     info_product: '',
     id_shop: ''
   });
   
   const [products, setProducts] = useState([]);
+
+  const [productTypesAndSubtypes, setProductTypesAndSubtypes] = useState({
+    'Accesorios': ['Bolso', 'Gafas', 'Joyería', 'Reloj', 'Cinturón', 'Varios'],
+    'Artesanía': ['Anillo', 'Collar', 'Pendientes', 'Pulsera', 'Varios'],
+    'Belleza': ['Productos de Belleza', 'Productos para Cabello', 'Maquillaje', 'Perfume', 'Productos para Piel', 'Skincare'],
+    'Bebida': ['Alcohol', 'Café', 'Refresco', 'Té', 'Zumo', 'Agua', 'Varios'],
+    'Calzado': ['Botas', 'Zapatillas', 'Sandalias', 'Bailarinas', 'Varios'],
+    'Comida': ['Bebida', 'Entrante', 'Plato Principal', 'Postre', 'Snack', 'Panadería', 'Varios'],
+    'Electrónica': ['Accesorios', 'Audio', 'Móvil', 'Ordenador', 'Tablet', 'Varios'],
+    'Joyería': ['Anillo', 'Collar', 'Pendientes', 'Pulsera', 'Varios'],
+    'Muebles': ['Baño', 'Cocina', 'Dormitorio', 'Jardín', 'Salón', 'Varios'],
+    'Ropa': ['Abrigo', 'Accesorios', 'Calcetines', 'Calzado', 'Camiseta', 'Chaqueta', 'Falda', 'Lencería', 'Pantalón', 'Pantaloneta', 'Pijama', 'Ropa de deporte', 'Ropa de maternidad', 'Ropa de trabajo', 'Vestido', 'Varios'],
+    'Salud': ['Cuidado Personal', 'Higiene', 'Medicina', 'Suplementos'],
+    'Servicio': ['Asesoría', 'Instalación', 'Limpieza', 'Mantenimiento', 'Reparación'],
+    'Varios': ['General', 'Otros']
+  });
+
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState(new Set());
   const [selectedProductToUpdate, setSelectedProductToUpdate] = useState(null);
@@ -224,6 +242,7 @@ export const AppContextProvider = ({ children }) => {
   const [filters, setFilters] = useState({
     temporada: '',
     tipo: '',
+    subtipo: '',
     oferta: '',
     calificacion: 0,
   });
@@ -235,7 +254,7 @@ export const AppContextProvider = ({ children }) => {
     },
     tipo: {
       label: 'Tipo',
-      options: ['Ropa', 'Comida', 'Bebida', 'Accesorio', 'Complemento', 'Servicio', 'No Clasificado', 'Regular', 'Vegetariano', 'Vegano', 'Sin gluten', 'Kosher', 'Sin lactosa', 'Varios'],
+      options: ['Ropa', 'Comida', 'Bebida', 'Electrónica', 'Accesorio', 'Joyería', 'Muebles', 'Salud', 'Belleza', 'Complemento', 'Servicio', 'No Clasificado', 'Regular', 'Vegetariano', 'Vegano', 'Sin gluten', 'Kosher', 'Sin lactosa', 'Varios'],
     },
     oferta: {
       label: 'Oferta',
@@ -300,7 +319,8 @@ export const AppContextProvider = ({ children }) => {
     isUpdatingProduct, setIsUpdatingProduct,
     selectedProductToUpdate, setSelectedProductToUpdate,
     imageError, setImageError,
-    uploading, setUploading
+    uploading, setUploading,
+    productTypesAndSubtypes, setProductTypesAndSubtypes
   };
 
   return (
