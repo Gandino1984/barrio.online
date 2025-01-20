@@ -18,23 +18,30 @@ const ShopProductsListFunctions = () => {
 
   const filterProducts = (products, filters) => {
     if (!products || !filters) return products;
-
     return products.filter((product) => {
+      // Season match - case insensitive and handles "Todo el Año"
       const seasonMatch = !filters.temporada || 
         product.season_product.toLowerCase() === filters.temporada.toLowerCase() ||
-        product.season_product === 'Todo el Año';
-      
+        (filters.temporada.toLowerCase() === 'todo el año' && 
+         product.season_product.toLowerCase().includes('todo'));
+  
+      // Type match - exact match required
       const typeMatch = !filters.tipo || 
         product.type_product === filters.tipo;
-      
+  
+      // Subtype match - only apply if type matches
+      const subtypeMatch = !filters.subtipo || 
+        (typeMatch && product.subtype_product === filters.subtipo);
+  
+      // Discount match
       const onSaleMatch = !filters.oferta || 
-        (filters.oferta === 'Sí' && product.discount_product > 0) ||
-        (filters.oferta === 'No' && product.discount_product === 0);
-      
+        (filters.oferta === 'Sí' && product.discount_product > 0);
+  
+      // Rating match - parse as number for comparison
       const calificationMatch = !filters.calificacion || 
-        product.calification_product >= parseInt(filters.calificacion);
-
-      return seasonMatch && typeMatch && onSaleMatch && calificationMatch;
+        product.calification_product >= Number(filters.calificacion);
+  
+      return seasonMatch && typeMatch && subtypeMatch && onSaleMatch && calificationMatch;
     });
   };
 

@@ -185,24 +185,40 @@ export const AppContextProvider = ({ children }) => {
 
   const [shopTypesAndSubtypes, setShopTypesAndSubtypes] = useState({
     'Artesanía': ['Accesorios', 'Complementos', 'Varios'],
-    'Bienestar': ['Odontología', 'Estética', 'Peluquería', 'Fisioterapia', 'Podología', 'Osteopatía','Perfumería', 'Parafarmacia', 'Yoga', 'Danza', 'Surf', 'Txiki park', 'Varios'],
-    'Consultoría': ['Técnica', 'Digital','Inmobiliaria', 'Formativa', 'Gestión cultural', 'Varios'],
     'Comida': [
-      'Fruteria', 'Carniceria', 'Asador', 'Pescaderia', 'Panaderia', 'Charcuteria', 
-      'Local', 'Peruana', 'China', 'Japonesa', 'Italiana', 
-      'Turca', 'Kebab', 'Restaurante', 'Varios'
+        'Asador', 'Carniceria', 'Charcuteria', 'Fruteria', 'Local', 'Panaderia', 'Pescaderia', 'Peruana', 'China', 'Japonesa', 
+        'Italiana', 'Turca', 'Ultramarinos', 'Kebab', 'Restaurante', 'Varios'
     ],
-    'Educativo': [
-      'Librería', 'Curso','Costura','Alta costura', 'Clase Particular', 'Clases de música', 'Clases de pintura', 'Asesoría', 'Charla', 
-      'Presentación', 'Clase Grupal', 'Investigación', 'Varios'
+    'Consultoría': [
+        'Técnica', 'Digital', 'Inmobiliaria', 'Formativa', 'Gestión cultural', 'Varios'
     ],
-    'Especializado': ['Ilustración', 'Joyería', 'Prensa', 'Golosinas', 'Programación', 'Tattoo shop', 'Desarrollo web', 'Vinoteca', 'Diseño gráfico', 'Estudio de arte', 'Editorial', 'Tabaco', 'Arte', 'Estanco', 'Autoescuela', 'Papelería', 'Peluquería canina', 'Locutorio', 'Lavandería', 'Zapatería', 'Dietética y nutrición', 'Varios'],
-    'Entretenimiento': ['Teatro', 'Música', 'Danza', 'Escape Room', 'Juguetería', 'Varios'],
-    'Ropa': ['Abrigo, Accesorios, Calcetines, Calzado, Camiseta, Chaqueta, Falda, Lencería, Pantalón, Pantaloneta, Pijama, Ropa de deporte, Ropa de maternidad, Ropa de trabajo, Vestido, Varios'],
-    'Servicios': ['Autónomo', 'Catering', 'Técnico', 'Interiorismo', 'Fotografía', 'Arte', 'Limpieza', 'Cuidados geriátricos', 'Pintura', 'Fontanería', 'Electricidad', 'Dibujo', 'Construcción', 'Paseo de mascotas', 'Limpieza de coches',  'Varios'],
-    'Taller': ['Pintura', 'Escultura', 'Ilustración', 'Diseno', 'Mecánico', 'Electrodoméstico', 'Varios'],
-    'Técnico': ['Albañilería', 'Carpintería', 'Calefacción', 'Cerrajería', 'Plomería', 'Fontanería', 'Electricidad', 'Electrónica', 'Repuestos', 'Repuestos de coche', 'Repuestos de moto', 'Accesorios de coche', 'Accesorios de moto', 'Varios'],
-  });
+    'Educativo': ['Asesoría', 'Charla', 'Clases de cocina', 'Clases de fotografía', 'Clases de música', 'Clases de pintura', 'Clases de yoga', 'Conferencias', 'Curso', 'Diplomado', 'Investigación', 'Librería', 'Presentación', 'Talleres', 'Varios', 'Clases de baile', 'Clases de idiomas', 'Clases de teatro', 'Clases de deportes', 'Clases de arte', 'Clases de manualidades', 'Clases de cocina para niños', 'Clases de música para niños', 'Clases de teatro para niños', 'Clases de deportes para niños', 'Clases de arte para niños', 'Clases de manualidades para niños'],
+    'Entretenimiento': ['Danza', 'Escape Room', 'Juguetería', 'Música', 'Teatro', 'Varios'],
+    'Especializado': [
+        'Arte', 'Autoescuela', 'Desarrollo web', 'Dietética y nutrición', 'Diseño gráfico', 'Electrodoméstico', 
+        'Estanco', 'Estudio de arte', 'Golosinas', 'Ilustración', 'Joyería', 'Locutorio', 'Peluquería canina', 
+        'Prensa', 'Programación', 'Tattoo shop', 'Vinoteca', 'Zapatería', 'Varios'
+    ],
+    'Ropa': [
+        'Abrigo', 'Accesorios', 'Calcetines', 'Calzado', 'Camiseta', 'Chaqueta', 'Falda', 'Lencería', 
+        'Pantaloneta', 'Pantalón', 'Pijama', 'Ropa de deporte', 'Ropa de maternidad', 'Ropa de trabajo', 'Vestido', 'Varios'
+    ],
+    'Salud y Bienestar': [
+        'Danza', 'Estética', 'Fisioterapia', 'Gimnasio', 'Odontología', 'Osteopatía', 'Parafarmacia', 
+        'Pelquería', 'Surf', 'Txiki park', 'Txoko', 'Varios', 'Yoga'
+    ],
+    'Servicios': [
+        'Arte', 'Autónomo', 'Catering', 'Construcción', 'Dibujo', 'Electricidad', 'Fotografía', 
+        'Fontanería', 'Interiorismo', 'Limpieza', 'Pintura', 'Cuidados geriátricos', 'Paseo de mascotas', 
+        'Limpieza de coches', 'Varios'
+    ],
+    'Taller': ['Diseno', 'Escultura', 'Ilustración', 'Mecánico', 'Pintura', 'Varios'],
+    'Técnico': [
+        'Albañilería', 'Accesorios de coche', 'Accesorios de moto', 'Carpintería', 'Calefacción', 
+        'Cerrajería', 'Electricidad', 'Electrónica', 'Fontanería', 'Plomería', 'Repuestos', 
+        'Repuestos de coche', 'Repuestos de moto', 'Varios'
+    ],
+});
 
   const [newProductData, setNewProductData] = useState({
     name_product: '',
@@ -226,6 +242,7 @@ export const AppContextProvider = ({ children }) => {
     'Bebida': ['Alcohol', 'Café', 'Refresco', 'Té', 'Zumo', 'Agua', 'Varios'],
     'Calzado': ['Botas', 'Zapatillas', 'Sandalias', 'Bailarinas', 'Varios'],
     'Comida': ['Bebida', 'Entrante', 'Plato Principal', 'Postre', 'Snack', 'Panadería', 'Varios'],
+    'Educativo': ['Asesoría', 'Charla', "Clases privadas", 'Clases de música', 'Clases de pintura', 'Curso', 'Investigación', 'Librería', 'Presentación', 'Varios'],
     'Electrónica': ['Accesorios', 'Audio', 'Móvil', 'Ordenador', 'Tablet', 'Varios'],
     'Joyería': ['Anillo', 'Collar', 'Pendientes', 'Pulsera', 'Varios'],
     'Muebles': ['Baño', 'Cocina', 'Dormitorio', 'Jardín', 'Salón', 'Varios'],

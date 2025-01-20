@@ -1,10 +1,106 @@
-.container{
+.filtersContainer {
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .filterControls {
     display: flex;
     align-items: center;
-    justify-content: center;
+    flex-wrap: wrap;
     gap: 1rem;
+  }
+  
+  .filterWrapper {
+    min-width: 200px;
+  }
+  
+  .filterSelect {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--filter-border);
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--filter-unselected); /* Default gray color */
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
 
-input[type="select"] {
+/* Only apply blue when there's an actual selection */
+.filterSelect.hasValue {
+    color: var(--filter-selected);
+    border-color: var(--filter-selected);
+}
+
+/* This selector ensures the blue color only appears when an option is selected */
+.filterSelect:not([value=""]) {
+    color: var(--filter-selected);
+    /* border-color: var(--filter-selected); */
+}
+  
+  .filterSelect:hover {
+    border-color: #2563eb;
+  }
+  
+  .filterSelect:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+  }
+  
+  /* Style for the options within the select */
+  .filterSelect option {
+    color: #374151; /* Darker color for options */
+    background-color: white;
+  }
+  
+  /* Style for the placeholder option */
+  .filterSelect option:first-child {
+    color: #9ca3af;
+  }
+  
+  .checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     cursor: pointer;
+    color: #374151;
+  }
+  
+  .checkbox {
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+    accent-color: #2563eb;
+  }
+  
+  .resetButton {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e2e2e2;
+    border-radius: 0.375rem;
+    background-color: white;
+    color: #374151;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .resetButton:hover {
+    background-color: #f3f4f6;
+    border-color: #d1d5db;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .filterControls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .filterWrapper {
+      min-width: 100%;
+    }
   }
