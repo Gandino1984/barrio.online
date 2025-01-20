@@ -1,16 +1,17 @@
 import { AppContextProvider } from "./app_context/AppContextProvider.jsx";
-import '../../public/css/App.css';
-import LoginRegisterForm from "./components/login_register/login_register_form/LoginRegisterForm.jsx";
-import TopBar from "./components/top_bar/TopBar.jsx";
-
+import styles from '../../public/css/App.module.css';
+import '../../public/css/App.css'; // Keep this for global style
+import LoginRegisterForm from "../src/components/login_register/login_register_form/LoginRegisterForm.jsx";
+import TopBar from "../src/components/top_bar/TopBar.jsx";
 
 function App() {
-
   return (
-      <AppContextProvider className="mainContainer">
+    <AppContextProvider>
+      <div className={styles.mainContainer}>
         <TopBar />
         <LoginRegisterForm />
-      </AppContextProvider>
+      </div>
+    </AppContextProvider>
   )
 }
 

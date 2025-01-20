@@ -117,7 +117,7 @@ const FiltersForProducts = () => {
             onChange={(e) => handleFilterChange('calificacion', e.target.value)}
             className={styles.filterSelect}
           >
-            <option value="">Calificación mínima</option>
+            <option value="">Calificación</option>
             {filterOptions.calificacion.options.map((option) => (
               <option key={option} value={option}>
                 {option} ⭐ o más

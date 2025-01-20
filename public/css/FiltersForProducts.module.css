@@ -4,80 +4,78 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-  }
+}
   
-  .filterControls {
+.filterControls {
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 1rem;
-  }
+    width: 100%;
+}
   
-  .filterWrapper {
-    min-width: 200px;
-  }
+.filterWrapper {
+    flex: 0 1 150px; /* grow, shrink, basis */
+    min-width: 150px;
+    max-width: 250px; /* Prevent filters from getting too wide */
+}
   
-  .filterSelect {
+.filterSelect {
     width: 100%;
     padding: 0.5rem;
-    border: 1px solid var(--filter-border);
+    border: 1px solid #e2e2e2;
     border-radius: 0.375rem;
     font-size: 0.875rem;
-    color: var(--filter-unselected); /* Default gray color */
+    color: #2563eb;
     background-color: white;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
 
-/* Only apply blue when there's an actual selection */
-.filterSelect.hasValue {
-    color: var(--filter-selected);
-    border-color: var(--filter-selected);
+.filterSelect:not([value=""]):not(:focus) {
+    color: #9ca3af;
+    /* border-color: #2563eb; */
 }
 
-/* This selector ensures the blue color only appears when an option is selected */
-.filterSelect:not([value=""]) {
-    color: var(--filter-selected);
-    /* border-color: var(--filter-selected); */
+.filterSelect:hover {
+    border-color: #2563eb;
 }
   
-  .filterSelect:hover {
-    border-color: #2563eb;
-  }
-  
-  .filterSelect:focus {
+.filterSelect:focus {
     outline: none;
     border-color: #2563eb;
     box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
-  }
+}
   
-  /* Style for the options within the select */
-  .filterSelect option {
-    color: #374151; /* Darker color for options */
+.filterSelect option {
+    color: #2563eb;
     background-color: white;
-  }
+}
   
-  /* Style for the placeholder option */
-  .filterSelect option:first-child {
+.filterSelect option:first-child {
     color: #9ca3af;
-  }
+}
   
-  .checkboxLabel {
+.checkboxLabel {
     display: flex;
     align-items: center;
+    justify-content: left;
     gap: 0.5rem;
     cursor: pointer;
     color: #374151;
-  }
+    white-space: nowrap;
+    flex: 0 1 auto; /* Don't grow, but allow shrinking */
+}
   
-  .checkbox {
+.checkbox {
     width: 1rem;
     height: 1rem;
     cursor: pointer;
     accent-color: #2563eb;
-  }
+}
   
-  .resetButton {
+.resetButton {
     padding: 0.5rem 1rem;
     border: 1px solid #e2e2e2;
     border-radius: 0.375rem;
@@ -86,21 +84,48 @@
     cursor: pointer;
     font-size: 0.875rem;
     transition: all 0.2s ease-in-out;
-  }
+    white-space: nowrap;
+    flex: 0 1 auto; /* Don't grow, but allow shrinking */
+}
   
-  .resetButton:hover {
+.resetButton:hover {
     background-color: #f3f4f6;
     border-color: #d1d5db;
-  }
+}
   
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .filtersContainer {
+        padding: 0.75rem;
+    }
+    
     .filterControls {
-      flex-direction: column;
-      align-items: stretch;
+        gap: 0.75rem;
     }
-  
+    
     .filterWrapper {
-      min-width: 100%;
+        flex: 1 1 160px; /* Slightly smaller basis on medium screens */
+        min-width: 160px;
     }
-  }
+}
+
+@media (max-width: 480px) {
+    .filtersContainer {
+        padding: 0.5rem;
+    }
+    
+    .filterControls {
+        gap: 0.5rem;
+    }
+    
+    .filterWrapper {
+        flex: 1 1 100%; /* Full width on small screens */
+        min-width: 100%;
+        max-width: none;
+    }
+    
+    .checkboxLabel,
+    .resetButton {
+        width: 100%; /* Full width for checkbox and button on small screens */
+    }
+}

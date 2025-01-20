@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from '../../../../../public/css/UserInfoCard.module.css';
 import { Camera } from 'lucide-react';
 import { SquareUserRound } from 'lucide-react';
 import AppContext from '../../../app_context/AppContext.js';
 import { UserInfoCardFunctions } from './UserInfoCardFunctions.jsx';
+import UserImageModal from './user_image_modal/UserImageModal';
 
 const UserInfoCard = () => {
   const { 
@@ -18,6 +19,8 @@ const UserInfoCard = () => {
     getImageUrl
   } = UserInfoCardFunctions();
 
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
   // Handle image errors in useEffect instead of during render
   useEffect(() => {
     if (currentUser?.image_user) {
@@ -31,6 +34,12 @@ const UserInfoCard = () => {
     }
   }, [currentUser?.image_user, setError]);
 
+  const handleImageClick = () => {
+    if (currentUser?.image_user) {
+      setIsImageModalOpen(true);
+    }
+  };
+
   return (
     <div className={styles.userInfoCard}>
       {!currentUser ? (
@@ -39,23 +48,32 @@ const UserInfoCard = () => {
         <>
           <div className={styles.profileSection}>
             {currentUser?.image_user ? (
-              <img
-                src={getImageUrl(currentUser.image_user)}
-                alt={`Image of ${currentUser.name_user}`}
-                className={styles.profileImage}
-                onError={() => {
-                  setError(prevError => ({ 
-                    ...prevError, 
-                    imageError: "Error al cargar la imagen" 
-                  }));
-                }}
-                onLoad={() => {
-                  setError(prevError => ({
+              <>
+                <img
+                  src={getImageUrl(currentUser.image_user)}
+                  alt={`Image of ${currentUser.name_user}`}
+                  className={`${styles.profileImage} cursor-pointer hover:opacity-90 transition-opacity`}
+                  onClick={handleImageClick}
+                  onError={() => {
+                    setError(prevError => ({ 
+                      ...prevError, 
+                      imageError: "Error al cargar la imagen" 
+                    }));
+                  }}
+                  onLoad={() => {
+                    setError(prevError => ({
                       ...prevError,
                       imageError: ''
-                  }));
-              }}
-              />
+                    }));
+                  }}
+                />
+                <UserImageModal
+                  isOpen={isImageModalOpen}
+                  onClose={() => setIsImageModalOpen(false)}
+                  imageUrl={getImageUrl(currentUser.image_user)}
+                  altText={`Full size image of ${currentUser.name_user}`}
+                />
+              </>
             ) : (
               <SquareUserRound size={40} />
             )}
