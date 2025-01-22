@@ -16,11 +16,13 @@ export const ClientManagementFunctions = () => {
   const fetchShopTypes = async () => {
     try {
       const response = await axiosInstance.get('/shop/types-of-shops');
+      console.log('Fetched shop types:', response.data); // Log the fetched data
       if(response.data.error) {
         setError(prevError => ({ ...prevError, shopError: "Error al obtener los tipos de comercios" }));
         throw new Error(response.data.error);
       }
       setShopTypes(response.data.data || []); // Adjust based on your actual response structure
+      console.log('Shop types set:', response.data.data); // Log the updated shop types
     } catch (error) {
       console.error('-> ClientManagementFunctions.jsx - fetchShopTypes() - Error = ', error);
       setShopTypes([]);

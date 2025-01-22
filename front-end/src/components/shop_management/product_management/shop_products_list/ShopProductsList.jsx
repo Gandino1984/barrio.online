@@ -1,11 +1,13 @@
 import React, { useEffect, useContext, useState } from 'react';
-import AppContext from '../../../../app_context/AppContext';
+import AppContext from '../../../../app_context/AppContext.js';
 import ShopProductListFunctions from './ShopProductsListFunctions.jsx';
 import FiltersForProducts from '../../../filters_for_products/FiltersForProducts.jsx';
 import { PackagePlus, Pencil, Trash2, CheckCircle, ImagePlus } from 'lucide-react';
 import styles from '../../../../../../public/css/ShopProductsList.module.css';
 import ProductCreationFormFunctions from '../product_creation_form/ProductCreationFormFunctions.jsx';
 import ConfirmationModal from '../../../confirmation_modal/ConfirmationModal.jsx';
+import { ProductImageFunctions } from '../product_image/ProductImageFunctions.jsx';
+import ProductImage from '../product_image/ProductImage.jsx';
 
 const ShopProductList = () => {
   const {
@@ -25,7 +27,10 @@ const ShopProductList = () => {
     setIsAccepted,
     isDeclined,
     setIsDeclined,
-    clearError
+    clearError,
+    setUploading,
+    setError,
+    setProducts
   } = useContext(AppContext);
 
   const [productToDelete, setProductToDelete] = useState(null);
@@ -33,6 +38,31 @@ const ShopProductList = () => {
   const { resetNewProductData } = ProductCreationFormFunctions();
   
   const { filterProducts, fetchProductsByShop, deleteProduct, bulkDeleteProducts, confirmBulkDelete } = ShopProductListFunctions();
+
+  const { handleProductImageUpload, getProductImageUrl } = ProductImageFunctions();
+  
+  const handleImageUpload = async (file, productId) => {
+    try {
+      const imageUrl = await handleProductImageUpload(
+        file, 
+        productId,
+        setError,
+        setUploading
+      );
+      
+      if (imageUrl) {
+        // Update the products list with the new image
+        const updatedProducts = products.map(product => 
+          product.id_product === productId 
+            ? { ...product, image_product: imageUrl }
+            : product
+        );
+        setProducts(updatedProducts);
+      }
+    } catch (error) {
+      console.error('Error uploading product image:', error);
+    }
+  };
 
   // Fetch products when shop changes
   useEffect(() => {
@@ -197,6 +227,7 @@ useEffect(() => {
           <table className={styles.table}>
             <thead>
               <tr className={styles.tableHeader}>
+                <th className={styles.tableHeaderCell}>Image</th>
                 <th className={styles.tableHeaderCell}>Nombre</th>
                 <th className={styles.tableHeaderCell}>Precio</th>
                 <th className={styles.tableHeaderCell}>Stock</th>
@@ -214,6 +245,9 @@ useEffect(() => {
                   key={product.id_product}
                   className={`${styles.tableRow} ${selectedProducts.has(product.id_product) ? styles.selected : ''}`}
                 >
+                  <td className={styles.tableCell}>
+                  <ProductImage productId={product.id_product} />
+                  </td>
                   <td className={styles.tableCell}>{product.name_product}</td>
                   <td className={styles.tableCell}>${product.price_product}</td>
                   <td className={styles.tableCell}>{product.stock_product}</td>
@@ -248,13 +282,6 @@ useEffect(() => {
                       title="Seleccionar producto"
                     >
                       <CheckCircle size={18} />
-                    </button>
-                    <button 
-                      onClick={() => handleUploadProductImage(product.id_product)}
-                      className={`${styles.actionButton}`}
-                      title="Subir imagen de producto"
-                    >
-                      <ImagePlus size={18} />
                     </button>
                   </td>
                 </tr>
