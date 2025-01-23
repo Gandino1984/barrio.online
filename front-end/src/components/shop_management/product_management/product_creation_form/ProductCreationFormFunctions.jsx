@@ -11,7 +11,7 @@ const ProductCreationFormFunctions = () => {
     setShowProductManagement,
     selectedProductToUpdate,
     setIsUpdatingProduct,
-    setSelectedProductToUpdate
+    setSelectedProductToUpdate, 
   } = useContext(AppContext);
 
   useEffect(() => {
@@ -25,10 +25,23 @@ const ProductCreationFormFunctions = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setNewProductData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    if (name === 'info_product') {
+      const wordCount = value.trim().split(/\s+/).filter(word => word.length > 0).length;
+      if (wordCount <= 7) {
+        setNewProductData(prev => ({
+          ...prev,
+          [name]: value
+        }));
+      } else {
+        setError(prevError => ({ ...prevError, productError: "El número de palabras no puede superar los 7"}));
+        throw new Error("El número de palabras no puede superar los 7");
+      }
+    } else {
+      setNewProductData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleNumericInputChange = (e) => {

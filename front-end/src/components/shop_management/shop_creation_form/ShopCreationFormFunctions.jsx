@@ -16,7 +16,7 @@ export const ShopCreationFormFunctions = () => {
         setIsAddingShop 
     } = useContext(AppContext);
 
-    const { fetchUserShops } = ShopManagementFunctions();
+    // const { fetchUserShops } = ShopManagementFunctions();
 
     const handleBack = () => {
         setShowShopCreationForm(false);
@@ -27,7 +27,7 @@ export const ShopCreationFormFunctions = () => {
         e.preventDefault();
         
         if (!currentUser) {
-            console.error('El usuario no ha iniciado sesión');
+            console.error('-> ShopCreationFormFunctions.jsx - handleAddShop() - El usuario no ha iniciado sesión');
             setShowShopCreationForm(false);
             setIsLoggingIn(true);
             return;
@@ -42,7 +42,7 @@ export const ShopCreationFormFunctions = () => {
             const response = await axiosInstance.post('/shop/create', shopDataToCreate);
             
             if (response.data.error) {
-                setError(prevError => ({ ...prevError, databaseError: "Error al crear el comercio" }));
+                setError(prevError => ({ ...prevError, databaseError: "Error al crear el comercio. Prueba con otro nombre." }));
                 throw new Error(response.data.error);
             }
     
