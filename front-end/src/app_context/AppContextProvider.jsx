@@ -184,7 +184,7 @@ export const AppContextProvider = ({ children }) => {
   const [shopTypes, setShopTypes] = useState([]);
 
   const [shopTypesAndSubtypes, setShopTypesAndSubtypes] = useState({
-    'Artesanía': ['Accesorios', 'Complementos', 'Varios'],
+    'Artesanía': ['Accesorios','Cuero', 'Madera', 'Cerámica', 'Textil', 'Varios'],
     'Comida': [
         'Asador', 'Carniceria', 'Charcuteria', 'Fruteria', 'Local', 'Panaderia', 'Pescaderia', 'Peruana', 'China', 'Japonesa', 
         'Italiana', 'Turca', 'Ultramarinos', 'Kebab', 'Restaurante', 'Varios'

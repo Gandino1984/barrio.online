@@ -9,7 +9,8 @@ export const ShopCreationFormFunctions = () => {
         setShowShopCreationForm, 
         setshowShopManagement,
         setIsLoggingIn, 
-        newShop, 
+        newShop,
+        setShops, 
         setNewShop,
         setError, error,
         setIsAddingShop 
@@ -24,7 +25,7 @@ export const ShopCreationFormFunctions = () => {
 
     const handleAddShop = async (e) => {
         e.preventDefault();
-    
+        
         if (!currentUser) {
             console.error('El usuario no ha iniciado sesión');
             setShowShopCreationForm(false);
@@ -39,13 +40,20 @@ export const ShopCreationFormFunctions = () => {
     
         try {
             const response = await axiosInstance.post('/shop/create', shopDataToCreate);
-        
+            
             if (response.data.error) {
                 setError(prevError => ({ ...prevError, databaseError: "Error al crear el comercio" }));
                 throw new Error(response.data.error);
             }
     
-            // Reset form state first
+            // Directly update shops in context
+            const shopsResponse = await axiosInstance.post('/shop/by-user-id', { id_user: currentUser.id });
+            
+            if (shopsResponse.data.data) {
+                setShops(shopsResponse.data.data);
+            }
+    
+            // Reset form state and UI
             setNewShop({
                 name_shop: '',
                 type_shop: '',
@@ -56,14 +64,8 @@ export const ShopCreationFormFunctions = () => {
                 image_shop: ''
             });
             
-            // Update UI state in this specific order
             setIsAddingShop(false);
             setShowShopCreationForm(false);
-            
-            // Fetch updated shops list after state reset
-            await fetchUserShops();
-            
-            // Finally show management view
             setshowShopManagement(true);
     
         } catch (err) {

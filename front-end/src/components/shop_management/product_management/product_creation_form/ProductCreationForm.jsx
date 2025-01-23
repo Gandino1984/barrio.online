@@ -198,7 +198,7 @@ const ProductCreationForm = () => {
             onChange={handleChange}
             rows="4"
             width="100%"
-            placeholder='Información adicional del producto. Ej.: Tallas disponibles, colores disponibles, colección, etc.'
+            placeholder='Información adicional del producto. Ej.: Tallas y colores disponibles, colección, materiales, procedencia, etc.'
           />
         </div>
 
