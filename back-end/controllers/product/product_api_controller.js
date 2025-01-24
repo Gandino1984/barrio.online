@@ -1,4 +1,6 @@
 import productController from "./product_controller.js";
+import product_model from "../../models/product_model.js";
+
 
 async function getAll(req, res) {
     try {
@@ -170,6 +172,31 @@ async function getOnSale(req, res) {
         });
     }
 }
+async function uploadProductImage(req, res) {
+    try {
+        const { id_product } = req.body;
+        const file = req.file; // The uploaded file
+
+        if (!file) {
+            return res.status(400).json({ error: "No file uploaded" });
+        }
+
+        // Find the product by ID
+        const product = await product_model.findByPk(id_product);
+        if (!product) {
+            return res.status(404).json({ error: "Product not found" });
+        }
+
+        // Save the file path to the product's image field
+        product.image_product = file.path;
+        await product.save();
+
+        res.json({ success: "Image uploaded successfully", data: product });
+    } catch (err) {
+        console.error("-> product_api_controller.js - uploadProductImage() - Error =", err);
+        res.status(500).json({ error: "Error uploading product image" });
+    }
+}
 
 export {
     getAll,
@@ -179,7 +206,8 @@ export {
     removeById,
     getByShopId,
     getByType,
-    getOnSale
+    getOnSale,
+    uploadProductImage
 }
 
 export default {
@@ -190,5 +218,6 @@ export default {
     removeById,
     getByShopId,
     getByType,
-    getOnSale
+    getOnSale,
+    uploadProductImage
 }

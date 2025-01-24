@@ -1,43 +1,35 @@
-import axiosInstance from '../../../../../utils/axiosConfig.js';
 import { validateImageFile } from '../../../../../utils/imageValidation.js';
+import axiosInstance from '../../../../../utils/axiosConfig.js';
 
 export const ProductImageFunctions = () => {
-    const handleProductImageUpload = async (file, productId, setError, setUploading) => {
-        setError(prevError => ({ ...prevError, imageError: "" }));
-        
-        if (!file) {
-            console.error('No file selected');
-            setError(prevError => ({ ...prevError, imageError: "Error uploading file" }));
-            return;
-        }
-
+    const handleProductImageUpload = async (file, id_product, setError, setUploading) => {
+        const formData = new FormData();
+        formData.append('productImage', file, file.name);
+        formData.append('id_product', id_product);
+    
         try {
-            await validateImageFile(file);
-
-            const formData = new FormData();
-            formData.append('productImage', file);
-            formData.append('productId', productId);
-
-            setUploading(true);
-
-            const response = await axiosInstance.post('/products/upload-product-image', formData, {
+            const response = await axiosInstance.post('/product/upload-product-image', formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+                    'X-Product-ID': id_product,
+                    // Ensure unique boundary for multipart form data
+                    'Content-Type': `multipart/form-data; boundary=${formData._boundary}`
+                }
             });
-
-            if (response.data.success) {
-                return response.data.data.image_url;
-            }
+    
+            return response.data.data.image_url;
         } catch (err) {
-            console.error('Upload error:', err);
+            console.error('Comprehensive Upload Error:', {
+                response: err.response,
+                request: err.request,
+                message: err.message
+            });
+    
             setError(prevError => ({
                 ...prevError,
-                imageError: err.message || "Error uploading file"
+                imageError: err.response?.data?.error || "Unexpected upload error"
             }));
-            throw err;
-        } finally {
-            setUploading(false);
+    
+            return null;
         }
     };
 

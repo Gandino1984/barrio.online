@@ -2,90 +2,88 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import { validateImageMiddleware, SUPPORTED_IMAGE_TYPES } from '../utils/imageValidationUtilities.js';
 import { processUploadedImage } from '../../front-end/utils/imageConversionUtils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const storage = multer.diskStorage({
-    destination: async function (req, file, cb) {
-        const uploadsDir = path.join(__dirname, '..', '..', 'public', 'images', 'uploads', 'users');
-        
-        try {
-            await fs.promises.mkdir(uploadsDir, { recursive: true });
-            await fs.promises.chmod(uploadsDir, 0o755);
+// Function to create a storage configuration for Multer
+const createStorage = (destinationFolder) => {
+    return multer.diskStorage({
+        destination: async function (req, file, cb) {
+            const uploadsDir = path.join(__dirname, '..', '..', 'public', 'images', 'uploads', destinationFolder);
             
-            if (req.body.name_user) {
-                const userDir = path.join(uploadsDir, req.body.name_user);
-                await fs.promises.mkdir(userDir, { recursive: true });
-                await fs.promises.chmod(userDir, 0o755);
-                cb(null, userDir);
-            } else {
-                cb(new Error('Usuario no especificado'));
+            try {
+                await fs.promises.mkdir(uploadsDir, { recursive: true });
+                await fs.promises.chmod(uploadsDir, 0o755);
+                cb(null, uploadsDir);
+            } catch (error) {
+                cb(error);
             }
-        } catch (error) {
-            cb(error);
-        }
-    },
-    filename: function (req, file, cb) {
-        // Use original name but always with .webp extension
-        const fileName = 'profile.webp';
-        cb(null, fileName);
-    }
-});
-
-const upload = multer({
-    storage: storage,
-    fileFilter: (req, file, cb) => {
-        if (!Object.keys(SUPPORTED_IMAGE_TYPES).includes(file.mimetype)) {
-            return cb(new Error('Tipo de archivo no soportado'), false);
-        }
-        cb(null, true);
-    },
-    limits: {
-        fileSize: 2 * 1024 * 1024 // 2MB limit
-    }
-});
-
-const uploadProfileImage = async (req, res, next) => {
-    console.log('-> uploadMiddleware - uploadProfileImage() - Iniciando upload middleware');
-    
-    upload.single('profileImage')(req, res, async function(err) {
-        if (err instanceof multer.MulterError) {
-            console.error('Multer error:', err);
-            return res.status(400).json({
-                error: 'Error al subir el archivo',
-                details: err.message
-            });
-        } else if (err) {
-            console.error('Upload error:', err);
-            return res.status(400).json({
-                error: 'Error al subir el archivo de imagen',
-                details: err.message
-            });
-        }
-
-        try {
-            if (!req.file) {
-                return res.status(400).json({
-                    error: 'No se ha proporcionado ningún archivo'
-                });
-            }
-
-            // Process and convert the image to WebP
-            req.file = await processUploadedImage(req.file);
-
-            // Continue to validation middleware
-            validateImageMiddleware(req, res, next);
-        } catch (error) {
-            console.error('Error processing image:', error);
-            return res.status(500).json({
-                error: 'Error al procesar la imagen',
-                details: error.message
-            });
+        },
+        filename: function (req, file, cb) {
+            // Use original name but always with .webp extension
+            const fileName = `${Date.now()}-${file.originalname}.webp`; // Unique filename with timestamp
+            cb(null, fileName);
         }
     });
 };
 
-export { uploadProfileImage };
+// Multer configuration for user profile images
+const userStorage = createStorage('users');
+const uploadProfileImage = multer({
+    storage: userStorage,
+    fileFilter: (req, file, cb) => {
+        const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+        if (validTypes.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(new Error('Invalid file type. Only JPEG, PNG, JPG, and WebP are allowed.'), false);
+        }
+    },
+    limits: {
+        fileSize: 2 * 1024 * 1024 // 2MB limit
+    }
+}).single('profileImage'); // 'profileImage' is the field name for user images
+
+// Multer configuration for product images
+const productStorage = createStorage('products');
+const uploadProductImage = multer({
+    storage: productStorage,
+    fileFilter: (req, file, cb) => {
+        const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+        if (validTypes.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(new Error('Invalid file type. Only JPEG, PNG, JPG, and WebP are allowed.'), false);
+        }
+    },
+    limits: {
+        fileSize: 2 * 1024 * 1024 // 2MB limit
+    }
+}).single('productImage'); // 'productImage' is the field name for product images
+
+// Middleware for processing uploaded images
+const processImageMiddleware = async (req, res, next) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({
+                error: 'No file uploaded'
+            });
+        }
+
+        // Process and convert the image to WebP
+        req.file = await processUploadedImage(req.file);
+
+        // Continue to the next middleware or controller
+        next();
+    } catch (error) {
+        console.error('Error processing image:', error);
+        return res.status(500).json({
+            error: 'Error processing image',
+            details: error.message
+        });
+    }
+};
+
+export { uploadProfileImage, uploadProductImage, processImageMiddleware };

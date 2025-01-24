@@ -46,12 +46,8 @@ export const ShopCreationFormFunctions = () => {
                 throw new Error(response.data.error);
             }
     
-            // Directly update shops in context
-            const shopsResponse = await axiosInstance.post('/shop/by-user-id', { id_user: currentUser.id });
-            
-            if (shopsResponse.data.data) {
-                setShops(shopsResponse.data.data);
-            }
+            // Add the new shop to the shops state
+            setShops(prevShops => [...prevShops, response.data.data]);
     
             // Reset form state and UI
             setNewShop({
@@ -60,7 +56,7 @@ export const ShopCreationFormFunctions = () => {
                 subtype_shop: '',
                 location_shop: '',
                 id_user: '',
-                calificaction_shop: 0,
+                calification_shop: 0,
                 image_shop: ''
             });
             

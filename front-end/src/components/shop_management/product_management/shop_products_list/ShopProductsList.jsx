@@ -41,11 +41,11 @@ const ShopProductList = () => {
 
   const { handleProductImageUpload, getProductImageUrl } = ProductImageFunctions();
   
-  const handleImageUpload = async (file, productId) => {
+  const handleImageUpload = async (file, id_product) => {
     try {
       const imageUrl = await handleProductImageUpload(
         file, 
-        productId,
+        id_product,
         setError,
         setUploading
       );
@@ -53,7 +53,7 @@ const ShopProductList = () => {
       if (imageUrl) {
         // Update the products list with the new image
         const updatedProducts = products.map(product => 
-          product.id_product === productId 
+          product.id_product === id_product 
             ? { ...product, image_product: imageUrl }
             : product
         );
@@ -124,9 +124,9 @@ useEffect(() => {
     }
   }, [isDeclined]);
 
-  const handleDeleteProduct = async (productId) => {
-    console.log('Attempting to delete product:', productId);
-    setProductToDelete(productId);
+  const handleDeleteProduct = async (id_product) => {
+    console.log('Attempting to delete product:', id_product);
+    setProductToDelete(id_product);
     setModalMessage('¿Estás seguro que deseas eliminar este producto?');
     setIsModalOpen(true);
     setIsAccepted(false);
@@ -141,8 +141,8 @@ useEffect(() => {
     setShowProductManagement(true);
   };
 
-  const handleUpdateProduct = (productId) => {
-    const productToUpdate = products.find(p => p.id_product === productId);
+  const handleUpdateProduct = (id_product) => {
+    const productToUpdate = products.find(p => p.id_product === id_product);
     if (productToUpdate) {
       resetNewProductData();
       setSelectedProductToUpdate(productToUpdate);
@@ -151,21 +151,21 @@ useEffect(() => {
     }
   };
 
-  const handleSelectProduct = (productId) => {
+  const handleSelectProduct = (id_product) => {
     setSelectedProducts(prev => {
       const newSelected = new Set(prev);
-      if (newSelected.has(productId)) {
-        newSelected.delete(productId);
+      if (newSelected.has(id_product)) {
+        newSelected.delete(id_product);
       } else {
-        newSelected.add(productId);
+        newSelected.add(id_product);
       }
       return newSelected;
     });
   };
 
-  const handleUploadProductImage = (productId) => {
+  const handleUploadProductImage = (id_product) => {
     // TODO: Implement image upload functionality
-    console.log('Uploading image for product:', productId);
+    console.log('Uploading image for product:', id_product);
   };
 
   return (
@@ -246,7 +246,7 @@ useEffect(() => {
                   className={`${styles.tableRow} ${selectedProducts.has(product.id_product) ? styles.selected : ''}`}
                 >
                   <td className={styles.tableCell}>
-                  <ProductImage productId={product.id_product} />
+                      <ProductImage id_product={product.id_product} />
                   </td>
                   <td className={styles.tableCell}>{product.name_product}</td>
                   <td className={styles.tableCell}>${product.price_product}</td>

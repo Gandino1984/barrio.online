@@ -4,7 +4,7 @@ import AppContext from '../../../../app_context/AppContext';
 import { ProductImageFunctions } from './ProductImageFunctions';
 import styles from '../../../../../../public/css/ProductImage.module.css';
 
-const ProductImage = ({ productId }) => {
+const ProductImage = ({ id_product }) => {
   const { 
     uploading, 
     setError,
@@ -16,49 +16,61 @@ const ProductImage = ({ productId }) => {
   const { handleProductImageUpload, getProductImageUrl } = ProductImageFunctions();
 
   // Get the current product
-  const product = products.find(p => p.id_product === productId);
+  const product = products.find(p => p.id_product === id_product);
 
   if (!product) return null;
 
-  const handleImageUpload = async (event) => {
-    if (!event.target.files || !event.target.files[0]) {
-      return;
-    }
 
+  const handleImageUpload = async (event) => {
     const file = event.target.files[0];
-    
-    if (!productId) {
-      console.error('No product ID provided');
-      setError(prevError => ({ ...prevError, imageError: "Error: No product ID" }));
+
+    console.log('Product ID before upload:', id_product);
+
+    if (!file) {
+      console.error('No file selected');
       return;
-    }
+  }
+
+  // Verify product ID exists before upload
+  if (!id_product) {
+    setError(prevError => ({ 
+        ...prevError, 
+        imageError: "Invalid Product ID: Cannot upload image" 
+    }));
+    return;
+  }
 
     try {
-      const imageUrl = await handleProductImageUpload(
-        file,
-        productId,
-        setError,
-        setUploading
-      );
-
-      if (imageUrl) {
-        // Update the products list with the new image
-        setProducts(prevProducts => 
-          prevProducts.map(prod =>
-            prod.id_product === productId 
-              ? { ...prod, image_product: imageUrl }
-              : prod
-          )
+        const imageUrl = await handleProductImageUpload(
+            file,
+            id_product,
+            setError,
+            setUploading
         );
-      }
+
+        if (imageUrl) {
+            setProducts(prevProducts => 
+                prevProducts.map(prod =>
+                    prod.id_product === id_product 
+                        ? { ...prod, image_product: imageUrl }
+                        : prod
+                )
+            );
+            
+            // Optional: Show success message
+            setError(prevError => ({ 
+                ...prevError, 
+                imageError: "Image uploaded successfully" 
+            }));
+        }
     } catch (error) {
-      console.error('Error uploading image:', error);
-      setError(prevError => ({ 
-        ...prevError, 
-        imageError: error.message || "Error uploading image" 
-      }));
+        console.error('Image upload error:', error);
+        setError(prevError => ({ 
+            ...prevError, 
+            imageError: error.message || "Error uploading image" 
+        }));
     }
-  };
+};
 
   return (
     <div className={styles.productImageContainer}>
@@ -76,11 +88,11 @@ const ProductImage = ({ productId }) => {
         accept="image/jpeg,image/png,image/jpg,image/webp"
         onChange={handleImageUpload}
         style={{ display: 'none' }}
-        id={`product-image-input-${productId}`}
+        id={`product-image-input-${id_product}`}
         disabled={uploading}
       />
       <label
-        htmlFor={`product-image-input-${productId}`}
+        htmlFor={`product-image-input-${id_product}`}
         className={styles.uploadButton}
         style={{ cursor: uploading ? 'wait' : 'pointer' }}
       >
