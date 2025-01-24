@@ -17,7 +17,7 @@ const buys_model = sequelize.define("buys", {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },
-    id_product: {
+    product_id: {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },

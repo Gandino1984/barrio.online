@@ -41,11 +41,11 @@ const ShopProductList = () => {
 
   const { handleProductImageUpload, getProductImageUrl } = ProductImageFunctions();
   
-  const handleImageUpload = async (file, productId) => {
+  const handleImageUpload = async (file, product_id) => {
     try {
       const imageUrl = await handleProductImageUpload(
         file, 
-        productId,
+        product_id,
         setError,
         setUploading
       );
@@ -53,7 +53,7 @@ const ShopProductList = () => {
       if (imageUrl) {
         // Update the products list with the new image
         const updatedProducts = products.map(product => 
-          product.id_product === productId 
+          product.product_id === product_id 
             ? { ...product, image_product: imageUrl }
             : product
         );
@@ -124,9 +124,9 @@ useEffect(() => {
     }
   }, [isDeclined]);
 
-  const handleDeleteProduct = async (productId) => {
-    console.log('Attempting to delete product:', productId);
-    setProductToDelete(productId);
+  const handleDeleteProduct = async (product_id) => {
+    console.log('Attempting to delete product:', product_id);
+    setProductToDelete(product_id);
     setModalMessage('¿Estás seguro que deseas eliminar este producto?');
     setIsModalOpen(true);
     setIsAccepted(false);
@@ -141,8 +141,8 @@ useEffect(() => {
     setShowProductManagement(true);
   };
 
-  const handleUpdateProduct = (productId) => {
-    const productToUpdate = products.find(p => p.id_product === productId);
+  const handleUpdateProduct = (product_id) => {
+    const productToUpdate = products.find(p => p.product_id === product_id);
     if (productToUpdate) {
       resetNewProductData();
       setSelectedProductToUpdate(productToUpdate);
@@ -151,21 +151,21 @@ useEffect(() => {
     }
   };
 
-  const handleSelectProduct = (productId) => {
+  const handleSelectProduct = (product_id) => {
     setSelectedProducts(prev => {
       const newSelected = new Set(prev);
-      if (newSelected.has(productId)) {
-        newSelected.delete(productId);
+      if (newSelected.has(product_id)) {
+        newSelected.delete(product_id);
       } else {
-        newSelected.add(productId);
+        newSelected.add(product_id);
       }
       return newSelected;
     });
   };
 
-  const handleUploadProductImage = (productId) => {
+  const handleUploadProductImage = (product_id) => {
     // TODO: Implement image upload functionality
-    console.log('Uploading image for product:', productId);
+    console.log('Uploading image for product:', product_id);
   };
 
   return (
@@ -174,7 +174,7 @@ useEffect(() => {
       {selectedShop && (
         <div className={styles.shopInfo}>
           <div className={styles.shopInfoHeader}>
-            <h2 className={styles.shopName}>{selectedShop.name_shop}</h2>
+            <h2 className={styles.shopName}>{selectedShop.shop_name}</h2>
             <p>Calificación: {selectedShop.calification_shop || 'No disponible'}/5</p>
           </div>
           <p className={styles.shopLocation}>{selectedShop.location_shop}</p>
@@ -242,11 +242,11 @@ useEffect(() => {
             <tbody>
               {filteredProducts.map((product) => (
                 <tr 
-                  key={product.id_product}
-                  className={`${styles.tableRow} ${selectedProducts.has(product.id_product) ? styles.selected : ''}`}
+                  key={product.product_id}
+                  className={`${styles.tableRow} ${selectedProducts.has(product.product_id) ? styles.selected : ''}`}
                 >
                   <td className={styles.tableCell}>
-                  <ProductImage productId={product.id_product} />
+                  <ProductImage product_id={product.product_id} />
                   </td>
                   <td className={styles.tableCell}>{product.name_product}</td>
                   <td className={styles.tableCell}>${product.price_product}</td>
@@ -260,14 +260,14 @@ useEffect(() => {
                   <td className={styles.tableCell}>{product.info_product}</td>
                   <td className={styles.actionsCell}>
                     <button 
-                      onClick={() => handleUpdateProduct(product.id_product)}
+                      onClick={() => handleUpdateProduct(product.product_id)}
                       className={`${styles.actionButton} ${styles.updateButton}`}
                       title="Actualizar producto"
                     >
                       <Pencil size={18} />
                     </button>
                     <button 
-                      onClick={() => handleDeleteProduct(product.id_product)}
+                      onClick={() => handleDeleteProduct(product.product_id)}
                       className={`${styles.actionButton} ${styles.deleteButton}`}
                       title="Eliminar producto"
                       type="button"
@@ -275,9 +275,9 @@ useEffect(() => {
                       <Trash2 size={18} />
                     </button>
                     <button 
-                      onClick={() => handleSelectProduct(product.id_product)}
+                      onClick={() => handleSelectProduct(product.product_id)}
                       className={`${styles.actionButton} ${styles.selectButton} ${
-                        selectedProducts.has(product.id_product) ? styles.selected : ''
+                        selectedProducts.has(product.product_id) ? styles.selected : ''
                       }`}
                       title="Seleccionar producto"
                     >

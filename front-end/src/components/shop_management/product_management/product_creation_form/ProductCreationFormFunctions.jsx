@@ -138,14 +138,14 @@ const ProductCreationFormFunctions = () => {
     try {
       if (!validateProductData(newProductData)) return;
   
-      const productId = selectedProductToUpdate.id_product;
+      const product_id = selectedProductToUpdate.product_id;
       
-      if (!productId) {
+      if (!product_id) {
         throw new Error('No product ID found for update');
       }
   
       const updateData = {
-        id_product: productId,
+        product_id: product_id,
         name_product: newProductData.name_product,
         price_product: newProductData.price_product,
         discount_product: newProductData.discount_product,
@@ -176,7 +176,7 @@ const ProductCreationFormFunctions = () => {
         // Update local products list
         setProducts(prevProducts => 
           prevProducts.map(product => 
-            product.id_product === productId 
+            product.product_id === product_id 
               ? response.data.data 
               : product
           )

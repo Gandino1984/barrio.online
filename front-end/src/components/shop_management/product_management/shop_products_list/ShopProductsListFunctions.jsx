@@ -57,7 +57,7 @@ const ShopProductsListFunctions = () => {
 
       const fetchedProducts = response.data.data || [];
       
-      console.log(`Fetched ${fetchedProducts.length} products for shop ${selectedShop.name_shop}`);
+      console.log(`Fetched ${fetchedProducts.length} products for shop ${selectedShop.shop_name}`);
       
       setProducts(fetchedProducts);
     } catch (err) {
@@ -67,9 +67,9 @@ const ShopProductsListFunctions = () => {
     } 
   };
 
-  const deleteProduct = async (productId) => {
+  const deleteProduct = async (product_id) => {
     try {
-      const response = await axiosInstance.delete(`/product/remove-by-id/${productId}`);
+      const response = await axiosInstance.delete(`/product/remove-by-id/${product_id}`);
       
       if (response.data.success) {
         return { success: true, message: response.data.success };
@@ -108,8 +108,8 @@ const ShopProductsListFunctions = () => {
       let failCount = 0;
 
       // Delete products one by one
-      for (const productId of selectedProducts) {
-        const result = await deleteProduct(productId);
+      for (const product_id of selectedProducts) {
+        const result = await deleteProduct(product_id);
         if (result.success) {
           successCount++;
         } else {

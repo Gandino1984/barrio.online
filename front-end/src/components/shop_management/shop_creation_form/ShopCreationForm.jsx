@@ -34,8 +34,8 @@ const ShopCreationForm = () => {
           <input
             type="text"
             placeholder='Nombre del comercio:'
-            value={newShop.name_shop}
-            onChange={(e) => setNewShop({...newShop, name_shop: e.target.value})}
+            value={newShop.shop_name}
+            onChange={(e) => setNewShop({...newShop, shop_name: e.target.value})}
             className={styles.input}
             required
           />

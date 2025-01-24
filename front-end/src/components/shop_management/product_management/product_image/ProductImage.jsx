@@ -1,70 +1,88 @@
 import React, { useContext } from 'react';
 import { Camera } from 'lucide-react';
 import AppContext from '../../../../app_context/AppContext';
-import { ProductImageFunctions } from './ProductImageFunctions';
 import styles from '../../../../../../public/css/ProductImage.module.css';
+import axiosInstance from '../../../../../utils/axiosConfig.js';
+import { validateImageFile } from '../../../../../utils/imageValidation.js';
 
-const ProductImage = ({ productId }) => {
+const ProductImage = ({ product_id }) => {
   const { 
     uploading, 
     setError,
     products,
     setUploading,
-    setProducts
+    setProducts,
+    selectedShop
   } = useContext(AppContext);
 
-  const { handleProductImageUpload, getProductImageUrl } = ProductImageFunctions();
-
   // Get the current product
-  const product = products.find(p => p.id_product === productId);
+  const product = products.find(p => p.product_id === product_id);
 
   if (!product) return null;
 
   const handleImageUpload = async (event) => {
     if (!event.target.files || !event.target.files[0]) {
-      return;
+        return;
     }
 
     const file = event.target.files[0];
     
-    if (!productId) {
-      console.error('No product ID provided');
-      setError(prevError => ({ ...prevError, imageError: "Error: No product ID" }));
-      return;
+    if (!product_id || !selectedShop?.shop_name) {
+        console.error('No product ID or shop name provided');
+        setError(prevError => ({ ...prevError, imageError: "Error: No product ID or shop name" }));
+        return;
     }
 
     try {
-      const imageUrl = await handleProductImageUpload(
-        file,
-        productId,
-        setError,
-        setUploading
-      );
+        // Validate the image file
+        await validateImageFile(file);
 
-      if (imageUrl) {
-        // Update the products list with the new image
-        setProducts(prevProducts => 
-          prevProducts.map(prod =>
-            prod.id_product === productId 
-              ? { ...prod, image_product: imageUrl }
-              : prod
-          )
-        );
-      }
+        // Create FormData and append the file and product information
+        const formData = new FormData();
+        formData.append('productImage', file);
+        formData.append('product_id', product_id);
+        formData.append('shop_name', selectedShop.shop_name);
+
+        // Log the FormData payload for debugging
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
+
+        setUploading(true);
+
+        // Make the POST request to upload the image
+        const response = await axiosInstance.post('/product/upload-product-image', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Ensure the correct content type
+            },
+        });
+
+        if (response.data.data?.image_product) {
+            // Update the products list with the new image
+            setProducts(prevProducts => 
+                prevProducts.map(prod =>
+                    prod.product_id === product_id 
+                        ? { ...prod, image_product: response.data.data.image_product }
+                        : prod
+                )
+            );
+        }
     } catch (error) {
-      console.error('Error uploading image:', error);
-      setError(prevError => ({ 
-        ...prevError, 
-        imageError: error.message || "Error uploading image" 
-      }));
+        console.error('Error uploading image:', error);
+        setError(prevError => ({ 
+            ...prevError, 
+            imageError: error.message || "Error uploading image" 
+        }));
+    } finally {
+        setUploading(false);
     }
-  };
+};
 
   return (
     <div className={styles.productImageContainer}>
       {product.image_product ? (
         <img
-          src={getProductImageUrl(product.image_product)}
+          src={`${axiosInstance.defaults.baseURL}/${product.image_product}`}
           alt={`Image of ${product.name_product}`}
           className={styles.productImage}
         />
@@ -76,11 +94,11 @@ const ProductImage = ({ productId }) => {
         accept="image/jpeg,image/png,image/jpg,image/webp"
         onChange={handleImageUpload}
         style={{ display: 'none' }}
-        id={`product-image-input-${productId}`}
+        id={`product-image-input-${product_id}`}
         disabled={uploading}
       />
       <label
-        htmlFor={`product-image-input-${productId}`}
+        htmlFor={`product-image-input-${product_id}`}
         className={styles.uploadButton}
         style={{ cursor: uploading ? 'wait' : 'pointer' }}
       >

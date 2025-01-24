@@ -169,7 +169,7 @@ export const AppContextProvider = ({ children }) => {
   const [ip, setIp] = useState('');
   
   const [newShop, setNewShop] = useState({
-    name_shop: '',
+    shop_name: '',
     type_shop: '',
     subtype_shop: '',
     location_shop: '',

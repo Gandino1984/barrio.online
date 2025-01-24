@@ -55,7 +55,7 @@ export const ShopCreationFormFunctions = () => {
     
             // Reset form state and UI
             setNewShop({
-                name_shop: '',
+                shop_name: '',
                 type_shop: '',
                 subtype_shop: '',
                 location_shop: '',

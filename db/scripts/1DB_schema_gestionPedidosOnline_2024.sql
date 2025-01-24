@@ -70,8 +70,8 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`product` (
   `id_shop` INT UNSIGNED NOT NULL,
   `image_product` VARCHAR(255) NULL,
   -- `id_provider` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`id_product`),
-  UNIQUE INDEX `id_product_UNIQUE` (`id_product` ASC) VISIBLE,
+  PRIMARY KEY (`product_id`),
+  UNIQUE INDEX `id_product_UNIQUE` (`product_id` ASC) VISIBLE,
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`buys` (
   `id_buys` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_shop` INT UNSIGNED NOT NULL,
   `id_provider` INT UNSIGNED NOT NULL,
-  `id_product` INT UNSIGNED NOT NULL,
+  `product_id` INT UNSIGNED NOT NULL,
   `quantity` INT NOT NULL DEFAULT 0,
   `price_provider` DECIMAL(10,2) NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id_buys`)

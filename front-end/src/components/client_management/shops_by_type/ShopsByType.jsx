@@ -50,7 +50,7 @@ const ShopsByType = () => {
                     >
                         <div className={styles.shopInfo}>
                             <h3 className={styles.registerName}>
-                              {shop.name_shop || 'Unnamed Shop'}
+                              {shop.shop_name || 'Unnamed Shop'}
                             </h3>
                             <p className={styles.registerLocation}>
                               Ubicación: {shop.location_shop || 'No location'}

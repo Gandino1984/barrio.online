@@ -60,7 +60,7 @@ const ProductManagementFunctions = () => {
         id_shop: selectedShop.id_shop 
       });
       const fetchedProducts = response.data.data || [];
-      console.log(`Fetched ${fetchedProducts.length} products for shop ${selectedShop.name_shop}`);
+      console.log(`Fetched ${fetchedProducts.length} products for shop ${selectedShop.shop_name}`);
       setProducts(fetchedProducts);
     } catch (err) {
       // setError(err.message);

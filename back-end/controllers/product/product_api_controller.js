@@ -1,4 +1,5 @@
 import productController from "./product_controller.js";
+import product_model from "../../models/product_model.js";
 
 async function getAll(req, res) {
     try {
@@ -44,16 +45,16 @@ async function create(req, res) {
 
 async function getById(req, res) {
     try {
-        const id_product = req.params.id_product;
+        const product_id = req.params.product_id;
 
-        if (!id_product) {  
-            console.error('-> product_api_controller.js - getById() - Error = El parámetro id_product es obligatorio');
+        if (!product_id) {  
+            console.error('-> product_api_controller.js - getById() - Error = El parámetro product_id es obligatorio');
             res.status(400).json({ 
-                error: 'El parámetro id_product es obligatorio', 
+                error: 'El parámetro product_id es obligatorio', 
             });
         }
 
-        const {error, data, success} = await productController.getById(id_product);
+        const {error, data, success} = await productController.getById(product_id);
 
         res.json({error, data, success});
     } catch (err) {
@@ -67,15 +68,15 @@ async function getById(req, res) {
 
 async function update(req, res) {
     try {
-        const {id_product, name_product, price_product, discount_product, season_product, calification_product, type_product, stock_product, info_product, id_shop  } = req.body;
+        const {product_id, name_product, price_product, discount_product, season_product, calification_product, type_product, stock_product, info_product, id_shop  } = req.body;
 
-        if(id_product === undefined|| name_product === undefined || price_product === undefined || discount_product === undefined || season_product === undefined || calification_product === undefined || type_product === undefined || stock_product === undefined || info_product === undefined || id_shop === undefined) {
+        if(product_id === undefined|| name_product === undefined || price_product === undefined || discount_product === undefined || season_product === undefined || calification_product === undefined || type_product === undefined || stock_product === undefined || info_product === undefined || id_shop === undefined) {
             res.status(400).json({
                 error: "Todos los campos son obligatorios"
             });
         }
         
-        const {error, data, success} = await productController.update(id_product, {name_product, price_product, discount_product, season_product, calification_product, type_product, stock_product, info_product, id_shop});   
+        const {error, data, success} = await productController.update(product_id, {name_product, price_product, discount_product, season_product, calification_product, type_product, stock_product, info_product, id_shop});   
 
         res.json({error, data, success}); 
     } catch (err) {
@@ -91,16 +92,16 @@ async function update(req, res) {
 
 async function removeById(req, res) {
     try {
-        const id_product = req.params.id_product;
+        const product_id = req.params.product_id;
         
-        if (!id_product) {  
-            console.error('-> product_api_controller.js - removeById() - Error = El parámetro id_product es obligatorio');
+        if (!product_id) {  
+            console.error('-> product_api_controller.js - removeById() - Error = El parámetro product_id es obligatorio');
             res.status(400).json({ 
-                error: 'El parámetro id_product es obligatorio', 
+                error: 'El parámetro product_id es obligatorio', 
             });
         }
 
-        const {error, data, success} = await productController.removeById(id_product);
+        const {error, data, success} = await productController.removeById(product_id);
         
         res.json({error, data, success});    
     } catch (err) {
@@ -171,6 +172,38 @@ async function getOnSale(req, res) {
     }
 }
 
+async function updateProductImage(product_id, imagePath) {
+    try {
+        if (!product_id || !imagePath) {
+            return { 
+                error: 'El ID del producto y la ruta de la imagen son obligatorios' 
+            };
+        }
+
+        const product = await product_model.findByPk(product_id);
+        if (!product) {
+            return { 
+                error: "Producto no encontrado" 
+            };
+        }
+
+        // Update the product's image path
+        product.image_product = imagePath;
+        await product.save();
+
+        return { 
+            data: { image_product: imagePath },
+            success: "Imagen de producto actualizada correctamente"
+        };
+    } catch (err) {
+        console.error("-> product_api_controller.js - updateProductImage() - Error =", err);
+        return { 
+            error: "Error al actualizar la imagen de producto",
+            details: err.message 
+        };
+    }
+}
+
 export {
     getAll,
     getById,
@@ -179,7 +212,8 @@ export {
     removeById,
     getByShopId,
     getByType,
-    getOnSale
+    getOnSale,
+    updateProductImage
 }
 
 export default {
@@ -190,5 +224,6 @@ export default {
     removeById,
     getByShopId,
     getByType,
-    getOnSale
+    getOnSale,
+    updateProductImage
 }
