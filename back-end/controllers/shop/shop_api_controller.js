@@ -58,28 +58,53 @@ async function getById(req, res) {
 
 async function create(req, res) {
   try {
-    const { name_shop, location_shop, type_shop, subtype_shop, calification_shop, image_shop, id_user } = req.body;
-
-    if(name_shop === undefined || location_shop === undefined || type_shop === undefined || subtype_shop === undefined  || calification_shop === undefined || id_user === undefined || image_shop === undefined){
-      console.error('-> shop_api_controller.js - create() - Error = Todos los campos son obligatorios');
-      console.log(req.body);
-      res.status(400).json({
-            error: 'Todos los campos son obligatorios',
-        });
-    }
-    
-    const {error, data, success} = await shopController.create({name_shop, location_shop, type_shop, subtype_shop, id_user, calification_shop, image_shop});
-    
-    res.json({error, data, success});
+     const { 
+         name_shop, 
+         location_shop, 
+         type_shop, 
+         subtype_shop, 
+         id_user 
+     } = req.body;
+ 
+     // Provide default values for optional fields
+     const calification_shop = req.body.calification_shop || 0;
+     const image_shop = req.body.image_shop || '';
+ 
+     // Validate required fields
+     if (name_shop === undefined || location_shop === undefined || type_shop === undefined || subtype_shop === undefined  || id_user === undefined) {
+         console.error('-> shop_api_controller.js - create() - Error = Campos obligatorios faltantes');
+         console.log(req.body);
+         return res.status(400).json({
+             error: 'Campos obligatorios son requeridos',
+             missingFields: {
+                 name_shop: !name_shop,
+                 location_shop: !location_shop,
+                 type_shop: !type_shop,
+                 subtype_shop: !subtype_shop,
+                 id_user: !id_user
+             }
+         });
+     }
+ 
+     const {error, data, success} = await shopController.create({
+         name_shop, 
+         location_shop, 
+         type_shop, 
+         subtype_shop, 
+         id_user, 
+         calification_shop, 
+         image_shop
+     });
+ 
+     res.json({error, data, success});
   } catch (err) {
-    console.error("-> shop_api_controller.js - create() - Error =", err);
-    res.status(500).json({ 
-      error: "Error al crear el comercio",
-      details: err.message 
-    });
-    
+     console.error("-> shop_api_controller.js - create() - Error =", err);
+     res.status(500).json({
+         error: "Error al crear el comercio",
+         details: err.message
+     });
   }
-}
+ }
 
 async function update(req, res) {
     const {id_shop} = req.body;

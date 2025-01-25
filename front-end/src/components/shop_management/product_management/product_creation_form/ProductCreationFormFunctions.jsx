@@ -11,7 +11,7 @@ const ProductCreationFormFunctions = () => {
     setShowProductManagement,
     selectedProductToUpdate,
     setIsUpdatingProduct,
-    setSelectedProductToUpdate
+    setSelectedProductToUpdate, 
   } = useContext(AppContext);
 
   useEffect(() => {
@@ -25,10 +25,23 @@ const ProductCreationFormFunctions = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setNewProductData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    if (name === 'info_product') {
+      const wordCount = value.trim().split(/\s+/).filter(word => word.length > 0).length;
+      if (wordCount <= 7) {
+        setNewProductData(prev => ({
+          ...prev,
+          [name]: value
+        }));
+      } else {
+        setError(prevError => ({ ...prevError, productError: "El número de palabras no puede superar los 7"}));
+        throw new Error("El número de palabras no puede superar los 7");
+      }
+    } else {
+      setNewProductData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleNumericInputChange = (e) => {
@@ -125,14 +138,14 @@ const ProductCreationFormFunctions = () => {
     try {
       if (!validateProductData(newProductData)) return;
   
-      const productId = selectedProductToUpdate.id_product;
+      const id_product = selectedProductToUpdate.id_product;
       
-      if (!productId) {
+      if (!id_product) {
         throw new Error('No product ID found for update');
       }
   
       const updateData = {
-        id_product: productId,
+        id_product: id_product,
         name_product: newProductData.name_product,
         price_product: newProductData.price_product,
         discount_product: newProductData.discount_product,
@@ -163,7 +176,7 @@ const ProductCreationFormFunctions = () => {
         // Update local products list
         setProducts(prevProducts => 
           prevProducts.map(product => 
-            product.id_product === productId 
+            product.id_product === id_product 
               ? response.data.data 
               : product
           )

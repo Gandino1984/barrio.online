@@ -30,6 +30,7 @@ const ClientManagement = () => {
             </h2>
         </div>
         <div className={styles.buttonsContainer}>
+            {console.log('Rendering shop types:', shopTypes)}
             {shopTypes.map((shopType) => (
                 <ShopTypeButton 
                     key={shopType} 

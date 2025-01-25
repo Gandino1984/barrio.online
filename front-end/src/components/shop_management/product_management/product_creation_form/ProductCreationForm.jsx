@@ -104,6 +104,18 @@ const ProductCreationForm = () => {
           />
         </div>
 
+        <div className={styles.formField}>
+          <textarea
+            id="info_product"
+            name="info_product"
+            value={productData.info_product}
+            onChange={handleChange}
+            rows="4"
+            width="100%"
+            placeholder='Información adicional del producto. Usa palabras claves como: tallas, colección, materiales, procedencia, etc.'
+          />
+        </div>
+
         {/* Product Type Dropdown */}
         <div className={styles.formField}>
           <select
@@ -190,17 +202,7 @@ const ProductCreationForm = () => {
           />
         </div>
 
-        <div className={styles.formField}>
-          <textarea
-            id="info_product"
-            name="info_product"
-            value={productData.info_product}
-            onChange={handleChange}
-            rows="4"
-            width="100%"
-            placeholder='Información adicional del producto. Ej.: Tallas disponibles, colores disponibles, colección, etc.'
-          />
-        </div>
+     
 
         <div className={styles.formField}>
           <button 

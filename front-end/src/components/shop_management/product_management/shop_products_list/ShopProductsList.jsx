@@ -1,11 +1,13 @@
 import React, { useEffect, useContext, useState } from 'react';
-import AppContext from '../../../../app_context/AppContext';
+import AppContext from '../../../../app_context/AppContext.js';
 import ShopProductListFunctions from './ShopProductsListFunctions.jsx';
 import FiltersForProducts from '../../../filters_for_products/FiltersForProducts.jsx';
 import { PackagePlus, Pencil, Trash2, CheckCircle, ImagePlus } from 'lucide-react';
 import styles from '../../../../../../public/css/ShopProductsList.module.css';
 import ProductCreationFormFunctions from '../product_creation_form/ProductCreationFormFunctions.jsx';
 import ConfirmationModal from '../../../confirmation_modal/ConfirmationModal.jsx';
+import { ProductImageFunctions } from '../product_image/ProductImageFunctions.jsx';
+import ProductImage from '../product_image/ProductImage.jsx';
 
 const ShopProductList = () => {
   const {
@@ -25,14 +27,58 @@ const ShopProductList = () => {
     setIsAccepted,
     isDeclined,
     setIsDeclined,
-    clearError
+    clearError,
+    setUploading,
+    setError,
+    setProducts,
+    selectedProductForImageUpload,
+    setSelectedProductForImageUpload 
   } = useContext(AppContext);
 
   const [productToDelete, setProductToDelete] = useState(null);
 
   const { resetNewProductData } = ProductCreationFormFunctions();
   
-  const { filterProducts, fetchProductsByShop, deleteProduct, bulkDeleteProducts, confirmBulkDelete } = ShopProductListFunctions();
+  const { filterProducts, fetchProductsByShop, deleteProduct, bulkDeleteProducts, confirmBulkDelete, handleSelectProduct } = ShopProductListFunctions();
+
+  const { handleProductImageUpload, getProductImageUrl } = ProductImageFunctions();
+
+  // Store selectedShop.name_shop in localStorage when the shop is loaded
+  useEffect(() => {
+    if (selectedShop?.name_shop) {
+      localStorage.setItem('name_shop', selectedShop.name_shop);
+    }
+  }, [selectedShop]);
+
+  // Store selectedProductForImageUpload in localStorage when a product is selected
+  useEffect(() => {
+    if (selectedProductForImageUpload) {
+      localStorage.setItem('id_product', selectedProductForImageUpload);
+    }
+  }, [selectedProductForImageUpload]);
+
+  const handleImageUpload = async (file, id_product) => {
+    try {
+      const imageUrl = await handleProductImageUpload(
+        file, 
+        id_product,
+        setError,
+        setUploading
+      );
+      
+      if (imageUrl) {
+        // Update the products list with the new image
+        const updatedProducts = products.map(product => 
+          product.id_product === id_product 
+            ? { ...product, image_product: imageUrl }
+            : product
+        );
+        setProducts(updatedProducts);
+      }
+    } catch (error) {
+      console.error('Error uploading product image:', error);
+    }
+  };
 
   // Fetch products when shop changes
   useEffect(() => {
@@ -52,38 +98,38 @@ const ShopProductList = () => {
     }
   }, [products, filters]);
 
-// Handle deletion confirmation
-useEffect(() => {
-  const handleConfirmedDelete = async () => {
-    if (isAccepted) {
-      if (productToDelete) {
-        // Single product deletion
-        console.log('Deleting product:', productToDelete);
-        try {
-          const result = await deleteProduct(productToDelete);
+  // Handle deletion confirmation
+  useEffect(() => {
+    const handleConfirmedDelete = async () => {
+      if (isAccepted) {
+        if (productToDelete) {
+          // Single product deletion
+          console.log('Deleting product:', productToDelete);
+          try {
+            const result = await deleteProduct(productToDelete);
 
-          console.log('Delete result:', result);
-          if (result.success) {
-            await fetchProductsByShop();
+            console.log('Delete result:', result);
+            if (result.success) {
+              await fetchProductsByShop();
+            }
+          } catch (error) {
+            console.error('Error deleting product:', error);
+          } finally {
+            setProductToDelete(null);
+            setIsAccepted(false);
+            clearError();
           }
-        } catch (error) {
-          console.error('Error deleting product:', error);
-        } finally {
-          setProductToDelete(null);
+        } else {
+          // Bulk deletion
+          await bulkDeleteProducts();
           setIsAccepted(false);
           clearError();
         }
-      } else {
-        // Bulk deletion
-        await bulkDeleteProducts();
-        setIsAccepted(false);
-        clearError();
       }
-    }
-  };
+    };
 
-  handleConfirmedDelete();
-}, [isAccepted, productToDelete]);
+    handleConfirmedDelete();
+  }, [isAccepted, productToDelete]);
 
   // Handle deletion cancellation
   useEffect(() => {
@@ -94,9 +140,9 @@ useEffect(() => {
     }
   }, [isDeclined]);
 
-  const handleDeleteProduct = async (productId) => {
-    console.log('Attempting to delete product:', productId);
-    setProductToDelete(productId);
+  const handleDeleteProduct = async (id_product) => {
+    console.log('Attempting to delete product:', id_product);
+    setProductToDelete(id_product);
     setModalMessage('¿Estás seguro que deseas eliminar este producto?');
     setIsModalOpen(true);
     setIsAccepted(false);
@@ -111,8 +157,8 @@ useEffect(() => {
     setShowProductManagement(true);
   };
 
-  const handleUpdateProduct = (productId) => {
-    const productToUpdate = products.find(p => p.id_product === productId);
+  const handleUpdateProduct = (id_product) => {
+    const productToUpdate = products.find(p => p.id_product === id_product);
     if (productToUpdate) {
       resetNewProductData();
       setSelectedProductToUpdate(productToUpdate);
@@ -121,22 +167,7 @@ useEffect(() => {
     }
   };
 
-  const handleSelectProduct = (productId) => {
-    setSelectedProducts(prev => {
-      const newSelected = new Set(prev);
-      if (newSelected.has(productId)) {
-        newSelected.delete(productId);
-      } else {
-        newSelected.add(productId);
-      }
-      return newSelected;
-    });
-  };
 
-  const handleUploadProductImage = (productId) => {
-    // TODO: Implement image upload functionality
-    console.log('Uploading image for product:', productId);
-  };
 
   return (
     <div className={styles.container}>
@@ -197,6 +228,7 @@ useEffect(() => {
           <table className={styles.table}>
             <thead>
               <tr className={styles.tableHeader}>
+                <th className={styles.tableHeaderCell}>Image</th>
                 <th className={styles.tableHeaderCell}>Nombre</th>
                 <th className={styles.tableHeaderCell}>Precio</th>
                 <th className={styles.tableHeaderCell}>Stock</th>
@@ -214,6 +246,9 @@ useEffect(() => {
                   key={product.id_product}
                   className={`${styles.tableRow} ${selectedProducts.has(product.id_product) ? styles.selected : ''}`}
                 >
+                  <td className={styles.tableCell}>
+                  <ProductImage id_product={product.id_product} />
+                  </td>
                   <td className={styles.tableCell}>{product.name_product}</td>
                   <td className={styles.tableCell}>${product.price_product}</td>
                   <td className={styles.tableCell}>{product.stock_product}</td>
@@ -248,13 +283,6 @@ useEffect(() => {
                       title="Seleccionar producto"
                     >
                       <CheckCircle size={18} />
-                    </button>
-                    <button 
-                      onClick={() => handleUploadProductImage(product.id_product)}
-                      className={`${styles.actionButton}`}
-                      title="Subir imagen de producto"
-                    >
-                      <ImagePlus size={18} />
                     </button>
                   </td>
                 </tr>

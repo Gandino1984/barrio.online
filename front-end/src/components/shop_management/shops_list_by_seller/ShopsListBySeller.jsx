@@ -23,6 +23,10 @@ const ShopsListBySeller = () => {
       console.log('-> ShopsListBySeller.jsx - selectedShop = ', selectedShop);
     }, [currentUser, selectedShop]);
 
+    useEffect(() => {
+      console.log('Shops state updated:', shops);
+    }, [shops]);
+
   return (
     <div className={styles.container}>
         <ConfirmationModal />
