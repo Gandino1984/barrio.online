@@ -70,8 +70,24 @@ const ShopProductsListFunctions = () => {
 
   const deleteProduct = async (id_product) => {
     try {
+      // Fetch the product to get the image path
+      const product = products.find(p => p.id_product === id_product);
+      if (!product) {
+        throw new Error("Producto no encontrado");
+      }
+  
+      // Delete the image and folder if the product has an image
+      if (product.image_product) {
+        const imagePath = product.image_product;
+        const folderPath = imagePath.split('/').slice(0, -1).join('/'); // Get the folder path
+        await axiosInstance.delete(`/product/delete-image/${id_product}`, {
+          data: { imagePath, folderPath },
+        });
+      }
+  
+      // Delete the product from the database
       const response = await axiosInstance.delete(`/product/remove-by-id/${id_product}`);
-      
+  
       if (response.data.success) {
         return { success: true, message: response.data.success };
       } else {
@@ -184,7 +200,7 @@ const ShopProductsListFunctions = () => {
     deleteProduct,
     bulkDeleteProducts,
     confirmBulkDelete,
-    handleSelectProduct
+    handleSelectProduct,
   };
 };
 

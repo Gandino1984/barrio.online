@@ -50,4 +50,6 @@ router.post('/upload-product-image', handleProductImageUpload, async (req, res) 
     }
   });
 
+router.delete('/delete-image/:id_product', productApiController.deleteImage);
+
 export default router;

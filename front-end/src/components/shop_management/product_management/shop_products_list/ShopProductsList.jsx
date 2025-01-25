@@ -28,62 +28,27 @@ const ShopProductList = () => {
     isDeclined,
     setIsDeclined,
     clearError,
-    setUploading,
     setError,
     setProducts,
-    selectedProductForImageUpload,
-    setSelectedProductForImageUpload 
+    
   } = useContext(AppContext);
 
   const [productToDelete, setProductToDelete] = useState(null);
 
   const { resetNewProductData } = ProductCreationFormFunctions();
-  
-  const { filterProducts, fetchProductsByShop, deleteProduct, bulkDeleteProducts, confirmBulkDelete, handleSelectProduct } = ShopProductListFunctions();
 
-  const { handleProductImageUpload, getProductImageUrl } = ProductImageFunctions();
-
-  // Store selectedShop.name_shop in localStorage when the shop is loaded
-  useEffect(() => {
-    if (selectedShop?.name_shop) {
-      localStorage.setItem('name_shop', selectedShop.name_shop);
-    }
-  }, [selectedShop]);
-
-  // Store selectedProductForImageUpload in localStorage when a product is selected
-  useEffect(() => {
-    if (selectedProductForImageUpload) {
-      localStorage.setItem('id_product', selectedProductForImageUpload);
-    }
-  }, [selectedProductForImageUpload]);
-
-  const handleImageUpload = async (file, id_product) => {
-    try {
-      const imageUrl = await handleProductImageUpload(
-        file, 
-        id_product,
-        setError,
-        setUploading
-      );
-      
-      if (imageUrl) {
-        // Update the products list with the new image
-        const updatedProducts = products.map(product => 
-          product.id_product === id_product 
-            ? { ...product, image_product: imageUrl }
-            : product
-        );
-        setProducts(updatedProducts);
-      }
-    } catch (error) {
-      console.error('Error uploading product image:', error);
-    }
-  };
+  const {
+    filterProducts,
+    fetchProductsByShop,
+    deleteProduct,
+    bulkDeleteProducts,
+    confirmBulkDelete,
+    handleSelectProduct,
+  } = ShopProductListFunctions();
 
   // Fetch products when shop changes
   useEffect(() => {
     if (selectedShop?.id_shop) {
-      // Initial fetch
       fetchProductsByShop();
     }
   }, [selectedShop]);
@@ -167,8 +132,6 @@ const ShopProductList = () => {
     }
   };
 
-
-
   return (
     <div className={styles.container}>
       <ConfirmationModal />
@@ -186,35 +149,35 @@ const ShopProductList = () => {
         <div className={styles.listHeaderTop}>
           <h2 className={styles.listTitle}>Lista de Productos</h2>
           <div className={styles.buttonGroup}>
-            <button 
+            <button
               onClick={handleAddProduct}
               className={styles.actionButton}
             >
-              <PackagePlus size={17}/>
+              <PackagePlus size={17} />
               <span className={styles.buttonText}>Añadir Producto</span>
             </button>
-            
-            <button 
+
+            <button
               onClick={handleBulkDelete}
               className={`${styles.actionButton} ${styles.deleteButton}`}
               disabled={selectedProducts.size === 0}
             >
-              <Trash2 size={17}/>
+              <Trash2 size={17} />
               <span className={styles.buttonText}>Borrar Productos</span>
             </button>
 
-            <button 
+            <button
               // onClick={handleBulkUpdate}
               className={`${styles.actionButton} ${styles.updateButton}`}
               disabled={selectedProducts.size === 0}
             >
-              <Pencil size={17}/>
+              <Pencil size={17} />
               <span className={styles.buttonText}>Actualizar Productos</span>
             </button>
           </div>
         </div>
         <p className={styles.productsCount}>
-          Productos mostrados: {filteredProducts.length} 
+          Productos mostrados: {filteredProducts.length}
           {selectedProducts.size > 0 && ` | Seleccionados: ${selectedProducts.size}`}
         </p>
       </div>
@@ -242,12 +205,12 @@ const ShopProductList = () => {
             </thead>
             <tbody>
               {filteredProducts.map((product) => (
-                <tr 
+                <tr
                   key={product.id_product}
                   className={`${styles.tableRow} ${selectedProducts.has(product.id_product) ? styles.selected : ''}`}
                 >
                   <td className={styles.tableCell}>
-                  <ProductImage id_product={product.id_product} />
+                    <ProductImage id_product={product.id_product} />
                   </td>
                   <td className={styles.tableCell}>{product.name_product}</td>
                   <td className={styles.tableCell}>${product.price_product}</td>
@@ -260,14 +223,14 @@ const ShopProductList = () => {
                   <td className={styles.tableCell}>{product.subtype_product}</td>
                   <td className={styles.tableCell}>{product.info_product}</td>
                   <td className={styles.actionsCell}>
-                    <button 
+                    <button
                       onClick={() => handleUpdateProduct(product.id_product)}
                       className={`${styles.actionButton} ${styles.updateButton}`}
                       title="Actualizar producto"
                     >
                       <Pencil size={18} />
                     </button>
-                    <button 
+                    <button
                       onClick={() => handleDeleteProduct(product.id_product)}
                       className={`${styles.actionButton} ${styles.deleteButton}`}
                       title="Eliminar producto"
@@ -275,7 +238,7 @@ const ShopProductList = () => {
                     >
                       <Trash2 size={18} />
                     </button>
-                    <button 
+                    <button
                       onClick={() => handleSelectProduct(product.id_product)}
                       className={`${styles.actionButton} ${styles.selectButton} ${
                         selectedProducts.has(product.id_product) ? styles.selected : ''
@@ -296,3 +259,4 @@ const ShopProductList = () => {
 };
 
 export default ShopProductList;
+

@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Camera, SquareUserRound, Loader } from 'lucide-react';
+import { Camera, Loader } from 'lucide-react';
 import AppContext from '../../../app_context/AppContext.js';
 import UserImageModal from './user_image_modal/UserImageModal';
 import styles from '../../../../../public/css/UserInfoCard.module.css';
-
 import { UserInfoCardFunctions } from './UserInfoCardFunctions.jsx';
 
 const UserInfoCard = () => {
@@ -69,57 +68,53 @@ const UserInfoCard = () => {
       ) : (
         <>
           <div className={styles.profileSection}>
-            {currentUser?.image_user ? (
-              <>
-                <div 
-                  style={{ position: 'relative', cursor: 'pointer' }}
-                  onClick={handleImageSingleClick} // Single-click to toggle upload button
-                  onDoubleClick={handleImageDoubleClick} // Double-click to open modal
+            <div 
+              style={{ position: 'relative', cursor: 'pointer' }}
+              onClick={handleImageSingleClick} // Single-click to toggle upload button
+              onDoubleClick={handleImageDoubleClick} // Double-click to open modal
+            >
+              {/* Profile Image */}
+              <img
+                src={getImageUrl(currentUser.image_user) || ''} // Use the user's image or fallback to an empty string
+                alt={currentUser?.name_user || 'User'} // Use the user's name as alt text
+                className={`${styles.profileImage} hover:opacity-90 transition-opacity`}
+                onError={() => {
+                  setError(prevError => ({ 
+                    ...prevError, 
+                    imageError: "Error al cargar la imagen de usuario" 
+                  }));
+                }}
+                onLoad={() => {
+                  setError(prevError => ({
+                    ...prevError,
+                    imageError: ''
+                  }));
+                }}
+              />
+              {/* Conditionally render the upload button */}
+              {showUploadButton && (
+                <label 
+                  htmlFor="profile-image-input"
+                  className={styles.uploadButton}
+                  style={{ 
+                    position: 'absolute',
+                    bottom: '-5px',
+                    right: '-5px',
+                    cursor: uploading ? 'wait' : 'pointer',
+                  }}
+                  onClick={handleUploadButtonClick} // Prevent event propagation
                 >
-                  <img
-                    src={getImageUrl(currentUser.image_user)}
-                    alt={`Image of ${currentUser.name_user}`}
-                    className={`${styles.profileImage} hover:opacity-90 transition-opacity`}
-                    onError={() => {
-                      setError(prevError => ({ 
-                        ...prevError, 
-                        imageError: "Error al cargar la imagen de usuario" 
-                      }));
-                    }}
-                    onLoad={() => {
-                      setError(prevError => ({
-                        ...prevError,
-                        imageError: ''
-                      }));
-                    }}
-                  />
-                  {/* Conditionally render the upload button */}
-                  {showUploadButton && (
-                    <label 
-                      htmlFor="profile-image-input"
-                      className={styles.uploadButton}
-                      style={{ 
-                        position: 'absolute',
-                        bottom: '-5px',
-                        right: '-5px',
-                        cursor: uploading ? 'wait' : 'pointer',
-                      }}
-                      onClick={handleUploadButtonClick} // Prevent event propagation
-                    >
-                      <Camera size={16} />
-                    </label>
-                  )}
-                </div>
-                <UserImageModal
-                  isOpen={isImageModalOpen}
-                  onClose={() => setIsImageModalOpen(false)}
-                  imageUrl={getImageUrl(currentUser.image_user)}
-                  altText={`Full size image of ${currentUser.name_user}`}
-                />
-              </>
-            ) : (
-              <SquareUserRound size={40} />
-            )}
+                  <Camera size={16} />
+                </label>
+              )}
+            </div>
+            {/* User Image Modal */}
+            <UserImageModal
+              isOpen={isImageModalOpen}
+              onClose={() => setIsImageModalOpen(false)}
+              imageUrl={getImageUrl(currentUser.image_user)}
+              altText={`Full size image of ${currentUser.name_user}`}
+            />
             {/* Hidden file input */}
             <input
               type="file"

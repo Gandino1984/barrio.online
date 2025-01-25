@@ -204,6 +204,33 @@ async function updateProductImage(id_product, imagePath) {
     }
 }
 
+async function deleteImage(req, res) {
+    try {
+      const { id_product } = req.params;
+      const { imagePath, folderPath } = req.body;
+  
+      if (!id_product || !imagePath || !folderPath) {
+        return res.status(400).json({ error: 'ID del producto, ruta de la imagen y ruta de la carpeta son obligatorios' });
+      }
+  
+      // Call the productController to delete the image and folder
+      const result = await productController.deleteImage(id_product, imagePath, folderPath);
+  
+      if (result.error) {
+        return res.status(400).json(result);
+      }
+  
+      return res.json(result);
+    } catch (error) {
+      console.error('Error deleting image and folder:', error);
+      return res.status(500).json({ 
+        error: 'Error al eliminar la imagen y la carpeta',
+        details: error.message 
+      });
+    }
+  }
+  
+
 export {
     getAll,
     getById,
@@ -213,7 +240,8 @@ export {
     getByShopId,
     getByType,
     getOnSale,
-    updateProductImage
+    updateProductImage,
+    deleteImage
 }
 
 export default {
@@ -225,5 +253,6 @@ export default {
     getByShopId,
     getByType,
     getOnSale,
-    updateProductImage
+    updateProductImage,
+    deleteImage
 }

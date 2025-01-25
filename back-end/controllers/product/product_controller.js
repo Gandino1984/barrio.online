@@ -1,5 +1,7 @@
 import product_model from "../../models/product_model.js";
 import { Op } from "sequelize";
+import fs from 'fs';
+import path from 'path';
 
 async function getAll() {
     try {
@@ -96,23 +98,31 @@ async function update(id, productData) {
 
 async function removeById(id_product) {
     try {
-        const product = await product_model.findByPk(id_product);
-
-        if (!product) {
-            return { error: "Producto no encontrado" };
-        }
-
-        await product.destroy();
-
-        return { 
-            data:  id_product,
-            success: "Producto eliminado"
-        };
+      const product = await product_model.findByPk(id_product);
+  
+      if (!product) {
+        return { error: "Producto no encontrado" };
+      }
+  
+      // Delete the image and folder if the product has an image
+      if (product.image_product) {
+        const imagePath = product.image_product;
+        const folderPath = path.dirname(imagePath); // Get the folder path
+        await deleteImage(id_product, imagePath, folderPath);
+      }
+  
+      // Delete the product from the database
+      await product.destroy();
+  
+      return { 
+        data: id_product,
+        success: "Producto eliminado"
+      };
     } catch (err) {
-        console.error("-> product_controller.js - removeById() - Error = ", err);
-        return { error: "Producto no eliminado" };
+      console.error("-> product_controller.js - removeById() - Error = ", err);
+      return { error: "Producto no eliminado" };
     }
-}
+  }
 
 async function removeByShopId(id_shop, transaction) {
     try {
@@ -216,6 +226,45 @@ async function updateProductImage(id_product, imagePath) {
     }
 }
 
-export { getAll, getById, create, update, removeById, removeByShopId, getByShopId, getByType, getOnSale, updateProductImage}
+async function deleteImage(id_product, imagePath, folderPath) {
+    try {
+      // Construct the full path to the image file
+      const fullImagePath = path.join(__dirname, '../../public', imagePath);
+  
+      // Check if the image file exists
+      if (fs.existsSync(fullImagePath)) {
+        // Delete the image file
+        fs.unlinkSync(fullImagePath);
+        console.log(`Image deleted: ${fullImagePath}`);
+      } else {
+        console.log(`Image not found: ${fullImagePath}`);
+      }
+  
+      // Construct the full path to the folder
+      const fullFolderPath = path.join(__dirname, '../../public', folderPath);
+  
+      // Check if the folder exists and is empty
+      if (fs.existsSync(fullFolderPath)) {
+        const folderContents = fs.readdirSync(fullFolderPath);
+        if (folderContents.length === 0) {
+          // Delete the folder if it's empty
+          fs.rmdirSync(fullFolderPath);
+          console.log(`Folder deleted: ${fullFolderPath}`);
+        } else {
+          console.log(`Folder not empty: ${fullFolderPath}`);
+        }
+      } else {
+        console.log(`Folder not found: ${fullFolderPath}`);
+      }
+  
+      return { success: true, message: 'Imagen y carpeta eliminadas correctamente' };
+    } catch (err) {
+      console.error('Error deleting image and folder:', err);
+      return { error: 'Error al eliminar la imagen y la carpeta', details: err.message };
+    }
+  }
+  
 
-export default { getAll, getById, create, update, removeById, removeByShopId, getByShopId, getByType, getOnSale, updateProductImage }
+export { getAll, getById, create, update, removeById, removeByShopId, getByShopId, getByType, getOnSale, updateProductImage, deleteImage}
+
+export default { getAll, getById, create, update, removeById, removeByShopId, getByShopId, getByType, getOnSale, updateProductImage, deleteImage }
