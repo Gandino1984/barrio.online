@@ -32,7 +32,7 @@ const ClientProductsList = () => {
 
     // Ensure shop is selected before fetching products
     if (selectedShop && selectedShop.id_shop) {
-      console.log("Fetching products for shop:", selectedShop.shop_name);
+      console.log("Fetching products for shop:", selectedShop.name_shop);
       fetchProductsByShop();
     } else {
       console.warn("No shop selected or invalid shop ID");
@@ -74,7 +74,7 @@ const ClientProductsList = () => {
         {selectedShop && (
           <div className={styles.shop}>
               <h2 className="text-2xl font-bold text-center flex-1 pr-10">
-                  {selectedShop.shop_name}
+                  {selectedShop.name_shop}
               </h2>
               <p>
                   Ubicación: {selectedShop.location_shop}</p>
@@ -102,7 +102,7 @@ const ClientProductsList = () => {
         ) : (
         <div className={styles.list}>
             {filteredProducts.map((product) => (
-              <div key={product.product_id} className={styles.product}>
+              <div key={product.id_product} className={styles.product}>
                 <h3 className={styles.productName}>
                   {product.name_product}
                 </h3>

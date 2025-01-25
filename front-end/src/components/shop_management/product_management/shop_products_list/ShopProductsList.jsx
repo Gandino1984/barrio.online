@@ -30,22 +30,38 @@ const ShopProductList = () => {
     clearError,
     setUploading,
     setError,
-    setProducts
+    setProducts,
+    selectedProductForImageUpload,
+    setSelectedProductForImageUpload 
   } = useContext(AppContext);
 
   const [productToDelete, setProductToDelete] = useState(null);
 
   const { resetNewProductData } = ProductCreationFormFunctions();
   
-  const { filterProducts, fetchProductsByShop, deleteProduct, bulkDeleteProducts, confirmBulkDelete } = ShopProductListFunctions();
+  const { filterProducts, fetchProductsByShop, deleteProduct, bulkDeleteProducts, confirmBulkDelete, handleSelectProduct } = ShopProductListFunctions();
 
   const { handleProductImageUpload, getProductImageUrl } = ProductImageFunctions();
-  
-  const handleImageUpload = async (file, product_id) => {
+
+  // Store selectedShop.name_shop in localStorage when the shop is loaded
+  useEffect(() => {
+    if (selectedShop?.name_shop) {
+      localStorage.setItem('name_shop', selectedShop.name_shop);
+    }
+  }, [selectedShop]);
+
+  // Store selectedProductForImageUpload in localStorage when a product is selected
+  useEffect(() => {
+    if (selectedProductForImageUpload) {
+      localStorage.setItem('id_product', selectedProductForImageUpload);
+    }
+  }, [selectedProductForImageUpload]);
+
+  const handleImageUpload = async (file, id_product) => {
     try {
       const imageUrl = await handleProductImageUpload(
         file, 
-        product_id,
+        id_product,
         setError,
         setUploading
       );
@@ -53,7 +69,7 @@ const ShopProductList = () => {
       if (imageUrl) {
         // Update the products list with the new image
         const updatedProducts = products.map(product => 
-          product.product_id === product_id 
+          product.id_product === id_product 
             ? { ...product, image_product: imageUrl }
             : product
         );
@@ -82,38 +98,38 @@ const ShopProductList = () => {
     }
   }, [products, filters]);
 
-// Handle deletion confirmation
-useEffect(() => {
-  const handleConfirmedDelete = async () => {
-    if (isAccepted) {
-      if (productToDelete) {
-        // Single product deletion
-        console.log('Deleting product:', productToDelete);
-        try {
-          const result = await deleteProduct(productToDelete);
+  // Handle deletion confirmation
+  useEffect(() => {
+    const handleConfirmedDelete = async () => {
+      if (isAccepted) {
+        if (productToDelete) {
+          // Single product deletion
+          console.log('Deleting product:', productToDelete);
+          try {
+            const result = await deleteProduct(productToDelete);
 
-          console.log('Delete result:', result);
-          if (result.success) {
-            await fetchProductsByShop();
+            console.log('Delete result:', result);
+            if (result.success) {
+              await fetchProductsByShop();
+            }
+          } catch (error) {
+            console.error('Error deleting product:', error);
+          } finally {
+            setProductToDelete(null);
+            setIsAccepted(false);
+            clearError();
           }
-        } catch (error) {
-          console.error('Error deleting product:', error);
-        } finally {
-          setProductToDelete(null);
+        } else {
+          // Bulk deletion
+          await bulkDeleteProducts();
           setIsAccepted(false);
           clearError();
         }
-      } else {
-        // Bulk deletion
-        await bulkDeleteProducts();
-        setIsAccepted(false);
-        clearError();
       }
-    }
-  };
+    };
 
-  handleConfirmedDelete();
-}, [isAccepted, productToDelete]);
+    handleConfirmedDelete();
+  }, [isAccepted, productToDelete]);
 
   // Handle deletion cancellation
   useEffect(() => {
@@ -124,9 +140,9 @@ useEffect(() => {
     }
   }, [isDeclined]);
 
-  const handleDeleteProduct = async (product_id) => {
-    console.log('Attempting to delete product:', product_id);
-    setProductToDelete(product_id);
+  const handleDeleteProduct = async (id_product) => {
+    console.log('Attempting to delete product:', id_product);
+    setProductToDelete(id_product);
     setModalMessage('¿Estás seguro que deseas eliminar este producto?');
     setIsModalOpen(true);
     setIsAccepted(false);
@@ -141,8 +157,8 @@ useEffect(() => {
     setShowProductManagement(true);
   };
 
-  const handleUpdateProduct = (product_id) => {
-    const productToUpdate = products.find(p => p.product_id === product_id);
+  const handleUpdateProduct = (id_product) => {
+    const productToUpdate = products.find(p => p.id_product === id_product);
     if (productToUpdate) {
       resetNewProductData();
       setSelectedProductToUpdate(productToUpdate);
@@ -151,22 +167,7 @@ useEffect(() => {
     }
   };
 
-  const handleSelectProduct = (product_id) => {
-    setSelectedProducts(prev => {
-      const newSelected = new Set(prev);
-      if (newSelected.has(product_id)) {
-        newSelected.delete(product_id);
-      } else {
-        newSelected.add(product_id);
-      }
-      return newSelected;
-    });
-  };
 
-  const handleUploadProductImage = (product_id) => {
-    // TODO: Implement image upload functionality
-    console.log('Uploading image for product:', product_id);
-  };
 
   return (
     <div className={styles.container}>
@@ -174,7 +175,7 @@ useEffect(() => {
       {selectedShop && (
         <div className={styles.shopInfo}>
           <div className={styles.shopInfoHeader}>
-            <h2 className={styles.shopName}>{selectedShop.shop_name}</h2>
+            <h2 className={styles.shopName}>{selectedShop.name_shop}</h2>
             <p>Calificación: {selectedShop.calification_shop || 'No disponible'}/5</p>
           </div>
           <p className={styles.shopLocation}>{selectedShop.location_shop}</p>
@@ -242,11 +243,11 @@ useEffect(() => {
             <tbody>
               {filteredProducts.map((product) => (
                 <tr 
-                  key={product.product_id}
-                  className={`${styles.tableRow} ${selectedProducts.has(product.product_id) ? styles.selected : ''}`}
+                  key={product.id_product}
+                  className={`${styles.tableRow} ${selectedProducts.has(product.id_product) ? styles.selected : ''}`}
                 >
                   <td className={styles.tableCell}>
-                  <ProductImage product_id={product.product_id} />
+                  <ProductImage id_product={product.id_product} />
                   </td>
                   <td className={styles.tableCell}>{product.name_product}</td>
                   <td className={styles.tableCell}>${product.price_product}</td>
@@ -260,14 +261,14 @@ useEffect(() => {
                   <td className={styles.tableCell}>{product.info_product}</td>
                   <td className={styles.actionsCell}>
                     <button 
-                      onClick={() => handleUpdateProduct(product.product_id)}
+                      onClick={() => handleUpdateProduct(product.id_product)}
                       className={`${styles.actionButton} ${styles.updateButton}`}
                       title="Actualizar producto"
                     >
                       <Pencil size={18} />
                     </button>
                     <button 
-                      onClick={() => handleDeleteProduct(product.product_id)}
+                      onClick={() => handleDeleteProduct(product.id_product)}
                       className={`${styles.actionButton} ${styles.deleteButton}`}
                       title="Eliminar producto"
                       type="button"
@@ -275,9 +276,9 @@ useEffect(() => {
                       <Trash2 size={18} />
                     </button>
                     <button 
-                      onClick={() => handleSelectProduct(product.product_id)}
+                      onClick={() => handleSelectProduct(product.id_product)}
                       className={`${styles.actionButton} ${styles.selectButton} ${
-                        selectedProducts.has(product.product_id) ? styles.selected : ''
+                        selectedProducts.has(product.id_product) ? styles.selected : ''
                       }`}
                       title="Seleccionar producto"
                     >

@@ -94,9 +94,9 @@ async function update(id, productData) {
     }
 }
 
-async function removeById(product_id) {
+async function removeById(id_product) {
     try {
-        const product = await product_model.findByPk(product_id);
+        const product = await product_model.findByPk(id_product);
 
         if (!product) {
             return { error: "Producto no encontrado" };
@@ -105,7 +105,7 @@ async function removeById(product_id) {
         await product.destroy();
 
         return { 
-            data:  product_id,
+            data:  id_product,
             success: "Producto eliminado"
         };
     } catch (err) {
@@ -195,9 +195,9 @@ async function getOnSale() {
     }
 }
 
-async function updateProductImage(product_id, imagePath) {
+async function updateProductImage(id_product, imagePath) {
     try {
-        const product = await product_model.findByPk(product_id);
+        const product = await product_model.findByPk(id_product);
         if (!product) {
             return { error: "Producto no encontrado" };
         }

@@ -37,6 +37,8 @@ export const AppContextProvider = ({ children }) => {
 
   //initializes isLoggingIn with the negation of currentUser, 
   const [isLoggingIn, setIsLoggingIn] = useState(() => !currentUser);
+
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   
   // initializes showShopManagement with the boolean value of currentUser.
   const [showShopManagement, setshowShopManagement] = useState(() => !!currentUser);
@@ -169,7 +171,7 @@ export const AppContextProvider = ({ children }) => {
   const [ip, setIp] = useState('');
   
   const [newShop, setNewShop] = useState({
-    shop_name: '',
+    name_shop: '',
     type_shop: '',
     subtype_shop: '',
     location_shop: '',
@@ -233,6 +235,8 @@ export const AppContextProvider = ({ children }) => {
     id_shop: ''
   });
   
+  const [selectedProductForImageUpload, setSelectedProductForImageUpload] = useState(null);
+
   const [products, setProducts] = useState([]);
 
   const [productTypesAndSubtypes, setProductTypesAndSubtypes] = useState({
@@ -337,7 +341,9 @@ export const AppContextProvider = ({ children }) => {
     selectedProductToUpdate, setSelectedProductToUpdate,
     imageError, setImageError,
     uploading, setUploading,
-    productTypesAndSubtypes, setProductTypesAndSubtypes
+    productTypesAndSubtypes, setProductTypesAndSubtypes,
+    isImageModalOpen, setIsImageModalOpen,
+    selectedProductForImageUpload, setSelectedProductForImageUpload
   };
 
   return (

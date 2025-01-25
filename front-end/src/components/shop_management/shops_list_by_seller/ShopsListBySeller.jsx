@@ -59,7 +59,7 @@ const ShopsListBySeller = () => {
                   onClick={() => handleSelectShop(shop)}
                 >
                   <div className={styles.shopInfo}>
-                      <h4 className={styles.shopName}>{shop.shop_name}</h4>
+                      <h4 className={styles.shopName}>{shop.name_shop}</h4>
                       <p className={styles.shopLocation}>{shop.location_shop}</p>
                       <p className={styles.shopType}>{shop.type_shop}</p>
                       <p className={styles.shopCalification}>

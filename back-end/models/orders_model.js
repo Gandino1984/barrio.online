@@ -12,7 +12,7 @@ const orders_model = sequelize.define("orders", {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },
-    product_id: {
+    id_product: {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },

@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styles from '../../../../../public/css/UserInfoCard.module.css';
-import { Camera } from 'lucide-react';
-import { SquareUserRound } from 'lucide-react';
+import { Camera, SquareUserRound, Loader } from 'lucide-react';
 import AppContext from '../../../app_context/AppContext.js';
-import { UserInfoCardFunctions } from './UserInfoCardFunctions.jsx';
 import UserImageModal from './user_image_modal/UserImageModal';
+import styles from '../../../../../public/css/UserInfoCard.module.css';
+
+import { UserInfoCardFunctions } from './UserInfoCardFunctions.jsx';
 
 const UserInfoCard = () => {
   const { 
     currentUser,
     uploading,
     setError, 
-    clearError 
+    isImageModalOpen, setIsImageModalOpen 
   } = useContext(AppContext);
 
   const {
@@ -19,7 +19,7 @@ const UserInfoCard = () => {
     getImageUrl
   } = UserInfoCardFunctions();
 
-  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
 
   // Handle image errors in useEffect instead of during render
   useEffect(() => {
@@ -57,7 +57,7 @@ const UserInfoCard = () => {
                   onError={() => {
                     setError(prevError => ({ 
                       ...prevError, 
-                      imageError: "Error al cargar la imagen" 
+                      imageError: "Error al cargar la imagen de usuario" 
                     }));
                   }}
                   onLoad={() => {
@@ -94,7 +94,7 @@ const UserInfoCard = () => {
             </label>
           </div>
           <p>¡Te damos la bienvenida, <span>{currentUser?.name_user || 'Usuaria'}</span>!</p>
-          {uploading && <p className={styles.uploadStatus}>Subiendo imagen...</p>}
+          {uploading && <Loader size={16} />}
         </>
       )}
     </div>

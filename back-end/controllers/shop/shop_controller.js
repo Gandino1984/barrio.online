@@ -22,10 +22,10 @@ async function getAll() {
 async function create(shopData) {
     try {
         // Check if user already exists by name
-        console.log('-> shop_controller.js - create() - Buscando shopData.shop_name en la DB = ', shopData.shop_name);
+        console.log('-> shop_controller.js - create() - Buscando shopData.name_shop en la DB = ', shopData.name_shop);
 
         const existingShop = await shop_model.findOne({ 
-            where: { shop_name: shopData.shop_name } 
+            where: { name_shop: shopData.name_shop } 
         });
 
         if (existingShop) {
@@ -69,14 +69,14 @@ async function getByType(shopType) {
 
 async function update(id, shopData) {
     try {
-        const { shop_name, location_shop, type_shop } = shopData;
+        const { name_shop, location_shop, type_shop } = shopData;
         const shop = await shop_model.findByPk(id);
         if (!shop) {
             console.log("shop not found with id:", id);
             return { error: "shop not found" };
         }
         // Only update fields that were provided
-        if (shop_name) shop.shop_name = shop_name;
+        if (name_shop) shop.name_shop = name_shop;
         if (location_shop) shop.location_shop = location_shop;
         if (type_shop) shop.type_shop = type_shop;
         await shop.save();

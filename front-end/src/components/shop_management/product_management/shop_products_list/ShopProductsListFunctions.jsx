@@ -13,7 +13,8 @@ const ShopProductsListFunctions = () => {
     selectedProducts,
     setSelectedProducts,
     setModalMessage,
-    setIsModalOpen
+    setIsModalOpen,
+    setSelectedProductForImageUpload
   } = useContext(AppContext);
 
   const filterProducts = (products, filters) => {
@@ -57,7 +58,7 @@ const ShopProductsListFunctions = () => {
 
       const fetchedProducts = response.data.data || [];
       
-      console.log(`Fetched ${fetchedProducts.length} products for shop ${selectedShop.shop_name}`);
+      console.log(`Fetched ${fetchedProducts.length} products for shop ${selectedShop.name_shop}`);
       
       setProducts(fetchedProducts);
     } catch (err) {
@@ -67,9 +68,9 @@ const ShopProductsListFunctions = () => {
     } 
   };
 
-  const deleteProduct = async (product_id) => {
+  const deleteProduct = async (id_product) => {
     try {
-      const response = await axiosInstance.delete(`/product/remove-by-id/${product_id}`);
+      const response = await axiosInstance.delete(`/product/remove-by-id/${id_product}`);
       
       if (response.data.success) {
         return { success: true, message: response.data.success };
@@ -108,8 +109,8 @@ const ShopProductsListFunctions = () => {
       let failCount = 0;
 
       // Delete products one by one
-      for (const product_id of selectedProducts) {
-        const result = await deleteProduct(product_id);
+      for (const id_product of selectedProducts) {
+        const result = await deleteProduct(id_product);
         if (result.success) {
           successCount++;
         } else {
@@ -161,12 +162,29 @@ const ShopProductsListFunctions = () => {
     setIsModalOpen(true);
   };
 
+  const handleSelectProduct = (id_product) => {
+    setSelectedProducts(prev => {
+      const newSelected = new Set(prev);
+      if (newSelected.has(id_product)) {
+        // Deselect the product
+        newSelected.delete(id_product);
+        setSelectedProductForImageUpload(null); // Clear the selected product for image upload
+      } else {
+        // Select the product
+        newSelected.add(id_product);
+        setSelectedProductForImageUpload(id_product); // Set the selected product for image upload
+      }
+      return newSelected;
+    });
+  };
+
   return {
     filterProducts,
     fetchProductsByShop,
     deleteProduct,
     bulkDeleteProducts,
-    confirmBulkDelete
+    confirmBulkDelete,
+    handleSelectProduct
   };
 };
 

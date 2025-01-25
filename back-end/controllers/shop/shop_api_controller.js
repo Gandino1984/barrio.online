@@ -59,7 +59,7 @@ async function getById(req, res) {
 async function create(req, res) {
   try {
      const { 
-         shop_name, 
+         name_shop, 
          location_shop, 
          type_shop, 
          subtype_shop, 
@@ -71,13 +71,13 @@ async function create(req, res) {
      const image_shop = req.body.image_shop || '';
  
      // Validate required fields
-     if (shop_name === undefined || location_shop === undefined || type_shop === undefined || subtype_shop === undefined  || id_user === undefined) {
+     if (name_shop === undefined || location_shop === undefined || type_shop === undefined || subtype_shop === undefined  || id_user === undefined) {
          console.error('-> shop_api_controller.js - create() - Error = Campos obligatorios faltantes');
          console.log(req.body);
          return res.status(400).json({
              error: 'Campos obligatorios son requeridos',
              missingFields: {
-                 shop_name: !shop_name,
+                 name_shop: !name_shop,
                  location_shop: !location_shop,
                  type_shop: !type_shop,
                  subtype_shop: !subtype_shop,
@@ -87,7 +87,7 @@ async function create(req, res) {
      }
  
      const {error, data, success} = await shopController.create({
-         shop_name, 
+         name_shop, 
          location_shop, 
          type_shop, 
          subtype_shop, 
@@ -109,7 +109,7 @@ async function create(req, res) {
 async function update(req, res) {
     const {id_shop} = req.body;
 
-    const {error, data} = await shopController.update(id_shop, { shop_name, location_shop, type_shop, subtype_shop, id_user, calification_shop, image_shop});
+    const {error, data} = await shopController.update(id_shop, { name_shop, location_shop, type_shop, subtype_shop, id_user, calification_shop, image_shop});
     
     res.json({error, data});
 }
