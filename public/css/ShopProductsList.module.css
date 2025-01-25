@@ -67,8 +67,10 @@
 }
 
 .productsCount {
+    text-align: center;
     font-size: 0.875rem;
     color: #666;
+    margin-bottom: 1rem;
 }
 
 .actionButton {
@@ -101,9 +103,6 @@
 
 .deleteButton:not(:disabled):hover {
     background-color: #dc2626;
-}
-
-.updateButton {
 }
 
 .updateButton:not(:disabled):hover {
@@ -142,7 +141,7 @@
 }
 
 .tableRow:hover {
-    background-color: #f9fafb;
+    background-color: #e5e5e5;
 }
 
 .tableRow.selected {
@@ -164,11 +163,11 @@
 }
 
 .actionsCell {
-    padding: 0.5rem 1rem;
+    padding: .5rem .5rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .selectButton {

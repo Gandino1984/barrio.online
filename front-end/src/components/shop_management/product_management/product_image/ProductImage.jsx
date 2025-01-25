@@ -4,61 +4,61 @@ import AppContext from '../../../../app_context/AppContext';
 import styles from '../../../../../../public/css/ProductImage.module.css';
 import { ProductImageFunctions } from './ProductImageFunctions.jsx';
 
-const ProductImage = () => {
-  const { 
-    uploading, 
-    setError,
-    products,
+const ProductImage = ({ id_product }) => {
+  const {
+    uploading,
     selectedProductForImageUpload,
-    selectedProducts
+    selectedProducts,
+    products,
+    setError
   } = useContext(AppContext);
 
   const {
     handleProductImageUpload,
-    getProductImageUrl
+    getProductImageUrl,
   } = ProductImageFunctions();
 
-  // Find the product based on selectedProductForImageUpload
-  const product = products.find(p => p.id_product === selectedProductForImageUpload);
+  // Find the product based on id_product
+  const product = products.find(p => p.id_product === id_product);
 
   const handleImageUpload = async (event) => {
-    if (!event.target.files || !event.target.files[0]) {
+    const file = event.target.files[0];
+    if (!file) {
       setError(prevError => ({ ...prevError, imageError: "No se ha seleccionado un archivo de imagen" }));
       return;
     }
 
     try {
-      await handleProductImageUpload(event);
-      setError(prevError => ({ ...prevError, imageError: '' }));
-    } catch (err) {
-      setError(prevError => ({ ...prevError, imageError: err.message || "Error al subir la imagen" }));
+      await handleProductImageUpload(file);
+    } catch (error) {
+      console.error('Error uploading image:', error);
     }
   };
 
   // Check if the current product is selected
-  const isProductSelected = selectedProducts.has(selectedProductForImageUpload);
+  const isProductSelected = selectedProducts.has(id_product);
 
   return (
     <div className={styles.productImageContainer}>
       <img
-        src={getProductImageUrl(product?.image_product)} 
+        src={getProductImageUrl(product?.image_product)}
         alt={`Product image`}
         className={styles.productImage}
       />
-      
+
       {/* Conditional rendering of the file input and label */}
-      {isProductSelected && selectedProductForImageUpload && (
+      {isProductSelected && selectedProductForImageUpload === id_product && (
         <>
           <input
             type="file"
             accept="image/jpeg,image/png,image/jpg,image/webp"
             onChange={handleImageUpload}
             style={{ display: 'none' }}
-            id={`product-image-input-${selectedProductForImageUpload}`}
+            id={`product-image-input-${id_product}`}
             disabled={uploading}
           />
           <label
-            htmlFor={`product-image-input-${selectedProductForImageUpload}`}
+            htmlFor={`product-image-input-${id_product}`}
             className={styles.uploadButton}
             style={{ cursor: uploading ? 'wait' : 'pointer' }}
           >
@@ -66,10 +66,11 @@ const ProductImage = () => {
           </label>
         </>
       )}
-      
+
       {uploading && <Loader size={16} />}
     </div>
   );
 };
 
 export default ProductImage;
+
