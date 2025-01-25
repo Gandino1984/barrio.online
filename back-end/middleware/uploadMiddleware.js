@@ -39,7 +39,12 @@ const profileImageStorage = multer.diskStorage({
 
 const productImageStorage = multer.diskStorage({
     destination: async function (req, file, cb) {
-      const { name_shop, id_product } = req.body;
+      const name_shop = req.body.name_shop; // Retrieve shop name from body
+      const id_product = req.body.id_product; // Retrieve product ID from body
+  
+      // Log the fields for debugging
+      console.log('Shop Name:', name_shop);
+      console.log('Product ID:', id_product);
   
       if (!name_shop || !id_product) {
         return cb(new Error('Shop name and product ID are required'));
@@ -56,7 +61,7 @@ const productImageStorage = multer.diskStorage({
       }
     },
     filename: function (req, file, cb) {
-      const { id_product } = req.body;
+      const id_product = req.body.id_product; // Retrieve product ID from body
       const fileName = `${id_product}.webp`; // Save the file with the product ID as the name
       cb(null, fileName);
     }
@@ -140,58 +145,58 @@ const handleProfileImageUpload = async (req, res, next) => {
 
 const handleProductImageUpload = async (req, res, next) => {
     console.log('-> uploadMiddleware - handleProductImageUpload() - Starting upload middleware');
-
-    // Log the request body for debugging
-    console.log('Request Body:', req.body);
-
+  
+    // Log the request headers
+    console.log('Request Headers:', req.headers);
+  
     uploadProductImage.single('productImage')(req, res, async function (err) {
-        if (err instanceof multer.MulterError) {
-            console.error('Multer error:', err);
-            return res.status(400).json({
-                error: 'Error uploading file',
-                details: err.message
-            });
-        } else if (err) {
-            console.error('Upload error:', err);
-            return res.status(400).json({
-                error: 'Error uploading product image',
-                details: err.message
-            });
+      if (err instanceof multer.MulterError) {
+        console.error('Multer error:', err);
+        return res.status(400).json({
+          error: 'Error uploading file',
+          details: err.message
+        });
+      } else if (err) {
+        console.error('Upload error:', err);
+        return res.status(400).json({
+          error: 'Error uploading product image',
+          details: err.message
+        });
+      }
+  
+      try {
+        if (!req.file) {
+          return res.status(400).json({
+            error: 'No file provided'
+          });
         }
-
-        try {
-            if (!req.file) {
-                return res.status(400).json({
-                    error: 'No file provided'
-                });
-            }
-
-            // Log the parsed fields for debugging
-            console.log('Parsed Fields:', {
-                id_product: req.body.id_product,
-                name_shop: req.body.name_shop
-            });
-
-            // Ensure required fields are present
-            if (!req.body.id_product || !req.body.name_shop) {
-                return res.status(400).json({
-                    error: 'Shop name and Product ID are required'
-                });
-            }
-
-            // Process and convert the image to WebP
-            req.file = await processUploadedImage(req.file);
-
-            // Continue to the next middleware or route handler
-            next();
-        } catch (error) {
-            console.error('Error processing image:', error);
-            return res.status(500).json({
-                error: 'Error processing product image',
-                details: error.message
-            });
+  
+        // Log the parsed fields for debugging
+        console.log('Parsed Fields:', {
+          id_product: req.headers['x-product-id'],
+          name_shop: req.headers['x-shop-name']
+        });
+  
+        // Ensure required fields are present
+        if (!req.headers['x-product-id'] || !req.headers['x-shop-name']) {
+          return res.status(400).json({
+            error: 'Shop name and Product ID are required'
+          });
         }
+  
+        // Process and convert the image to WebP
+        req.file = await processUploadedImage(req.file);
+  
+        // Continue to the next middleware or route handler
+        next();
+      } catch (error) {
+        console.error('Error processing image:', error);
+        return res.status(500).json({
+          error: 'Error processing product image',
+          details: error.message
+        });
+      }
     });
-};
+  };
 
 export { handleProfileImageUpload, handleProductImageUpload };
