@@ -57,6 +57,9 @@ export const ProductImageFunctions = () => {
           },
         }
       );
+
+
+console.log('Upload Response:', response.data); // Log the response for debugging
   
       if (response.data.data?.image_product) {
         return response.data.data.image_product;
@@ -75,17 +78,17 @@ export const ProductImageFunctions = () => {
 
   const getProductImageUrl = (imagePath) => {
     if (!imagePath) {
-      console.warn('-> ProductImageFunctions - getProductImageUrl() - No hay ruta de imagen proporcionada');
+      console.warn('-> ProductImageFunctions - getProductImageUrl() - No image path provided');
       return null;
     }
-        
-    const cleanPath = imagePath.replace(/^\/+/, '');
-    const baseUrl = axiosInstance.defaults.baseURL || '';
-    const imageUrl = `${baseUrl}/${cleanPath}`.replace(/([^:]\/)(\/)+/g, "$1");
-    
+  
+    const cleanPath = imagePath.replace(/^\/+/, ''); // Remove leading slashes
+    const baseUrl = axiosInstance.defaults.baseURL || ''; // Get the base URL from axios config
+    const imageUrl = `${baseUrl}/${cleanPath}`.replace(/([^:]\/)(\/)+/g, "$1"); // Construct the full URL
+  
+    console.log('Generated Image URL:', imageUrl); // Log the generated URL for debugging
     return imageUrl;
   };
-
   return {
     handleProductImageUpload,
     getProductImageUrl
