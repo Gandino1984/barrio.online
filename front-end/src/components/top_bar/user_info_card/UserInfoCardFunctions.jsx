@@ -6,9 +6,7 @@ import { validateImageFile } from '../../../../utils/imageValidation.js';
 export const UserInfoCardFunctions = () => {
     const {
         currentUser, setCurrentUser,
-        setUploading,
-        setError,
-        clearError
+        setUploading, setError,
     } = useContext(AppContext);
 
     const handleImageUpload = async (event) => {
@@ -17,7 +15,7 @@ export const UserInfoCardFunctions = () => {
         setError(prevError => ({ ...prevError, imageError: "" }));
         
         if (!file) {
-            console.error('No se ha seleccionado un archivo');
+            console.error('-> UserInfoCardFunctions - handleImageUpload() - No se ha seleccionado un archivo');
             setError(prevError => ({ ...prevError, imageError: "Error al subir el archivo" }));
             return;
         }
@@ -30,7 +28,9 @@ export const UserInfoCardFunctions = () => {
             }
 
             const formData = new FormData();
+
             formData.append('name_user', currentUser.name_user);
+
             formData.append('profileImage', file);
 
             setUploading(true);
@@ -50,7 +50,7 @@ export const UserInfoCardFunctions = () => {
                 localStorage.setItem('currentUser', JSON.stringify(updatedUser));
                 setCurrentUser(updatedUser);
                 
-                clearError('imageError');
+                // clearError('imageError');
 
                 setError(prevError => ({ ...prevError, imageError: '' }));
             }

@@ -7,7 +7,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-import { uploadProfileImage } from '../middleware/uploadMiddleware.js';
+import { handleProfileImageUpload } from '../middleware/uploadMiddleware.js';
 
 dotenv.config();
 
@@ -123,7 +123,7 @@ router.post('/register', async (req, res) => {
 
 router.post("/details", userApiController.getByUserName);
 
-router.post('/upload-profile-image', uploadProfileImage, async (req, res) => {
+router.post('/upload-profile-image', handleProfileImageUpload, async (req, res) => {
     try {
         if (!req.file || !req.body.name_user) {
             return res.status(400).json({ 

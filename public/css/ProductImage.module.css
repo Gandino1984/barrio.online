@@ -1,5 +1,6 @@
 .productImageContainer {
     position: relative;
+<<<<<<< HEAD
     width: 60px;
     height: 60px;
     border-radius: 4px;
@@ -35,4 +36,40 @@
   .uploadButton:hover {
     background-color: rgba(255, 255, 255, 1);
     transform: scale(1.1);
+=======
+    width: 100%; /* Adjust as needed */
+    max-width: 300px; /* Set a maximum width for the container */
+    margin: 0 auto; /* Center the container */
+    overflow: hidden; /* Ensure the image doesn't overflow the container */
+    border-radius: 8px; /* Optional: Add rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+  }
+  
+  .productImage {
+    width: 100%; /* Make the image fill the container */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Remove extra space below the image */
+    object-fit: cover; /* Ensure the image covers the container without distortion */
+    border-radius: 8px; /* Match the container's border radius */
+  }
+  
+  /* Optional: Add a hover effect */
+  .productImage:hover {
+    transform: scale(1.05); /* Slightly enlarge the image on hover */
+    transition: transform 0.3s ease; /* Smooth transition */
+  }
+  
+  /* Optional: Add a loading spinner or placeholder */
+  .productImageContainer.loading {
+    background-color: #f0f0f0; /* Light gray background while loading */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .productImageContainer.loading::after {
+    content: "Loading..."; /* Placeholder text */
+    font-size: 16px;
+    color: #666;
+>>>>>>> dev31
   }

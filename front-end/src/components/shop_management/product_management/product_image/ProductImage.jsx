@@ -1,91 +1,73 @@
 import React, { useContext } from 'react';
-import { Camera } from 'lucide-react';
+import { Camera, Loader } from 'lucide-react';
 import AppContext from '../../../../app_context/AppContext';
-import { ProductImageFunctions } from './ProductImageFunctions';
 import styles from '../../../../../../public/css/ProductImage.module.css';
+import { ProductImageFunctions } from './ProductImageFunctions.jsx';
 
-const ProductImage = ({ productId }) => {
+const ProductImage = () => {
   const { 
     uploading, 
     setError,
     products,
-    setUploading,
-    setProducts
+    selectedProductForImageUpload,
+    selectedProducts
   } = useContext(AppContext);
 
-  const { handleProductImageUpload, getProductImageUrl } = ProductImageFunctions();
+  const {
+    handleProductImageUpload,
+    getProductImageUrl
+  } = ProductImageFunctions();
 
-  // Get the current product
-  const product = products.find(p => p.id_product === productId);
-
-  if (!product) return null;
+  // Find the product based on selectedProductForImageUpload
+  const product = products.find(p => p.id_product === selectedProductForImageUpload);
 
   const handleImageUpload = async (event) => {
     if (!event.target.files || !event.target.files[0]) {
-      return;
-    }
-
-    const file = event.target.files[0];
-    
-    if (!productId) {
-      console.error('No product ID provided');
-      setError(prevError => ({ ...prevError, imageError: "Error: No product ID" }));
+      setError(prevError => ({ ...prevError, imageError: "No se ha seleccionado un archivo de imagen" }));
       return;
     }
 
     try {
-      const imageUrl = await handleProductImageUpload(
-        file,
-        productId,
-        setError,
-        setUploading
-      );
-
-      if (imageUrl) {
-        // Update the products list with the new image
-        setProducts(prevProducts => 
-          prevProducts.map(prod =>
-            prod.id_product === productId 
-              ? { ...prod, image_product: imageUrl }
-              : prod
-          )
-        );
-      }
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      setError(prevError => ({ 
-        ...prevError, 
-        imageError: error.message || "Error uploading image" 
-      }));
+      await handleProductImageUpload(event);
+      setError(prevError => ({ ...prevError, imageError: '' }));
+    } catch (err) {
+      setError(prevError => ({ ...prevError, imageError: err.message || "Error al subir la imagen" }));
     }
   };
 
+  // Check if the current product is selected
+  const isProductSelected = selectedProducts.has(selectedProductForImageUpload);
+
   return (
     <div className={styles.productImageContainer}>
-      {product.image_product ? (
-        <img
-          src={getProductImageUrl(product.image_product)}
-          alt={`Image of ${product.name_product}`}
-          className={styles.productImage}
-        />
-      ) : (
-        <div className={styles.noImage}>No image</div>
-      )}
-      <input
-        type="file"
-        accept="image/jpeg,image/png,image/jpg,image/webp"
-        onChange={handleImageUpload}
-        style={{ display: 'none' }}
-        id={`product-image-input-${productId}`}
-        disabled={uploading}
+      <img
+        src={getProductImageUrl(product?.image_product)} 
+        alt={`Product image`}
+        className={styles.productImage}
       />
-      <label
-        htmlFor={`product-image-input-${productId}`}
-        className={styles.uploadButton}
-        style={{ cursor: uploading ? 'wait' : 'pointer' }}
-      >
-        <Camera size={16} />
-      </label>
+      
+      {/* Conditional rendering of the file input and label */}
+      {isProductSelected && selectedProductForImageUpload && (
+        <>
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/jpg,image/webp"
+            onChange={handleImageUpload}
+            style={{ display: 'none' }}
+            id={`product-image-input-${selectedProductForImageUpload}`}
+            disabled={uploading}
+          />
+          <label
+            htmlFor={`product-image-input-${selectedProductForImageUpload}`}
+            className={styles.uploadButton}
+            style={{ cursor: uploading ? 'wait' : 'pointer' }}
+          >
+            <Camera size={16} />
+          </label>
+        </>
+      )}
+      
+      {uploading && <Loader size={16} />}
     </div>
   );
 };

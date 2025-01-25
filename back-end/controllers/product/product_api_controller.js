@@ -1,4 +1,5 @@
 import productController from "./product_controller.js";
+import product_model from "../../models/product_model.js";
 
 async function getAll(req, res) {
     try {
@@ -171,6 +172,38 @@ async function getOnSale(req, res) {
     }
 }
 
+async function updateProductImage(id_product, imagePath) {
+    try {
+        if (!id_product || !imagePath) {
+            return { 
+                error: 'El ID del producto y la ruta de la imagen son obligatorios' 
+            };
+        }
+
+        const product = await product_model.findByPk(id_product);
+        if (!product) {
+            return { 
+                error: "Producto no encontrado" 
+            };
+        }
+
+        // Update the product's image path
+        product.image_product = imagePath;
+        await product.save();
+
+        return { 
+            data: { image_product: imagePath },
+            success: "Imagen de producto actualizada correctamente"
+        };
+    } catch (err) {
+        console.error("-> product_api_controller.js - updateProductImage() - Error =", err);
+        return { 
+            error: "Error al actualizar la imagen de producto",
+            details: err.message 
+        };
+    }
+}
+
 export {
     getAll,
     getById,
@@ -179,7 +212,8 @@ export {
     removeById,
     getByShopId,
     getByType,
-    getOnSale
+    getOnSale,
+    updateProductImage
 }
 
 export default {
@@ -190,5 +224,6 @@ export default {
     removeById,
     getByShopId,
     getByType,
-    getOnSale
+    getOnSale,
+    updateProductImage
 }

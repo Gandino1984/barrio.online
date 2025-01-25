@@ -195,6 +195,27 @@ async function getOnSale() {
     }
 }
 
-export { getAll, getById, create, update, removeById, removeByShopId, getByShopId, getByType, getOnSale}
+async function updateProductImage(id_product, imagePath) {
+    try {
+        const product = await product_model.findByPk(id_product);
+        if (!product) {
+            return { error: "Producto no encontrado" };
+        }
 
-export default { getAll, getById, create, update, removeById, removeByShopId, getByShopId, getByType, getOnSale }
+        // Update the product's image path
+        product.image_product = imagePath;
+        await product.save();
+
+        return { 
+            data: { image_product: imagePath },
+            success: "Imagen de producto actualizada correctamente"
+        };
+    } catch (err) {
+        console.error("-> product_controller.js - updateProductImage() - Error = ", err);
+        return { error: "Error al actualizar la imagen de producto" };
+    }
+}
+
+export { getAll, getById, create, update, removeById, removeByShopId, getByShopId, getByType, getOnSale, updateProductImage}
+
+export default { getAll, getById, create, update, removeById, removeByShopId, getByShopId, getByType, getOnSale, updateProductImage }
