@@ -39,12 +39,8 @@ const profileImageStorage = multer.diskStorage({
 
 const productImageStorage = multer.diskStorage({
     destination: async function (req, file, cb) {
-      const name_shop = req.body.name_shop; // Retrieve shop name from body
-      const id_product = req.body.id_product; // Retrieve product ID from body
-  
-      // Log the fields for debugging
-      console.log('Shop Name:', name_shop);
-      console.log('Product ID:', id_product);
+      const name_shop = req.headers['x-shop-name']; // Retrieve shop name from headers
+      const id_product = req.headers['x-product-id']; // Retrieve product ID from headers
   
       if (!name_shop || !id_product) {
         return cb(new Error('Shop name and product ID are required'));
@@ -61,7 +57,7 @@ const productImageStorage = multer.diskStorage({
       }
     },
     filename: function (req, file, cb) {
-      const id_product = req.body.id_product; // Retrieve product ID from body
+      const id_product = req.headers['x-product-id']; // Retrieve product ID from headers
       const fileName = `${id_product}.webp`; // Save the file with the product ID as the name
       cb(null, fileName);
     }

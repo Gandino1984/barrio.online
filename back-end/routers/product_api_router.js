@@ -16,19 +16,19 @@ router.get("/on-sale", productApiController.getOnSale);
 
 router.post('/upload-product-image', handleProductImageUpload, async (req, res) => {
     try {
-      if (!req.file || !req.body.id_product || !req.body.name_shop) {
+      if (!req.file) {
         return res.status(400).json({ 
-          error: 'Faltan campos requeridos' 
+          error: 'No file provided' 
         });
       }
   
       // Construct the path relative to the public directory
-      const relativePath = path.join('images', 'uploads', 'shops', req.body.name_shop, 'product_images', path.basename(req.file.path))
+      const relativePath = path.join('images', 'uploads', 'shops', req.headers['x-shop-name'], 'product_images', path.basename(req.file.path))
         .split(path.sep)
         .join('/');
       
       // Update the product's image path in the database
-      const result = await productApiController.updateProductImage(req.body.id_product, relativePath);
+      const result = await productApiController.updateProductImage(req.headers['x-product-id'], relativePath);
       
       if (result.error) {
         return res.status(400).json(result);

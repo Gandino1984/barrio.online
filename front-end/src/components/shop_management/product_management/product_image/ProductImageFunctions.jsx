@@ -43,8 +43,6 @@ export const ProductImageFunctions = () => {
   
       const formData = new FormData();
       formData.append('productImage', file); // Append the file
-      formData.append('id_product', selectedProductForImageUpload); // Add product ID to the body
-      formData.append('name_shop', selectedShop.name_shop); // Add shop name to the body
   
       setUploading(true);
   
@@ -54,6 +52,8 @@ export const ProductImageFunctions = () => {
         {
           headers: {
             'Content-Type': 'multipart/form-data',
+            'X-Shop-Name': selectedShop.name_shop, // Pass shop name in headers
+            'X-Product-ID': selectedProductForImageUpload, // Pass product ID in headers
           },
         }
       );
