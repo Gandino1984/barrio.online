@@ -176,31 +176,31 @@ const ShopProductList = () => {
             </button>
           </div>
         </div>
-        <p className={styles.productsCount}>
-          Productos mostrados: {filteredProducts.length}
-          {selectedProducts.size > 0 && ` | Seleccionados: ${selectedProducts.size}`}
-        </p>
       </div>
 
       <FiltersForProducts />
 
       {filteredProducts.length === 0 ? (
         <p className={styles.noProducts}>No hay productos disponibles</p>
-      ) : (
+      ) : (       
         <div className={styles.tableContainer}>
+          <p className={styles.productsCount}>
+              Productos mostrados: {filteredProducts.length}
+              {selectedProducts.size > 0 && ` | Seleccionados: ${selectedProducts.size}`}
+          </p>
           <table className={styles.table}>
             <thead>
               <tr className={styles.tableHeader}>
-                <th className={styles.tableHeaderCell}>Image</th>
+                <th className={styles.tableHeaderCell}>Acciones</th>
+                <th className={styles.tableHeaderCell}>Imagen</th>
                 <th className={styles.tableHeaderCell}>Nombre</th>
                 <th className={styles.tableHeaderCell}>Precio</th>
                 <th className={styles.tableHeaderCell}>Stock</th>
                 <th className={styles.tableHeaderCell}>Descuento</th>
                 <th className={styles.tableHeaderCell}>Temporada</th>
                 <th className={styles.tableHeaderCell}>Tipo</th>
-                <th className={styles.tableHeaderCell}>Subtipo</th>
+                <th className={styles.tableHeaderCell}>Sub-tipo</th>
                 <th className={styles.tableHeaderCell}>Más Información</th>
-                <th className={styles.tableHeaderCell}>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -209,19 +209,6 @@ const ShopProductList = () => {
                   key={product.id_product}
                   className={`${styles.tableRow} ${selectedProducts.has(product.id_product) ? styles.selected : ''}`}
                 >
-                  <td className={styles.tableCell}>
-                    <ProductImage id_product={product.id_product} />
-                  </td>
-                  <td className={styles.tableCell}>{product.name_product}</td>
-                  <td className={styles.tableCell}>${product.price_product}</td>
-                  <td className={styles.tableCell}>{product.stock_product}</td>
-                  <td className={styles.tableCell}>
-                    {product.discount_product > 0 ? `${product.discount_product}%` : '-'}
-                  </td>
-                  <td className={styles.tableCell}>{product.season_product}</td>
-                  <td className={styles.tableCell}>{product.type_product}</td>
-                  <td className={styles.tableCell}>{product.subtype_product}</td>
-                  <td className={styles.tableCell}>{product.info_product}</td>
                   <td className={styles.actionsCell}>
                     <button
                       onClick={() => handleUpdateProduct(product.id_product)}
@@ -248,6 +235,19 @@ const ShopProductList = () => {
                       <CheckCircle size={18} />
                     </button>
                   </td>
+                  <td className={styles.tableCell}>
+                    <ProductImage id_product={product.id_product} />
+                  </td>
+                  <td className={styles.tableCell}>{product.name_product}</td>
+                  <td className={styles.tableCell}>${product.price_product}</td>
+                  <td className={styles.tableCell}>{product.stock_product}</td>
+                  <td className={styles.tableCell}>
+                    {product.discount_product > 0 ? `${product.discount_product}%` : '-'}
+                  </td>
+                  <td className={styles.tableCell}>{product.season_product}</td>
+                  <td className={styles.tableCell}>{product.type_product}</td>
+                  <td className={styles.tableCell}>{product.subtype_product}</td>
+                  <td className={styles.tableCell}>{product.info_product}</td>
                 </tr>
               ))}
             </tbody>

@@ -76,7 +76,7 @@ const UserInfoCard = () => {
               {/* Profile Image */}
               <img
                 src={getImageUrl(currentUser.image_user) || ''} // Use the user's image or fallback to an empty string
-                alt={currentUser?.name_user || 'User'} // Use the user's name as alt text
+                alt="Click aquí" // Use the user's name as alt text
                 className={`${styles.profileImage} hover:opacity-90 transition-opacity`}
                 onError={() => {
                   setError(prevError => ({ 

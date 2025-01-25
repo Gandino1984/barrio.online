@@ -3,6 +3,12 @@ import { Op } from "sequelize";
 import fs from 'fs';
 import path from 'path';
 
+import { fileURLToPath } from 'url';
+
+// Convert the module URL to a file path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 async function getAll() {
     try {
         const products = await product_model.findAll();
