@@ -120,9 +120,9 @@ async function removeById(id_product) {
       // Delete the product from the database
       await product.destroy();
   
-      return { 
+      return {
         data: id_product,
-        success: "Producto eliminado"
+        success: "Producto eliminado",
       };
     } catch (err) {
       console.error("-> product_controller.js - removeById() - Error = ", err);
@@ -237,6 +237,8 @@ async function deleteImage(id_product, imagePath, folderPath) {
       // Construct the full path to the image file
       const fullImagePath = path.join(__dirname, '../../public', imagePath);
   
+      console.log(`Attempting to delete image: ${fullImagePath}`); // Debug log
+  
       // Check if the image file exists
       if (fs.existsSync(fullImagePath)) {
         // Delete the image file
@@ -248,6 +250,8 @@ async function deleteImage(id_product, imagePath, folderPath) {
   
       // Construct the full path to the folder
       const fullFolderPath = path.join(__dirname, '../../public', folderPath);
+  
+      console.log(`Checking folder: ${fullFolderPath}`); // Debug log
   
       // Check if the folder exists and is empty
       if (fs.existsSync(fullFolderPath)) {

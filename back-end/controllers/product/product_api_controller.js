@@ -223,9 +223,9 @@ async function deleteImage(req, res) {
       return res.json(result);
     } catch (error) {
       console.error('Error deleting image and folder:', error);
-      return res.status(500).json({ 
+      return res.status(500).json({
         error: 'Error al eliminar la imagen y la carpeta',
-        details: error.message 
+        details: error.message,
       });
     }
   }

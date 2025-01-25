@@ -72,7 +72,7 @@ const ShopProductsListFunctions = () => {
   const deleteProduct = async (id_product) => {
     try {
       // Fetch the product to get the image path
-      const product = products.find(p => p.id_product === id_product);
+      const product = products.find((p) => p.id_product === id_product);
       if (!product) {
         throw new Error("Producto no encontrado");
       }
@@ -92,18 +92,18 @@ const ShopProductsListFunctions = () => {
       if (response.data.success) {
         return { success: true, message: response.data.success };
       } else {
-        setError(prevError => ({ 
-          ...prevError, 
-          productError: response.data.error || "Error al eliminar el producto" 
+        setError((prevError) => ({
+          ...prevError,
+          productError: response.data.error || "Error al eliminar el producto",
         }));
         setShowErrorCard(true);
         return { success: false, message: response.data.error };
       }
     } catch (err) {
       console.error('Error deleting product:', err);
-      setError(prevError => ({ 
-        ...prevError, 
-        productError: "Error al eliminar el producto" 
+      setError((prevError) => ({
+        ...prevError,
+        productError: "Error al eliminar el producto",
       }));
       setShowErrorCard(true);
       return { success: false, message: "Error al eliminar el producto" };
