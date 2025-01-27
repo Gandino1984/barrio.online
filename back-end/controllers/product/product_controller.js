@@ -5,9 +5,10 @@ import path from 'path';
 
 import { fileURLToPath } from 'url';
 
-// Convert the module URL to a file path
+// Get the project root directory (one level up from back-end)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const PROJECT_ROOT = path.resolve(__dirname, '../../..'); 
 
 async function getAll() {
     try {
@@ -101,34 +102,6 @@ async function update(id, productData) {
         return { error: "Producto no actualizado" };
     }
 }
-
-async function removeById(id_product) {
-    try {
-      const product = await product_model.findByPk(id_product);
-  
-      if (!product) {
-        return { error: "Producto no encontrado" };
-      }
-  
-      // Delete the image and folder if the product has an image
-      if (product.image_product) {
-        const imagePath = product.image_product;
-        const folderPath = path.dirname(imagePath); // Get the folder path
-        await deleteImage(id_product, imagePath, folderPath);
-      }
-  
-      // Delete the product from the database
-      await product.destroy();
-  
-      return {
-        data: id_product,
-        success: "Producto eliminado",
-      };
-    } catch (err) {
-      console.error("-> product_controller.js - removeById() - Error = ", err);
-      return { error: "Producto no eliminado" };
-    }
-  }
 
 async function removeByShopId(id_shop, transaction) {
     try {
@@ -234,45 +207,106 @@ async function updateProductImage(id_product, imagePath) {
 
 async function deleteImage(id_product, imagePath, folderPath) {
     try {
-      // Construct the full path to the image file
-      const fullImagePath = path.join(__dirname, '../../public', imagePath);
-  
-      console.log(`Attempting to delete image: ${fullImagePath}`); // Debug log
-  
-      // Check if the image file exists
-      if (fs.existsSync(fullImagePath)) {
-        // Delete the image file
-        fs.unlinkSync(fullImagePath);
-        console.log(`Image deleted: ${fullImagePath}`);
-      } else {
-        console.log(`Image not found: ${fullImagePath}`);
-      }
-  
-      // Construct the full path to the folder
-      const fullFolderPath = path.join(__dirname, '../../public', folderPath);
-  
-      console.log(`Checking folder: ${fullFolderPath}`); // Debug log
-  
-      // Check if the folder exists and is empty
-      if (fs.existsSync(fullFolderPath)) {
-        const folderContents = fs.readdirSync(fullFolderPath);
-        if (folderContents.length === 0) {
-          // Delete the folder if it's empty
-          fs.rmdirSync(fullFolderPath);
-          console.log(`Folder deleted: ${fullFolderPath}`);
+        // Strip any host prefix and ensure we have relative paths
+        const cleanImagePath = imagePath.replace(/^https?:\/\/[^/]+\//, '');
+        const cleanFolderPath = folderPath.replace(/^https?:\/\/[^/]+\//, '');
+
+        // Construct the full paths using PROJECT_ROOT
+        const publicDir = path.join(PROJECT_ROOT, 'public');
+        const fullImagePath = path.join(publicDir, cleanImagePath);
+        const fullFolderPath = path.join(publicDir, cleanFolderPath);
+
+        console.log('Starting image deletion process');
+        console.log('Paths to process:', {
+            projectRoot: PROJECT_ROOT,
+            publicDir,
+            fullImagePath,
+            fullFolderPath,
+            originalImagePath: imagePath,
+            cleanImagePath,
+            cleanFolderPath
+        });
+
+        // Delete the image file if it exists
+        if (fs.existsSync(fullImagePath)) {
+            try {
+                fs.unlinkSync(fullImagePath);
+                console.log('✓ Image file deleted successfully:', fullImagePath);
+            } catch (err) {
+                console.error('× Error deleting image file:', err);
+                throw new Error(`Failed to delete image file: ${err.message}`);
+            }
         } else {
-          console.log(`Folder not empty: ${fullFolderPath}`);
+            console.log('! Image file does not exist:', fullImagePath);
         }
-      } else {
-        console.log(`Folder not found: ${fullFolderPath}`);
-      }
-  
-      return { success: true, message: 'Imagen y carpeta eliminadas correctamente' };
+
+        // Check if folder exists and is empty before attempting deletion
+        if (fs.existsSync(fullFolderPath)) {
+            const files = fs.readdirSync(fullFolderPath);
+            if (files.length === 0) {
+                try {
+                    fs.rmdirSync(fullFolderPath);
+                    console.log('✓ Empty folder deleted successfully:', fullFolderPath);
+                } catch (err) {
+                    console.error('× Error deleting folder:', err);
+                    throw new Error(`Failed to delete folder: ${err.message}`);
+                }
+            } else {
+                console.log('! Folder not empty, skipping deletion:', fullFolderPath);
+            }
+        } else {
+            console.log('! Folder does not exist:', fullFolderPath);
+        }
+
+        // Update the product record
+        const product = await product_model.findByPk(id_product);
+        if (product) {
+            product.image_product = null;
+            await product.save();
+            console.log('✓ Product image reference cleared in database');
+        }
+
+        return {
+            success: true,
+            message: 'Image deletion process completed successfully',
+            details: {
+                imagePath: fullImagePath,
+                folderPath: fullFolderPath
+            }
+        };
     } catch (err) {
-      console.error('Error deleting image and folder:', err);
-      return { error: 'Error al eliminar la imagen y la carpeta', details: err.message };
+        console.error('× Error in deleteImage function:', err);
+        throw err;
     }
-  }
+}
+
+async function removeById(id_product) {
+    try {
+        const product = await product_model.findByPk(id_product);
+
+        if (!product) {
+            return { error: "Producto no encontrado" };
+        }
+
+        // Delete the image and folder if the product has an image
+        if (product.image_product) {
+            const imagePath = product.image_product;
+            const folderPath = path.dirname(imagePath); // Get the folder path
+            await deleteImage(id_product, imagePath, folderPath);
+        }
+
+        // Delete the product from the database
+        await product.destroy();
+
+        return {
+            data: id_product,
+            success: "Producto eliminado",
+        };
+    } catch (err) {
+        console.error("-> product_controller.js - removeById() - Error = ", err);
+        return { error: "Producto no eliminado" };
+    }
+}
   
 
 export { getAll, getById, create, update, removeById, removeByShopId, getByShopId, getByType, getOnSale, updateProductImage, deleteImage}
