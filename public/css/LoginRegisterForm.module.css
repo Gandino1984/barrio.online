@@ -89,7 +89,7 @@
     /* outline: none; */
     color: var(--hovered-button);
     border: 2px solid #d1d5db;
-    padding: 0.5rem 2rem 0.5rem 0.5rem;
+    padding: 0.3rem 2rem 0.3rem 0.3rem;
     cursor: pointer;
     font-size: .9rem;
     font-weight: 500;
@@ -163,7 +163,7 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   width: 100%;
-  padding: 0.5rem 2rem 0.5rem 0.5rem;
+  padding: 0.3rem 2rem 0.3rem 0.3rem;
   font-size: .9rem;
   font-weight: 500;
   color: var(--hovered-button);

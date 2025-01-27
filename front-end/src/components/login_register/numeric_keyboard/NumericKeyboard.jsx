@@ -17,6 +17,7 @@ const NumericKeyboard = ({
     setError, error,
     displayedPassword,
     setDisplayedPassword,
+    passwordIcons, setPasswordIcons,
     isLoggingIn,
     password,
     passwordRepeat,
@@ -25,7 +26,7 @@ const NumericKeyboard = ({
 
   const icons = [Banana, Apple, Bean, Beef, Carrot, Beer, Croissant, Drill, Dog, Fish, Drumstick, Gift, Gem, Ham, Palette, Printer, Wrench, Car, Scissors, HeartPulse, BookMarked, Mouse, Cpu, Laptop, Smile, ChefHat, Laugh, Lollipop, Cake, Pizza, ShoppingBasket, Speaker, Amphora, ConciergeBell, Flower, Baby, Shirt, Watch, Sandwich];
 
-  const [passwordIcons, setPasswordIcons] = useState([]);
+
 
   useEffect(() => {
     if (showMaskedPassword) {
@@ -51,8 +52,6 @@ const NumericKeyboard = ({
   const {
     handleKeyClick,
     handleBackspace,
-    // handleClearPassword,
-    // handleClear
   } = useNumericKeyboardFunctions(value, onChange, onPasswordComplete);
 
   const handleBackspaceClick = (event) => {

@@ -57,6 +57,7 @@ export const AppContextProvider = ({ children }) => {
   const [name_user, setNameUser] = useState(() => currentUser?.name_user || '');
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
+  const [passwordIcons, setPasswordIcons] = useState([]);
   const [type_user, setUserType] = useState(() => currentUser?.type_user || '');
   const [location_user, setLocationUser] = useState(() => currentUser?.location_user || '');
 
@@ -152,6 +153,35 @@ export const AppContextProvider = ({ children }) => {
     setCurrentUser(null);
     setIsLoggingIn(true);
     setshowShopManagement(false);
+  };
+
+  const clearUserSession = () => {
+    // Clear user-related states
+    setCurrentUser(null);
+    setNameUser('');
+    setPassword('');
+    setPasswordRepeat('');
+    setDisplayedPassword('');
+    setShowPasswordLabel(true);
+    setKeyboardKey((prev) => prev + 1); // Force re-render of the numeric keyboard
+    setshowShopManagement(false);
+    setUserType('');
+    setShowPasswordRepeat(false);
+    setShowRepeatPasswordMessage(false);
+    // Clear errors
+    setError({
+      userError: '',
+      passwordError: '',
+      passwordRepeatError: '',
+      ipError: '',
+      userlocationError: '',
+      userTypeError: '',
+      databaseResponseError: '',
+      shopError: '',
+      productError: '',
+      imageError: ''
+    });
+    setShowErrorCard(false);
   };
 
   const MAX_PASSWORD_LENGTH = 4;
@@ -344,7 +374,9 @@ export const AppContextProvider = ({ children }) => {
     uploading, setUploading,
     productTypesAndSubtypes, setProductTypesAndSubtypes,
     isImageModalOpen, setIsImageModalOpen,
-    selectedProductForImageUpload, setSelectedProductForImageUpload
+    selectedProductForImageUpload, setSelectedProductForImageUpload,
+    passwordIcons, setPasswordIcons,
+    clearUserSession
   };
 
   return (

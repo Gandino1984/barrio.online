@@ -52,9 +52,9 @@ const LoginRegisterForm = () => {
   return (
     <div className={styles.container}>
           <div className={styles.formContainer}>
-              <h3 className={styles.formTitle}>
+              {/* <h3 className={styles.formTitle}>
                   {isLoggingIn ? 'INICIA SESIÓN' : 'CREA TU USUARIO'}
-              </h3>
+              </h3> */}
               <form onSubmit={handleFormSubmit} className={styles.formContent}>
                   <div className={styles.formField}>
                       <input

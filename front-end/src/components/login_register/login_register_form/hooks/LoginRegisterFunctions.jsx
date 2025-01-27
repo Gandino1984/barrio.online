@@ -16,7 +16,9 @@ export const LoginRegisterFunctions = () => {
     login, logout, setIsAddingShop, 
     setShops, setError, 
     location_user, setLocationUser,
-    setShowRepeatPasswordMessage
+    setShowRepeatPasswordMessage,
+    clearUserSession,
+    setPasswordIcons
   } = useContext(AppContext);
 
     const { validateUsername } = useUsernameValidation();
@@ -73,34 +75,35 @@ export const LoginRegisterFunctions = () => {
       }
     };
 
-    const clearUserSession = () => {
-      logout();
-      setNameUser('');
-      setPassword('');
-      setPasswordRepeat('');
-      setDisplayedPassword('');
-      setShowPasswordLabel(true);
-      setKeyboardKey((prev) => prev + 1);
-      setIsLoggingIn(true);
-      setshowShopManagement(false);
-      setUserType('');
-      setShowPasswordRepeat(false);
-      setShowPasswordRepeat(false);
-      setShowRepeatPasswordMessage(false);
-      setError({
-        userError: '',
-        passwordError: '',
-        passwordRepeatError: '',
-        ipError: '',
-        userlocationError: '',
-        userTypeError: '',
-        databaseResponseError: ''
-      });
-  };
+  //   const clearUserSession = () => {
+  //     logout();
+  //     setNameUser('');
+  //     setPassword('');
+  //     setPasswordRepeat('');
+  //     setDisplayedPassword('');
+  //     setShowPasswordLabel(true);
+  //     setKeyboardKey((prev) => prev + 1);
+  //     setIsLoggingIn(true);
+  //     setshowShopManagement(false);
+  //     setUserType('');
+  //     setShowPasswordRepeat(false);
+  //     setShowPasswordRepeat(false);
+  //     setShowRepeatPasswordMessage(false);
+  //     setError({
+  //       userError: '',
+  //       passwordError: '',
+  //       passwordRepeatError: '',
+  //       ipError: '',
+  //       userlocationError: '',
+  //       userTypeError: '',
+  //       databaseResponseError: ''
+  //     });
+  // };
 
   const toggleForm = () => {
+    clearUserSession();
     setIsLoggingIn(prev => !prev);
-    if (!isLoggingIn) clearUserSession();
+    setPasswordIcons([]);    
   };
 
   const handleUserTypeChange = (e) => {

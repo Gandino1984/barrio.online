@@ -14,7 +14,7 @@ export const useNumericKeyboardFunctions = (value, onChange, onPasswordComplete,
             // Update the actual password value
             onChange(newValue);
             // Update the displayed (masked) value
-            setDisplayedPassword('*'.repeat(newValue.length));
+            setDisplayedPassword(''.repeat(newValue.length));
             
             if (newValue.length === MAX_PASSWORD_LENGTH) {
                 onPasswordComplete();
@@ -28,7 +28,7 @@ export const useNumericKeyboardFunctions = (value, onChange, onPasswordComplete,
           const newValue = value.slice(0, -1);
           // Update both actual and displayed values
           onChange(newValue);
-          setDisplayedPassword('*'.repeat(newValue.length));
+          setDisplayedPassword(''.repeat(newValue.length));
         }
     };
       
