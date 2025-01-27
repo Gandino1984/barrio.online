@@ -69,47 +69,6 @@ const ShopProductsListFunctions = () => {
     } 
   };
 
-  const deleteProduct = async (id_product) => {
-    try {
-      // Fetch the product to get the image path
-      const product = products.find((p) => p.id_product === id_product);
-      if (!product) {
-        throw new Error("Producto no encontrado");
-      }
-  
-      // Delete the image and folder if the product has an image
-      if (product.image_product) {
-        const imagePath = product.image_product;
-        const folderPath = imagePath.split('/').slice(0, -1).join('/'); // Get the folder path
-        await axiosInstance.delete(`/product/delete-image/${id_product}`, {
-          data: { imagePath, folderPath },
-        });
-      }
-  
-      // Delete the product from the database
-      const response = await axiosInstance.delete(`/product/remove-by-id/${id_product}`);
-  
-      if (response.data.success) {
-        return { success: true, message: response.data.success };
-      } else {
-        setError((prevError) => ({
-          ...prevError,
-          productError: response.data.error || "Error al eliminar el producto",
-        }));
-        setShowErrorCard(true);
-        return { success: false, message: response.data.error };
-      }
-    } catch (err) {
-      console.error('Error deleting product:', err);
-      setError((prevError) => ({
-        ...prevError,
-        productError: "Error al eliminar el producto",
-      }));
-      setShowErrorCard(true);
-      return { success: false, message: "Error al eliminar el producto" };
-    }
-  };
-
   // New function for bulk deletion
   const bulkDeleteProducts = async () => {
     if (selectedProducts.size === 0) {
@@ -193,6 +152,54 @@ const ShopProductsListFunctions = () => {
       }
       return newSelected;
     });
+  };
+
+  const deleteProduct = async (id_product) => {
+    try {
+      // Fetch the product to get the image path
+      const product = products.find((p) => p.id_product === id_product);
+      if (!product) {
+        throw new Error("Producto no encontrado");
+      }
+  
+      // Delete the image and folder if the product has an image
+      if (product.image_product) {
+        // Get the image path without the host prefix
+        const imagePath = product.image_product;
+        // Get the folder path without the file name
+        const folderPath = imagePath.split('/').slice(0, -1).join('/');
+        
+        // Send the relative paths to the backend
+        await axiosInstance.delete(`/product/delete-image/${id_product}`, {
+          data: {
+            imagePath: imagePath,
+            folderPath: folderPath
+          }
+        });
+      }
+  
+      // Delete the product from the database
+      const response = await axiosInstance.delete(`/product/remove-by-id/${id_product}`);
+  
+      if (response.data.success) {
+        return { success: true, message: response.data.success };
+      } else {
+        setError((prevError) => ({
+          ...prevError,
+          productError: response.data.error || "Error al eliminar el producto",
+        }));
+        setShowErrorCard(true);
+        return { success: false, message: response.data.error };
+      }
+    } catch (err) {
+      console.error('Error deleting product:', err);
+      setError((prevError) => ({
+        ...prevError,
+        productError: "Error al eliminar el producto",
+      }));
+      setShowErrorCard(true);
+      return { success: false, message: "Error al eliminar el producto" };
+    }
   };
 
   return {

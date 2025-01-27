@@ -38,30 +38,44 @@ const profileImageStorage = multer.diskStorage({
 });
 
 const productImageStorage = multer.diskStorage({
-    destination: async function (req, file, cb) {
-      const name_shop = req.headers['x-shop-name']; // Retrieve shop name from headers
-      const id_product = req.headers['x-product-id']; // Retrieve product ID from headers
-  
-      if (!name_shop || !id_product) {
-        return cb(new Error('Shop name and product ID are required'));
-      }
-  
-      const uploadsDir = path.join(__dirname, '..', '..', 'public', 'images', 'uploads', 'shops', name_shop, 'product_images');
-  
-      try {
-        await fs.promises.mkdir(uploadsDir, { recursive: true });
-        await fs.promises.chmod(uploadsDir, 0o755); // Ensure proper permissions
-        cb(null, uploadsDir);
-      } catch (error) {
-        cb(error);
-      }
-    },
-    filename: function (req, file, cb) {
-      const id_product = req.headers['x-product-id']; // Retrieve product ID from headers
-      const fileName = `${id_product}.webp`; // Save the file with the product ID as the name
-      cb(null, fileName);
+  destination: async function (req, file, cb) {
+    const name_shop = req.headers['x-shop-name'];
+    const id_product = req.headers['x-product-id'];
+
+    if (!name_shop || !id_product) {
+      return cb(new Error('Shop name and product ID are required'));
     }
-  });
+
+    const uploadsDir = path.join(__dirname, '..', '..', 'public', 'images', 'uploads', 'shops', name_shop, 'product_images');
+
+    try {
+      // Create directory with proper permissions
+      await fs.promises.mkdir(uploadsDir, { recursive: true });
+      
+      // Set directory permissions to 755
+      await fs.promises.chmod(uploadsDir, 0o755);
+      
+      // Set file permissions to 644 for any existing files
+      const files = await fs.promises.readdir(uploadsDir);
+      for (const file of files) {
+        const filePath = path.join(uploadsDir, file);
+        const stats = await fs.promises.stat(filePath);
+        if (stats.isFile()) {
+          await fs.promises.chmod(filePath, 0o644);
+        }
+      }
+      
+      cb(null, uploadsDir);
+    } catch (error) {
+      cb(error);
+    }
+  },
+  filename: function (req, file, cb) {
+    const id_product = req.headers['x-product-id'];
+    const fileName = `${id_product}.webp`;
+    cb(null, fileName);
+  }
+});
 
 const uploadProfileImage = multer({
     storage: profileImageStorage,
