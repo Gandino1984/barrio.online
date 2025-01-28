@@ -4,8 +4,8 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: .5rem;
-    padding: .4rem 0rem 1rem 0rem;
+    padding: 0rem 0rem 1rem 0rem;
+    margin-bottom: .5rem;
 }
 
 .numericKeyboardInput{
@@ -22,7 +22,7 @@
     min-height: 2rem;
     height: 2rem;
     font-size: 7rem;
-    gap: .4rem;
+    gap: .5rem;
     color: var(--saturated-blue);
     overflow: hidden;
 }
@@ -51,11 +51,11 @@
 }
 
 .key:hover{
-    /* font-weight: 600; */
     color: white;
     background-color: var(--saturated-blue);
     transition: all .15s ease;
 }
+
 .row{
     display: flex;
     align-items: center;

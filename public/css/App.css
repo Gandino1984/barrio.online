@@ -44,6 +44,11 @@ input[type="number"] {
   font-weight: 500;
 }
 
+input[type="number"]:hover{
+  color: var(--saturated-blue);
+  border: 2px solid var(--saturated-blue);
+}
+
 input[type="number"]:focus{
   color: var(--saturated-blue);
   border: 2px solid var(--saturated-blue);
