@@ -47,6 +47,7 @@
     user-select: none;
     margin: .2rem;
     background-color: var(--superlight-gray);
+    transition: all .8s ease;
 }
 
 .key:hover{

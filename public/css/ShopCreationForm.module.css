@@ -1,15 +1,27 @@
 .container{
     /* width: 100vw; */
+    /* display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; */
+    gap:1rem;
+    border-radius: 6px;
+    /* min-height: 100vh; */
+}
+
+.content{
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 1rem 2rem;
-    gap:1rem;
+    gap: 1rem;
     background-color: white;
     border-radius: 6px;
-    min-height: 100vh;
+    margin-top: 3rem;
+    padding: 1rem 1rem;
+    
 }
+
 
 .header{
     display: flex;
