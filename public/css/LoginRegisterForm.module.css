@@ -107,6 +107,26 @@
   font-size: .8rem;
 }
 
+.active {
+  color: rgb(247, 247, 247);
+  background-color: var(--saturated-blue);
+  color: white;
+}
+
+.active:hover {
+  color: black;
+  background-color: var(--dark-blue);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.inactive {
+  background-color: var(--superlight-gray);
+  color: var(--gray);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 /* Tablet Breakpoint */
 @media screen and (min-width: 768px) {
   .container {

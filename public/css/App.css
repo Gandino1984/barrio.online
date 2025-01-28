@@ -24,6 +24,16 @@ input[type="text"]{
   margin-bottom: .3rem;
 }
 
+input[type="text"]:focus{
+  color: var(--saturated-blue);
+  border: 2px solid var(--saturated-blue);
+}
+
+input[type="text"]:hover{ 
+  color: var(--saturated-blue);
+  border: 2px solid var(--saturated-blue);
+}
+
 input[type="number"] {
   width: 3rem;
   border-radius: 5px;
@@ -32,6 +42,11 @@ input[type="number"] {
   padding: .3rem .3rem .3rem .3rem;
   font-size: .75rem;
   font-weight: 500;
+}
+
+input[type="number"]:focus{
+  color: var(--saturated-blue);
+  border: 2px solid var(--saturated-blue);
 }
 
 
@@ -43,6 +58,16 @@ border: 2px solid #d1d5db;
 padding: .3rem .3rem .3rem .3rem;
 font-size: .75rem;
 font-weight: 500;
+}
+
+textarea:focus{
+  color: var(--saturated-blue);
+  border: 2px solid var(--saturated-blue);
+}
+
+textarea:hover{
+  color: var(--saturated-blue);
+  border: 2px solid var(--saturated-blue);
 }
 
 button{
@@ -75,7 +100,7 @@ select {
   -moz-appearance: none;
   width: 100%;
   padding: 0.3rem 2rem 0.3rem 0.3rem;
-  font-size: .9rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: var(--saturated-blue);
   background-color: white;
@@ -88,21 +113,10 @@ select {
   background-size: 1em;
 }
 
-/* Style for the placeholder option */
-select option[value=""] {
-  color: #9ca3af;  /* Gray color for the disabled placeholder */
+select:invalid {
+  color: lightgray;
 }
 
-/* Style for regular options */
-select option:not([value=""]) {
-  color: var(--superlight-gray);
-}
-
-/* Style for selected option */
-select option:checked {
-  color: var(--saturated-blue);
-  background-color: #f3f4f6;
-}
 
 /* Hover state */
 select:hover {
@@ -111,17 +125,13 @@ select:hover {
 
 /* Focus state */
 select:focus {
-  outline: none;
   border-color: var(--saturated-blue);
   box-shadow: 0 0 0 1px var(--saturated-blue);
 }
 
 /* Disabled state */
 select:disabled {
-  background-color: #f3f4f6;
-  color: #9ca3af;
-  cursor: not-allowed;
-  border-color: #d1d5db;
+  color: lightgray;
 }
 
 /* Error state */

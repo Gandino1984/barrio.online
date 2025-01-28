@@ -1,6 +1,7 @@
 .message {
+  font-size: .8rem;
   user-select: none;
-  font-size: .9rem;
+  /* font-size: .9rem; */
   text-align: center;
 }
 
