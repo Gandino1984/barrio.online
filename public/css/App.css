@@ -88,10 +88,10 @@ button{
 
 button:hover{
   color: white;
-  font-weight: 600;
+  /* font-weight: 600; */
   transition: all .2s ease;
   background-color: var(--saturated-blue);
-  transform: scale(1.06);
+  transform: scale(1.08);
 }
 
 select {

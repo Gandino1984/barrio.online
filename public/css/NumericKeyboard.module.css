@@ -51,7 +51,7 @@
 }
 
 .key:hover{
-    font-weight: 600;
+    /* font-weight: 600; */
     color: white;
     background-color: var(--saturated-blue);
     transition: all .15s ease;

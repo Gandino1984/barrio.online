@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import { useNumericKeyboardFunctions } from './useNumericKeyboardFunctions.jsx';
-import { Delete, RotateCcw } from 'lucide-react';
+import { Delete, Eraser } from 'lucide-react';
 import styles from '../../../../../public/css/NumericKeyboard.module.css';
 import { Banana, Apple, Bean, Beef, Carrot, Beer, Croissant, Drill, Dog, Fish, Drumstick, Gift, Gem, Ham, Palette, Printer, Wrench, Car, Scissors, HeartPulse, BookMarked, Mouse, Cpu, Laptop, Smile, ChefHat, Laugh, Lollipop, Cake, Pizza, ShoppingBasket, Speaker, Amphora, ConciergeBell, Flower, Baby, Shirt, Watch, Sandwich } from 'lucide-react';
 
@@ -18,15 +18,21 @@ const NumericKeyboard = ({
     displayedPassword,
     setDisplayedPassword,
     passwordIcons, setPasswordIcons,
-    isLoggingIn,
-    password,
-    passwordRepeat,
-    showPasswordRepeat,
+    clearUserSession,
   } = useContext(AppContext);
 
   const icons = [Banana, Apple, Bean, Beef, Carrot, Beer, Croissant, Drill, Dog, Fish, Drumstick, Gift, Gem, Ham, Palette, Printer, Wrench, Car, Scissors, HeartPulse, BookMarked, Mouse, Cpu, Laptop, Smile, ChefHat, Laugh, Lollipop, Cake, Pizza, ShoppingBasket, Speaker, Amphora, ConciergeBell, Flower, Baby, Shirt, Watch, Sandwich];
 
 
+  const clearForm = () => {
+    setPassword('');
+    setPasswordRepeat('');
+    setUserType('');
+    setLocationUser('');
+    setPasswordIcons([]);
+    setDisplayedPassword('');
+  };
+  
 
   useEffect(() => {
     if (showMaskedPassword) {
@@ -113,6 +119,12 @@ const NumericKeyboard = ({
                         onClick={(e) => handleBackspaceClick(e)}
                       >
                             <Delete size={16} />
+                      </button>
+                      <button 
+                        className={styles.key} 
+                        onClick={clearUserSession}
+                      >
+                          <Eraser size={16} />
                       </button>
                   </div>
             </div>

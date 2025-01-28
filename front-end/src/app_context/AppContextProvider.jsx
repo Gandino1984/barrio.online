@@ -156,14 +156,13 @@ export const AppContextProvider = ({ children }) => {
   };
 
   const clearUserSession = () => {
-    // Clear user-related states
-    setCurrentUser(null);
     setNameUser('');
     setPassword('');
     setPasswordRepeat('');
+    setLocationUser('');
     setDisplayedPassword('');
     setShowPasswordLabel(true);
-    setKeyboardKey((prev) => prev + 1); // Force re-render of the numeric keyboard
+    setKeyboardKey((prev) => prev + 1);
     setshowShopManagement(false);
     setUserType('');
     setShowPasswordRepeat(false);
