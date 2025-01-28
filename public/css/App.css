@@ -40,7 +40,7 @@ input[type="number"] {
   width: auto;
   border: 2px solid #d1d5db;
   padding: .3rem .3rem .3rem .3rem;
-  font-size: .75rem;
+  font-size: .8rem;
   font-weight: 500;
 }
 
@@ -61,7 +61,7 @@ border-radius: 5px;
 width: auto;
 border: 2px solid #d1d5db;
 padding: .3rem .3rem .3rem .3rem;
-font-size: .75rem;
+font-size: .8rem;
 font-weight: 500;
 }
 
@@ -84,7 +84,7 @@ button{
   background-color: var(--superlight-gray); 
   padding: .3rem .5rem;
   border-radius: 6px;
-  font-size: .75rem;
+  font-size: .8rem;
   cursor: pointer;
   gap: .5rem;
   letter-spacing: .01rem;
