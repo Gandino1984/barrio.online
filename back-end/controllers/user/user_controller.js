@@ -156,7 +156,6 @@ async function login(userData) {
             console.log('-> login() - Información de usuario incompleta');
             return {
                 error: "Información de usuario incompleta",
-                details: "Both username and password are required"
             }; 
         }
         if (userData.pass_user.length !== 4 || !/^\d+$/.test(userData.pass_user)) {

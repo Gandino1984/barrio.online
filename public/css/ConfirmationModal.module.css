@@ -39,7 +39,7 @@
   top: 1rem;
   right: 1rem;
   padding: .2rem .2rem;
-  background-color: var(--active-button);
+  background-color: var(--superlight-gray);
   border-radius: 6px;
   transition: all 0.15s ease;
 }
@@ -47,7 +47,7 @@
 .closeButton:hover {
   font-weight: 600;
   color: white;
-  background-color: var(--hovered-button);
+  background-color: var(--saturated-blue);
 }
 
 .modalContent {
@@ -117,7 +117,7 @@
 .cancelButton:hover {
   font-weight: 600;
   color: white;
-  background-color: var(--hovered-button);
+  background-color: var(--saturated-blue);
 }
 
 .continueButton {
@@ -171,7 +171,7 @@
   .cancelButton,
   .continueButton {
       width: 100%;
-      padding: 0.75rem;
+      padding: 0.8rem;
       font-size: 0.875rem;
   }
 

@@ -6,7 +6,7 @@
    top: .9rem;
    padding: .3rem .5rem;
    gap: .2rem; 
-   background-color: var(--container-background-error);
+   background-color: var(--superlight-red);
    border-radius: 6px;
    z-index: 999;
 }

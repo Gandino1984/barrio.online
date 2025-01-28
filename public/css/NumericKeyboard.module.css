@@ -4,8 +4,8 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: .5rem;
-    padding: .4rem 0rem 1rem 0rem;
+    padding: 0rem 0rem 1rem 0rem;
+    margin-bottom: .5rem;
 }
 
 .numericKeyboardInput{
@@ -19,22 +19,41 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 1.4rem;
-    height: 1.5rem;
-    font-size: 1.5rem;
-    gap: .1rem;
-    color: var(--hovered-button);
+    min-height: 2rem;
+    height: 2rem;
+    font-size: 7rem;
+    gap: .5rem;
+    color: var(--saturated-blue);
     overflow: hidden;
 }
+
 .keyboard{
     position: relative;
     width: 100%;
 }
 
 .key{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    width: 2.7rem;
+    height: 2.7rem;
+    font-size: 1rem;
+    border-radius: 50%;
+    padding: .5rem .7rem;
     user-select: none;
     margin: .2rem;
-    background-color: rgb(234, 234, 234);
+    background-color: var(--superlight-gray);
+    transition: all .8s ease;
+}
+
+.key:hover{
+    color: white;
+    background-color: var(--saturated-blue);
+    transition: all .15s ease;
 }
 
 .row{
@@ -43,26 +62,4 @@
     justify-content: center;
     width: 100%;
     gap: .3rem;
-}
-
-.row button{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    border-radius: 6px;
-    padding: .6rem .8rem;
-    user-select: none;
-    margin: .2rem;
-    background-color: var(--active-button);
-}
-
-.row button:hover{
-    font-weight: 600;
-    color: white;
-    background-color: var(--hovered-button);
-    transition: all .15s ease;
 }

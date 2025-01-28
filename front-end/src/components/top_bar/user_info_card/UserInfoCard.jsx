@@ -18,11 +18,21 @@ const UserInfoCard = () => {
     getImageUrl
   } = UserInfoCardFunctions();
 
-  // State to control the visibility of the upload button
   const [showUploadButton, setShowUploadButton] = useState(false);
-
-  // Ref to the file input element
   const fileInputRef = useRef(null);
+
+  // State to track screen size
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
+
+  // Effect to update screen size state on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (currentUser?.image_user) {
@@ -36,47 +46,48 @@ const UserInfoCard = () => {
     }
   }, [currentUser?.image_user, setError]);
 
-  // Handle single-click to toggle the upload button
   const handleImageSingleClick = () => {
-    setShowUploadButton(prev => !prev); // Toggle upload button visibility
+    setShowUploadButton(prev => !prev);
   };
 
-  // Handle double-click to open the modal
   const handleImageDoubleClick = () => {
     if (currentUser?.image_user) {
-      setIsImageModalOpen(true); // Open the modal
+      setIsImageModalOpen(true);
     }
   };
 
-  // Handle camera button click to trigger file upload
   const handleUploadButtonClick = (e) => {
-    e.stopPropagation(); // Prevent the click event from propagating to the parent container
-
-    // Programmatically trigger the file input
+    e.stopPropagation();
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
-
-    // Hide the upload button after triggering the file input
     setShowUploadButton(false);
   };
+
+  // Determine the welcome message based on screen size and user login status
+  const welcomeMessage = isSmallScreen
+    ? currentUser
+      ? `${currentUser.name_user}`
+      : '¡Bienvenida!'
+    : currentUser
+      ? `¡Te damos la bienvenida, ${currentUser.name_user || 'Usuaria'}!`
+      : '¡Te damos la bienvenida! Inicia sesión';
 
   return (
     <div className={styles.userInfoCard}>
       {!currentUser ? (
-        <div className={styles.message}>¡Te damos la bienvenida! Inicia sesión</div>
+        <div className={styles.message}>{welcomeMessage}</div>
       ) : (
         <>
           <div className={styles.profileSection}>
             <div 
               style={{ position: 'relative', cursor: 'pointer' }}
-              onClick={handleImageSingleClick} // Single-click to toggle upload button
-              onDoubleClick={handleImageDoubleClick} // Double-click to open modal
+              onClick={handleImageSingleClick}
+              onDoubleClick={handleImageDoubleClick}
             >
-              {/* Profile Image */}
               <img
-                src={getImageUrl(currentUser.image_user) || ''} // Use the user's image or fallback to an empty string
-                alt="Click aquí" // Use the user's name as alt text
+                src={getImageUrl(currentUser.image_user) || ''}
+                alt="Click aquí"
                 className={`${styles.profileImage} hover:opacity-90 transition-opacity`}
                 onError={() => {
                   setError(prevError => ({ 
@@ -91,7 +102,6 @@ const UserInfoCard = () => {
                   }));
                 }}
               />
-              {/* Conditionally render the upload button */}
               {showUploadButton && (
                 <label 
                   htmlFor="profile-image-input"
@@ -102,20 +112,18 @@ const UserInfoCard = () => {
                     right: '-5px',
                     cursor: uploading ? 'wait' : 'pointer',
                   }}
-                  onClick={handleUploadButtonClick} // Prevent event propagation
+                  onClick={handleUploadButtonClick}
                 >
                   <Camera size={16} />
                 </label>
               )}
             </div>
-            {/* User Image Modal */}
             <UserImageModal
               isOpen={isImageModalOpen}
               onClose={() => setIsImageModalOpen(false)}
               imageUrl={getImageUrl(currentUser.image_user)}
               altText={`Full size image of ${currentUser.name_user}`}
             />
-            {/* Hidden file input */}
             <input
               type="file"
               accept="image/jpeg,image/png,image/jpg"
@@ -123,10 +131,10 @@ const UserInfoCard = () => {
               style={{ display: 'none' }}
               id="profile-image-input"
               disabled={uploading}
-              ref={fileInputRef} // Ref to the file input
+              ref={fileInputRef}
             />
           </div>
-          <p>¡Te damos la bienvenida, <span>{currentUser?.name_user || 'Usuaria'}</span>!</p>
+          <p className={styles.welcomeMessage}>{welcomeMessage}</p>
           {uploading && <Loader size={16} />}
         </>
       )}

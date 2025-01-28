@@ -16,7 +16,9 @@ export const LoginRegisterFunctions = () => {
     login, logout, setIsAddingShop, 
     setShops, setError, 
     location_user, setLocationUser,
-    setShowRepeatPasswordMessage
+    setShowRepeatPasswordMessage,
+    clearUserSession,
+    setPasswordIcons
   } = useContext(AppContext);
 
     const { validateUsername } = useUsernameValidation();
@@ -73,34 +75,35 @@ export const LoginRegisterFunctions = () => {
       }
     };
 
-    const clearUserSession = () => {
-      logout();
-      setNameUser('');
-      setPassword('');
-      setPasswordRepeat('');
-      setDisplayedPassword('');
-      setShowPasswordLabel(true);
-      setKeyboardKey((prev) => prev + 1);
-      setIsLoggingIn(true);
-      setshowShopManagement(false);
-      setUserType('');
-      setShowPasswordRepeat(false);
-      setShowPasswordRepeat(false);
-      setShowRepeatPasswordMessage(false);
-      setError({
-        userError: '',
-        passwordError: '',
-        passwordRepeatError: '',
-        ipError: '',
-        userlocationError: '',
-        userTypeError: '',
-        databaseResponseError: ''
-      });
-  };
+  //   const clearUserSession = () => {
+  //     logout();
+  //     setNameUser('');
+  //     setPassword('');
+  //     setPasswordRepeat('');
+  //     setDisplayedPassword('');
+  //     setShowPasswordLabel(true);
+  //     setKeyboardKey((prev) => prev + 1);
+  //     setIsLoggingIn(true);
+  //     setshowShopManagement(false);
+  //     setUserType('');
+  //     setShowPasswordRepeat(false);
+  //     setShowPasswordRepeat(false);
+  //     setShowRepeatPasswordMessage(false);
+  //     setError({
+  //       userError: '',
+  //       passwordError: '',
+  //       passwordRepeatError: '',
+  //       ipError: '',
+  //       userlocationError: '',
+  //       userTypeError: '',
+  //       databaseResponseError: ''
+  //     });
+  // };
 
   const toggleForm = () => {
+    clearUserSession();
     setIsLoggingIn(prev => !prev);
-    if (!isLoggingIn) clearUserSession();
+    setPasswordIcons([]);    
   };
 
   const handleUserTypeChange = (e) => {
@@ -112,7 +115,9 @@ export const LoginRegisterFunctions = () => {
 
   const handleLoginResponse = async (response) => {
     try {
+      console.log('Login response:', response);
       if (!response.data) {
+        console.error('No response data received');
             setError(prevError => ({ ...prevError, databaseResponseError: "No se recibió respuesta del servidor en el login" }));
             throw new Error('Login - No se recibió respuesta del servidor en el login');
         }
@@ -123,6 +128,7 @@ export const LoginRegisterFunctions = () => {
         }
   
         const userData = response.data.data;
+        console.log('User data:', userData);
   
         console.log('-> handleLoginResponse() - userData = ', userData);
   
@@ -222,6 +228,8 @@ export const LoginRegisterFunctions = () => {
           name_user: cleanedUsername
         });
 
+        console.log('User details response:', userDetailsResponse);
+
         if (userDetailsResponse.data.error || !userDetailsResponse.data.data) {
           setError(prevError => ({ ...prevError, databaseResponseError: "Nombre de usuario o contraseña incorrectos" }));
           throw new Error(userDetailsResponse.data.error);
@@ -258,6 +266,10 @@ export const LoginRegisterFunctions = () => {
 
       } catch (err) {
         console.error('-> LoginRegisterFunctions.jsx - handleLogin() - Error = ', err);
+        setError(prevError => ({ 
+          ...prevError, 
+          databaseResponseError: "Error al iniciar sesión" 
+        }));
       }
     };
 
