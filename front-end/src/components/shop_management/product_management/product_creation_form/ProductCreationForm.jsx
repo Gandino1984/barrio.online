@@ -72,9 +72,9 @@ const ProductCreationForm = () => {
         </button>
       </div>
 
-      <h3 className={styles.formTitle}>
+      <h2 className={styles.formTitle}>
         {isUpdatingProduct ? 'Actualizar Producto' : '¿O quieres crear un nuevo producto?'}
-      </h3>
+      </h2>
       
       <form onSubmit={handleFormSubmit} className={styles.form}>
         <div className={styles.formField}>

@@ -11,12 +11,12 @@
   border-radius: 6px;
   padding: .4rem;
   gap: .5rem;
-  background-color: var(--active-button);
+  background-color: var(--superlight-gray);
   transition: all 0.15s ease;
 }
 
 .button:hover {
   color: white;
   transform: scale(1.1);
-  background-color: var(--hovered-button);
+  background-color: var(--saturated-blue);
 }

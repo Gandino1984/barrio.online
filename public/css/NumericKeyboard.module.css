@@ -21,9 +21,9 @@
     justify-content: center;
     min-height: 2rem;
     height: 2rem;
-    font-size: 4rem;
-    gap: .2rem;
-    color: var(--hovered-button);
+    font-size: 7rem;
+    gap: .4rem;
+    color: var(--saturated-blue);
     overflow: hidden;
 }
 
@@ -33,39 +33,32 @@
 }
 
 .key{
-    user-select: none;
-    margin: .2rem;
-    background-color: rgb(234, 234, 234);
-}
-
-.row{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    gap: .3rem;
-}
-
-.row button{
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     border: none;
     outline: none;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.7rem;
+    height: 2.7rem;
     font-size: 1rem;
     border-radius: 50%;
     padding: .5rem .7rem;
     user-select: none;
     margin: .2rem;
-    background-color: var(--active-button);
+    background-color: var(--superlight-gray);
 }
 
-.row button:hover{
+.key:hover{
     font-weight: 600;
     color: white;
-    background-color: var(--hovered-button);
+    background-color: var(--saturated-blue);
     transition: all .15s ease;
+}
+.row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: .3rem;
 }

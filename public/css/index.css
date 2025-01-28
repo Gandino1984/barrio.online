@@ -1,12 +1,8 @@
 :root {
-  --active-button: #e2e2e2;
-  --hovered-button: #2563eb;
-  --container-background-error: rgb(255, 244, 244);
-  --main-bg-gray: #f6f6f6;
-  
-  /* New variables for consistent filter styling */
+  --superlight-gray: #f4f4f4;
+  --saturated-blue: #2563eb;
+  --superlight-red: rgb(255, 244, 244);
   --filter-unselected: #9ca3af;
-  --filter-selected: #2563eb;
   --filter-border: #e2e2e2;
   --filter-text: #374151;
   --filter-hover-bg: #f3f4f6;
@@ -16,7 +12,8 @@ body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Montserrat';
   width: 100vw;
   background-color: var(--main-bg-gray);
 }
+

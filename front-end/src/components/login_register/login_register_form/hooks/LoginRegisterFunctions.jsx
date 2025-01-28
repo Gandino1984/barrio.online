@@ -115,7 +115,9 @@ export const LoginRegisterFunctions = () => {
 
   const handleLoginResponse = async (response) => {
     try {
+      console.log('Login response:', response);
       if (!response.data) {
+        console.error('No response data received');
             setError(prevError => ({ ...prevError, databaseResponseError: "No se recibió respuesta del servidor en el login" }));
             throw new Error('Login - No se recibió respuesta del servidor en el login');
         }
@@ -126,6 +128,7 @@ export const LoginRegisterFunctions = () => {
         }
   
         const userData = response.data.data;
+        console.log('User data:', userData);
   
         console.log('-> handleLoginResponse() - userData = ', userData);
   
@@ -225,6 +228,8 @@ export const LoginRegisterFunctions = () => {
           name_user: cleanedUsername
         });
 
+        console.log('User details response:', userDetailsResponse);
+
         if (userDetailsResponse.data.error || !userDetailsResponse.data.data) {
           setError(prevError => ({ ...prevError, databaseResponseError: "Nombre de usuario o contraseña incorrectos" }));
           throw new Error(userDetailsResponse.data.error);
@@ -261,6 +266,10 @@ export const LoginRegisterFunctions = () => {
 
       } catch (err) {
         console.error('-> LoginRegisterFunctions.jsx - handleLogin() - Error = ', err);
+        setError(prevError => ({ 
+          ...prevError, 
+          databaseResponseError: "Error al iniciar sesión" 
+        }));
       }
     };
 

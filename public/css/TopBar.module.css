@@ -6,11 +6,10 @@
     padding: .7rem 2rem;
     position: fixed;
     top: 0;
-    /* margin-bottom: 2rem; */
     background-color: white;
 }
 
-.logoutButton, .backButton{
+/* .logoutButton, .backButton{
     position: relative;
     display: flex;
     align-items: center;
@@ -23,12 +22,12 @@
     border-radius: 6px;
     padding: .4rem;
     gap: .5rem;
-    background-color: var(--active-button);
+    background-color: var(--superlight-gray);
 }
 
 .logoutButton:hover, .backButton:hover{
     transition: all .15s ease;
     color: white;
     transform: scale(1.1);
-    background-color: var(--hovered-button);
-}
+    background-color: var(--saturated-blue);
+} */

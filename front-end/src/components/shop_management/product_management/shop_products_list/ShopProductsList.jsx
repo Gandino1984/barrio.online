@@ -239,7 +239,7 @@ const ShopProductList = () => {
                     <ProductImage id_product={product.id_product} />
                   </td>
                   <td className={styles.tableCell}>{product.name_product}</td>
-                  <td className={styles.tableCell}>${product.price_product}</td>
+                  <td className={styles.tableCell}>&euro;{product.price_product}</td>
                   <td className={styles.tableCell}>{product.stock_product}</td>
                   <td className={styles.tableCell}>
                     {product.discount_product > 0 ? `${product.discount_product}%` : '-'}

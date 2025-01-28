@@ -3,10 +3,21 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    /* margin: 0 auto; */
+    min-height: 100%;
+  }
+
+  .content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
     background-color: white;
-    padding: 1rem;
     border-radius: 6px;
-    margin: 0 auto;
+    margin-top: 3rem;
+    padding: 1rem 1rem;
+    
   }
   
   .header {
@@ -50,7 +61,7 @@
   }
   
   .shop:hover {
-    background-color: var(--active-button);
+    background-color: var(--superlight-gray);
   }
   
   .shopInfo {
@@ -74,7 +85,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--active-button);
+    background-color: var(--superlight-gray);
     gap: .5rem;
   }
   
@@ -83,7 +94,7 @@
     transition: all .15s ease;
     transform: scale(1.1);
     color: white;
-    background-color: var(--hovered-button);
+    background-color: var(--saturated-blue);
   }
   
   @media (max-width: 768px) {
