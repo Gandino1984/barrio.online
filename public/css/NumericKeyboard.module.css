@@ -20,9 +20,10 @@
     align-items: center;
     justify-content: center;
     min-height: 2rem;
-    height: 2rem;
+    height: 3rem;
     font-size: 7rem;
     gap: .5rem;
+    margin-bottom: .5rem;
     color: var(--saturated-blue);
     overflow: hidden;
 }
