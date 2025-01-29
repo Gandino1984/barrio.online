@@ -6,6 +6,8 @@
   min-height: 100vh;
   width: 100%;
   padding: 1rem 1rem;
+  transform-origin: center center;
+  will-change: transform, opacity;
 }
 
 .header {
@@ -40,6 +42,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   gap: 1.7rem;
 }
 
@@ -130,6 +133,14 @@
   opacity: 0.7;
 }
 
+@media screen and (min-width: 400px) {
+  .formActions {
+    justify-content: left;
+    gap: 1rem;
+  }
+
+}
+
 /* Medium Screen Breakpoint */
 @media screen and (min-width: 500px) {
   .container {
@@ -171,6 +182,12 @@
 @media screen and (min-width: 768px) {
   .container {
     justify-content: center;
+  }
+
+  .formActions {
+    justify-content: left;
+    /* margin-top: 1rem; */
+    gap: 1rem;
   }
 
   .formField {
@@ -221,8 +238,9 @@
   }
 
   .formActions {
-    margin-top: 1rem;
-    gap: 2rem;
+    justify-content: left;
+    /* margin-top: 1rem; */
+    gap: 1rem;
   }
 
   :global(.numericKeyboardContainer) {
@@ -237,6 +255,11 @@
     justify-content: space-between;
     gap: 4rem;
     padding: 2rem;
+  }
+
+  .formActions {
+    justify-content: left;
+    gap: 1rem;
   }
 
   .formFields {

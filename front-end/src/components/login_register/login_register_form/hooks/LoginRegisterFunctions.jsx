@@ -145,7 +145,7 @@ export const LoginRegisterFunctions = () => {
         const normalizedUserData = {
           id: userData.id_user, 
           name_user: userData.name_user,
-          password: password,
+          // password: password,
           type_user: userData.type_user,
           location: userData.location_user,
           image_user: userData.image_user
@@ -208,8 +208,8 @@ export const LoginRegisterFunctions = () => {
       const normalizedUserData = {
           id: userData.id_user,
           name_user: userData.name_user,
-          password: password,
-          type_user: type_user,
+          // password: password,
+          type_user: userData.type_user,
       };
 
       login(normalizedUserData);

@@ -6,6 +6,7 @@ import ClientManagement from "../../client_management/ClientManagement.jsx";
 import styles from '../../../../../public/css/LoginRegisterForm.module.css';
 import ShopManagement from "../../shop_management/ShopManagement.jsx";
 import { DoorOpen } from 'lucide-react';
+import { useSpring, animated } from '@react-spring/web';
 
 const LoginRegisterForm = () => {
   const {
@@ -24,6 +25,22 @@ const LoginRegisterForm = () => {
     handleUserTypeChange, handleUsernameChange, 
     handleUserLocationChange,
   } = LoginRegisterFunctions();
+
+  // Animation spring
+  const formAnimation = useSpring({
+    from: { 
+      opacity: 0,
+      scale: 0,
+    },
+    to: { 
+      opacity: 1,
+      scale: 1,
+    },
+    config: {
+      tension: 280,
+      friction: 20
+    }
+  });
   
   if (showShopManagement || currentUser) {
     if (type_user === 'seller') {
@@ -34,7 +51,7 @@ const LoginRegisterForm = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <animated.div style={formAnimation} className={styles.container}>
         <div className={styles.formContainer}>
             <div className={styles.formContentWrapper}>
                 {/* Main form content */}
@@ -113,6 +130,7 @@ const LoginRegisterForm = () => {
                 <DoorOpen size={16} />
                 {isLoggingIn ? 'Entrar' : 'Crear cuenta'}
               </button>
+
               <button 
                 type="button" 
                 className={styles.toggleButton} 
@@ -122,7 +140,7 @@ const LoginRegisterForm = () => {
               </button>
             </div>
         </div>
-    </div>
+    </animated.div>
   );
 };
 
