@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import axiosInstance from '../../../../../utils/axiosConfig';
 import AppContext from '../../../../app_context/AppContext';
+import  ProductCreationFormFunctions  from '../product_creation_form/ProductCreationFormFunctions.jsx';
 
 const ShopProductsListFunctions = () => {
   const { 
@@ -15,8 +16,12 @@ const ShopProductsListFunctions = () => {
     setModalMessage,
     setIsModalOpen,
     setSelectedProductForImageUpload,
-    products
+    products,
+    setShowProductManagement
   } = useContext(AppContext);
+
+
+  const { resetNewProductData } = ProductCreationFormFunctions();
 
   const filterProducts = (products, filters) => {
     if (!products || !filters) return products;
@@ -202,6 +207,33 @@ const ShopProductsListFunctions = () => {
     }
   };
 
+  const handleDeleteProduct = async (id_product) => {
+    console.log('Attempting to delete product:', id_product);
+    setProductToDelete(id_product);
+    setModalMessage('¿Estás seguro que deseas eliminar este producto?');
+    setIsModalOpen(true);
+    setIsAccepted(false);
+    setIsDeclined(false);
+  };
+
+  const handleBulkDelete = () => {
+    confirmBulkDelete();
+  };
+
+  const handleAddProduct = () => {
+    setShowProductManagement(false);
+  };
+
+  const handleUpdateProduct = (id_product) => {
+    const productToUpdate = products.find(p => p.id_product === id_product);
+    if (productToUpdate) {
+      resetNewProductData();
+      setSelectedProductToUpdate(productToUpdate);
+      setIsUpdatingProduct(true);
+      setShowProductManagement(true);
+    }
+  };
+
   return {
     filterProducts,
     fetchProductsByShop,
@@ -209,6 +241,10 @@ const ShopProductsListFunctions = () => {
     bulkDeleteProducts,
     confirmBulkDelete,
     handleSelectProduct,
+    handleDeleteProduct,
+    handleBulkDelete,
+    handleAddProduct,
+    handleUpdateProduct,
   };
 };
 

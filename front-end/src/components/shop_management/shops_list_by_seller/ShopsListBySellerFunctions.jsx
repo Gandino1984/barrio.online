@@ -26,8 +26,19 @@ export const ShopsListBySellerFunctions = () => {
     setShowProductManagement(false);
   };
 
+  const handleUpdateShop = (shop) => {
+    setSelectedShop(shop); // Set the selected shop to be updated
+    setShowShopCreationForm(true); // Show the ShopCreationForm for updating
+  };
+
   // Keep track of the shop to be deleted
   const [shopToDelete, setShopToDelete] = useState(null);
+
+  const handleDeleteShop = (id_shop) => {
+    setShopToDelete(id_shop);
+    setModalMessage("Esta acción eliminará permanentemente el comercio y todos los productos asociados a él. ¿Deseas continuar?");
+    setIsModalOpen(true);
+  };
 
   // Watch for modal confirmation
   useEffect(() => {
@@ -53,15 +64,11 @@ export const ShopsListBySellerFunctions = () => {
     deleteShop();
   }, [isAccepted, shopToDelete]);
 
-  const handleDeleteShop = (id_shop) => {
-    setShopToDelete(id_shop);
-    setModalMessage("Esta acción eliminará permanentemente el comercio y todos los productos asociados a él. ¿Deseas continuar?");
-    setIsModalOpen(true);
-  };
 
   return {
     handleSelectShop,
     handleDeleteShop,
-    handleAddShop
+    handleAddShop,
+    handleUpdateShop
   };
 };

@@ -75,30 +75,6 @@ export const LoginRegisterFunctions = () => {
       }
     };
 
-  //   const clearUserSession = () => {
-  //     logout();
-  //     setNameUser('');
-  //     setPassword('');
-  //     setPasswordRepeat('');
-  //     setDisplayedPassword('');
-  //     setShowPasswordLabel(true);
-  //     setKeyboardKey((prev) => prev + 1);
-  //     setIsLoggingIn(true);
-  //     setshowShopManagement(false);
-  //     setUserType('');
-  //     setShowPasswordRepeat(false);
-  //     setShowPasswordRepeat(false);
-  //     setShowRepeatPasswordMessage(false);
-  //     setError({
-  //       userError: '',
-  //       passwordError: '',
-  //       passwordRepeatError: '',
-  //       ipError: '',
-  //       userlocationError: '',
-  //       userTypeError: '',
-  //       databaseResponseError: ''
-  //     });
-  // };
 
   const toggleForm = () => {
     clearUserSession();
@@ -145,7 +121,7 @@ export const LoginRegisterFunctions = () => {
         const normalizedUserData = {
           id: userData.id_user, 
           name_user: userData.name_user,
-          password: password,
+          // password: password,
           type_user: userData.type_user,
           location: userData.location_user,
           image_user: userData.image_user
@@ -208,8 +184,8 @@ export const LoginRegisterFunctions = () => {
       const normalizedUserData = {
           id: userData.id_user,
           name_user: userData.name_user,
-          password: password,
-          type_user: type_user,
+          // password: password,
+          type_user: userData.type_user,
       };
 
       login(normalizedUserData);
@@ -366,21 +342,21 @@ export const LoginRegisterFunctions = () => {
       }
     };
 
-    const isButtonDisabled = () => {
-        const { isValid } = validateUsername(name_user);
+  const isButtonDisabled = () => {
+      const { isValid } = validateUsername(name_user);
 
-        if (!isValid) return true;
+      if (!isValid) return true;
 
-        if (isLoggingIn) {
-          return password.length !== 4;
-        } else {
-        // For registration, require a 4-digit password, matching password repeat, and a selected user type
-        return password.length !== 4 || 
-                passwordRepeat.length !== 4 || 
-                password !== passwordRepeat || 
-                type_user === '';
-        }
-    };
+      if (isLoggingIn) {
+        return password.length !== 4;
+      } else {
+      // For registration, require a 4-digit password, matching password repeat, and a selected user type
+      return password.length !== 4 || 
+              passwordRepeat.length !== 4 || 
+              password !== passwordRepeat || 
+              type_user === '';
+      }
+  };
 
     return {
         handlePasswordComplete,
@@ -392,6 +368,5 @@ export const LoginRegisterFunctions = () => {
         handleUserTypeChange,
         handleUsernameChange,
         handleUserLocationChange,
-        clearUserSession,
     };
 };

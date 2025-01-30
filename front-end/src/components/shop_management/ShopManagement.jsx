@@ -20,17 +20,23 @@ const ShopManagement = () => {
 
   useEffect(() => {
     fetchUserShops();
-    setShowShopCreationForm(false);
+    setShowShopCreationForm(false); // Reset the form visibility on initial load
   }, [currentUser]);
 
-
   const renderComponent = () => {
-    if (selectedShop) {  
-      return <ProductManagement />;
-    }
+    console.log('showShopCreationForm:', showShopCreationForm);
+    console.log('selectedShop:', selectedShop);
+    // Priority 1: Render ShopCreationForm if showShopCreationForm is true
     if (showShopCreationForm) {
       return <ShopCreationForm />;
     }
+
+    // Priority 2: Render ProductManagement if a shop is selected
+    if (selectedShop) {  
+      return <ProductManagement />;
+    }
+
+    // Priority 3: Default to rendering the list of shops
     return <ShopsListBySeller />;
   };
 

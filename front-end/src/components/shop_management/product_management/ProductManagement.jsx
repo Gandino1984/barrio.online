@@ -38,9 +38,9 @@ function ProductManagement() {
   return (
     <div className={styles.container}>
       {showProductManagement ? (
-        <ProductCreationForm />
-      ) : (
         <ShopProductList />
+      ) : (
+        <ProductCreationForm />
       )}
     </div>
   );

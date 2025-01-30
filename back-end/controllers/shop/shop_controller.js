@@ -70,7 +70,9 @@ async function getByType(shopType) {
 async function update(id, shopData) {
     try {
         const { name_shop, location_shop, type_shop } = shopData;
+
         const shop = await shop_model.findByPk(id);
+        
         if (!shop) {
             console.log("shop not found with id:", id);
             return { error: "shop not found" };
@@ -79,7 +81,9 @@ async function update(id, shopData) {
         if (name_shop) shop.name_shop = name_shop;
         if (location_shop) shop.location_shop = location_shop;
         if (type_shop) shop.type_shop = type_shop;
+
         await shop.save();
+        
         console.log("Updated shop:", shop);
         return { data: shop };
     } catch (err) {

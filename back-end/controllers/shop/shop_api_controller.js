@@ -106,12 +106,50 @@ async function create(req, res) {
   }
  }
 
-async function update(req, res) {
-    const {id_shop} = req.body;
+ async function update(req, res) {
+  try {
+      const {
+          id_shop,
+          name_shop,
+          location_shop,
+          type_shop,
+          subtype_shop,
+          id_user,
+          calification_shop,
+          image_shop
+      } = req.body;
 
-    const {error, data} = await shopController.update(id_shop, { name_shop, location_shop, type_shop, subtype_shop, id_user, calification_shop, image_shop});
-    
-    res.json({error, data});
+      // Validate required fields
+      if (!id_shop) {
+          return res.status(400).json({
+              error: 'El ID del comercio es obligatorio'
+          });
+      }
+
+      const updateData = {
+          name_shop,
+          location_shop,
+          type_shop,
+          subtype_shop,
+          id_user,
+          calification_shop,
+          image_shop
+      };
+
+      const {error, data} = await shopController.update(id_shop, updateData);
+      
+      if (error) {
+          return res.status(400).json({ error });
+      }
+
+      res.json({ error, data });
+  } catch (err) {
+      console.error("-> shop_api_controller.js - update() - Error =", err);
+      res.status(500).json({
+          error: "Error al actualizar el comercio",
+          details: err.message
+      });
+  }
 }
 
 async function removeById(req, res) {

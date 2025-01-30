@@ -1,33 +1,30 @@
-.container{
+/* TopBar.module.css */
+.container {
     width: 100vw;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: .7rem 2rem;
+    flex-direction: column;
     position: fixed;
     top: 0;
     background-color: white;
+    padding: .5rem 2rem;
+    margin-bottom: 1rem;
 }
 
-/* .logoutButton, .backButton{
-    position: relative;
+/* .container:hover {
+    padding: 1rem 2rem;
+    transition: all 0.3s ease;
+} */
+
+.errorWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.contentWrapper {
     display: flex;
     align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    font-size: .8rem;
-    min-width: max-content;
-    border-radius: 6px;
-    padding: .4rem;
-    gap: .5rem;
-    background-color: var(--superlight-gray);
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
 }
-
-.logoutButton:hover, .backButton:hover{
-    transition: all .15s ease;
-    color: white;
-    transform: scale(1.1);
-    background-color: var(--saturated-blue);
-} */

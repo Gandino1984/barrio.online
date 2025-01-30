@@ -7,26 +7,28 @@ import AppContext from '../../app_context/AppContext.js';
 import ErrorCard from './error_card/ErrorCard.jsx';
 import UserInfoCard from './user_info_card/UserInfoCard.jsx';
 
+// TopBar.jsx
 function TopBar() {
-    const {
-      error,
-      showShopCreationForm,
-      selectedShop,
-      showErrorCard,
-      setError
-    } = useContext(AppContext);
-    
-    const {
-      handleBack,
-      clearUserSession
-    } = TopBarFunctions();
+  const {
+    error,
+    showShopCreationForm,
+    selectedShop,
+    showErrorCard,
+    setError
+  } = useContext(AppContext);
+  
+  const {
+    handleBack,
+    clearUserSession
+  } = TopBarFunctions();
 
-    console.log('-> TopBar.jsx - selectedShop = ', selectedShop);
-
-    return (
-      <div className={styles.container}>
+  return (
+    <div className={styles.container}>
+        <div className={styles.errorWrapper}>
           {error && <ErrorCard />}
-          
+        </div>
+        
+        <div className={styles.contentWrapper}>
           {(selectedShop || showShopCreationForm) && (
             <button
               className={styles.backButton}
@@ -45,10 +47,10 @@ function TopBar() {
           >
               Cerrar
               <DoorClosed size={16}/>
-              
           </button>
-      </div>
-    )
+        </div>
+    </div>
+  )
 }
 
 export default TopBar;
