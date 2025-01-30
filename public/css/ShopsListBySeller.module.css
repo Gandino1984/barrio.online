@@ -85,10 +85,10 @@
 
 /* Define column widths */
 .tableHeaderCell:nth-child(1) { width: 15%; } /* Actions */
-.tableHeaderCell:nth-child(2) { width: 25%; } /* Name */
-.tableHeaderCell:nth-child(3) { width: 25%; } /* Location */
-.tableHeaderCell:nth-child(4) { width: 20%; } /* Type */
-.tableHeaderCell:nth-child(5) { width: 15%; } /* Rating */
+.tableHeaderCell:nth-child(2) { width: 30%; } /* Name */
+.tableHeaderCell:nth-child(3) { width: 30%; } /* Location */
+.tableHeaderCell:nth-child(4) { width: 15%; } /* Type */
+.tableHeaderCell:nth-child(5) { width: 10%; } /* Rating */
 
 .tableRow {
   border-top: 1px solid #f0f0f0;
