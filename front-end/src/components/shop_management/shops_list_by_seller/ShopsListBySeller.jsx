@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react';
+import { useSpring, animated } from '@react-spring/web';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from '../../../../../public/css/ShopsListBySeller.module.css';
 import { ShopsListBySellerFunctions } from './ShopsListBySellerFunctions.jsx';
-import { Box, Trash2, Edit } from 'lucide-react'; // Import the Edit icon
+import { Box, Trash2, Edit } from 'lucide-react';
 import ConfirmationModal from '../../confirmation_modal/ConfirmationModal.jsx';
 
 const ShopsListBySeller = () => {
@@ -20,6 +21,23 @@ const ShopsListBySeller = () => {
     handleAddShop
   } = ShopsListBySellerFunctions();
 
+  // Animation configuration
+  const springProps = useSpring({
+    from: { 
+      opacity: 0,
+      transform: 'translateY(50px)'
+    },
+    to: { 
+      opacity: 1,
+      transform: 'translateY(0px)'
+    },
+    config: {
+      mass: 1,
+      tension: 280,
+      friction: 20
+    }
+  });
+
   useEffect(() => {
     console.log('-> ShopsListBySeller.jsx - currentUser = ', currentUser);
     console.log('-> ShopsListBySeller.jsx - selectedShop = ', selectedShop);
@@ -30,27 +48,27 @@ const ShopsListBySeller = () => {
   }, [shops]);
 
   const handleUpdateShop = (shop) => {
-    setSelectedShop(shop); // Set the selected shop to be updated
-    setShowShopCreationForm(true); // Show the ShopCreationForm for updating
+    setSelectedShop(shop);
+    setShowShopCreationForm(true);
   };
 
   return (
-    <div className={styles.container}>
+    <animated.div style={springProps} className={styles.container}>
       <ConfirmationModal />
       <div className={styles.content}>
         <div className={styles.headerContainer}>
-            <div className={styles.header}>
-                <h1 className={styles.title}>
-                  Mis comercios
-                </h1>
-                <button 
-                  onClick={handleAddShop}
-                  className={styles.addButton}
-                >
-                    <span className={styles.buttonText}>Crear Nuevo</span>
-                    <Box size={16} />
-                </button>
-            </div>
+          <div className={styles.header}>
+            <h1 className={styles.title}>
+              Mis comercios
+            </h1>
+            <button 
+              onClick={handleAddShop}
+              className={styles.addButton}
+            >
+              <span className={styles.buttonText}>Crear Nuevo</span>
+              <Box size={16} />
+            </button>
+          </div>
         </div>
 
         {shops.length === 0 ? (
@@ -109,7 +127,7 @@ const ShopsListBySeller = () => {
           </div>
         )}
       </div>
-    </div>
+    </animated.div>
   );
 };
 
