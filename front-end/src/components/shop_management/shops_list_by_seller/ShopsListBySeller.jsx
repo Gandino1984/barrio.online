@@ -2,14 +2,16 @@ import React, { useContext, useEffect } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from '../../../../../public/css/ShopsListBySeller.module.css';
 import { ShopsListBySellerFunctions } from './ShopsListBySellerFunctions.jsx';
-import { Box, Trash2 } from 'lucide-react';
+import { Box, Trash2, Edit } from 'lucide-react'; // Import the Edit icon
 import ConfirmationModal from '../../confirmation_modal/ConfirmationModal.jsx';
 
 const ShopsListBySeller = () => {
   const { 
     shops, 
     selectedShop, 
-    currentUser
+    currentUser,
+    setShowShopCreationForm,
+    setSelectedShop
   } = useContext(AppContext);
 
   const { 
@@ -26,6 +28,11 @@ const ShopsListBySeller = () => {
   useEffect(() => {
     console.log('Shops state updated:', shops);
   }, [shops]);
+
+  const handleUpdateShop = (shop) => {
+    setSelectedShop(shop); // Set the selected shop to be updated
+    setShowShopCreationForm(true); // Show the ShopCreationForm for updating
+  };
 
   return (
     <div className={styles.container}>
@@ -55,11 +62,11 @@ const ShopsListBySeller = () => {
             <table className={styles.table}>
               <thead>
                 <tr className={styles.tableHeader}>
-                  <th className={styles.tableHeaderCell}>Acciones</th>
+                  <th className={styles.tableHeaderCell}></th>
                   <th className={styles.tableHeaderCell}>Nombre</th>
                   <th className={styles.tableHeaderCell}>Ubicación</th>
                   <th className={styles.tableHeaderCell}>Tipo</th>
-                  <th className={styles.tableHeaderCell}>Calificación</th>
+                  <th className={styles.tableHeaderCell}></th>
                 </tr>
               </thead>
               <tbody>
@@ -70,6 +77,16 @@ const ShopsListBySeller = () => {
                     onClick={() => handleSelectShop(shop)}
                   >
                     <td className={styles.actionsCell}>
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleUpdateShop(shop);
+                        }}
+                        className={styles.updateButton}
+                        title="Actualizar comercio"
+                      >
+                        <Edit size={16} />
+                      </button>
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();

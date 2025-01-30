@@ -16,7 +16,8 @@ const ShopProductsListFunctions = () => {
     setModalMessage,
     setIsModalOpen,
     setSelectedProductForImageUpload,
-    products
+    products,
+    setShowProductManagement
   } = useContext(AppContext);
 
 

@@ -1,20 +1,47 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import styles from '../../../../../public/css/ShopCreationForm.module.css';
 import { ShopCreationFormFunctions } from './ShopCreationFormFunctions.jsx';
-import { Plus, PackagePlus, Box } from 'lucide-react';
-
+import { Box } from 'lucide-react';
 
 const ShopCreationForm = () => {
   const { 
     newShop, 
     setNewShop,
     shopTypesAndSubtypes,
+    selectedShop,
+    setShowShopCreationForm
   } = useContext(AppContext);
 
   const {
-    handleAddShop
+    handleCreateShop,
+    handleUpdateShop
   } = ShopCreationFormFunctions();
+
+  // Initialize form with selected shop data when updating
+  useEffect(() => {
+    if (selectedShop) {
+      setNewShop({
+        name_shop: selectedShop.name_shop,
+        type_shop: selectedShop.type_shop,
+        subtype_shop: selectedShop.subtype_shop,
+        location_shop: selectedShop.location_shop,
+        id_user: selectedShop.id_user,
+        calification_shop: selectedShop.calification_shop,
+        image_shop: selectedShop.image_shop
+      });
+    }
+  }, [selectedShop, setNewShop]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (selectedShop) {
+      await handleUpdateShop(selectedShop.id_shop, newShop);
+    } else {
+      await handleCreateShop(newShop);
+    }
+  };
 
   // Get the list of shop types
   const shopTypes = Object.keys(shopTypesAndSubtypes);
@@ -25,13 +52,12 @@ const ShopCreationForm = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-
           <div className={styles.header}>   
               <h3 className={styles.headerTitle}>
-                  Crear un comercio
+                  {selectedShop ? 'Actualizar comercio' : 'Crear un comercio'}
               </h3>
           </div>
-          <form onSubmit={handleAddShop} className={styles.form}>
+          <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.formField}>
               <input
                 type="text"
@@ -43,16 +69,14 @@ const ShopCreationForm = () => {
               />
             </div>
             
-            {/* Shop Type Dropdown */}
             <div className={styles.formField}>
               <select
                 value={newShop.type_shop}
                 onChange={(e) => {
-                  // Reset subtype when type changes
                   setNewShop({
                     ...newShop, 
                     type_shop: e.target.value,
-                    subtype_shop: '' // Clear subtype
+                    subtype_shop: ''
                   })
                 }}
                 className={styles.input} 
@@ -65,7 +89,6 @@ const ShopCreationForm = () => {
               </select>
             </div>
 
-            {/* Subtype Dropdown - Only show if a type is selected */}
             {newShop.type_shop && (
               <div className={styles.formField}>
                 <select
@@ -92,13 +115,16 @@ const ShopCreationForm = () => {
                 required
               />
             </div>
-            <button 
-              type="submit" 
-              className={styles.createButton}
-            >
-              Crear
-              <Box size={17} />
-            </button>
+            
+            <div className={styles.buttonContainer}>
+              <button 
+                type="submit" 
+                className={styles.submitButton}
+              >
+                {selectedShop ? 'Actualizar' : 'Crear'}
+                <Box size={17} />
+              </button>
+            </div>
           </form>
       </div>
     </div>
