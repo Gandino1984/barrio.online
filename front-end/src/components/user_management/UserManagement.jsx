@@ -2,15 +2,15 @@ import React, { useContext, useEffect } from 'react';
 import AppContext from '../../app_context/AppContext.js';
 import ShopTypeButton from './ShopTypeButton.jsx';
 import ShopsByType from './shops_by_type/ShopsByType.jsx'; 
-import styles from '../../../../public/css/ClientManagement.module.css';
-import { ClientManagementFunctions } from './ClientManagementFunctions.jsx';
+import styles from '../../../../public/css/UserManagement.module.css';
+import { UserManagementFunctions } from './UserManagementFunctions.jsx';
 
-const ClientManagement = () => {
+const UserManagement = () => {
   const { 
     selectedShopType, shopTypes 
   } = useContext(AppContext);
 
-  const { handleBusinessTypeSelect, fetchShopTypes } = ClientManagementFunctions();
+  const { handleBusinessTypeSelect, fetchShopTypes } = UserManagementFunctions();
 
   // Fetch shop types when component mounts
   useEffect(() => {
@@ -44,4 +44,4 @@ const ClientManagement = () => {
   );
 };
 
-export default ClientManagement;
+export default UserManagement;

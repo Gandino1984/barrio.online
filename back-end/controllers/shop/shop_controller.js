@@ -1,6 +1,14 @@
 import shop_model from "../../models/shop_model.js";
 import user_model from "../../models/user_model.js";
 import productController from "../product/product_controller.js";
+import product_model from "../../models/product_model.js";
+import { Op } from 'sequelize';
+import path from 'path';
+import fs from 'fs/promises';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 async function getAll() {
     try {
@@ -89,6 +97,142 @@ async function update(id, shopData) {
     } catch (err) {
         console.error("Error al actualizar el comercio =", err);
         return { error: "Error al actualizar el comercio" };
+    }
+}
+
+async function updateProductImagePaths(oldShopName, newShopName, transaction) {
+    try {
+        const products = await product_model.findAll({
+            where: { 
+                image_product: {
+                    [Op.like]: `%/shops/${oldShopName}/%`
+                }
+            },
+            transaction
+        });
+
+        for (const product of products) {
+            const newImagePath = product.image_product.replace(
+                `/shops/${oldShopName}/`,
+                `/shops/${newShopName}/`
+            );
+            await product.update({ 
+                image_product: newImagePath 
+            }, { transaction });
+        }
+
+        return { success: true };
+    } catch (err) {
+        console.error("Error updating product image paths:", err);
+        throw err;
+    }
+}
+
+async function updateWithFolder(id, shopData) {
+    const transaction = await shop_model.sequelize.transaction();
+    
+    try {
+        const shop = await shop_model.findByPk(id, { transaction });
+        
+        if (!shop) {
+            await transaction.rollback();
+            return { error: "Shop not found" };
+        }
+
+        const oldShopName = shopData.old_name_shop;
+        const newShopName = shopData.name_shop;
+
+        // Remove old_name_shop from shopData before update
+        const updateData = { ...shopData };
+        delete updateData.old_name_shop;
+
+        // Update shop data
+        await shop.update(updateData, { transaction });
+
+        // If shop name has changed, update folder structure
+        if (oldShopName !== newShopName) {
+            try {
+                // Get absolute paths
+                const baseDir = path.resolve(__dirname, '..', '..', 'public', 'images', 'uploads', 'shops');
+                const oldShopPath = path.join(baseDir, oldShopName);
+                const newShopPath = path.join(baseDir, newShopName);
+
+                console.log('Directory paths:', {
+                    baseDir,
+                    oldShopPath,
+                    newShopPath
+                });
+
+                // First check if old directory exists
+                try {
+                    await fs.access(oldShopPath);
+                    console.log(`Found old shop directory: ${oldShopPath}`);
+                } catch (err) {
+                    console.error(`Old shop directory not found: ${oldShopPath}`);
+                    throw err;
+                }
+
+                // Create new shop directory if it doesn't exist
+                await fs.mkdir(newShopPath, { recursive: true });
+                console.log(`Created new shop directory: ${newShopPath}`);
+
+                // Copy all contents from old to new directory
+                const copyDirectory = async (source, destination) => {
+                    const entries = await fs.readdir(source, { withFileTypes: true });
+                    
+                    for (const entry of entries) {
+                        const srcPath = path.join(source, entry.name);
+                        const destPath = path.join(destination, entry.name);
+                        
+                        if (entry.isDirectory()) {
+                            await fs.mkdir(destPath, { recursive: true });
+                            await fs.chmod(destPath, 0o755);
+                            await copyDirectory(srcPath, destPath);
+                        } else {
+                            await fs.copyFile(srcPath, destPath);
+                            await fs.chmod(destPath, 0o644);
+                        }
+                    }
+                };
+
+                // Copy everything from old to new location
+                await copyDirectory(oldShopPath, newShopPath);
+                console.log('Finished copying all files and directories');
+
+                // Verify new directory exists before deleting old one
+                try {
+                    await fs.access(newShopPath);
+                    console.log('Successfully verified new directory exists');
+                    
+                    // Remove old directory
+                    await fs.rm(oldShopPath, { recursive: true });
+                    console.log(`Successfully removed old directory: ${oldShopPath}`);
+                } catch (err) {
+                    console.error('Error verifying new directory or removing old one:', err);
+                    throw err;
+                }
+
+                // Update product image paths in database
+                await updateProductImagePaths(oldShopName, newShopName, transaction);
+                console.log('Updated product image paths in database');
+            } catch (err) {
+                console.error('Error handling directories:', err);
+                throw err;
+            }
+        }
+
+        await transaction.commit();
+        return { 
+            data: shop,
+            message: "Shop updated successfully" 
+        };
+    } catch (err) {
+        await transaction.rollback();
+        console.error("Error updating shop with folder:", err);
+        return { 
+            error: "Error updating shop and associated data",
+            details: err.message 
+        };
     }
 }
 
@@ -201,6 +345,8 @@ async function getTypesOfShops() {
     }
 }
 
+
+
 export { getAll, 
     create, 
     update, 
@@ -208,13 +354,18 @@ export { getAll,
     removeByIdWithProducts,
     getByType, 
     getByUserId, 
-    getTypesOfShops }
+    getTypesOfShops,
+    updateWithFolder 
+}
 
-export default { getAll, 
+export default { 
+    getAll, 
     create, 
     update, 
     removeById,
     removeByIdWithProducts, 
     getByType, 
     getByUserId, 
-    getTypesOfShops }
+    getTypesOfShops,
+    updateWithFolder 
+}

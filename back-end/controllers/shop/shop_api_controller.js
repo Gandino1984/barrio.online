@@ -1,5 +1,11 @@
 import shopController from "./shop_controller.js";
 import productController from "../product/product_controller.js";
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 async function getAll(req, res) {
   try{
@@ -152,6 +158,57 @@ async function create(req, res) {
   }
 }
 
+async function updateWithFolder(req, res) {
+    try {
+        const {
+            id_shop,
+            name_shop,
+            location_shop,
+            type_shop,
+            subtype_shop,
+            id_user,
+            calification_shop,
+            image_shop,
+            old_name_shop
+        } = req.body;
+
+        if (!id_shop || !name_shop || !old_name_shop) {
+            return res.status(400).json({
+                error: 'Shop ID, new name, and old name are required'
+            });
+        }
+
+        const updateData = {
+            name_shop,
+            location_shop,
+            type_shop,
+            subtype_shop,
+            id_user,
+            calification_shop,
+            image_shop,
+            old_name_shop // Make sure to pass this through
+        };
+
+        const { error, data } = await shopController.updateWithFolder(id_shop, updateData);
+        
+        if (error) {
+            return res.status(400).json({ error });
+        }
+
+        res.json({ 
+            error: null, 
+            data,
+            message: 'Shop updated successfully with folder structure and image paths'
+        });
+    } catch (err) {
+        console.error("Error in updateWithFolder:", err);
+        res.status(500).json({
+            error: "Error updating shop and associated data",
+            details: err.message
+        });
+    }
+}
+
 async function removeById(req, res) {
     try {
       const  id_shop  = req.params.id_shop;
@@ -234,7 +291,8 @@ export {
     removeByIdWithProducts,
     getByType,
     getByUserId,
-    getTypesOfShops
+    getTypesOfShops,
+    updateWithFolder
 }
 
 export default {
@@ -246,5 +304,6 @@ export default {
     removeByIdWithProducts,
     getByType,
     getByUserId,
-    getTypesOfShops 
+    getTypesOfShops,
+    updateWithFolder
 }

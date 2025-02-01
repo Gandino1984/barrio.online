@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import AppContext from '../../app_context/AppContext.js';
 import axiosInstance from '../../../utils/axiosConfig.js';
 
-export const ClientManagementFunctions = () => {
+export const UserManagementFunctions = () => {
   const {
     setSelectedShopType,
     setShopType,
@@ -24,7 +24,7 @@ export const ClientManagementFunctions = () => {
       setShopTypes(response.data.data || []); // Adjust based on your actual response structure
       console.log('Shop types set:', response.data.data); // Log the updated shop types
     } catch (error) {
-      console.error('-> ClientManagementFunctions.jsx - fetchShopTypes() - Error = ', error);
+      console.error('-> UserManagementFunctions.jsx - fetchShopTypes() - Error = ', error);
       setShopTypes([]);
       setError('Error al obtener los tipos de comercio');
     }

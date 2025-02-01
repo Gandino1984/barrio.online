@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
 import { LoginRegisterFunctions } from './hooks/LoginRegisterFunctions.jsx';
 import NumericKeyboard from "../numeric_keyboard/NumericKeyboard.jsx";
-import ClientManagement from "../../client_management/ClientManagement.jsx";
+import UserManagement from "../../user_management/UserManagement.jsx";
 import styles from '../../../../../public/css/LoginRegisterForm.module.css';
 import ShopManagement from "../../shop_management/ShopManagement.jsx";
 import { DoorOpen } from 'lucide-react';
@@ -51,7 +51,7 @@ const LoginRegisterForm = () => {
     if (type_user === 'seller') {
       return <ShopManagement />;
     } else {
-      return <ClientManagement />;
+      return <UserManagement />;
     }
   }
 
@@ -70,7 +70,7 @@ const LoginRegisterForm = () => {
                     value={name_user}
                     onChange={handleUsernameChange}
                     className={usernameError ? styles.inputError : styles.nameInput}
-                    placeholder={type_user === 'seller' ? 'Nombre de vendedor:' : 'Nombre de cliente:'}
+                    placeholder={type_user === 'seller' ? 'Nombre de vendedor:' : 'Nombre de Usuaria:'}
                     required
                   />
                 </div>
@@ -84,7 +84,7 @@ const LoginRegisterForm = () => {
                         required
                       >
                         <option value="" disabled>Tipo de usuario</option>
-                        <option value="user">Cliente</option>
+                        <option value="user">Usuaria</option>
                         <option value="seller">Vendedor</option>
                         <option value="provider" disabled>Productor</option>
                       </select>
@@ -96,7 +96,7 @@ const LoginRegisterForm = () => {
                       value={location_user}
                       onChange={handleUserLocationChange}
                       className={userlocationError ? styles.inputError : ''}
-                      placeholder={type_user === 'seller' ? 'Dirección de vendedor:' : 'Dirección de cliente:'}
+                      placeholder={type_user === 'seller' ? 'Dirección de vendedor:' : 'Dirección de Usuaria:'}
                       required 
                     />
                   </div>

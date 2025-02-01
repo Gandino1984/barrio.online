@@ -23,4 +23,6 @@ router.delete("/remove-by-id/with-products/:id_shop", shopApiController.removeBy
 
 router.patch("/update", shopApiController.update);
 
+router.patch("/update-with-folder", shopApiController.updateWithFolder);
+
 export default router;

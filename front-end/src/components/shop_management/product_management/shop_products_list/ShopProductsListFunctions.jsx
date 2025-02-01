@@ -17,7 +17,11 @@ const ShopProductsListFunctions = () => {
     setIsModalOpen,
     setSelectedProductForImageUpload,
     products,
-    setShowProductManagement
+    setShowProductManagement,
+    setProductToDelete,
+    setSelectedProductToUpdate,
+    setIsAccepted,
+    setIsDeclined
   } = useContext(AppContext);
 
 

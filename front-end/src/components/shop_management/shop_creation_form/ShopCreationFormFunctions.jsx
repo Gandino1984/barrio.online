@@ -9,7 +9,8 @@ export const ShopCreationFormFunctions = () => {
     setError,
     setShowShopCreationForm,
     setSelectedShop,
-    setShowErrorCard
+    setShowErrorCard,
+    selectedShop
   } = useContext(AppContext);
 
   const handleCreateShop = async (formData) => {
@@ -39,6 +40,9 @@ export const ShopCreationFormFunctions = () => {
 
   const handleUpdateShop = async (id_shop, formData) => {
     try {
+      // Check if shop name has changed
+      const isNameChanged = selectedShop && selectedShop.name_shop !== formData.name_shop;
+
       // Ensure we're sending the correct data structure
       const updateData = {
         id_shop,
@@ -51,11 +55,16 @@ export const ShopCreationFormFunctions = () => {
         image_shop: formData.image_shop || ''
       };
 
+      // Add old_name_shop if name is being changed
+      if (isNameChanged) {
+        updateData.old_name_shop = selectedShop.name_shop;
+      }
+
       console.log('Sending update request with data:', updateData);
 
-      const response = await axiosInstance.patch('/shop/update', updateData);
-
-      console.log('Update response:', response);
+      // Use appropriate endpoint based on whether name is changing
+      const endpoint = isNameChanged ? '/shop/update-with-folder' : '/shop/update';
+      const response = await axiosInstance.patch(endpoint, updateData);
 
       if (response.data.error) {
         setError(prevError => ({ ...prevError, shopError: response.data.error }));
