@@ -1,10 +1,10 @@
 import React, { useEffect, useContext, useState } from 'react';
 import AppContext from '../../../../app_context/AppContext.js';
 // import styles from '../../../../../../public/css/';
-import ClientProductManagementFunctions from './ClientProductManagementFunctions.jsx';
+import UserProductManagementFunctions from './UserProductManagementFunctions.jsx';
 import FiltersForProducts from '../../../filters_for_products/FiltersForProducts.jsx';
 
-const ClientProductsList = () => {
+const UserProductsList = () => {
   const {
     products,
     error,
@@ -17,7 +17,7 @@ const ClientProductsList = () => {
     setFilterOptions
   } = useContext(AppContext);
 
-  const { filterProducts, fetchProductsByShop, fetchProductTypes } = ClientProductManagementFunctions();
+  const { filterProducts, fetchProductsByShop, fetchProductTypes } = UserProductManagementFunctions();
 
   const [filteredProductsCount, setFilteredProductsCount] = useState(0);
 
@@ -120,4 +120,4 @@ const ClientProductsList = () => {
   );
 };
 
-export default ClientProductsList;
+export default UserProductsList;

@@ -289,6 +289,7 @@ export const AppContextProvider = ({ children }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState(new Set());
   const [selectedProductToUpdate, setSelectedProductToUpdate] = useState(null);
+  const [productToDelete, setProductToDelete] = useState(null);
 
   const [filters, setFilters] = useState({
     temporada: '',
@@ -375,7 +376,8 @@ export const AppContextProvider = ({ children }) => {
     isImageModalOpen, setIsImageModalOpen,
     selectedProductForImageUpload, setSelectedProductForImageUpload,
     passwordIcons, setPasswordIcons,
-    clearUserSession
+    clearUserSession,
+    productToDelete, setProductToDelete
   };
 
   return (

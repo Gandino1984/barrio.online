@@ -156,7 +156,7 @@ export const LoginRegisterFunctions = () => {
                 setshowShopManagement(false);
             }
         }else {
-            // For other user types (client, provider), show business selector
+            // For other user types (user, provider), show business selector
             setshowShopManagement(true);
         }
     } catch (err) {
