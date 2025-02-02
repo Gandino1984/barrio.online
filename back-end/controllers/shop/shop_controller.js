@@ -117,6 +117,45 @@ async function updateProductImagePaths(oldShopName, newShopName, transaction) {
     }
 }
 
+async function removeShopFolders(shopName) {
+    try {
+        // Go up to the project root (three levels up from the controller)
+        const baseDir = path.resolve(__dirname, '..', '..', '..', 'public', 'images', 'uploads');
+        const shopImagesPath = path.join(baseDir, 'shops', shopName);
+        const productImagesPath = path.join(baseDir, 'products', shopName);
+
+        // Check and remove shop images directory
+        try {
+            await fs.access(shopImagesPath);
+            await fs.rm(shopImagesPath, { recursive: true, force: true });
+            console.log(`Removed shop images directory: ${shopImagesPath}`);
+        } catch (err) {
+            if (err.code !== 'ENOENT') {
+                throw err;
+            }
+            console.log(`Shop images directory does not exist: ${shopImagesPath}`);
+        }
+
+        // Check and remove product images directory
+        try {
+            await fs.access(productImagesPath);
+            await fs.rm(productImagesPath, { recursive: true, force: true });
+            console.log(`Removed product images directory: ${productImagesPath}`);
+        } catch (err) {
+            if (err.code !== 'ENOENT') {
+                throw err;
+            }
+            console.log(`Product images directory does not exist: ${productImagesPath}`);
+        }
+
+        return { success: true };
+    } catch (err) {
+        console.error("Error removing shop folders:", err);
+        throw err;
+    }
+}
+
+
 // **********
 
 async function getAll() {
@@ -386,6 +425,9 @@ async function removeByIdWithProducts(id_shop) {
                 return { error: productResult.error };
             }
 
+            // Remove the image folders before deleting the shop record
+            await removeShopFolders(shop.name_shop);
+
             // Then remove the shop
             await shop.destroy({ transaction });
 
@@ -394,7 +436,7 @@ async function removeByIdWithProducts(id_shop) {
 
             return { 
                 data: id_shop,
-                message: "El comercio y sus productos se han borrado correctamente",
+                message: "El comercio, sus productos y archivos se han borrado correctamente",
                 productsRemoved: productResult.count
             };
 
@@ -405,9 +447,10 @@ async function removeByIdWithProducts(id_shop) {
 
     } catch (err) {
         console.error("-> shop_controller.js - removeByIdWithProducts() - Error = ", err);
-        return { error: "Error al borrar el comercio y sus productos",
+        return { 
+            error: "Error al borrar el comercio y sus productos",
             details: err.message
-         };
+        };
     }
 }
 
