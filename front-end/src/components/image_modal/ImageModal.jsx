@@ -1,7 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ImageModal.module.css';
 
 const ImageModal = ({ isOpen, onClose, imageUrl, altText }) => {
+  // State for handling image transitions
+  const [currentImage, setCurrentImage] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+
+  // Update image when modal opens/closes or imageUrl changes
+  useEffect(() => {
+    if (isOpen && imageUrl) {
+      setIsLoading(true);
+      setHasError(false);
+      
+      // Create a new Image object to preload
+      const img = new Image();
+      img.onload = () => {
+        setCurrentImage(imageUrl);
+        setIsLoading(false);
+      };
+      img.onerror = () => {
+        setHasError(true);
+        setIsLoading(false);
+      };
+      img.src = imageUrl;
+    } else {
+      // Reset states when modal closes
+      setCurrentImage('');
+      setIsLoading(false);
+      setHasError(false);
+    }
+  }, [isOpen, imageUrl]);
+
   useEffect(() => {
     const handleEscapeKey = (event) => {
       if (event.key === 'Escape') {
@@ -11,13 +41,11 @@ const ImageModal = ({ isOpen, onClose, imageUrl, altText }) => {
 
     if (isOpen) {
       document.addEventListener('keydown', handleEscapeKey);
-      // Prevent scrolling when modal is open
       document.body.style.overflow = 'hidden';
     }
 
     return () => {
       document.removeEventListener('keydown', handleEscapeKey);
-      // Restore scrolling when modal is closed
       document.body.style.overflow = 'unset';
     };
   }, [isOpen, onClose]);
@@ -25,7 +53,7 @@ const ImageModal = ({ isOpen, onClose, imageUrl, altText }) => {
   if (!isOpen) return null;
 
   return (
-    <div
+    <div 
       className={styles.modalOverlay}
       onClick={onClose}
     >
@@ -36,14 +64,27 @@ const ImageModal = ({ isOpen, onClose, imageUrl, altText }) => {
         <button
           className={styles.closeButton}
           onClick={onClose}
+          aria-label="Close modal"
         >
           ✕
         </button>
-        <img
-          src={imageUrl}
-          alt={altText}
-          className={styles.modalImage}
-        />
+        {isLoading && (
+          <div className={styles.loadingSpinner}>
+            Loading...
+          </div>
+        )}
+        {hasError && (
+          <div className={styles.errorMessage}>
+            Failed to load image
+          </div>
+        )}
+        {!isLoading && !hasError && currentImage && (
+          <img
+            src={currentImage}
+            alt={altText || 'Modal image'}
+            className={styles.modalImage}
+          />
+        )}
       </div>
     </div>
   );

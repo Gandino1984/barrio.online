@@ -323,6 +323,9 @@ export const AppContextProvider = ({ children }) => {
       checkAndClearUserData();
     }, []);
 
+    const [selectedProductImage, setSelectedProductImage] = useState(null);
+    const [selectedImageForModal, setSelectedImageForModal] = useState(null);
+
   const value = {
     isLoggingIn, setIsLoggingIn,
     name_user, setNameUser,
@@ -377,7 +380,8 @@ export const AppContextProvider = ({ children }) => {
     selectedProductForImageUpload, setSelectedProductForImageUpload,
     passwordIcons, setPasswordIcons,
     clearUserSession,
-    productToDelete, setProductToDelete
+    productToDelete, setProductToDelete,
+    selectedImageForModal, setSelectedImageForModal
   };
 
   return (

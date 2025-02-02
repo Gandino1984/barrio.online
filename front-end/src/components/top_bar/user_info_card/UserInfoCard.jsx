@@ -11,7 +11,8 @@ const UserInfoCard = () => {
     currentUser,
     uploading,
     setError, 
-    isImageModalOpen, setIsImageModalOpen 
+    isImageModalOpen, setIsImageModalOpen,
+    selectedImageForModal 
   } = useContext(AppContext);
 
   const {
@@ -53,6 +54,8 @@ const UserInfoCard = () => {
 
   const handleImageDoubleClick = () => {
     if (currentUser?.image_user) {
+      const imageUrl = getImageUrl(currentUser.image_user);
+      setSelectedImageForModal(imageUrl);
       setIsImageModalOpen(true);
     }
   };
@@ -121,9 +124,12 @@ const UserInfoCard = () => {
             </div>
             <ImageModal
               isOpen={isImageModalOpen}
-              onClose={() => setIsImageModalOpen(false)}
-              imageUrl={getImageUrl(currentUser.image_user)}
-              altText={`Full size image of ${currentUser.name_user}`}
+              onClose={() => {
+                setIsImageModalOpen(false);
+                setSelectedImageForModal(null); // Clear the image when closing
+              }}
+              imageUrl={selectedImageForModal}
+              altText={`Full size image of ${currentUser?.name_user}`}
             />
             <input
               type="file"

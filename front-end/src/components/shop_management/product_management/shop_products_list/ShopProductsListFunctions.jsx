@@ -21,7 +21,10 @@ const ShopProductsListFunctions = () => {
     setProductToDelete,
     setSelectedProductToUpdate,
     setIsAccepted,
-    setIsDeclined
+    setIsDeclined,
+    setIsImageModalOpen,
+    productToDelete,
+    selectedImageForModal, setSelectedImageForModal
   } = useContext(AppContext);
 
 
@@ -238,6 +241,28 @@ const ShopProductsListFunctions = () => {
     }
   };
 
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) {
+      console.error('-> ShopProductsListFunctions - getImageUrl() - No se ha proporcionado una ruta de imagen');
+      return null;
+    }
+        
+    const cleanPath = imagePath.replace(/^\/+/, '');
+    const baseUrl = axiosInstance.defaults.baseURL || '';
+    const imageUrl = `${baseUrl}/${cleanPath}`.replace(/([^:]\/)(\/)+/g, "$1");
+    
+    return imageUrl;
+  };
+
+  const handleProductImageDoubleClick = (product) => {
+    if (product?.image_product) {
+      const imageUrl = getImageUrl(product.image_product);
+      // Set both the selected image and open the modal
+      setSelectedImageForModal(imageUrl);
+      setIsImageModalOpen(true);
+    }
+  };
+
   return {
     filterProducts,
     fetchProductsByShop,
@@ -249,6 +274,8 @@ const ShopProductsListFunctions = () => {
     handleBulkDelete,
     handleAddProduct,
     handleUpdateProduct,
+    getImageUrl,
+    handleProductImageDoubleClick
   };
 };
 

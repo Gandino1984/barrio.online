@@ -8,6 +8,7 @@ import ProductCreationFormFunctions from '../product_creation_form/ProductCreati
 import ConfirmationModal from '../../../confirmation_modal/ConfirmationModal.jsx';
 import { ProductImageFunctions } from '../product_image/ProductImageFunctions.jsx';
 import ProductImage from '../product_image/ProductImage.jsx';
+import ImageModal from '../../../image_modal/ImageModal.jsx';
 
 const ShopProductList = () => {
   const {
@@ -30,10 +31,15 @@ const ShopProductList = () => {
     clearError,
     setError,
     setProducts,
+    isImageModalOpen,
+    setIsImageModalOpen,
+    productToDelete, setProductToDelete,
+    selectedImageForModal, setSelectedImageForModal
     
   } = useContext(AppContext);
 
-  const [productToDelete, setProductToDelete] = useState(null);
+
+
 
 
   const {
@@ -47,6 +53,8 @@ const ShopProductList = () => {
     handleBulkDelete,
     handleAddProduct,
     handleUpdateProduct,
+    getImageUrl,
+    handleProductImageDoubleClick,
   } = ShopProductListFunctions();
 
   // Fetch products when shop changes
@@ -112,6 +120,16 @@ const ShopProductList = () => {
   return (
     <div className={styles.container}>
         <ConfirmationModal />
+
+        <ImageModal
+        isOpen={isImageModalOpen}
+        onClose={() => {
+          setIsImageModalOpen(false);
+          setSelectedImageForModal(null); // Clear the image when closing
+        }}
+        imageUrl={selectedImageForModal}
+        altText="Product full size image"
+      />
 
         {selectedShop && (
           <div className={styles.shopInfo}>
@@ -213,7 +231,11 @@ const ShopProductList = () => {
                         <CheckCircle size={18} />
                       </button>
                     </td>
-                    <td className={styles.tableCell}>
+                    <td className={styles.tableCell}
+                        onDoubleClick={() => {
+                          handleProductImageDoubleClick(product);
+                        }}
+                    >
                       <ProductImage id_product={product.id_product} />
                     </td>
                     <td className={styles.tableCell}>{product.name_product}</td>
