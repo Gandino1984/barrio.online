@@ -8,6 +8,7 @@
     background-color: white;
     padding: .5rem 2rem;
     margin-bottom: 1rem;
+    z-index: 9999999999999999;
 }
 
 /* .container:hover {

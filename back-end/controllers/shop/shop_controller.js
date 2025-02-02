@@ -10,6 +10,115 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+async function copyDirectory(src, dest) {
+    // Create destination directory
+    await fs.mkdir(dest, { recursive: true });
+    
+    // Read source directory
+    const entries = await fs.readdir(src, { withFileTypes: true });
+    
+    for (const entry of entries) {
+        const srcPath = path.join(src, entry.name);
+        const destPath = path.join(dest, entry.name);
+        
+        if (entry.isDirectory()) {
+            // Recursively copy directories
+            await copyDirectory(srcPath, destPath);
+        } else {
+            // Copy files
+            await fs.copyFile(srcPath, destPath);
+            // Set proper file permissions
+            await fs.chmod(destPath, 0o644);
+        }
+    }
+    
+    // Set proper directory permissions
+    await fs.chmod(dest, 0o755);
+}
+
+async function removeDirectory(dir) {
+    const entries = await fs.readdir(dir, { withFileTypes: true });
+    
+    for (const entry of entries) {
+        const fullPath = path.join(dir, entry.name);
+        if (entry.isDirectory()) {
+            await removeDirectory(fullPath);
+        } else {
+            await fs.unlink(fullPath);
+        }
+    }
+    
+    await fs.rmdir(dir);
+}
+
+async function handleDirectoryRename(oldPath, newPath) {
+    try {
+        console.log(`Attempting to rename directory from ${oldPath} to ${newPath}`);
+        
+        // Check if old directory exists
+        const oldDirExists = await fs.access(oldPath)
+            .then(() => true)
+            .catch(() => false);
+            
+        if (!oldDirExists) {
+            console.warn(`Old directory not found: ${oldPath}`);
+            return;
+        }
+
+        // Create parent directories if they don't exist
+        await fs.mkdir(path.dirname(newPath), { recursive: true });
+
+        try {
+            // Try direct rename first
+            await fs.rename(oldPath, newPath);
+            console.log('Direct rename successful');
+        } catch (renameErr) {
+            console.log('Direct rename failed, falling back to copy and delete:', renameErr);
+            
+            // Copy directory contents
+            await copyDirectory(oldPath, newPath);
+            
+            // Remove old directory after successful copy
+            await removeDirectory(oldPath);
+            
+            console.log('Copy and delete completed successfully');
+        }
+    } catch (err) {
+        console.error('File system operation failed:', err);
+        throw new Error(`Failed to update directory structure: ${err.message}`);
+    }
+}
+
+async function updateProductImagePaths(oldShopName, newShopName, transaction) {
+    try {
+        const products = await product_model.findAll({
+            where: { 
+                image_product: {
+                    [Op.like]: `%/shops/${oldShopName}/%`
+                }
+            },
+            transaction
+        });
+
+        for (const product of products) {
+            const newImagePath = product.image_product.replace(
+                `/shops/${oldShopName}/`,
+                `/shops/${newShopName}/`
+            );
+            await product.update({ 
+                image_product: newImagePath 
+            }, { transaction });
+        }
+
+        return { success: true };
+    } catch (err) {
+        console.error("Error updating product image paths:", err);
+        throw err;
+    }
+}
+
+// **********
+
 async function getAll() {
     try {
         const shops = await shop_model.findAll();
@@ -100,38 +209,12 @@ async function update(id, shopData) {
     }
 }
 
-async function updateProductImagePaths(oldShopName, newShopName, transaction) {
-    try {
-        const products = await product_model.findAll({
-            where: { 
-                image_product: {
-                    [Op.like]: `%/shops/${oldShopName}/%`
-                }
-            },
-            transaction
-        });
-
-        for (const product of products) {
-            const newImagePath = product.image_product.replace(
-                `/shops/${oldShopName}/`,
-                `/shops/${newShopName}/`
-            );
-            await product.update({ 
-                image_product: newImagePath 
-            }, { transaction });
-        }
-
-        return { success: true };
-    } catch (err) {
-        console.error("Error updating product image paths:", err);
-        throw err;
-    }
-}
-
 async function updateWithFolder(id, shopData) {
     const transaction = await shop_model.sequelize.transaction();
     
     try {
+        console.log('Starting updateWithFolder operation:', { id, shopData });
+        
         const shop = await shop_model.findByPk(id, { transaction });
         
         if (!shop) {
@@ -141,21 +224,28 @@ async function updateWithFolder(id, shopData) {
 
         const oldShopName = shopData.old_name_shop;
         const newShopName = shopData.name_shop;
+        
+        console.log('Shop names:', { oldShopName, newShopName });
 
-        // Remove old_name_shop from shopData before update
-        const updateData = { ...shopData };
-        delete updateData.old_name_shop;
-
-        // Update shop data
-        await shop.update(updateData, { transaction });
-
-        // If shop name has changed, update folder structure
         if (oldShopName !== newShopName) {
             try {
-                // Get absolute paths
-                const baseDir = path.resolve(__dirname, '..', '..', 'public', 'images', 'uploads', 'shops');
-                const oldShopPath = path.join(baseDir, oldShopName);
-                const newShopPath = path.join(baseDir, newShopName);
+                // First update product image paths in database
+                console.log('Updating product image paths in database...');
+                await updateProductImagePaths(oldShopName, newShopName, transaction);
+                
+                // Then update shop data
+                console.log('Updating shop data...');
+                const updateData = { ...shopData };
+                delete updateData.old_name_shop;
+                await shop.update(updateData, { transaction });
+
+                // Handle the physical folder rename
+                // Changed path to go up one more level to reach the correct public directory
+                const baseDir = path.resolve(__dirname, '..', '..', '..', 'public');
+                
+                // Construct paths exactly matching your structure
+                const oldShopPath = path.join(baseDir, 'images', 'uploads', 'shops', oldShopName);
+                const newShopPath = path.join(baseDir, 'images', 'uploads', 'shops', newShopName);
 
                 console.log('Directory paths:', {
                     baseDir,
@@ -163,71 +253,60 @@ async function updateWithFolder(id, shopData) {
                     newShopPath
                 });
 
-                // First check if old directory exists
-                try {
-                    await fs.access(oldShopPath);
-                    console.log(`Found old shop directory: ${oldShopPath}`);
-                } catch (err) {
-                    console.error(`Old shop directory not found: ${oldShopPath}`);
-                    throw err;
-                }
+                // Ensure the old path exists before attempting rename
+                const oldPathExists = await fs.access(oldShopPath)
+                    .then(() => true)
+                    .catch(() => false);
 
-                // Create new shop directory if it doesn't exist
-                await fs.mkdir(newShopPath, { recursive: true });
-                console.log(`Created new shop directory: ${newShopPath}`);
-
-                // Copy all contents from old to new directory
-                const copyDirectory = async (source, destination) => {
-                    const entries = await fs.readdir(source, { withFileTypes: true });
-                    
-                    for (const entry of entries) {
-                        const srcPath = path.join(source, entry.name);
-                        const destPath = path.join(destination, entry.name);
+                if (oldPathExists) {
+                    try {
+                        // Try direct rename first
+                        await fs.rename(oldShopPath, newShopPath);
+                        console.log('Directory renamed successfully');
+                    } catch (renameErr) {
+                        console.log('Direct rename failed, falling back to copy and delete:', renameErr);
                         
-                        if (entry.isDirectory()) {
-                            await fs.mkdir(destPath, { recursive: true });
-                            await fs.chmod(destPath, 0o755);
-                            await copyDirectory(srcPath, destPath);
-                        } else {
-                            await fs.copyFile(srcPath, destPath);
-                            await fs.chmod(destPath, 0o644);
-                        }
+                        // Create new directory structure
+                        await fs.mkdir(newShopPath, { recursive: true });
+                        
+                        // Copy all contents
+                        await copyDirectory(oldShopPath, newShopPath);
+                        
+                        // Remove old directory after successful copy
+                        await removeDirectory(oldShopPath);
+                        
+                        console.log('Copy and delete completed successfully');
                     }
-                };
-
-                // Copy everything from old to new location
-                await copyDirectory(oldShopPath, newShopPath);
-                console.log('Finished copying all files and directories');
-
-                // Verify new directory exists before deleting old one
-                try {
-                    await fs.access(newShopPath);
-                    console.log('Successfully verified new directory exists');
-                    
-                    // Remove old directory
-                    await fs.rm(oldShopPath, { recursive: true });
-                    console.log(`Successfully removed old directory: ${oldShopPath}`);
-                } catch (err) {
-                    console.error('Error verifying new directory or removing old one:', err);
-                    throw err;
+                } else {
+                    console.warn(`Old shop directory does not exist: ${oldShopPath}`);
+                    // Create new directory structure if old one doesn't exist
+                    await fs.mkdir(newShopPath, { recursive: true });
                 }
 
-                // Update product image paths in database
-                await updateProductImagePaths(oldShopName, newShopName, transaction);
-                console.log('Updated product image paths in database');
             } catch (err) {
-                console.error('Error handling directories:', err);
+                console.error('Error during update process:', err);
+                await transaction.rollback();
                 throw err;
             }
+        } else {
+            console.log('Shop name unchanged, updating other fields only');
+            const updateData = { ...shopData };
+            delete updateData.old_name_shop;
+            await shop.update(updateData, { transaction });
         }
 
         await transaction.commit();
+        console.log('Transaction committed successfully');
+        
         return { 
             data: shop,
-            message: "Shop updated successfully" 
+            message: "Shop updated successfully with folder structure and image paths" 
         };
     } catch (err) {
-        await transaction.rollback();
+        if (transaction) {
+            await transaction.rollback();
+            console.log('Transaction rolled back due to error');
+        }
         console.error("Error updating shop with folder:", err);
         return { 
             error: "Error updating shop and associated data",
@@ -345,9 +424,8 @@ async function getTypesOfShops() {
     }
 }
 
-
-
-export { getAll, 
+export { 
+    getAll, 
     create, 
     update, 
     removeById, 
