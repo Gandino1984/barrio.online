@@ -11,6 +11,18 @@
         {
             "path": "uribarri.online/public/",
             "color": "foldercustomization.AnsiColor118"
+        },
+        {
+            "path": "barrio.online/front-end/",
+            "color": "foldercustomization.AnsiColor208"
+        },
+        {
+            "path": "barrio.online/back-end/",
+            "color": "foldercustomization.AnsiColor39"
+        },
+        {
+            "path": "barrio.online/public/",
+            "color": "foldercustomization.AnsiColor118"
         }
     ]
 }

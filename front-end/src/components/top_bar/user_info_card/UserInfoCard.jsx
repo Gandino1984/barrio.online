@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Camera, Loader } from 'lucide-react';
 import AppContext from '../../../app_context/AppContext.js';
-import UserImageModal from './user_image_modal/UserImageModal';
+import ImageModal from '../../image_modal/ImageModal.jsx';
+// import UserImageModal from './user_image_modal/UserImageModal';
 import styles from '../../../../../public/css/UserInfoCard.module.css';
 import { UserInfoCardFunctions } from './UserInfoCardFunctions.jsx';
 
@@ -118,7 +119,7 @@ const UserInfoCard = () => {
                 </label>
               )}
             </div>
-            <UserImageModal
+            <ImageModal
               isOpen={isImageModalOpen}
               onClose={() => setIsImageModalOpen(false)}
               imageUrl={getImageUrl(currentUser.image_user)}

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import styles from './UserImageModal.module.css';
+import styles from './ImageModal.module.css';
 
-const UserImageModal = ({ isOpen, onClose, imageUrl, altText }) => {
+const ImageModal = ({ isOpen, onClose, imageUrl, altText }) => {
   useEffect(() => {
     const handleEscapeKey = (event) => {
       if (event.key === 'Escape') {
@@ -49,4 +49,4 @@ const UserImageModal = ({ isOpen, onClose, imageUrl, altText }) => {
   );
 };
 
-export default UserImageModal;
+export default ImageModal;
