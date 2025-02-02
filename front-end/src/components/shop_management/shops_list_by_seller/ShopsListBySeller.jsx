@@ -58,16 +58,17 @@ const ShopsListBySeller = () => {
       <div className={styles.content}>
         <div className={styles.headerContainer}>
           <div className={styles.header}>
-            <h1 className={styles.title}>
-              Mis comercios
-            </h1>
-            <button 
-              onClick={handleAddShop}
-              className={styles.addButton}
-            >
-              <span className={styles.buttonText}>Crear Nuevo</span>
-              <Box size={16} />
-            </button>
+              <h1 className={styles.title}>
+                Mis comercios
+              </h1>
+              
+              <button 
+                onClick={handleAddShop}
+                className={styles.addButton}
+              >
+                <span className={styles.buttonText}>Crear Nuevo</span>
+                <Box size={16} />
+              </button>
           </div>
         </div>
 

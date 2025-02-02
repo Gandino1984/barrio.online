@@ -60,7 +60,6 @@ const LoginRegisterForm = () => {
       <animated.div style={style} className={styles.container}>
         <div className={styles.formContainer}>
           <div className={styles.formContentWrapper}>
-            {/* Rest of your form content remains the same */}
             <form className={styles.formContent} onSubmit={handleFormSubmit}>
               <div className={styles.inputSection}>
                 <div className={styles.formField}>
@@ -73,34 +72,34 @@ const LoginRegisterForm = () => {
                     placeholder={type_user === 'seller' ? 'Nombre de vendedor:' : 'Nombre de Usuaria:'}
                     required
                   />
+
+                  {!isLoggingIn && (
+                      <>
+                        <select 
+                          value={type_user} 
+                          onChange={handleUserTypeChange}
+                          required
+                        >
+                          <option value="" disabled>Tipo de usuaria</option>
+                          <option value="user">Usuaria</option>
+                          <option value="seller">Vendedora</option>
+                          <option value="provider" disabled>Productora</option>
+                        </select>
+                      
+                    
+                      <input
+                        id="location_user"
+                        type="text"
+                        value={location_user}
+                        onChange={handleUserLocationChange}
+                        className={userlocationError ? styles.inputError : ''}
+                        placeholder={type_user === 'seller' ? 'Dirección de vendedor:' : 'Dirección de Usuaria:'}
+                        required 
+                      />
+                    </>
+                  )}
                 </div>
                 
-                {!isLoggingIn && (
-                  <div className={styles.formField}>
-                    <div className={styles.radioOptions}>
-                      <select 
-                        value={type_user} 
-                        onChange={handleUserTypeChange}
-                        required
-                      >
-                        <option value="" disabled>Tipo de usuario</option>
-                        <option value="user">Usuaria</option>
-                        <option value="seller">Vendedor</option>
-                        <option value="provider" disabled>Productor</option>
-                      </select>
-                    </div>
-                  
-                    <input
-                      id="location_user"
-                      type="text"
-                      value={location_user}
-                      onChange={handleUserLocationChange}
-                      className={userlocationError ? styles.inputError : ''}
-                      placeholder={type_user === 'seller' ? 'Dirección de vendedor:' : 'Dirección de Usuaria:'}
-                      required 
-                    />
-                  </div>
-                )}
               </div>
 
               <div className={styles.keyboardSection}>
