@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styles from './ImageModal.module.css';
 
 const ImageModal = ({ isOpen, onClose, imageUrl, altText }) => {
-  // State for handling image transitions
   const [currentImage, setCurrentImage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -25,11 +24,20 @@ const ImageModal = ({ isOpen, onClose, imageUrl, altText }) => {
       };
       img.src = imageUrl;
     } else {
-      // Reset states when modal closes
+      // Clear all states when modal closes
       setCurrentImage('');
       setIsLoading(false);
       setHasError(false);
     }
+
+    // Cleanup function to reset states when component unmounts or updates
+    return () => {
+      if (!isOpen) {
+        setCurrentImage('');
+        setIsLoading(false);
+        setHasError(false);
+      }
+    };
   }, [isOpen, imageUrl]);
 
   useEffect(() => {

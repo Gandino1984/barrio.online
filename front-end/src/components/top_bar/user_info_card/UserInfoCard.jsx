@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Camera, Loader } from 'lucide-react';
 import AppContext from '../../../app_context/AppContext.js';
 import ImageModal from '../../image_modal/ImageModal.jsx';
-// import UserImageModal from './user_image_modal/UserImageModal';
 import styles from '../../../../../public/css/UserInfoCard.module.css';
 import { UserInfoCardFunctions } from './UserInfoCardFunctions.jsx';
 
@@ -10,9 +9,7 @@ const UserInfoCard = () => {
   const { 
     currentUser,
     uploading,
-    setError, 
-    isImageModalOpen, setIsImageModalOpen,
-    selectedImageForModal 
+    setError
   } = useContext(AppContext);
 
   const {
@@ -21,12 +18,12 @@ const UserInfoCard = () => {
   } = UserInfoCardFunctions();
 
   const [showUploadButton, setShowUploadButton] = useState(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [modalImageUrl, setModalImageUrl] = useState(null);
   const fileInputRef = useRef(null);
 
-  // State to track screen size
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
 
-  // Effect to update screen size state on window resize
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 768);
@@ -55,9 +52,16 @@ const UserInfoCard = () => {
   const handleImageDoubleClick = () => {
     if (currentUser?.image_user) {
       const imageUrl = getImageUrl(currentUser.image_user);
-      setSelectedImageForModal(imageUrl);
-      setIsImageModalOpen(true);
+      if (imageUrl) {
+        setModalImageUrl(imageUrl);
+        setIsImageModalOpen(true);
+      }
     }
+  };
+
+  const handleModalClose = () => {
+    setIsImageModalOpen(false);
+    setModalImageUrl(null);
   };
 
   const handleUploadButtonClick = (e) => {
@@ -68,7 +72,6 @@ const UserInfoCard = () => {
     setShowUploadButton(false);
   };
 
-  // Determine the welcome message based on screen size and user login status
   const welcomeMessage = isSmallScreen
     ? currentUser
       ? `${currentUser.name_user}`
@@ -124,11 +127,8 @@ const UserInfoCard = () => {
             </div>
             <ImageModal
               isOpen={isImageModalOpen}
-              onClose={() => {
-                setIsImageModalOpen(false);
-                setSelectedImageForModal(null); // Clear the image when closing
-              }}
-              imageUrl={selectedImageForModal}
+              onClose={handleModalClose}
+              imageUrl={modalImageUrl}
               altText={`Full size image of ${currentUser?.name_user}`}
             />
             <input
