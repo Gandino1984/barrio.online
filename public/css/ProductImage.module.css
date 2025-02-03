@@ -14,12 +14,13 @@
     display: block; /* Remove extra space below the image */
     object-fit: cover; /* Ensure the image covers the container without distortion */
     border-radius: 8px; /* Match the container's border radius */
+    transition: all 0.2s ease; /* Add a smooth transition effect */
   }
   
   /* Optional: Add a hover effect */
   .productImage:hover {
-    transform: scale(1.05); /* Slightly enlarge the image on hover */
-    transition: transform 0.3s ease; /* Smooth transition */
+    border: 3px solid var(--saturated-blue);
+    /* outline: 2px solid var(--saturated-blue); */
   }
   
   /* Optional: Add a loading spinner or placeholder */

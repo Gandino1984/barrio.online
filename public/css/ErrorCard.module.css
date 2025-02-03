@@ -2,15 +2,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Cambiamos la posición absoluta por relative */
     position: absolute;
-    /* Eliminamos top ya que no lo necesitamos con position relative */
     padding: .3rem .5rem;
     gap: .2rem; 
     background-color: var(--superlight-red);
     border-radius: 6px;
-    /* El z-index ya no es necesario con position relative */
-    /* margin: auto auto; */
+    border: 2px solid red;
  }
 
 .errorList{

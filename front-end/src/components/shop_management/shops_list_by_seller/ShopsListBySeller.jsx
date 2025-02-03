@@ -65,6 +65,7 @@ const ShopsListBySeller = () => {
               <button 
                 onClick={handleAddShop}
                 className={styles.addButton}
+                title="Crear nuevo comercio"
               >
                 <span className={styles.buttonText}>Crear Nuevo</span>
                 <Box size={16} />

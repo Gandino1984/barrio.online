@@ -9,6 +9,7 @@ import ConfirmationModal from '../../../confirmation_modal/ConfirmationModal.jsx
 import { ProductImageFunctions } from '../product_image/ProductImageFunctions.jsx';
 import ProductImage from '../product_image/ProductImage.jsx';
 import ImageModal from '../../../image_modal/ImageModal.jsx';
+import { useSpring, animated, config } from '@react-spring/web';
 
 const ShopProductList = () => {
   const {
@@ -17,20 +18,12 @@ const ShopProductList = () => {
     selectedShop,
     filters,
     filteredProducts, setFilteredProducts,
-    setShowProductManagement,
-    selectedProducts, setSelectedProducts,
-    setSelectedProductToUpdate,
-    setIsUpdatingProduct,
-    setNewProductData,
-    setModalMessage,
-    setIsModalOpen,
+    selectedProducts,
     isAccepted,
     setIsAccepted,
     isDeclined,
     setIsDeclined,
     clearError,
-    setError,
-    setProducts,
     isImageModalOpen,
     setIsImageModalOpen,
     productToDelete, setProductToDelete,
@@ -38,8 +31,26 @@ const ShopProductList = () => {
     
   } = useContext(AppContext);
 
+  const [contentVisible, setContentVisible] = useState(false);
 
+  // Animation for shop info section
+  const shopInfoAnimation = useSpring({
+    from: { transform: 'translateY(50px)', opacity: 0 },
+    to: { transform: 'translateY(0px)', opacity: 1 },
+    config: config.gentle,
+    delay: 100
+  });
 
+  // Animation for main content (listHeader, filters, and table)
+  const mainContentAnimation = useSpring({
+    from: { transform: 'translateY(100px)', opacity: 0 },
+    to: { 
+      transform: contentVisible ? 'translateY(0px)' : 'translateY(100px)', 
+      opacity: contentVisible ? 1 : 0 
+    },
+    config: { tension: 280, friction: 60 },
+    delay: 400
+  });
 
 
   const {
@@ -47,7 +58,6 @@ const ShopProductList = () => {
     fetchProductsByShop,
     deleteProduct,
     bulkDeleteProducts,
-    confirmBulkDelete,
     handleSelectProduct,
     handleDeleteProduct,
     handleBulkDelete,
@@ -56,6 +66,13 @@ const ShopProductList = () => {
     getImageUrl,
     handleProductImageDoubleClick,
   } = ShopProductListFunctions();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setContentVisible(true);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Fetch products when shop changes
   useEffect(() => {
@@ -132,16 +149,16 @@ const ShopProductList = () => {
       />
 
         {selectedShop && (
-          <div className={styles.shopInfo}>
+         <animated.div style={shopInfoAnimation} className={styles.shopInfo}>
               <div className={styles.shopInfoHeader}>
                   <h2 className={styles.shopName}>{selectedShop.name_shop}</h2>
                   <p>Calificación: {selectedShop.calification_shop || 'No disponible'}/5</p>
               </div>
               <p className={styles.shopLocation}>{selectedShop.location_shop}</p>
-          </div>
+          </animated.div>
         )}
 
-        <div className={styles.listHeader}>
+        <animated.div style={mainContentAnimation}>
             <div className={styles.listHeaderTop}>
               <h2 className={styles.listTitle}>Lista de Productos</h2>
               <div className={styles.buttonGroup}>
@@ -172,8 +189,9 @@ const ShopProductList = () => {
                 </button>
               </div>
             </div>
-        </div>
+        </animated.div>
 
+        <animated.div style={mainContentAnimation}>
         <FiltersForProducts />
 
         {filteredProducts.length === 0 ? (
@@ -254,6 +272,7 @@ const ShopProductList = () => {
             </table>
           </div>
         )}
+        </animated.div>
     </div>
   );
 };

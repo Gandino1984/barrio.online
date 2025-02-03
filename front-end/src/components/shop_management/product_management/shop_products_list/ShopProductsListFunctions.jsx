@@ -24,7 +24,8 @@ const ShopProductsListFunctions = () => {
     setIsDeclined,
     setIsImageModalOpen,
     productToDelete,
-    selectedImageForModal, setSelectedImageForModal
+    selectedImageForModal, setSelectedImageForModal,
+    setIsUpdatingProduct
   } = useContext(AppContext);
 
 
