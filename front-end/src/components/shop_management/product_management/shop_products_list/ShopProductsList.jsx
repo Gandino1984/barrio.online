@@ -35,7 +35,7 @@ const ShopProductList = () => {
 
   // Animation for shop info section
   const shopInfoAnimation = useSpring({
-    from: { transform: 'translateY(50px)', opacity: 0 },
+    from: { transform: 'translateY(-50px)', opacity: 0 },
     to: { transform: 'translateY(0px)', opacity: 1 },
     config: config.gentle,
     delay: 100
