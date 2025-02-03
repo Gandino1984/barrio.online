@@ -238,7 +238,7 @@ const ShopProductsListFunctions = () => {
       resetNewProductData();
       setSelectedProductToUpdate(productToUpdate);
       setIsUpdatingProduct(true);
-      setShowProductManagement(true);
+      setShowProductManagement(false);
     }
   };
 
