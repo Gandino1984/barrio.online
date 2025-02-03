@@ -1,15 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useContext } from 'react';
 import AppContext from '../../app_context/AppContext.js';
 import styles from '../../../../public/css/FiltersForProducts.module.css';
+import { useSpring, animated, config } from '@react-spring/web';
 
 const FiltersForProducts = () => {
   const { 
     filterOptions, 
     filters, 
     setFilters,
-    productTypesAndSubtypes, // Add this to access product types
+    productTypesAndSubtypes,
   } = useContext(AppContext);
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Animation for the entire filters container
+  const containerAnimation = useSpring({
+    from: { transform: 'translateY(50px)', opacity: 0 },
+    to: { 
+      transform: isVisible ? 'translateY(0px)' : 'translateY(50px)',
+      opacity: isVisible ? 1 : 0 
+    },
+    config: config.gentle,
+    delay: 200
+  });
+
+  // Set visibility after mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Handle main filter changes
   const handleFilterChange = (filterName, option) => {
@@ -21,7 +43,6 @@ const FiltersForProducts = () => {
         [filterName]: normalizedOption,
       };
 
-      // Reset subtype when type changes
       if (filterName === 'tipo') {
         newFilters.subtipo = null;
       }
@@ -30,7 +51,6 @@ const FiltersForProducts = () => {
     });
   };
 
-  // Handle discount filter changes
   const handleOnSaleChange = (e) => {
     setFilters(prevFilters => ({
       ...prevFilters,
@@ -38,7 +58,6 @@ const FiltersForProducts = () => {
     }));
   };
 
-  // Reset all filters
   const handleResetFilters = () => {
     setFilters({
       temporada: null,
@@ -49,7 +68,6 @@ const FiltersForProducts = () => {
     });
   };
 
-  // Get available subtypes based on selected type
   const getAvailableSubtypes = () => {
     if (!filters.tipo || !productTypesAndSubtypes[filters.tipo]) {
       return [];
@@ -58,7 +76,7 @@ const FiltersForProducts = () => {
   };
 
   return (
-    <div className={styles.filtersContainer}>
+    <animated.div style={containerAnimation} className={styles.filtersContainer}>
       <div className={styles.filterControls}>
         {/* Season Filter */}
         <div className={styles.filterWrapper}>
@@ -92,7 +110,7 @@ const FiltersForProducts = () => {
           </select>
         </div>
 
-        {/* Subtype Filter - Only shown when type is selected */}
+        {/* Subtype Filter */}
         {filters.tipo && (
           <div className={styles.filterWrapper}>
             <select
@@ -148,7 +166,7 @@ const FiltersForProducts = () => {
           Limpiar filtros
         </button>
       </div>
-    </div>
+    </animated.div>
   );
 };
 

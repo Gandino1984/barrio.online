@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    will-change: transform, opacity;
 }
   
 .filterControls {
@@ -16,9 +17,12 @@
 }
   
 .filterWrapper {
-    flex: 0 1 150px; /* grow, shrink, basis */
+    flex: 0 1 150px;
     min-width: 150px;
-    max-width: 250px; /* Prevent filters from getting too wide */
+    max-width: 250px;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
   
 .filterSelect {
@@ -31,21 +35,23 @@
     background-color: white;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    will-change: transform, border-color, box-shadow;
 }
 
 .filterSelect:not([value=""]):not(:focus) {
     color: #9ca3af;
-    /* border-color: #2563eb; */
 }
 
 .filterSelect:hover {
     border-color: #2563eb;
+    transform: translateY(-1px);
 }
   
 .filterSelect:focus {
     outline: none;
     border-color: #2563eb;
     box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+    transform: translateY(-1px);
 }
   
 .filterSelect option {
@@ -65,7 +71,12 @@
     cursor: pointer;
     color: #374151;
     white-space: nowrap;
-    flex: 0 1 auto; /* Don't grow, but allow shrinking */
+    flex: 0 1 auto;
+    transition: transform 0.2s ease;
+}
+
+.checkboxLabel:hover {
+    transform: translateY(-1px);
 }
   
 .checkbox {
@@ -85,15 +96,16 @@
     font-size: 0.875rem;
     transition: all 0.2s ease-in-out;
     white-space: nowrap;
-    flex: 0 1 auto; /* Don't grow, but allow shrinking */
+    flex: 0 1 auto;
+    will-change: transform, background-color, border-color;
 }
   
 .resetButton:hover {
     background-color: #f3f4f6;
     border-color: #d1d5db;
+    transform: translateY(-1px);
 }
   
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .filtersContainer {
         padding: 0.8rem;
@@ -104,7 +116,7 @@
     }
     
     .filterWrapper {
-        flex: 1 1 160px; /* Slightly smaller basis on medium screens */
+        flex: 1 1 160px;
         min-width: 160px;
     }
 }
@@ -119,13 +131,13 @@
     }
     
     .filterWrapper {
-        flex: 1 1 100%; /* Full width on small screens */
+        flex: 1 1 100%;
         min-width: 100%;
         max-width: none;
     }
     
     .checkboxLabel,
     .resetButton {
-        width: 100%; /* Full width for checkbox and button on small screens */
+        width: 100%;
     }
 }

@@ -12,6 +12,7 @@
 .content {
   width: 100%;
   max-width: 72rem;
+  overflow: hidden; /* Prevent content from causing horizontal scroll */
 }
 
 .headerContainer {
@@ -59,21 +60,25 @@
 
 .tableContainer {
   width: 100%;
-  max-width: 72rem;
   overflow-x: auto;
   background-color: white;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  /* Better scrolling experience on iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
+  table-layout: auto; /* Let the content determine the width */
 }
 
 .tableHeader {
   background-color: #e1e6eb;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .tableHeaderCell {
@@ -85,12 +90,37 @@
   white-space: nowrap;
 }
 
-/* Fixed column widths */
-.tableHeaderCell:nth-child(1) { width: 120px; } /* Actions */
-.tableHeaderCell:nth-child(2) { width: 250px; } /* Name */
-.tableHeaderCell:nth-child(3) { width: 300px; } /* Location */
-.tableHeaderCell:nth-child(4) { width: 150px; } /* Type */
-.tableHeaderCell:nth-child(5) { width: 100px; } /* Rating */
+/* Flexible widths for columns based on content */
+.tableHeaderCell:nth-child(1),
+.tableCell:nth-child(1) {
+  width: auto;
+  min-width: 100px;
+} /* Actions */
+
+.tableHeaderCell:nth-child(2),
+.tableCell:nth-child(2) {
+  width: auto;
+  min-width: 150px;
+} /* Name */
+
+.tableHeaderCell:nth-child(3),
+.tableCell:nth-child(3) {
+  width: auto;
+  min-width: 200px;
+} /* Location */
+
+.tableHeaderCell:nth-child(4),
+.tableCell:nth-child(4) {
+  width: auto;
+  min-width: 100px;
+} /* Type */
+
+.tableHeaderCell:nth-child(5),
+.tableCell:nth-child(5) {
+  width: auto;
+  min-width: 80px;
+  text-align: center;
+} /* Rating */
 
 .tableRow {
   border-top: 1px solid #f0f0f0;
@@ -106,6 +136,8 @@
   padding: 0.8rem 1rem;
   font-size: 0.875rem;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .actionsCell {
@@ -154,6 +186,10 @@
 }
 
 @media (max-width: 768px) {
+  .container {
+    padding: 0.5rem;
+  }
+
   .buttonText {
     display: none;
   }

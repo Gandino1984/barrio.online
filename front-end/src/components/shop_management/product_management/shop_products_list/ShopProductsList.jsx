@@ -48,8 +48,7 @@ const ShopProductList = () => {
       transform: contentVisible ? 'translateY(0px)' : 'translateY(100px)', 
       opacity: contentVisible ? 1 : 0 
     },
-    config: { tension: 280, friction: 60 },
-    delay: 400
+    config: { tension: 280, friction: 20 },
   });
 
 
@@ -191,13 +190,13 @@ const ShopProductList = () => {
             </div>
         </animated.div>
 
-        <animated.div style={mainContentAnimation}>
         <FiltersForProducts />
+        
 
         {filteredProducts.length === 0 ? (
           <p className={styles.noProducts}>No hay productos disponibles</p>
         ) : (       
-          <div className={styles.tableContainer}>
+          <animated.div style={mainContentAnimation} className={styles.tableContainer}>
             <p className={styles.productsCount}>
                 Productos mostrados: {filteredProducts.length}
                 {selectedProducts.size > 0 && ` | Seleccionados: ${selectedProducts.size}`}
@@ -270,9 +269,8 @@ const ShopProductList = () => {
                 ))}
               </tbody>
             </table>
-          </div>
+          </animated.div>
         )}
-        </animated.div>
     </div>
   );
 };
