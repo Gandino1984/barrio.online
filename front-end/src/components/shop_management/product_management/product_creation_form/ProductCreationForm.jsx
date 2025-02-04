@@ -3,6 +3,9 @@ import ProductCreationFormFunctions from './ProductCreationFormFunctions';
 import AppContext from '../../../../app_context/AppContext';
 import styles from '../../../../../../public/css/ProductCreationForm.module.css';
 import { CirclePlus, ScrollText, PackagePlus, Save } from 'lucide-react';
+import { useSpring, animated } from '@react-spring/web';
+import CustomNumberInput from '../../../custom_number_input/CustomNumberInput';
+
 
 const ProductCreationForm = () => {
   const {
@@ -88,18 +91,17 @@ const ProductCreationForm = () => {
             required
           />
         </div>
+        
 
         <div className={styles.formField}>
           <label htmlFor="price_product">Precio</label>
-          <input
-            type="number"
-            id="price_product"
+          <CustomNumberInput
+            label="Precio"
             name="price_product"
             value={productData.price_product}
-            placeholder='0.00'
             onChange={handleNumericInputChange}
-            step="0.1"
-            min="0"
+            step={0.1}
+            min={0}
             required
           />
         </div>
@@ -179,30 +181,28 @@ const ProductCreationForm = () => {
 
         <div className={styles.formField}>
           <label htmlFor="discount_product">Descuento (%)</label>
-          <input
-            type="number"
-            id="discount_product"
+          <CustomNumberInput
+            label="Descuento (%)"
             name="discount_product"
             value={productData.discount_product}
             onChange={handleNumericInputChange}
-            step="1"
-            min="0"
-            max="100"
-          />
-
-          <label htmlFor="stock_product">Stock</label>
-          <input
-            type="number"
-            id="stock_product"
-            name="stock_product"
-            value={productData.stock_product}
-            onChange={handleNumericInputChange}
-            min="0"
-            required
+            step={1}
+            min={0}
+            max={100}
           />
         </div>
 
-     
+        <div className={styles.formField}>
+          <label htmlFor="stock_product">Stock</label>
+          <CustomNumberInput
+            label="Stock"
+            name="stock_product"
+            value={productData.stock_product}
+            onChange={handleNumericInputChange}
+            min={0}
+            required
+          />
+        </div>
 
         <div className={styles.formField}>
           <button 

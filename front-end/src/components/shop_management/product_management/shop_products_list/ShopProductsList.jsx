@@ -38,7 +38,7 @@ const ShopProductList = () => {
     from: { transform: 'translateY(-50px)', opacity: 0 },
     to: { transform: 'translateY(0px)', opacity: 1 },
     config: config.gentle,
-    delay: 100
+    delay: 120
   });
 
   // Animation for main content (listHeader, filters, and table)

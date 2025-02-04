@@ -154,3 +154,55 @@ select.inputSuccess {
   color: green;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2316a34a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
 }
+
+/* ***********/
+
+/* Custom styling for number input spinners */
+input[type="number"] {
+  /* Keep existing styles */
+  width: 3rem;
+  border-radius: 5px;
+  width: auto;
+  border: 2px solid #d1d5db;
+  padding: .3rem 1.5rem .3rem .3rem; /* Increased right padding to accommodate custom buttons */
+  font-size: .8rem;
+  font-weight: 500;
+  -moz-appearance: textfield;
+}
+
+/* Remove default spinner buttons for Webkit browsers */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Custom spinner buttons container */
+input[type="number"] {
+  -moz-appearance: textfield;
+  position: relative;
+  background-repeat: no-repeat, no-repeat;
+  background-position: 
+    right 0.3rem top 0.2rem,
+    right 0.3rem bottom 0.2rem;
+  background-size: 0.8rem;
+}
+
+/* Hover state */
+input[type="number"]:hover {
+  color: var(--saturated-blue);
+  border: 2px solid var(--saturated-blue);
+}
+
+/* Focus state */
+input[type="number"]:focus {
+  color: var(--saturated-blue);
+  border: 2px solid var(--saturated-blue);
+  outline: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
