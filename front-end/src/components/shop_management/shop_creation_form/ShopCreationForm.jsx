@@ -3,6 +3,7 @@ import AppContext from '../../../app_context/AppContext.js';
 import styles from '../../../../../public/css/ShopCreationForm.module.css';
 import { ShopCreationFormFunctions } from './ShopCreationFormFunctions.jsx';
 import { Box } from 'lucide-react';
+import { useSpring, animated } from '@react-spring/web';
 
 const ShopCreationForm = () => {
   const { 
@@ -17,6 +18,23 @@ const ShopCreationForm = () => {
     handleCreateShop,
     handleUpdateShop
   } = ShopCreationFormFunctions();
+
+  // Animation configuration
+  const formAnimation = useSpring({
+    from: { 
+      transform: 'translateY(35%)',
+      opacity: 0
+    },
+    to: { 
+      transform: 'translateY(0%)',
+      opacity: 1
+    },
+    config: {
+      mass: 1,
+      tension: 280,
+      friction: 22
+    }
+  });
 
   // Initialize form with selected shop data when updating
   useEffect(() => {
@@ -50,7 +68,7 @@ const ShopCreationForm = () => {
   const subtypes = newShop.type_shop ? shopTypesAndSubtypes[newShop.type_shop] : [];
 
   return (
-    <div className={styles.container}>
+    <animated.div style={formAnimation} className={styles.container}>
       <div className={styles.content}>
           <div className={styles.header}>   
               <h3 className={styles.headerTitle}>
@@ -127,7 +145,7 @@ const ShopCreationForm = () => {
             </div>
           </form>
       </div>
-    </div>
+    </animated.div>
   );
 };
 
