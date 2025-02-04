@@ -13,16 +13,11 @@
             "color": "foldercustomization.AnsiColor118"
         },
         {
+            "path": "barrio.online/public/"
+        },
+        {
             "path": "barrio.online/front-end/",
-            "color": "__blocked__"
-        },
-        {
-            "path": "barrio.online/back-end/",
-            "color": "foldercustomization.AnsiColor39"
-        },
-        {
-            "path": "barrio.online/public/",
-            "color": "foldercustomization.AnsiColor118"
+            "color": "foldercustomization.AnsiColor208"
         }
     ]
 }
