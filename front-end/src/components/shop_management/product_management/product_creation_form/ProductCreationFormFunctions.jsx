@@ -46,10 +46,44 @@ const ProductCreationFormFunctions = () => {
 
   const handleNumericInputChange = (e) => {
     const { name, value } = e.target;
-    let processedValue = value === '' ? '' : Number(value);
-    setNewProductData(prev => ({
-      ...prev, [name]: processedValue
-    }));
+    
+    if (name === 'price_product') {
+      // Handle empty input
+      if (value === '') {
+        setNewProductData(prev => ({
+          ...prev,
+          [name]: ''
+        }));
+        return;
+      }
+
+      // Convert to number and validate
+      let numValue = parseFloat(value);
+      
+      if (!isNaN(numValue)) {
+        // Format to exactly 2 decimal places
+        const formattedValue = Number(numValue.toFixed(2));
+        
+        // Ensure the value doesn't exceed 2 decimal places
+        const decimalPlaces = value.toString().split('.')[1]?.length || 0;
+        if (decimalPlaces <= 2) {
+          setNewProductData(prev => ({
+            ...prev,
+            [name]: formattedValue
+          }));
+        }
+      }
+    } else {
+      // Handle other numeric inputs (stock, discount, etc.)
+      const processedValue = value === '' ? '' : Number(value);
+      
+      if (!isNaN(processedValue)) {
+        setNewProductData(prev => ({
+          ...prev,
+          [name]: processedValue
+        }));
+      }
+    }
   };
 
   const validateProductData = (newProductData) => {
@@ -73,6 +107,11 @@ const ProductCreationFormFunctions = () => {
       if (newProductData.stock_product < 0) {
         setError(prevError => ({ ...prevError, productError: "El Stock no puede ser negativo"}));
         throw new Error("El Stock no puede ser negativo");
+      }
+      // Validate price format
+      if (newProductData.price_product.toString().split('.')[1]?.length > 2) {
+        setError(prevError => ({ ...prevError, productError: "El precio debe tener máximo 2 decimales"}));
+        throw new Error("El precio debe tener máximo 2 decimales");
       }
       return true;
     } catch (err) {
@@ -107,7 +146,13 @@ const ProductCreationFormFunctions = () => {
     try {
       if (!validateProductData(newProductData)) return;
 
-      const response = await axiosInstance.post('/product/create', newProductData);
+      // Ensure price has exactly 2 decimal places before submitting
+      const formattedData = {
+        ...newProductData,
+        price_product: Number(newProductData.price_product).toFixed(2)
+      };
+
+      const response = await axiosInstance.post('/product/create', formattedData);
 
       if (response.data.error) {
         setError(prevError => ({
@@ -145,16 +190,9 @@ const ProductCreationFormFunctions = () => {
       }
   
       const updateData = {
-        id_product: id_product,
-        name_product: newProductData.name_product,
-        price_product: newProductData.price_product,
-        discount_product: newProductData.discount_product,
-        season_product: newProductData.season_product,
-        calification_product: newProductData.calification_product,
-        type_product: newProductData.type_product,
-        stock_product: newProductData.stock_product,
-        info_product: newProductData.info_product,
-        id_shop: newProductData.id_shop
+        ...newProductData,
+        id_product,
+        price_product: Number(newProductData.price_product).toFixed(2)
       };
   
       const response = await axiosInstance.patch('/product/update', updateData);
@@ -173,7 +211,6 @@ const ProductCreationFormFunctions = () => {
       }
   
       if (response.data.data) {
-        // Update local products list
         setProducts(prevProducts => 
           prevProducts.map(product => 
             product.id_product === id_product 
@@ -182,7 +219,6 @@ const ProductCreationFormFunctions = () => {
           )
         );
         
-        // Reset form and navigation
         resetNewProductData();
         setShowProductManagement(false);
         setIsUpdatingProduct(false);

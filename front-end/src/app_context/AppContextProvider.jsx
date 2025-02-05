@@ -228,7 +228,7 @@ export const AppContextProvider = ({ children }) => {
     'Entretenimiento': ['Baile', 'Danza', 'Escape Room', 'Infantil', 'Juvenil', 'Tercera edad', 'Txiki park', 'Juguetería', 'Música', 'Teatro', 'Viajes', 'Varios'
     ],
     'Especializado': [
-        'Arte', 'Autoescuela', 'Concept Store', 'Desarrollo web', 'Dietética y nutrición', 'Diseño gráfico', 'Electrodoméstico', 
+        'Arte', 'Autoescuela', 'Bodega', 'Concept Store', 'Desarrollo web', 'Dietética y nutrición', 'Diseño gráfico', 'Electrodoméstico', 
         'Estanco', 'Estudio de arte', 'Golosinas', 'Ilustración', 'Joyería', 'Locutorio', 'Peluquería canina', 
         'Prensa', 'Programación', 'Tattoo shop', 'Vinoteca', 'Zapatería', 'Varios'
     ],

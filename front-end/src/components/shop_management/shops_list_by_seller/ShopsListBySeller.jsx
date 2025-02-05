@@ -86,6 +86,7 @@ const ShopsListBySeller = () => {
                   <th className={styles.tableHeaderCell}>Nombre</th>
                   <th className={styles.tableHeaderCell}>Ubicación</th>
                   <th className={styles.tableHeaderCell}>Tipo</th>
+                  <th className={styles.tableHeaderCell}>Subtipo</th>
                   <th className={styles.tableHeaderCell}></th>
                 </tr>
               </thead>
@@ -120,6 +121,7 @@ const ShopsListBySeller = () => {
                     </td>
                     <td className={styles.tableCell}>{shop.name_shop}</td>
                     <td className={styles.tableCell}>{shop.location_shop}</td>
+                    <td className={styles.tableCell}>{shop.subtype_shop}</td>
                     <td className={styles.tableCell}>{shop.type_shop}</td>
                     <td className={styles.tableCell}>{shop.calification_shop}/5</td>
                   </tr>
