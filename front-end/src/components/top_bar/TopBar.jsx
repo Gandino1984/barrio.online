@@ -13,8 +13,6 @@ function TopBar() {
     error,
     showShopCreationForm,
     selectedShop,
-    showErrorCard,
-    setError
   } = useContext(AppContext);
   
   const {

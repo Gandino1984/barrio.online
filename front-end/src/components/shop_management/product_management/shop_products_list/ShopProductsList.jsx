@@ -4,12 +4,13 @@ import ShopProductListFunctions from './ShopProductsListFunctions.jsx';
 import FiltersForProducts from '../../../filters_for_products/FiltersForProducts.jsx';
 import { PackagePlus, Pencil, Trash2, CheckCircle, ImagePlus } from 'lucide-react';
 import styles from '../../../../../../public/css/ShopProductsList.module.css';
-import ProductCreationFormFunctions from '../product_creation_form/ProductCreationFormFunctions.jsx';
 import ConfirmationModal from '../../../confirmation_modal/ConfirmationModal.jsx';
-import { ProductImageFunctions } from '../product_image/ProductImageFunctions.jsx';
 import ProductImage from '../product_image/ProductImage.jsx';
 import ImageModal from '../../../image_modal/ImageModal.jsx';
 import { useSpring, animated, config } from '@react-spring/web';
+import ShopCard from '../../shop_card/ShopCard.jsx'; 
+
+
 
 const ShopProductList = () => {
   const {
@@ -147,15 +148,7 @@ const ShopProductList = () => {
         altText="Product full size image"
       />
 
-        {selectedShop && (
-         <animated.div style={shopInfoAnimation} className={styles.shopInfo}>
-              <div className={styles.shopInfoHeader}>
-                  <h2 className={styles.shopName}>{selectedShop.name_shop}</h2>
-                  <p>Calificación: {selectedShop.calification_shop || 'No disponible'}/5</p>
-              </div>
-              <p className={styles.shopLocation}>{selectedShop.location_shop}</p>
-          </animated.div>
-        )}
+        {selectedShop && <ShopCard shop={selectedShop} />}
 
         <animated.div style={mainContentAnimation}>
             <div className={styles.listHeaderTop}>

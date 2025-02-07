@@ -3,6 +3,7 @@ import productController from "../product/product_controller.js";
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import shop_model from "../../models/shop_model.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -282,6 +283,63 @@ const getByUserId = async (req, res) => {
     }
 };
 
+async function uploadCoverImage(req, res) {
+  try {
+      const id_shop = req.headers['x-shop-id'];
+      
+      if (!id_shop) {
+          return res.status(400).json({
+              error: 'Shop ID is required'
+          });
+      }
+
+      if (!req.file) {
+          return res.status(400).json({
+              error: 'No file uploaded'
+          });
+      }
+
+      // Construct the relative path for storing in the database
+      const relativePath = path.join('images', 'uploads', 'shops', 'covers', req.file.filename)
+          .replace(/\\/g, '/'); // Convert Windows-style paths to URL-style paths
+
+      // Update the shop's image_shop field in the database using the controller
+      const { error, data } = await shopController.update(id_shop, {
+          image_shop: relativePath
+      });
+
+      if (error) {
+          // If there was an error updating the database, delete the uploaded file
+          const filePath = path.join(__dirname, '..', '..', 'public', relativePath);
+          try {
+              await fs.unlink(filePath);
+          } catch (unlinkError) {
+              console.error('Error deleting uploaded file:', unlinkError);
+          }
+          
+          return res.status(500).json({
+              error: 'Failed to update shop with new image',
+              details: error
+          });
+      }
+
+      // Return the updated image path
+      res.json({
+          error: null,
+          data: {
+              image_shop: relativePath
+          }
+      });
+
+  } catch (err) {
+      console.error('Error uploading shop cover image:', err);
+      res.status(500).json({
+          error: 'Error uploading shop cover image',
+          details: err.message
+      });
+  }
+}
+
 export {
     getAll,
     getById,
@@ -292,7 +350,8 @@ export {
     getByType,
     getByUserId,
     getTypesOfShops,
-    updateWithFolder
+    updateWithFolder,
+    uploadCoverImage
 }
 
 export default {
@@ -305,5 +364,6 @@ export default {
     getByType,
     getByUserId,
     getTypesOfShops,
-    updateWithFolder
+    updateWithFolder,
+    uploadCoverImage
 }

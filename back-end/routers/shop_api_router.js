@@ -1,5 +1,8 @@
 import { Router } from "express";
+
 import shopApiController from "../controllers/shop/shop_api_controller.js";
+
+import { handleShopCoverUpload } from "../middleware/ShopUploadMiddleware.js";
 
 const router = Router();
 
@@ -24,5 +27,7 @@ router.delete("/remove-by-id/with-products/:id_shop", shopApiController.removeBy
 router.patch("/update", shopApiController.update);
 
 router.patch("/update-with-folder", shopApiController.updateWithFolder);
+
+router.post("/upload-cover-image", handleShopCoverUpload, shopApiController.uploadCoverImage);
 
 export default router;
