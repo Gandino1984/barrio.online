@@ -77,8 +77,9 @@ const ShopCardFunctions = () => {
   };
 
   return {
-    handleShopImageUpload,
     getShopImageUrl,
+    handleShopImageUpload
+   
   };
 };
 

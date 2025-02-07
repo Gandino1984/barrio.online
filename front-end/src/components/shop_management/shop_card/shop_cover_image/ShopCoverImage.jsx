@@ -18,18 +18,33 @@ const ShopCoverImage = ({ id_shop }) => {
   } = ShopCoverImageFunctions();
 
   const shop = shops.find(s => s.id_shop === id_shop);
+  
+  console.log('ShopCoverImage rendered for shop:', {
+    id_shop,
+    selectedShop,
+    shop,
+    showUploadButton,
+    uploading
+  });
 
   return (
     <div className={styles.container}>
       <div 
         className={styles.imageWrapper}
-        onClick={() => handleContainerClick(id_shop)}
+        onClick={() => {
+          console.log('Image wrapper clicked');
+          handleContainerClick(id_shop);
+        }}
       >
         {shop?.image_shop ? (
           <img
             src={getShopCoverUrl(shop.image_shop)}
             alt={`${shop?.name_shop || 'Shop'} cover`}
             className={styles.image}
+            onError={(e) => {
+              console.error('Image failed to load:', e);
+              e.target.style.display = 'none';
+            }}
           />
         ) : (
           <div className={styles.noImage}>
@@ -38,11 +53,17 @@ const ShopCoverImage = ({ id_shop }) => {
         )}
 
         {showUploadButton && selectedShop?.id_shop === id_shop && (
-          <div className={styles.uploadButtonContainer}>
+          <div 
+            className={styles.uploadButtonContainer}
+            onClick={(e) => e.stopPropagation()}
+          >
             <input
               type="file"
               accept="image/jpeg,image/png,image/jpg,image/webp"
-              onChange={(e) => handleImageUpload(e, id_shop)}
+              onChange={(e) => {
+                console.log('File input change event:', e);
+                handleImageUpload(e, id_shop);
+              }}
               className={styles.fileInput}
               id={`shop-cover-input-${id_shop}`}
               disabled={uploading}

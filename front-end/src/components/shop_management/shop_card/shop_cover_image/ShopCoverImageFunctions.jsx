@@ -16,21 +16,28 @@ export const ShopCoverImageFunctions = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const handleContainerClick = (id_shop) => {
+    console.log('Container clicked for shop:', id_shop);
     if (selectedShop?.id_shop === id_shop) {
       setShowUploadButton(!showUploadButton);
     }
   };
 
   const handleUploadButtonClick = (e) => {
+    console.log('Upload button clicked');
     e.stopPropagation();
   };
 
   const handleShopCoverUpload = async (file) => {
+    console.log('Starting shop cover upload with file:', file);
+    console.log('Selected shop:', selectedShop);
+
     if (!file) {
+      console.error('No file provided');
       throw new Error("No file provided");
     }
 
     if (!selectedShop?.id_shop) {
+      console.error('No shop selected');
       throw new Error("No shop selected");
     }
 
@@ -38,8 +45,18 @@ export const ShopCoverImageFunctions = () => {
       const formData = new FormData();
       formData.append('shopCover', file);
 
+      console.log('FormData created:', formData);
+      console.log('Shop ID being sent:', selectedShop.id_shop);
+
       setUploading(true);
       setUploadProgress(0);
+
+      // Log the request configuration
+      console.log('Making request to:', `${axiosInstance.defaults.baseURL}/shop/upload-cover-image`);
+      console.log('Request headers:', {
+        'Content-Type': 'multipart/form-data',
+        'X-Shop-ID': selectedShop.id_shop,
+      });
 
       const response = await axiosInstance.post(
         '/shop/upload-cover-image',
@@ -52,39 +69,42 @@ export const ShopCoverImageFunctions = () => {
           onUploadProgress: (progressEvent) => {
             const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
             setUploadProgress(progress);
+            console.log('Upload progress:', progress);
           },
         }
       );
 
-      if (!response.data || !response.data.data) {
-        throw new Error('Invalid response from server');
+      console.log('Upload response received:', response);
+
+      if (!response.data) {
+        throw new Error('Empty response from server');
+      }
+
+      if (!response.data.data || !response.data.data.image_shop) {
+        throw new Error('Invalid response structure from server');
       }
 
       const { image_shop } = response.data.data;
-      
-      if (!image_shop) {
-        throw new Error('No image path received from server');
-      }
+      console.log('Received image path:', image_shop);
 
-      // Update the shops list with the new cover image
       const updatedShops = shops.map(shop =>
         shop.id_shop === selectedShop.id_shop
           ? { ...shop, image_shop }
           : shop
       );
 
-      await setShops(updatedShops);
+      console.log('Updating shops with:', updatedShops);
+      setShops(updatedShops);
       setShowUploadButton(false);
-      
-      // Verify the update was successful
-      const updatedShop = updatedShops.find(shop => shop.id_shop === selectedShop.id_shop);
-      if (!updatedShop || updatedShop.image_shop !== image_shop) {
-        throw new Error('Failed to update shop image in state');
-      }
 
       return image_shop;
     } catch (err) {
-      console.error('Error uploading shop cover:', err);
+      console.error('Detailed upload error:', {
+        error: err,
+        message: err.message,
+        response: err.response,
+        stack: err.stack
+      });
       setError(prevError => ({
         ...prevError,
         imageError: err.response?.data?.error || err.message || "Error uploading file",
@@ -97,20 +117,31 @@ export const ShopCoverImageFunctions = () => {
   };
 
   const handleImageUpload = async (event, id_shop) => {
+    console.log('Image upload triggered for shop:', id_shop);
     event.stopPropagation();
     
     const file = event.target.files[0];
+    console.log('Selected file:', file);
+
     if (!file) {
+      console.error('No file selected');
       setError(prevError => ({ 
         ...prevError, 
-        imageError: "No se ha seleccionado un archivo de imagen" 
+        imageError: "No file selected" 
       }));
       return;
     }
 
-    // Validate file size and type before upload
+    // Log file details
+    console.log('File details:', {
+      name: file.name,
+      type: file.type,
+      size: file.size
+    });
+
     const maxSize = 5 * 1024 * 1024; // 5MB
     if (file.size > maxSize) {
+      console.error('File too large:', file.size);
       setError(prevError => ({
         ...prevError,
         imageError: "File size must be less than 5MB"
@@ -120,6 +151,7 @@ export const ShopCoverImageFunctions = () => {
 
     const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
     if (!validTypes.includes(file.type)) {
+      console.error('Invalid file type:', file.type);
       setError(prevError => ({
         ...prevError,
         imageError: "Invalid file type. Only JPEG, PNG, JPG, and WEBP are allowed."
@@ -130,27 +162,39 @@ export const ShopCoverImageFunctions = () => {
     try {
       await handleShopCoverUpload(file);
     } catch (error) {
-      console.error('Error uploading cover:', error);
+      console.error('Error in handleImageUpload:', error);
     }
   };
 
   const getShopCoverUrl = (imagePath) => {
+    console.log('Getting shop cover URL for path:', imagePath);
+    
     if (!imagePath) {
       console.warn('No image path provided');
       return null;
     }
 
     try {
-      const cleanPath = imagePath.replace(/^\/+/, '');
-      const baseUrl = axiosInstance.defaults.baseURL || '';
-      const imageUrl = `${baseUrl}/${cleanPath}`.replace(/([^:]\/)(\/)+/g, "$1");
+      const baseUrl = axiosInstance.defaults.baseURL;
+      console.log('Base URL:', baseUrl);
+      
+      if (!baseUrl) {
+        throw new Error('API base URL is not configured');
+      }
 
-      // Verify the URL is valid
+      const cleanPath = imagePath.replace(/^\/+/, '');
+      const imageUrl = `${baseUrl}/${cleanPath}`.replace(/([^:]\/)(\/)+/g, "$1");
+      console.log('Generated image URL:', imageUrl);
+
       new URL(imageUrl);
       
       return imageUrl;
     } catch (error) {
       console.error('Error generating shop cover URL:', error);
+      setError(prevError => ({
+        ...prevError,
+        imageError: "Error loading image URL"
+      }));
       return null;
     }
   };
