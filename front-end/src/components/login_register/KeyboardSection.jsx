@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import AppContext from '../../../../src/app_context/AppContext';
-import { LoginRegisterFunctions } from '../login_register_form/hooks/LoginRegisterFunctions.jsx';
-import NumericKeyboard from "../../../../src/components/login_register/numeric_keyboard/NumericKeyboard.jsx";
-import styles from '../../../../../public/css/LoginRegisterForm.module.css';
+import AppContext from '../../app_context/AppContext.js';
+import { LoginRegisterFunctions } from './LoginRegisterFunctions.jsx';
+import NumericKeyboard from "./numeric_keyboard/NumericKeyboard.jsx";
+import styles from '../../../../public/css/LoginRegisterForm.module.css';
 
 export const KeyboardSection = () => {
   const {

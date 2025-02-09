@@ -1,5 +1,5 @@
-import axiosInstance from '../../../../utils/axiosConfig.js';
-import { validateImageFile } from '../../../../utils/imageValidation.js';
+import axiosInstance from '../../../../utils/app/axiosConfig.js';
+import { validateImageFile } from '../../../../utils/image/imageValidation.js';
 import { useContext } from 'react';
 import AppContext from '../../../../app_context/AppContext.js';
 

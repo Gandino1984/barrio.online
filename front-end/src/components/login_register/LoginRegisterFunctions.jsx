@@ -1,8 +1,8 @@
-import { useContext, useState } from 'react';
-import AppContext from '../../../../app_context/AppContext.js';
-import { useUsernameValidation } from './useUsernameValidation.jsx';
-import { useIPValidation } from './useIpValidation.jsx';
-import axiosInstance from '../../../../utils/axiosConfig.js';
+import { useContext } from 'react';
+import AppContext from '../../app_context/AppContext.js';
+import { useUsernameValidation } from '../../utils/user/useUsernameValidation.jsx';
+import { useIPValidation } from '../../utils/user/useIpValidation.jsx';
+import axiosInstance from '../../utils/app/axiosConfig.js';
 
 export const LoginRegisterFunctions = () => {
   const {
@@ -13,7 +13,7 @@ export const LoginRegisterFunctions = () => {
     setKeyboardKey, setshowShopManagement, 
     setDisplayedPassword, type_user, 
     setUserType, currentUser, 
-    login, logout, setIsAddingShop, 
+    login, setIsAddingShop, 
     setShops, setError, 
     location_user, setLocationUser,
     setShowRepeatPasswordMessage,
@@ -21,60 +21,74 @@ export const LoginRegisterFunctions = () => {
     setPasswordIcons
   } = useContext(AppContext);
 
-    const { validateUsername } = useUsernameValidation();
+  const { validateUsername } = useUsernameValidation();
 
-    const { validateIPRegistration } = useIPValidation();
+  const { validateIPRegistration } = useIPValidation();
 
+  const isButtonDisabled = () => {
+      const { isValid } = validateUsername(name_user);
 
-    const handleUsernameChange = (e) => {
-        const rawUsername = e.target.value;
-        console.log('-> LOGIN: Username rawValue= ', rawUsername);
-        setNameUser(rawUsername);
-      };
+      if (!isValid) return true;
+
+      if (isLoggingIn) {
+        return password.length !== 4;
+      } else {
+      // For registration, require a 4-digit password, matching password repeat, and a selected user type
+      return password.length !== 4 || 
+              passwordRepeat.length !== 4 || 
+              password !== passwordRepeat || 
+              type_user === '';
+      }
+  };
+
+  const handleUsernameChange = (e) => {
+      const rawUsername = e.target.value;
+      console.log('-> LOGIN: Username rawValue= ', rawUsername);
+      setNameUser(rawUsername);
+    };
     
-      const handleUserLocationChange = (ev) => {
-      const location = ev.target.value;
-      console.log('-> REGISTER: location_user value= ', location);
-      setLocationUser(location);
-    };
+  const handleUserLocationChange = (ev) => {
+    const location = ev.target.value;
+    console.log('-> REGISTER: location_user value= ', location);
+    setLocationUser(location);
+  };
 
-    const handlePasswordComplete = (isLogin) => () => {
-      if (!isLogin) {
-        setDisplayedPassword('');
-        setShowPasswordRepeat(true);
-        setShowRepeatPasswordMessage(true);
-        setKeyboardKey((prev) => prev + 1);
-      } else {
-        setShowPasswordLabel(false);
-      }
-    };
+  const handlePasswordComplete = (isLogin) => () => {
+    if (!isLogin) {
+      setDisplayedPassword('');
+      setShowPasswordRepeat(true);
+      setShowRepeatPasswordMessage(true);
+      setKeyboardKey((prev) => prev + 1);
+    } else {
+      setShowPasswordLabel(false);
+    }
+  };
 
-    const handlePasswordChange = (isLogin, newPassword) => {
-      if (!isLogin && showPasswordRepeat) {
-        setPasswordRepeat(newPassword);
-        setDisplayedPassword('*'.repeat(newPassword.length));
-        setShowRepeatPasswordMessage(newPassword.length < 4);
-      } else {
-        setPassword(newPassword);
-        setDisplayedPassword('*'.repeat(newPassword.length));
-        if (isLogin && newPassword.length !== 4) {
-          setShowPasswordLabel(true);
-        }
-      }
-    };
-
-    const handleRepeatPasswordChange = (newPassword) => {
+  const handlePasswordChange = (isLogin, newPassword) => {
+    if (!isLogin && showPasswordRepeat) {
       setPasswordRepeat(newPassword);
       setDisplayedPassword('*'.repeat(newPassword.length));
-      
-      // Update message visibility based on password completion
-      if (newPassword.length === 4) {
-        setShowRepeatPasswordMessage(false);
-      } else {
-        setShowRepeatPasswordMessage(true);
+      setShowRepeatPasswordMessage(newPassword.length < 4);
+    } else {
+      setPassword(newPassword);
+      setDisplayedPassword('*'.repeat(newPassword.length));
+      if (isLogin && newPassword.length !== 4) {
+        setShowPasswordLabel(true);
       }
-    };
+    }
+  };
 
+  const handleRepeatPasswordChange = (newPassword) => {
+    setPasswordRepeat(newPassword);
+    setDisplayedPassword('*'.repeat(newPassword.length));
+    
+    // Update message visibility based on password completion
+    if (newPassword.length === 4) {
+      setShowRepeatPasswordMessage(false);
+    } else {
+      setShowRepeatPasswordMessage(true);
+    }
+  };
 
   const toggleForm = () => {
     clearUserSession();
@@ -164,39 +178,6 @@ export const LoginRegisterFunctions = () => {
     }  
   };
 
-  const handleRegistrationResponse = async (response) => {
-    try {
-      if (!response.data) {
-          setError(prevError => ({ ...prevError, databaseResponseError: "No se recibió respuesta del servidor" }));
-          throw new Error('No se recibió respuesta del servidor');
-      }
-      if (response.data.error) {
-          setError(prevError => ({ ...prevError, databaseResponseError: "Error en el registro" }));
-          throw new Error(response.data.error);
-      }
-
-      const userData = response.data.data;
-      
-      if (!userData || !userData.id_user) {
-          setError(prevError => ({ ...prevError, userError: "Datos de usuario incompletos" }));
-          throw new Error('Error en el registro: datos de usuario incompletos');
-      }
-      const normalizedUserData = {
-          id: userData.id_user,
-          name_user: userData.name_user,
-          // password: password,
-          type_user: userData.type_user,
-      };
-
-      login(normalizedUserData);
-      
-      setshowShopManagement(true);
-    } catch (err) {
-      console.error('-> handleRegistrationResponse() - Error = ', err);
-    }
-  };
-
-
   const handleLogin = async (cleanedUsername, password) => {
       try {
         // Fetch user details first
@@ -247,7 +228,7 @@ export const LoginRegisterFunctions = () => {
           databaseResponseError: "Error al iniciar sesión" 
         }));
       }
-    };
+  };
 
   const handleRegistration = async (cleanedUsername, password, type_user, userLocation) => {
     try {    
@@ -276,6 +257,38 @@ export const LoginRegisterFunctions = () => {
       console.error('-> LoginRegisterFunctions.jsx - handleRegistration() - Error = ', err);
       setError(prevError => ({ ...prevError, userError: "Error al registrar el usuario" }));
     }     
+  };
+
+  const handleRegistrationResponse = async (response) => {
+    try {
+      if (!response.data) {
+          setError(prevError => ({ ...prevError, databaseResponseError: "No se recibió respuesta del servidor" }));
+          throw new Error('No se recibió respuesta del servidor');
+      }
+      if (response.data.error) {
+          setError(prevError => ({ ...prevError, databaseResponseError: "Error en el registro" }));
+          throw new Error(response.data.error);
+      }
+
+      const userData = response.data.data;
+      
+      if (!userData || !userData.id_user) {
+          setError(prevError => ({ ...prevError, userError: "Datos de usuario incompletos" }));
+          throw new Error('Error en el registro: datos de usuario incompletos');
+      }
+      const normalizedUserData = {
+          id: userData.id_user,
+          name_user: userData.name_user,
+          // password: password,
+          type_user: userData.type_user,
+      };
+
+      login(normalizedUserData);
+      
+      setshowShopManagement(true);
+    } catch (err) {
+      console.error('-> handleRegistrationResponse() - Error = ', err);
+    }
   };
     
   const handleFormSubmit = async (e) => {
@@ -339,22 +352,6 @@ export const LoginRegisterFunctions = () => {
         setDisplayedPassword('');
         setShowPasswordLabel(true);
         setKeyboardKey((prev) => prev + 1);
-      }
-    };
-
-  const isButtonDisabled = () => {
-      const { isValid } = validateUsername(name_user);
-
-      if (!isValid) return true;
-
-      if (isLoggingIn) {
-        return password.length !== 4;
-      } else {
-      // For registration, require a 4-digit password, matching password repeat, and a selected user type
-      return password.length !== 4 || 
-              passwordRepeat.length !== 4 || 
-              password !== passwordRepeat || 
-              type_user === '';
       }
   };
 

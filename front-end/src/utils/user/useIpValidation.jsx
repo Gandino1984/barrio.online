@@ -1,7 +1,7 @@
 import { useState} from 'react';
-import axiosInstance from '../../../../utils/axiosConfig.js';
+import axiosInstance from '../app/axiosConfig.js';
 import { useContext } from 'react';
-import AppContext from '../../../../app_context/AppContext.js';
+import AppContext from '../../app_context/AppContext.js';
 
 
 export const useIPValidation = () => {

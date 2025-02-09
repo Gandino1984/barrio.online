@@ -2,15 +2,15 @@
 import React, { useContext } from 'react';
 import { useTransition, animated } from '@react-spring/web';
 import { DoorOpen } from 'lucide-react';
-import AppContext from '../../../app_context/AppContext.js';
-import { LoginRegisterFunctions } from './hooks/LoginRegisterFunctions.jsx';
-import { fadeInScale } from '../../../utils/animation/transitions.js';
+import AppContext from '../../app_context/AppContext.js';
+import { LoginRegisterFunctions } from './LoginRegisterFunctions.jsx';
+import { fadeInScale } from '../../utils/animation/transitions.js';
 import { FormFields } from './FormFields.jsx';
 import { KeyboardSection } from './KeyboardSection';
 import { FormActions } from './FormActions';
-import styles from '../../../../../public/css/LoginRegisterForm.module.css';
-import UserManagement from "../../user_management/UserManagement.jsx";
-import ShopManagement from "../../shop_management/ShopManagement.jsx";
+import styles from '../../../../public/css/LoginRegisterForm.module.css';
+import UserManagement from "../user_management/UserManagement.jsx";
+import ShopManagement from "../shop_management/ShopManagement.jsx";
 
 const LoginRegisterForm = () => {
   const {

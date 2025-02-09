@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import axiosInstance from '../../../utils/axiosConfig.js';
+import axiosInstance from '../../../utils/app/axiosConfig.js';
 import AppContext from '../../../app_context/AppContext.js';
 
 export const ShopsListBySellerFunctions = () => {

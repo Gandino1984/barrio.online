@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import AppContext from '../../../app_context/AppContext.js';
-import { LoginRegisterFunctions } from '../login_register_form/hooks/LoginRegisterFunctions.jsx';
-import styles from '../../../../../public/css/LoginRegisterForm.module.css';
+import AppContext from '../../app_context/AppContext.js';
+import { LoginRegisterFunctions } from './LoginRegisterFunctions.jsx';
+import styles from '../../../../public/css/LoginRegisterForm.module.css'; 
 
 export const FormFields = () => {
   const {
@@ -28,7 +28,7 @@ export const FormFields = () => {
           value={name_user}
           onChange={handleUsernameChange}
           className={usernameError ? styles.inputError : styles.nameInput}
-          placeholder={type_user === 'seller' ? 'Nombre de vendedor:' : 'Nombre de Usuaria:'}
+          placeholder={type_user === 'seller' ? 'Nombre de vendedora:' : 'Nombre de Usuaria:'}
           required
         />
 
@@ -41,7 +41,7 @@ export const FormFields = () => {
             >
               <option value="" disabled>Tipo de usuaria</option>
               <option value="user">Usuaria</option>
-              <option value="seller">Vendedora</option>
+              <option value="seller">vendedoraa</option>
               <option value="provider" disabled>Productora</option>
             </select>
           
@@ -51,7 +51,7 @@ export const FormFields = () => {
               value={location_user}
               onChange={handleUserLocationChange}
               className={userlocationError ? styles.inputError : ''}
-              placeholder={type_user === 'seller' ? 'Dirección de vendedor:' : 'Dirección de Usuaria:'}
+              placeholder={type_user === 'seller' ? 'Dirección de vendedora:' : 'Dirección de Usuaria:'}
               required 
             />
           </>

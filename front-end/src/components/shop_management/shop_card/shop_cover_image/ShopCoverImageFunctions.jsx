@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import AppContext from '../../../../app_context/AppContext';
-import axiosInstance from '../../../../utils/axiosConfig.js';
+import axiosInstance from '../../../../utils/app/axiosConfig.js';
 
 export const ShopCoverImageFunctions = () => {
   const {

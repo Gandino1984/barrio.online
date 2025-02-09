@@ -1,9 +1,9 @@
 import React from 'react';
 import { DoorOpen } from 'lucide-react';
-import { LoginRegisterFunctions } from '../login_register_form/hooks/LoginRegisterFunctions.jsx';
+import { LoginRegisterFunctions } from '../login_register/LoginRegisterFunctions.jsx';
 import { useContext } from 'react';
-import AppContext from '../../../app_context/AppContext.js';
-import styles from '../../../../../public/css/LoginRegisterForm.module.css';
+import AppContext from '../../app_context/AppContext.js';
+import styles from '../../../../public/css/LoginRegisterForm.module.css';
 
 export const FormActions = () => {
   const { isLoggingIn } = useContext(AppContext);
