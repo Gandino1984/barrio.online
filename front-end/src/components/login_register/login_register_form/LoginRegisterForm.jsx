@@ -30,7 +30,7 @@ const LoginRegisterForm = () => {
   const transitions = useTransition(!showShopManagement && !currentUser, {
     from: { 
       opacity: 0,
-      transform: 'scale(0.9) translateY(20px)',
+      transform: 'scale(0.8) translateY(20px)',
     },
     enter: { 
       opacity: 1,
@@ -38,7 +38,7 @@ const LoginRegisterForm = () => {
     },
     leave: { 
       opacity: 0,
-      transform: 'scale(0.9) translateY(20px)',
+      transform: 'scale(0.8) translateY(20px)',
     },
     config: {
       mass: 1,
