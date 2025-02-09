@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import AppContext from '../../../../app_context/AppContext.js';
 import { useUsernameValidation } from './useUsernameValidation.jsx';
 import { useIPValidation } from './useIpValidation.jsx';
-import axiosInstance from '../../../../../utils/axiosConfig.js';
+import axiosInstance from '../../../../utils/axiosConfig.js';
 
 export const LoginRegisterFunctions = () => {
   const {

@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import AppContext from '../../../app_context/AppContext.js';
-import axiosInstance from '../../../../utils/axiosConfig.js';
-import { validateImageFile } from '../../../../utils/imageValidation.js';
+import axiosInstance from '../../../utils/axiosConfig.js';
+import { validateImageFile } from '../../../utils/imageValidation.js';
 
 export const UserInfoCardFunctions = () => {
     const {

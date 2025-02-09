@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import AppContext from '../../../../app_context/AppContext';
-import axiosInstance from '../../../../../utils/axiosConfig';
+import axiosInstance from '../../../../utils/axiosConfig';
 
 const ProductCreationFormFunctions = () => {
   const { 

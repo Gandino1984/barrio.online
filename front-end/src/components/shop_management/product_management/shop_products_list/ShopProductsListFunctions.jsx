@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import axiosInstance from '../../../../../utils/axiosConfig';
+import axiosInstance from '../../../../utils/axiosConfig.js';
 import AppContext from '../../../../app_context/AppContext';
 import  ProductCreationFormFunctions  from '../product_creation_form/ProductCreationFormFunctions.jsx';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useContext } from 'react';
-import axiosInstance from '../../../../../utils/axiosConfig.js';
+import axiosInstance from '../../../../utils/axiosConfig.js';
 import AppContext from '../../../../app_context/AppContext.js';
 
 const ProductManagementFunctions = () => {
