@@ -38,5 +38,50 @@
     gap: .7rem;
 }
 
+.timeGroup {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .timeInput {
+    flex: 1;
+    position: relative;
+  }
+  
+  .timeIcon {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+  }
+  
+  .timeInput input[type="time"] {
+    padding-left: 32px;
+  }
+  
+  .timeSeparator {
+    color: #666;
+    font-weight: 500;
+  }
+  
+  .checkboxField {
+    margin-top: 0.5rem;
+  }
+  
+  .checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+
 
 

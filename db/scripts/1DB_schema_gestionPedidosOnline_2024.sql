@@ -49,8 +49,11 @@ CREATE TABLE IF NOT EXISTS `DB_gestionPedidosOnline_2024`.`shop` (
   `calification_shop` INT NOT NULL DEFAULT 0,
   `image_shop` VARCHAR(255) NULL,
   `id_user` INT UNSIGNED NOT NULL,
+  `opening_time` TIME NOT NULL,
+  `closing_time` TIME NOT NULL,
+  `has_delivery` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_shop`),
-  UNIQUE INDEX `id_shop_UNIQUE` (`id_shop` ASC) VISIBLE,
+  UNIQUE INDEX `id_shop_UNIQUE` (`id_shop` ASC) VISIBLE
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------

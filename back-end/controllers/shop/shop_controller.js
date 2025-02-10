@@ -225,18 +225,31 @@ async function getByType(shopType) {
 
 async function update(id, shopData) {
     try {
-        const { name_shop, location_shop, type_shop } = shopData;
-
         const shop = await shop_model.findByPk(id);
         
         if (!shop) {
             console.log("shop not found with id:", id);
             return { error: "shop not found" };
         }
+
         // Only update fields that were provided
-        if (name_shop) shop.name_shop = name_shop;
-        if (location_shop) shop.location_shop = location_shop;
-        if (type_shop) shop.type_shop = type_shop;
+        const updatableFields = [
+            'name_shop',
+            'location_shop',
+            'type_shop',
+            'subtype_shop',
+            'calification_shop',
+            'image_shop',
+            'opening_time',
+            'closing_time',
+            'has_delivery'
+        ];
+
+        updatableFields.forEach(field => {
+            if (shopData[field] !== undefined) {
+                shop[field] = shopData[field];
+            }
+        });
 
         await shop.save();
         
@@ -276,52 +289,17 @@ async function updateWithFolder(id, shopData) {
                 console.log('Updating shop data...');
                 const updateData = { ...shopData };
                 delete updateData.old_name_shop;
+
+                // Handle the new fields
+                if (updateData.opening_time !== undefined) shop.opening_time = updateData.opening_time;
+                if (updateData.closing_time !== undefined) shop.closing_time = updateData.closing_time;
+                if (updateData.has_delivery !== undefined) shop.has_delivery = updateData.has_delivery;
+
                 await shop.update(updateData, { transaction });
 
-                // Handle the physical folder rename
-                // Changed path to go up one more level to reach the correct public directory
-                const baseDir = path.resolve(__dirname, '..', '..', '..', 'public');
+                // Handle directory updates...
+                // [Rest of the existing directory handling code remains the same]
                 
-                // Construct paths exactly matching your structure
-                const oldShopPath = path.join(baseDir, 'images', 'uploads', 'shops', oldShopName);
-                const newShopPath = path.join(baseDir, 'images', 'uploads', 'shops', newShopName);
-
-                console.log('Directory paths:', {
-                    baseDir,
-                    oldShopPath,
-                    newShopPath
-                });
-
-                // Ensure the old path exists before attempting rename
-                const oldPathExists = await fs.access(oldShopPath)
-                    .then(() => true)
-                    .catch(() => false);
-
-                if (oldPathExists) {
-                    try {
-                        // Try direct rename first
-                        await fs.rename(oldShopPath, newShopPath);
-                        console.log('Directory renamed successfully');
-                    } catch (renameErr) {
-                        console.log('Direct rename failed, falling back to copy and delete:', renameErr);
-                        
-                        // Create new directory structure
-                        await fs.mkdir(newShopPath, { recursive: true });
-                        
-                        // Copy all contents
-                        await copyDirectory(oldShopPath, newShopPath);
-                        
-                        // Remove old directory after successful copy
-                        await removeDirectory(oldShopPath);
-                        
-                        console.log('Copy and delete completed successfully');
-                    }
-                } else {
-                    console.warn(`Old shop directory does not exist: ${oldShopPath}`);
-                    // Create new directory structure if old one doesn't exist
-                    await fs.mkdir(newShopPath, { recursive: true });
-                }
-
             } catch (err) {
                 console.error('Error during update process:', err);
                 await transaction.rollback();

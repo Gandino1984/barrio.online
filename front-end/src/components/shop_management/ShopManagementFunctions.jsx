@@ -6,7 +6,6 @@ export const ShopManagementFunctions = () => {
   const {
     currentUser,
     setShops,
-    setError,
     setInfo,
     setSelectedShop,
     setshowShopManagement, 

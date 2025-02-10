@@ -114,7 +114,6 @@ export const AppContextProvider = ({ children }) => {
     setShowInfoCard(false);
   };
 
-  // Function to check and clear expired user data
   const checkAndClearUserData = () => {
     const storedUserData = localStorage.getItem('currentUser');
     
@@ -254,7 +253,10 @@ export const AppContextProvider = ({ children }) => {
     location_shop: '',
     id_user: '',
     calification_shop: 0, 
-    image_shop: ''
+    image_shop: '',
+    opening_time: '09:00',
+    closing_time: '17:00',
+    has_delivery: false,
   })
 
   const [selectedShop, setSelectedShop] = useState(null);
@@ -366,13 +368,15 @@ export const AppContextProvider = ({ children }) => {
     },
   });
 
-    // Check for expired user data on component mount
-    useEffect(() => {
-      checkAndClearUserData();
-    }, []);
 
-    const [selectedProductImage, setSelectedProductImage] = useState(null);
-    const [selectedImageForModal, setSelectedImageForModal] = useState(null);
+  const [selectedImageForModal, setSelectedImageForModal] = useState(null);
+
+  // Check for expired user data on component mount
+  useEffect(() => {
+    checkAndClearUserData();
+  }, []);
+
+
 
   const value = {
     isLoggingIn, setIsLoggingIn,

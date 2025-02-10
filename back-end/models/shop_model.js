@@ -1,7 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/sequelize.js";
 
-
 const shop_model = sequelize.define("shop", {
     id_shop: {
         type: DataTypes.INTEGER.UNSIGNED,
@@ -37,11 +36,23 @@ const shop_model = sequelize.define("shop", {
     id_user: { 
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
+    },
+    opening_time: {
+        type: DataTypes.TIME,
+        allowNull: false
+    },
+    closing_time: {
+        type: DataTypes.TIME,
+        allowNull: false
+    },
+    has_delivery: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
 }, {
     timestamps: false,
     freezeTableName: true
 });
-
 
 export default shop_model;
