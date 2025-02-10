@@ -90,6 +90,30 @@ export const AppContextProvider = ({ children }) => {
   imageSuccess: ''
   });
 
+
+  const [showInfoCard, setShowInfoCard] = useState(false);
+
+  const [info, setInfo] = useState({
+    loginInfo: '',
+    shopInfo: '',
+    productInfo: '',
+    updateInfo: '',
+    deleteInfo: '',
+    imageInfo: ''
+  });
+
+  const clearInfo = () => {
+    setInfo({
+      loginInfo: '',
+      shopInfo: '',
+      productInfo: '',
+      updateInfo: '',
+      deleteInfo: '',
+      imageInfo: ''
+    });
+    setShowInfoCard(false);
+  };
+
   // Function to check and clear expired user data
   const checkAndClearUserData = () => {
     const storedUserData = localStorage.getItem('currentUser');
@@ -408,7 +432,9 @@ export const AppContextProvider = ({ children }) => {
     selectedImageForModal, setSelectedImageForModal,
     showSuccessCard, setShowSuccessCard,
     success, setSuccess,
-    clearSuccess,
+    clearSuccess, info, setInfo,
+    showInfoCard, setShowInfoCard,
+    clearInfo
   };
 
   return (

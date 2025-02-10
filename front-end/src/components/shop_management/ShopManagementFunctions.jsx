@@ -7,6 +7,7 @@ export const ShopManagementFunctions = () => {
     currentUser,
     setShops,
     setError,
+    setInfo,
     setSelectedShop,
     setshowShopManagement, 
     setShowProductManagement
@@ -24,7 +25,7 @@ export const ShopManagementFunctions = () => {
       });
 
       if (response.data.error) {
-        setError(prevError => ({ ...prevError, shopError: response.data.error }));
+        setInfo(prevInfo => ({ ...prevInfo, shopInfo: response.data.error }));
         throw new Error(response.data.error);
       }
 

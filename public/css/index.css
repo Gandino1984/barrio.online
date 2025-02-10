@@ -1,12 +1,12 @@
 :root {
   --superlight-gray: #f4f4f4;
-  --saturated-blue: #2563eb;
+  --saturated-blue: #2564eb;
   --superlight-red: rgb(255, 244, 244);
   --filter-unselected: #9ca3af;
   --filter-border: #e2e2e2;
   --filter-text: #374151;
   --filter-hover-bg: #f3f4f6;
-  --superlight-green: rgba(220, 255, 220, 0.95);
+  --superlight-blue: rgb(220, 222, 255);
 }
 
 body {

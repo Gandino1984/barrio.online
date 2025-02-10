@@ -95,7 +95,7 @@ const UserInfoCard = () => {
               <img
                 src={getImageUrl(currentUser.image_user) || ''}
                 alt="Click aquí"
-                className={`${styles.profileImage} hover:opacity-90 transition-opacity`}
+                className={styles.profileImage}
                 onError={() => {
                   setError(prevError => ({ 
                     ...prevError, 

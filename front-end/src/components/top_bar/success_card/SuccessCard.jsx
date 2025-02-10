@@ -48,7 +48,7 @@ const SuccessCard = () => {
   return (
     showSuccessCard && activeSuccessMessages.length > 0 && (
       <animated.div style={springProps} className={styles.container}>
-        <CircleCheckBig color="green" size={20} />
+        <CircleCheckBig color="blue" size={20} />
         <div className={styles.successList}>
           {activeSuccessMessages.map(([key, value]) => (
             <div className={styles.successItem} key={key}>

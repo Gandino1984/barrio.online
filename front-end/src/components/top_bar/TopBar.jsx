@@ -6,12 +6,14 @@ import AppContext from '../../app_context/AppContext.js';
 import ErrorCard from './error_card/ErrorCard.jsx';
 import SuccessCard from './success_card/SuccessCard.jsx';
 import UserInfoCard from './user_info_card/UserInfoCard.jsx';
+import InfoCard from './info_card/InfoCard.jsx';
 
 function TopBar() {
   const {
     error,
     success,
-    showShopCreationForm,
+    info,
+    showShopCreationForm, 
     selectedShop,
   } = useContext(AppContext);
   
@@ -25,6 +27,7 @@ function TopBar() {
         <div className={styles.messageWrapper}>
           {error && <ErrorCard />}
           {success && <SuccessCard />}
+          {info && <InfoCard />}
         </div>
         
         <div className={styles.contentWrapper}>
