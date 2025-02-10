@@ -48,7 +48,7 @@ const InfoCard = () => {
   return (
     showInfoCard && activeInfoMessages.length > 0 && (
       <animated.div style={springProps} className={styles.container}>
-        <MessageCircleWarning color="blue" size={20} />
+        <MessageCircleWarning color="#F59925" size={20} />
         <div className={styles.infoList}>
           {activeInfoMessages.map(([key, value]) => (
             <div className={styles.infoItem} key={key}>

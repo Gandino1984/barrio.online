@@ -32,11 +32,13 @@
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
-  transition: all 0.15s ease; 
+  /* transition: all 0.2s ease;  */
+  /* margin: .2rem; */
 }
 
 .profileImage:hover {
-  border: 2px solid var(--saturated-blue);
+  outline: 2px solid var(--saturated-blue);
+  /* border: 1px solid white; */
 }
 
 .uploadButton {

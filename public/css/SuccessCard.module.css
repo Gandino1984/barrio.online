@@ -23,5 +23,5 @@
     justify-content: center;
     line-height: .9rem;
     font-size: .9rem;
-    color: blue;
+    color: var(--saturated-blue);
 }

@@ -330,7 +330,7 @@ export const AppContextProvider = ({ children }) => {
     'Muebles': ['Baño', 'Cocina', 'Dormitorio', 'Jardín', 'Salón', 'Varios'],
     'Ropa': ['Abrigo', 'Accesorios', 'Calcetines', 'Calzado', 'Camiseta', 'Chaqueta', 'Falda', 'Lencería', 'Pantalón', 'Pantaloneta', 'Pijama', 'Ropa de deporte', 'Ropa de maternidad', 'Ropa de trabajo', 'Vestido', 'Varios'],
     'Salud': ['Cuidado Personal', 'Higiene', 'Medicina', 'Suplementos'],
-    'Servicio': ['Asesoría', 'Instalación', 'Limpieza', 'Mantenimiento', 'Reparación'],
+    'Servicio': ['Asesoría', 'Informático', 'Instalación', 'Limpieza', 'Mantenimiento', 'Reparación'],
     'Varios': ['General', 'Otros']
   });
 
