@@ -5,7 +5,7 @@
 [![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
 
-Prototipo de Sistema de gestión web de servicios comunitarios - Funcionalidad de ESCAPARATE COMERCIAL: pedidos y reservas online para comercios locales y artesanos del Distrito 02 de Bilbao(Uribarri).
+Primer prototipo de Sistema de gestión web de servicios comunitarios - Funcionalidad de ESCAPARATE COMERCIAL: pedidos y reservas online para comercios locales y artesanos del Distrito 02 de Bilbao(Uribarri).
 
 El proyecto es una aplicación web responsive, estructurada con una arquitectura full-stack, utilizando una combinación de tecnologías tanto para el front-end como para el back-end. El front-end está construido con React.js y Vite, gestionando las animaciones con la librería React-Spring. 
 
