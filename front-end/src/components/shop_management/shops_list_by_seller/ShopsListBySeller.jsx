@@ -67,7 +67,7 @@ const ShopsListBySeller = () => {
                 className={styles.addButton}
                 title="Crear nuevo comercio"
               >
-                <span className={styles.buttonText}>Crear Nuevo</span>
+                <span className={styles.buttonText}>Nuevo</span>
                 <Box size={16} />
               </button>
           </div>

@@ -14,7 +14,8 @@ export const LoginRegisterFunctions = () => {
     setDisplayedPassword, type_user, 
     setUserType, currentUser, 
     login, setIsAddingShop, 
-    setShops, setError, 
+    setShops, setError,
+    setSuccess,
     location_user, setLocationUser,
     setShowRepeatPasswordMessage,
     clearUserSession,
@@ -43,13 +44,11 @@ export const LoginRegisterFunctions = () => {
 
   const handleUsernameChange = (e) => {
       const rawUsername = e.target.value;
-      console.log('-> LOGIN: Username rawValue= ', rawUsername);
       setNameUser(rawUsername);
     };
     
-  const handleUserLocationChange = (ev) => {
-    const location = ev.target.value;
-    console.log('-> REGISTER: location_user value= ', location);
+  const handleUserLocationChange = (e) => {
+    const location = e.target.value;
     setLocationUser(location);
   };
 
@@ -65,18 +64,20 @@ export const LoginRegisterFunctions = () => {
   };
 
   const handlePasswordChange = (isLogin, newPassword) => {
+    const displayedPassword = '*'.repeat(newPassword.length);
+    
     if (!isLogin && showPasswordRepeat) {
-      setPasswordRepeat(newPassword);
-      setDisplayedPassword('*'.repeat(newPassword.length));
-      setShowRepeatPasswordMessage(newPassword.length < 4);
+        setPasswordRepeat(newPassword);
+        setShowRepeatPasswordMessage(newPassword.length < 4);
     } else {
-      setPassword(newPassword);
-      setDisplayedPassword('*'.repeat(newPassword.length));
-      if (isLogin && newPassword.length !== 4) {
-        setShowPasswordLabel(true);
-      }
+        setPassword(newPassword);
+        if (isLogin && newPassword.length !== 4) {
+            setShowPasswordLabel(true);
+        }
     }
-  };
+    
+    setDisplayedPassword(displayedPassword);
+};
 
   const handleRepeatPasswordChange = (newPassword) => {
     setPasswordRepeat(newPassword);
@@ -188,7 +189,7 @@ export const LoginRegisterFunctions = () => {
         console.log('User details response:', userDetailsResponse);
 
         if (userDetailsResponse.data.error || !userDetailsResponse.data.data) {
-          setError(prevError => ({ ...prevError, databaseResponseError: "Nombre de usuario o contraseña incorrectos" }));
+          setError(prevError => ({ ...prevError, databaseResponseError: "Error al iniciar sesión" }));
           throw new Error(userDetailsResponse.data.error);
         }
 
@@ -215,8 +216,10 @@ export const LoginRegisterFunctions = () => {
 
         // Check if the login was successful
         if (loginResponse.data.error) {
-          setError(prevError => ({ ...prevError, userError: "Nombre de usuario o contraseña incorrectos" }));
+          setError(prevError => ({ ...prevError, userError: "Error al iniciar sesión" }));
           return;
+        }else {
+          setSuccess(prevSuccess => ({ ...prevSuccess, loginSuccess: "Sesión iniciada" }));
         }
 
         await handleLoginResponse(loginResponse);

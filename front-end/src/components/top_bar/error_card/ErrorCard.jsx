@@ -21,7 +21,7 @@ const ErrorCard = () => {
       
       const timer = setTimeout(() => {
         setShowErrorCard(false);
-      }, 7000);
+      }, 3500);
 
       return () => clearTimeout(timer);
     }
@@ -31,11 +31,11 @@ const ErrorCard = () => {
   const springProps = useSpring({
     from: { 
       opacity: 0,
-      transform: 'translateY(-50px)'  // Start from above
+      transform: 'translateY(-30px)'  // Start from above
     },
     to: { 
       opacity: showErrorCard ? 1 : 0,
-      transform: showErrorCard ? 'translateY(0px)' : 'translateY(-70px)'
+      transform: showErrorCard ? 'translateY(5px)' : 'translateY(-100px)'
     },
     config: {
       mass: 1,

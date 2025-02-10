@@ -99,7 +99,7 @@ const UserInfoCard = () => {
                 onError={() => {
                   setError(prevError => ({ 
                     ...prevError, 
-                    imageError: "Error al cargar la imagen de usuario" 
+                    imageError: "No tienes imagen de perfil" 
                   }));
                 }}
                 onLoad={() => {

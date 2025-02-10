@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { validateImageMiddleware, SUPPORTED_IMAGE_TYPES } from '../utils/imageValidationUtilities.js';
-import { processUploadedImage } from '../../front-end/utils/imageConversionUtils.js';
+import { processUploadedImage } from '../../front-end/src/utils/image/imageConversionUtils.js';
 // import bodyParser from 'body-parser';
 
 const __filename = fileURLToPath(import.meta.url);

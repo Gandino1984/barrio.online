@@ -11,15 +11,11 @@
     z-index: 9999999999999999;
 }
 
-/* .container:hover {
-    padding: 1rem 2rem;
-    transition: all 0.3s ease;
-} */
-
 .errorWrapper {
     width: 100%;
     display: flex;
     justify-content: center;
+    z-index: 99999999999;
 }
 
 .contentWrapper {
@@ -28,4 +24,11 @@
     justify-content: space-between;
     width: 100%;
     gap: 1rem;
+}
+
+.messageWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 999999999999999999;
 }

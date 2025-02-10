@@ -364,12 +364,12 @@ async function getByUserId(id) {
         
         if (shops.length === 0) {
             console.log(`-> shop_controller.js - getByUserId() - No shops found for user ID: ${id}`);
-            return { error: "No se encontraron comercios para este usuario" };
+            return { error: "No tienes comercios registrados" };
         }
         return { data: shops };
     } catch (err) {
         console.error("-> shop_controller.js - getByUserId() - Error = ", err);
-        return { error: "Error al obtener los comercios del usuario" };
+        return { error: "Error al obtener los comercios" };
     }
 }
 

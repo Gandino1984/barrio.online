@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import AppContext from '../../app_context/AppContext.js';
 
 export const TopBarFunctions = () => {
@@ -11,27 +11,23 @@ export const TopBarFunctions = () => {
         showShopManagement, setShowShopCreationForm,
         showShopCreationForm, selectedShop, setSelectedShop,
         setCurrentUser, setShops, setSelectedShopType, 
-        setError, setShowProductManagement, currentUser
+        setError, setSuccess, setShowProductManagement, currentUser
     } = useContext(AppContext);
 
     const handleBack = () => {
         if (showShopCreationForm) {
-            // If on shop creation form, go back to shop management
             setShowShopCreationForm(false);
             setshowShopManagement(true);
         } else if (selectedShop) {
-            // If a shop is selected, deselect it
             setSelectedShop(null);
             setshowShopManagement(true);
         } else if (showShopManagement) {
-            // If on shop management, go back to login/initial state
             setshowShopManagement(false);
             setIsLoggingIn(true);
         }
     };
 
     const clearUserSession = () => {
-        // Only clear the user session if currentUser is not already null
         if (currentUser) {
             setCurrentUser(null);
             setNameUser('');
@@ -42,7 +38,6 @@ export const TopBarFunctions = () => {
             setUserType('');
         }
         
-        // Clear shop-related state
         setSelectedShop(null);
         setShowShopCreationForm(false);
         setshowShopManagement(false);
@@ -50,15 +45,12 @@ export const TopBarFunctions = () => {
         setShops([]);
         setSelectedShopType(null);
         
-        // Reset to login state
         setIsLoggingIn(true);
-        
-        // Increment keyboard key to reset numeric keyboard
         setKeyboardKey((prev) => prev + 1);
         
-        // Clear localStorage
         localStorage.removeItem('currentUser');
 
+        // Clear both error and success states
         setError({
             userError: '',
             passwordError: '',
@@ -68,8 +60,16 @@ export const TopBarFunctions = () => {
             userTypeError: '',
             databaseResponseError: ''
         });
+
+        setSuccess({
+            loginSuccess: '',
+            shopSuccess: '',
+            productSuccess: '',
+            updateSuccess: '',
+            deleteSuccess: '',
+            imageSuccess: ''
+        });
         
-        // Call logout function
         logout();
     };
 

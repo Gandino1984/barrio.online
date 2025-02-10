@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 import styles from '../../../../public/css/TopBar.module.css';
 import { TopBarFunctions } from './TopBarFunctions.jsx';
-import { ArrowLeft } from 'lucide-react';
-import { LogOut, DoorClosed } from 'lucide-react';
+import { ArrowLeft, DoorClosed } from 'lucide-react';
 import AppContext from '../../app_context/AppContext.js';
 import ErrorCard from './error_card/ErrorCard.jsx';
+import SuccessCard from './success_card/SuccessCard.jsx';
 import UserInfoCard from './user_info_card/UserInfoCard.jsx';
 
-// TopBar.jsx
 function TopBar() {
   const {
     error,
+    success,
     showShopCreationForm,
     selectedShop,
   } = useContext(AppContext);
@@ -22,8 +22,9 @@ function TopBar() {
 
   return (
     <div className={styles.container}>
-        <div className={styles.errorWrapper}>
+        <div className={styles.messageWrapper}>
           {error && <ErrorCard />}
+          {success && <SuccessCard />}
         </div>
         
         <div className={styles.contentWrapper}>
@@ -48,7 +49,7 @@ function TopBar() {
           </button>
         </div>
     </div>
-  )
+  );
 }
 
 export default TopBar;
