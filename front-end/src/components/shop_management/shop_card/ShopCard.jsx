@@ -2,7 +2,7 @@
 import React from 'react';
 import { useSpring, animated } from '@react-spring/web';
 import { MapPinned } from 'lucide-react';
-import styles from './ShopCard.module.css';
+import styles from '../../../../../public/css/ShopCard.module.css';
 import ShopCoverImage from '../shop_card/shop_cover_image/ShopCoverImage.jsx';
 
 const ShopCard = ({ shop }) => {

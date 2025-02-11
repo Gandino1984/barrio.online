@@ -169,7 +169,7 @@ const ShopCreationForm = () => {
                 onChange={(e) => setNewShop({...newShop, has_delivery: e.target.checked})}
                 className={styles.checkbox}
               />
-              <span>Ofrece servicio a domicilio</span>
+              <span>¿Tienes servicio a domicilio?</span>
             </label>
           </div>
           

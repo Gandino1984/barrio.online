@@ -3,7 +3,7 @@ import { Camera, Loader } from 'lucide-react';
 import { useContext } from 'react';
 import AppContext from '../../../../app_context/AppContext';
 import { ShopCoverImageFunctions } from './ShopCoverImageFunctions';
-import styles from './ShopCoverImage.module.css';
+import styles from '../../../../../../public/css/ShopCoverImage.module.css';
 
 const ShopCoverImage = ({ id_shop }) => {
   const { selectedShop, shops } = useContext(AppContext);
@@ -19,13 +19,7 @@ const ShopCoverImage = ({ id_shop }) => {
 
   const shop = shops.find(s => s.id_shop === id_shop);
   
-  console.log('ShopCoverImage rendered for shop:', {
-    id_shop,
-    selectedShop,
-    shop,
-    showUploadButton,
-    uploading
-  });
+  console.log('ShopCoverImage rendered for ', shop?.name_shop || 'Shop');
 
   return (
     <div className={styles.container}>
