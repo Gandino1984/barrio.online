@@ -1,116 +1,172 @@
 .container {
-    width: 700px;
-    margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  /* padding: 5rem; */
+}
+
+/* Tablet breakpoint */
+@media (min-width: 640px) {
+  .container {
+    max-width: 700px;
   }
-  
-  .imageContainer {
-    height: 250px;
-    width: 100%;
-    overflow: hidden;
-    margin-bottom: 1rem;
-    position: relative;
-    cursor: pointer;
+}
+
+/* Desktop breakpoint */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1000px;
+    /* max-height: 50px; */
   }
-  
-  .imageWrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
+}
+
+.imageContainer {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  position: relative;
+  cursor: pointer;
+  border-radius: 0.5rem;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.noImage {
+  width: 100%;
+  height: 100%;
+  background-color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.noImage span {
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 0.5rem;
+  border-radius: 9999px;
+  transition: background-color 0.2s;
+  z-index: 10;
+}
+
+.uploadButton:hover {
+  background-color: white;
+}
+
+.cameraIcon {
+  color: #374151;
+}
+
+.loader {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
+}
+
+.loaderIcon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
   }
-  
-  .image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  to {
+    transform: rotate(360deg);
   }
-  
-  .noImage {
-    width: 100%;
-    height: 100%;
-    background-color: #e5e7eb;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .noImage span {
-    color: #9ca3af;
-  }
-  
-  .fileInput {
-    display: none;
-  }
-  
-  .uploadButton {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 0.5rem;
-    border-radius: 9999px;
-    transition: background-color 0.2s;
-    z-index: 10;
-  }
-  
-  .uploadButton:hover {
-    background-color: white;
-  }
-  
-  .cameraIcon {
-    color: #374151;
-  }
-  
-  .loader {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    z-index: 10;
-  }
-  
-  .loaderIcon {
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
+}
+
+.infoContainer {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
   .infoContainer {
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
   }
-  
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 640px) {
   .header {
-    display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5rem;
   }
-  
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+@media (min-width: 640px) {
   .title {
     font-size: 1.5rem;
-    font-weight: 700;
-    color: #1f2937;
   }
-  
+}
+
+.rating {
+  color: #4b5563;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 640px) {
   .rating {
-    color: #4b5563;
+    font-size: 1rem;
   }
-  
+}
+
+.location {
+  color: #4b5563;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 640px) {
   .location {
-    color: #4b5563;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    font-size: 1rem;
   }
-  
-  .locationIcon {
-    display: inline;
-  }
+}
+
+.locationIcon {
+  display: inline;
+  flex-shrink: 0;
+}
