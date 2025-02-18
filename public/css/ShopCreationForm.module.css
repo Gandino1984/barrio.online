@@ -84,4 +84,46 @@
   }
 
 
+  .scheduleSection {
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+  }
+  
+  .scheduleTitle {
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .scheduleFields {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .timeGroup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .timeGroup label {
+    min-width: 70px;
+    color: #666;
+  }
+  
+  .timeGroup span {
+    color: #666;
+    margin: 0 5px;
+  }
+  
+  .timeInput {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+
 

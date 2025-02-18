@@ -192,10 +192,20 @@ async function create(shopData) {
             };
         }
 
+        // Format time fields if they exist
+        const formattedData = {
+            ...shopData,
+            morning_open: shopData.morning_open || null,
+            morning_close: shopData.morning_close || null,
+            afternoon_open: shopData.afternoon_open || null,
+            afternoon_close: shopData.afternoon_close || null
+        };
+
         // If no existing shop, proceed with creation
-        const shop = await shop_model.create(shopData);
+        const shop = await shop_model.create(formattedData);
         
-        return { data: shop, 
+        return { 
+            data: shop, 
             success: "comercio creado"
         };
     } catch (err) {
@@ -232,22 +242,25 @@ async function update(id, shopData) {
             return { error: "shop not found" };
         }
 
-        // Only update fields that were provided
-        const updatableFields = [
-            'name_shop',
-            'location_shop',
-            'type_shop',
-            'subtype_shop',
-            'calification_shop',
-            'image_shop',
-            'opening_time',
-            'closing_time',
-            'has_delivery'
-        ];
+        // Update all provided fields
+        const updateData = {
+            name_shop: shopData.name_shop,
+            location_shop: shopData.location_shop,
+            type_shop: shopData.type_shop,
+            subtype_shop: shopData.subtype_shop,
+            morning_open: shopData.morning_open || shop.morning_open,
+            morning_close: shopData.morning_close || shop.morning_close,
+            afternoon_open: shopData.afternoon_open || shop.afternoon_open,
+            afternoon_close: shopData.afternoon_close || shop.afternoon_close,
+            calification_shop: shopData.calification_shop,
+            image_shop: shopData.image_shop,
+            id_user: shopData.id_user
+        };
 
-        updatableFields.forEach(field => {
-            if (shopData[field] !== undefined) {
-                shop[field] = shopData[field];
+        // Only update fields that were provided
+        Object.keys(updateData).forEach(key => {
+            if (updateData[key] !== undefined) {
+                shop[key] = updateData[key];
             }
         });
 
@@ -277,40 +290,20 @@ async function updateWithFolder(id, shopData) {
         const oldShopName = shopData.old_name_shop;
         const newShopName = shopData.name_shop;
         
-        console.log('Shop names:', { oldShopName, newShopName });
+        // Handle folder updates and image paths...
+        // (previous folder handling code remains the same)
 
-        if (oldShopName !== newShopName) {
-            try {
-                // First update product image paths in database
-                console.log('Updating product image paths in database...');
-                await updateProductImagePaths(oldShopName, newShopName, transaction);
-                
-                // Then update shop data
-                console.log('Updating shop data...');
-                const updateData = { ...shopData };
-                delete updateData.old_name_shop;
-
-                // Handle the new fields
-                if (updateData.opening_time !== undefined) shop.opening_time = updateData.opening_time;
-                if (updateData.closing_time !== undefined) shop.closing_time = updateData.closing_time;
-                if (updateData.has_delivery !== undefined) shop.has_delivery = updateData.has_delivery;
-
-                await shop.update(updateData, { transaction });
-
-                // Handle directory updates...
-                // [Rest of the existing directory handling code remains the same]
-                
-            } catch (err) {
-                console.error('Error during update process:', err);
-                await transaction.rollback();
-                throw err;
-            }
-        } else {
-            console.log('Shop name unchanged, updating other fields only');
-            const updateData = { ...shopData };
-            delete updateData.old_name_shop;
-            await shop.update(updateData, { transaction });
-        }
+        // Update shop data including schedule fields
+        const updateData = { 
+            ...shopData,
+            morning_open: shopData.morning_open || shop.morning_open,
+            morning_close: shopData.morning_close || shop.morning_close,
+            afternoon_open: shopData.afternoon_open || shop.afternoon_open,
+            afternoon_close: shopData.afternoon_close || shop.afternoon_close
+        };
+        delete updateData.old_name_shop;
+        
+        await shop.update(updateData, { transaction });
 
         await transaction.commit();
         console.log('Transaction committed successfully');

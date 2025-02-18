@@ -66,69 +66,63 @@ async function getById(req, res) {
 
 async function create(req, res) {
     try {
-       const { 
-           name_shop, 
-           location_shop, 
-           type_shop, 
-           subtype_shop, 
-           id_user,
-           opening_time,
-           closing_time,
-           has_delivery 
-       } = req.body;
-   
-       // Provide default values for optional fields
-       const calification_shop = req.body.calification_shop || 0;
-       const image_shop = req.body.image_shop || '';
-   
-       // Validate required fields
-       if (name_shop === undefined || 
-           location_shop === undefined || 
-           type_shop === undefined || 
-           subtype_shop === undefined || 
-           id_user === undefined ||
-           opening_time === undefined ||
-           closing_time === undefined) {
-           console.error('-> shop_api_controller.js - create() - Error = Campos obligatorios faltantes');
-           console.log(req.body);
-           return res.status(400).json({
-               error: 'Campos obligatorios son requeridos',
-               missingFields: {
-                   name_shop: !name_shop,
-                   location_shop: !location_shop,
-                   type_shop: !type_shop,
-                   subtype_shop: !subtype_shop,
-                   id_user: !id_user,
-                   opening_time: !opening_time,
-                   closing_time: !closing_time
-               }
-           });
-       }
-   
-       const {error, data, success} = await shopController.create({
-           name_shop, 
-           location_shop, 
-           type_shop, 
-           subtype_shop, 
-           id_user, 
-           calification_shop, 
-           image_shop,
-           opening_time,
-           closing_time,
-           has_delivery: has_delivery || false
-       });
-   
-       res.json({error, data, success});
+        const { 
+            name_shop, 
+            location_shop, 
+            type_shop, 
+            subtype_shop, 
+            id_user,
+            morning_open,
+            morning_close,
+            afternoon_open,
+            afternoon_close
+        } = req.body;
+    
+        // Provide default values for optional fields
+        const calification_shop = req.body.calification_shop || 0;
+        const image_shop = req.body.image_shop || '';
+    
+        // Validate required fields
+        if (!name_shop || !location_shop || !type_shop || !subtype_shop || !id_user) {
+            console.error('-> shop_api_controller.js - create() - Error = Campos obligatorios faltantes');
+            console.log(req.body);
+            return res.status(400).json({
+                error: 'Campos obligatorios son requeridos',
+                missingFields: {
+                    name_shop: !name_shop,
+                    location_shop: !location_shop,
+                    type_shop: !type_shop,
+                    subtype_shop: !subtype_shop,
+                    id_user: !id_user
+                }
+            });
+        }
+    
+        const {error, data, success} = await shopController.create({
+            name_shop, 
+            location_shop, 
+            type_shop, 
+            subtype_shop, 
+            id_user, 
+            calification_shop, 
+            image_shop,
+            morning_open,
+            morning_close,
+            afternoon_open,
+            afternoon_close
+        });
+    
+        res.json({error, data, success});
     } catch (err) {
-       console.error("-> shop_api_controller.js - create() - Error =", err);
-       res.status(500).json({
-           error: "Error al crear el comercio",
-           details: err.message
-       });
+        console.error("-> shop_api_controller.js - create() - Error =", err);
+        res.status(500).json({
+            error: "Error al crear el comercio",
+            details: err.message
+        });
     }
-  }
+}
 
-  async function update(req, res) {
+async function update(req, res) {
     try {
         const {
             id_shop,
@@ -139,18 +133,19 @@ async function create(req, res) {
             id_user,
             calification_shop,
             image_shop,
-            opening_time,
-            closing_time,
-            has_delivery
+            morning_open,
+            morning_close,
+            afternoon_open,
+            afternoon_close
         } = req.body;
-  
+
         // Validate required fields
         if (!id_shop) {
             return res.status(400).json({
                 error: 'El ID del comercio es obligatorio'
             });
         }
-  
+
         const updateData = {
             name_shop,
             location_shop,
@@ -159,17 +154,18 @@ async function create(req, res) {
             id_user,
             calification_shop,
             image_shop,
-            opening_time,
-            closing_time,
-            has_delivery
+            morning_open,
+            morning_close,
+            afternoon_open,
+            afternoon_close
         };
-  
+
         const {error, data} = await shopController.update(id_shop, updateData);
         
         if (error) {
             return res.status(400).json({ error });
         }
-  
+
         res.json({ error, data });
     } catch (err) {
         console.error("-> shop_api_controller.js - update() - Error =", err);
@@ -178,7 +174,7 @@ async function create(req, res) {
             details: err.message
         });
     }
-  }
+}
 
 async function updateWithFolder(req, res) {
     try {

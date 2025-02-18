@@ -24,6 +24,22 @@ const shop_model = sequelize.define("shop", {
         type: DataTypes.STRING(45),
         allowNull: false,
     },
+    morning_open: {
+        type: DataTypes.TIME,
+        allowNull: true,
+    },
+    morning_close: {
+        type: DataTypes.TIME,
+        allowNull: true,
+    },
+    afternoon_open: {
+        type: DataTypes.TIME,
+        allowNull: true,
+    },
+    afternoon_close: {
+        type: DataTypes.TIME,
+        allowNull: true,
+    },
     calification_shop: { 
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -36,19 +52,6 @@ const shop_model = sequelize.define("shop", {
     id_user: { 
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
-    },
-    opening_time: {
-        type: DataTypes.TIME,
-        allowNull: false
-    },
-    closing_time: {
-        type: DataTypes.TIME,
-        allowNull: false
-    },
-    has_delivery: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
     }
 }, {
     timestamps: false,

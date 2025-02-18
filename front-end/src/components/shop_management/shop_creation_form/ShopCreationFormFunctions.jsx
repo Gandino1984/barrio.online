@@ -17,7 +17,11 @@ export const ShopCreationFormFunctions = () => {
     try {
       const response = await axiosInstance.post('/shop/create', {
         ...formData,
-        id_user: currentUser.id
+        id_user: currentUser.id,
+        morning_open: formData.morning_open || null,
+        morning_close: formData.morning_close || null,
+        afternoon_open: formData.afternoon_open || null,
+        afternoon_close: formData.afternoon_close || null
       });
 
       if (response.data.error) {
@@ -40,10 +44,8 @@ export const ShopCreationFormFunctions = () => {
 
   const handleUpdateShop = async (id_shop, formData) => {
     try {
-      // Check if shop name has changed
       const isNameChanged = selectedShop && selectedShop.name_shop !== formData.name_shop;
 
-      // Ensure we're sending the correct data structure
       const updateData = {
         id_shop,
         name_shop: formData.name_shop,
@@ -52,17 +54,19 @@ export const ShopCreationFormFunctions = () => {
         location_shop: formData.location_shop,
         id_user: currentUser.id,
         calification_shop: formData.calification_shop || 0,
-        image_shop: formData.image_shop || ''
+        image_shop: formData.image_shop || '',
+        morning_open: formData.morning_open || null,
+        morning_close: formData.morning_close || null,
+        afternoon_open: formData.afternoon_open || null,
+        afternoon_close: formData.afternoon_close || null
       };
 
-      // Add old_name_shop if name is being changed
       if (isNameChanged) {
         updateData.old_name_shop = selectedShop.name_shop;
       }
 
       console.log('Sending update request with data:', updateData);
 
-      // Use appropriate endpoint based on whether name is changing
       const endpoint = isNameChanged ? '/shop/update-with-folder' : '/shop/update';
       const response = await axiosInstance.patch(endpoint, updateData);
 
