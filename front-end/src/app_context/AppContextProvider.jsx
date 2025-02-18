@@ -267,8 +267,8 @@ export const AppContextProvider = ({ children }) => {
   const [shopTypesAndSubtypes, setShopTypesAndSubtypes] = useState({
     'Artesanía': ['Accesorios','Cuero', 'Decoración', 'Madera', 'Cerámica', 'Textil', 'Varios'],
     'Alimentación': [
-        'Asador', 'Carnicería', 'Charcutería', 'Ecológica','Frutería', 'Local', 'Panadería', 'Pescadería', 'Peruana', 'China', 'Japonesa', 
-        'Italiana', 'Turca', 'Ultramarinos', 'Kebab', 'Restaurante', 'Varios'
+        'Asador', 'Carnicería', 'Charcutería', 'Ecológica','Frutas, verduras y conservas', 'Local', 'Panadería', 'Pescadería', 'Peruana', 'China', 'Japonesa', 
+        'Italiana', 'Turca', 'Ultra marinos', 'Kebab', 'Restaurante', 'Varios'
     ],
     'Consultoría': [
          'Digital', 'Formativa', 'Gestión Cultural', 'Inmobiliaria', 'Jurídica', 'Seguros', 'Técnica', 'Varios'
@@ -330,6 +330,7 @@ export const AppContextProvider = ({ children }) => {
     'Electrónica': ['Accesorios', 'Audio', 'Móvil', 'Ordenador', 'Tablet', 'Varios'],
     'Joyería': ['Anillo', 'Collar', 'Pendientes', 'Pulsera', 'Varios'],
     'Muebles': ['Baño', 'Cocina', 'Dormitorio', 'Jardín', 'Salón', 'Varios'],
+    'Sesión': ['Escape room', 'Hall game', 'Juegos pórtatiles', 'Escape de ciudad', 'Varios'],
     'Ropa': ['Abrigo', 'Accesorios', 'Calcetines', 'Calzado', 'Camiseta', 'Chaqueta', 'Falda', 'Lencería', 'Pantalón', 'Pantaloneta', 'Pijama', 'Ropa de deporte', 'Ropa de maternidad', 'Ropa de trabajo', 'Vestido', 'Varios'],
     'Salud': ['Cuidado Personal', 'Higiene', 'Medicina', 'Suplementos'],
     'Servicio': ['Asesoría', 'Informático', 'Instalación', 'Limpieza', 'Mantenimiento', 'Reparación'],
